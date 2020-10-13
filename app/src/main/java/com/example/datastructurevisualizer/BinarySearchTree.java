@@ -3,6 +3,7 @@ package com.example.datastructurevisualizer;
 // https://github.com/tgvdinesh/binary-search-tree
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements
+// TODO note that for this tree key is the integer key
 
 import java.util.LinkedList;
 import java.util.List;
@@ -123,7 +124,6 @@ class BinarySearchTree {
                 maxWidth = levelNodes;
             }
             Node n = q.remove();
-            /*System.out.print(" " + n.value);*/
             if (n.children[ChildNames.LEFT.i] != null) {
                 q.add(n.children[ChildNames.LEFT.i]);
                 System.out.println("");
@@ -161,7 +161,7 @@ class BinarySearchTree {
         if (n1 == null || n2 == null)
             return false;
 
-        if (n1.value != n2.value)
+        if (n1.key != n2.key)
             return false;
 
         // There are two possible cases for n1 and n2 to be isomorphic
@@ -197,7 +197,7 @@ class BinarySearchTree {
     boolean isEqual(Node firstTree, Node secondTree) {
         if (firstTree == null && secondTree == null) return true;
         if (firstTree == null || secondTree == null) return false;
-        if (firstTree.value != secondTree.value) return false;
+        if (firstTree.key != secondTree.key) return false;
         return isEqual(firstTree.children[ChildNames.LEFT.i], secondTree.children[ChildNames.LEFT.i]) &&
                 isEqual(firstTree.children[ChildNames.RIGHT.i], secondTree.children[ChildNames.RIGHT.i]);
     }
@@ -233,9 +233,9 @@ class BinarySearchTree {
     boolean find(int id) {
         Node current = root;
         while (current != null) {
-            if (current.value == id) {
+            if (current.key == id) {
                 return true;
-            } else if (current.value > id) {
+            } else if (current.key > id) {
                 current = current.children[ChildNames.LEFT.i];
             } else {
                 current = current.children[ChildNames.RIGHT.i];
@@ -248,9 +248,9 @@ class BinarySearchTree {
         Node parent = root;
         Node current = root;
         boolean isLeftChild = false;
-        while (current.value != id) {
+        while (current.key != id) {
             parent = current;
-            if (current.value > id) {
+            if (current.key > id) {
                 isLeftChild = true;
                 current = current.children[ChildNames.LEFT.i];
             } else {
@@ -342,7 +342,7 @@ class BinarySearchTree {
      */
     Node insert(int id) {
         Node newNode = new Node();
-        newNode.value = id;
+        newNode.key = id;
         if (root == null) {
             root = newNode;
             return root;
@@ -351,7 +351,7 @@ class BinarySearchTree {
         Node parent;
         while (true) {
             parent = current;
-            if (id < current.value) {
+            if (id < current.key) {
                 current = current.children[ChildNames.LEFT.i];
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
@@ -375,11 +375,11 @@ class BinarySearchTree {
      */
     void depthFirstTraversal(Node root, DepthFirstTraversal type) {
         if (root != null) {
-            if (type == DepthFirstTraversal.PRE_ORDER) treeData.add(root.value);
+            if (type == DepthFirstTraversal.PRE_ORDER) treeData.add(root.key);
             depthFirstTraversal(root.children[ChildNames.LEFT.i], type);
-            if (type == DepthFirstTraversal.INORDER) treeData.add(root.value);
+            if (type == DepthFirstTraversal.INORDER) treeData.add(root.key);
             depthFirstTraversal(root.children[ChildNames.RIGHT.i], type);
-            if (type == DepthFirstTraversal.POST_ORDER) treeData.add(root.value);
+            if (type == DepthFirstTraversal.POST_ORDER) treeData.add(root.key);
         }
     }
 

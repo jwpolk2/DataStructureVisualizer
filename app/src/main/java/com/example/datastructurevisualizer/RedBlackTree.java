@@ -297,6 +297,7 @@ public class RedBlackTree {
     }*/
 
     // Example usage of RB tree:
+    // TODO remove
     public static void main(String[] args) {
 
         int[] values = {5, 8, 1, -4, 6, -2, 0, 7};
