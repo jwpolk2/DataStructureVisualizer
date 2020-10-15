@@ -35,6 +35,7 @@ public class RedBlackTree extends TreeVisualize {
     /**
      * Return numChildren, which is 2. Used in TreeVisualize.
      */
+    @Override
     int getNumChildren() { return numChildren; }
 
     // Returns the number of nodes in the tree.

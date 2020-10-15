@@ -27,6 +27,7 @@ public class AVLTree extends TreeVisualize {
     /**
      * Return numChildren, which is 2. Used in TreeVisualize.
      */
+    @Override
     int getNumChildren() { return numChildren; }
 
     // The height of a rooted tree is the number of edges between the tree's
