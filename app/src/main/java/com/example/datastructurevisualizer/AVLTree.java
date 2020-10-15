@@ -6,19 +6,28 @@ package com.example.datastructurevisualizer;
 // TODO note that for this tree key is the integer key, value is the balance factor, and extraData[0] is the height of the node.
     // TODO the above may need to be changed
 
+// TODO traversals should be implemented in TreeVisualize.
+
 /**
  * This file contains an implementation of an AVL tree. An AVL tree is a special type of binary tree
  * which self balances itself to keep operations logarithmic.
  *
+ * For this tree Node.key is the integer key
+ *
  * @author William Fiset, william.alexandre.fiset@gmail.com
  */
-public class AVLTree {
+public class AVLTree extends TreeVisualize {
 
-    // The root node of the AVL tree.
-    public Node root;
+    // Number of children per node in this tree.
+    static final int numChildren = 2;
 
     // Tracks the number of nodes inside the tree.
     private int nodeCount = 0;
+
+    /**
+     * Return numChildren, which is 2. Used in TreeVisualize.
+     */
+    int getNumChildren() { return numChildren; }
 
     // The height of a rooted tree is the number of edges between the tree's
     // root and its furthest leaf. This means that a tree containing a single
@@ -73,8 +82,7 @@ public class AVLTree {
 
         // Base case.
         if (node == null) {
-            node = new Node();
-            node.key = key;
+            node = new Node(key, numChildren);
             return node;
 
         }
@@ -270,7 +278,7 @@ public class AVLTree {
     }
 
     // Returns as iterator to traverse the tree in order.
-    // TODO replace/modify so that more traversals are possible. Can (?) be copied from BST.
+    // TODO remove and put in TreeVisualize.
     /*public java.util.Iterator<T> iterator() {
 
         final int expectedNodeCount = nodeCount;

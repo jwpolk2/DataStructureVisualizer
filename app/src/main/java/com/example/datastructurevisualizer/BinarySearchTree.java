@@ -5,6 +5,8 @@ package com.example.datastructurevisualizer;
 // TODO implement MIT license requirements
 // TODO note that for this tree key is the integer key
 
+// TODO traversals should be implemented in TreeVisualize.
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -17,17 +19,25 @@ import java.util.Queue;
  * Search		O(log n)	O(n)
  * Insert		O(log n)	O(n)
  * Delete		O(log n)	O(n)
+ *
+ * For this tree Node.key is the integer key.
  */
-class BinarySearchTree {
-
-    private Node root;
+class BinarySearchTree extends TreeVisualize {
     private int maxWidth = 0;
     private List<Integer> treeData;
+
+    // Number of children per node in this tree.
+    static final int numChildren = 2;
 
     BinarySearchTree() {
         root = null;
         treeData = new LinkedList<>();
     }
+
+    /**
+     * Return numChildren, which is 2. Used in TreeVisualize.
+     */
+    int getNumChildren() { return numChildren; }
 
     List<Integer> getTreeData() {
         return treeData;
@@ -341,8 +351,7 @@ class BinarySearchTree {
      * @return
      */
     Node insert(int id) {
-        Node newNode = new Node();
-        newNode.key = id;
+        Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
             return root;
@@ -369,6 +378,8 @@ class BinarySearchTree {
 
     /**
      * Depth first traversal in tree based on traversal type.
+     *
+     * // TODO remove and put in TreeVisualize.
      *
      * @param root Root element
      * @param type DepthFirstTraversal type

@@ -4,28 +4,38 @@ package com.example.datastructurevisualizer;
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements
 // TODO note that for this tree key is the integer key and value is the boolean red/black value
+    // TODO could use colour to store the red/black value implicity
 // TODO note that this tree's Nodes use extraData[0] to store parent.
 
-// TODO this tree contains no remove method.
-// TODO this tree needs traversals.
+// TODO !!I M P O R T A N T!! this tree contains no remove method.
+// TODO traversals should be implemented in TreeVisualize.
 
 /**
   * This file contains an implementation of a Red-Black tree. A RB tree is a special type of binary
   * tree which self balances itself to keep operations logarithmic.
   *
+  * For this tree Node.key is the integer key and Node.value is the boolean red/black value.
+  *
   * <p>Great visualization tool: https://www.cs.usfca.edu/~galles/visualization/RedBlack.html
   *
   * @author William Fiset, william.alexandre.fiset@gmail.com
  */
-public class RedBlackTree {
+public class RedBlackTree extends TreeVisualize {
+
+    // Definitions for RED and BLACK.
     public static final int RED = 1;
     public static final int BLACK = 0;
 
-    // The root node of the RB tree.
-    public Node root;
+    // Number of children per node in this tree.
+    static final int numChildren = 2;
 
     // Tracks the number of nodes inside the tree.
     private int nodeCount = 0;
+
+    /**
+     * Return numChildren, which is 2. Used in TreeVisualize.
+     */
+    int getNumChildren() { return numChildren; }
 
     // Returns the number of nodes in the tree.
     public int size() {
@@ -60,9 +70,8 @@ public class RedBlackTree {
 
         // No root node.
         if (root == null) {
-            root = new Node();
+            root = new Node(key, numChildren);
             root.extraData = new Object[1];
-            root.key = key;
             insertionRelabel(root);
             nodeCount++;
             return true;
@@ -74,8 +83,7 @@ public class RedBlackTree {
             // Left subtree.
             if (key < node.key) {
                 if (node.children[ChildNames.LEFT.i] == null) {
-                    node.children[ChildNames.LEFT.i] = new Node();
-                    node.children[ChildNames.LEFT.i].key = key;
+                    node.children[ChildNames.LEFT.i] = new Node(key, numChildren);
                     node.children[ChildNames.LEFT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.LEFT.i]);
                     nodeCount++;
@@ -89,8 +97,7 @@ public class RedBlackTree {
             // Right subtree.
             else if (key > node.key) {
                 if (node.children[ChildNames.RIGHT.i] == null) {
-                    node.children[ChildNames.RIGHT.i] = new Node();
-                    node.children[ChildNames.RIGHT.i].key = key;
+                    node.children[ChildNames.RIGHT.i] = new Node(key, numChildren);
                     node.children[ChildNames.RIGHT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.RIGHT.i]);
                     nodeCount++;
@@ -252,7 +259,7 @@ public class RedBlackTree {
     }
 
     // Returns as iterator to traverse the tree in order.
-    // TODO replace/modify so that more traversals are possible. Can (?) be copied from BST.
+    // TODO remove and put in TreeVisualize.
     /*@Override
     public java.util.Iterator<int> iterator() {
 
