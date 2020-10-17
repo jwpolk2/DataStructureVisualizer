@@ -5,7 +5,7 @@ package com.example.datastructurevisualizer;
  * Contains numChildren, a field indicating the number of children per node for a given tree.
  * Contains root, the root node for a given tree. It is located here so as to be used by
  * shared visualization methods.
- * Contains TODO traversals
+ * Contains pre-order, post-order, and in-order traversals.
  * Contains a function for placing each Node in the tree at an appropriate position.
  */
 public class TreeVisualize {
@@ -171,7 +171,7 @@ public class TreeVisualize {
         width = (float)(Math.pow(numChildren, depth - 1) * ((float)treeWidth / (Math.pow(numChildren, depth) - 1.0)));
 
         // If rendering a LinkedList, sets width to 0 for convenience.
-        // TODO if LinkedList (float)treeWidth / (Math.pow(numChildren, depth) - 1.0) should divide by 0
+        // TODO if LinkedList entered (float)treeWidth / (Math.pow(numChildren, depth) - 1.0) should divide by 0
         // TODO not sure if it will do an exception or produce infinity
         if (width == Double.POSITIVE_INFINITY) width = 0;
 
