@@ -15,32 +15,95 @@ public class TreeVisualize {
      * This method is used to get the number of children in a tree.
      * Each tree will override it to return its own numChildren.
      * TODO not sure if inheritance will prefer this method or methods defined in
-     * TODO child. SHould prioritize methods defined in child, otherwise something
+     * TODO child. Should prioritize methods defined in child, otherwise something
      * TODO stupid will need to be done.
      */
-    int getNumChildren() {
-        return 0;
-
-    }
+    int getNumChildren() { return 0; }
 
     /**
-     * TODO implement
+     * Begins a pre-order traversal.
      */
     void preOrderTraversal() {
+        treePreOrderTraversal(root);
 
     }
 
     /**
-     * TODO implement
+     * Performs a pre-order traversal over a tree. Will perform an animation
+     * indicating the current node being targeted.
+     *
+     * @param currNode the node currently targeted by the traversal.
+     */
+    private void treePreOrderTraversal(Node currNode) {
+        int numChildren = getNumChildren();
+
+        // TODO animation cue
+
+        // Explores left subtree.
+        for (int i = 0; i < numChildren / 2; ++i)
+            treePreOrderTraversal(currNode.children[i]);
+
+        // Explores right subtree.
+        for (int i = numChildren / 2; i < numChildren; ++i)
+            treePreOrderTraversal(currNode.children[i]);
+
+    }
+
+    /**
+     * Begins a post-order traversal.
      */
     void postOrderTraversal() {
+        treePostOrderTraversal(root);
 
     }
 
     /**
-     * TODO implement
+     * Performs a post-order traversal over a tree. Will perform an animation
+     * indicating the current node being targeted.
+     *
+     * @param currNode the node currently targeted by the traversal.
+     */
+    private void treePostOrderTraversal(Node currNode) {
+        int numChildren = getNumChildren();
+
+        // Explores left subtree.
+        for (int i = 0; i < numChildren / 2; ++i)
+            treePreOrderTraversal(currNode.children[i]);
+
+        // Explores right subtree.
+        for (int i = numChildren / 2; i < numChildren; ++i)
+            treePreOrderTraversal(currNode.children[i]);
+
+        // TODO animation cue
+
+    }
+
+    /**
+     * Begins an in-order traversal.
      */
     void inOrderTraversal() {
+        treeInOrderTraversal(root);
+
+    }
+
+    /**
+     * Performs an in-order traversal over a tree. Will perform an animation
+     * indicating the current node being targeted.
+     *
+     * @param currNode the node currently targeted by the traversal.
+     */
+    private void treeInOrderTraversal(Node currNode) {
+        int numChildren = getNumChildren();
+
+        // Explores left subtree.
+        for (int i = 0; i < numChildren / 2; ++i)
+            treePreOrderTraversal(currNode.children[i]);
+
+        // TODO animation cue
+
+        // Explores right subtree.
+        for (int i = numChildren / 2; i < numChildren; ++i)
+            treePreOrderTraversal(currNode.children[i]);
 
     }
 
@@ -82,8 +145,8 @@ public class TreeVisualize {
     /**
      * Places all Nodes. Does so by using the Tree's depth and desired width to
      * calculate the appropriate width between the Nodes on the first layer, then
-     * recursively calculating the appropriate width between every successive
-     * layer.
+     * recursively calculating the appropriate width between Nodes in every
+     * successive layer.
      *
      * This method can be used for Trees with any fixed number of children (that
      * includes LinkedLists).

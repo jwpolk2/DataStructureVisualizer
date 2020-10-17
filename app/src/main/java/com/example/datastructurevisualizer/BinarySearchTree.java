@@ -5,8 +5,6 @@ package com.example.datastructurevisualizer;
 // TODO implement MIT license requirements
 // TODO note that for this tree key is the integer key
 
-// TODO traversals should be implemented in TreeVisualize.
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -120,6 +118,8 @@ class BinarySearchTree extends TreeVisualize {
      * <a href="http://algorithms.tutorialhorizon.com/breadth-first-searchtraversal-in-a-binary-tree/">
      * Breadth-First Search/Traversal in a Binary Tree</a>
      * <a href="https://youtu.be/AmG20guDrPw">Level Order Traversal</a>
+     *
+     * TODO remove?
      *
      * @param root Root element
      */
@@ -375,27 +375,5 @@ class BinarySearchTree extends TreeVisualize {
                 }
             }
         }
-    }
-
-    /**
-     * Depth first traversal in tree based on traversal type.
-     *
-     * // TODO remove and put in TreeVisualize.
-     *
-     * @param root Root element
-     * @param type DepthFirstTraversal type
-     */
-    void depthFirstTraversal(Node root, DepthFirstTraversal type) {
-        if (root != null) {
-            if (type == DepthFirstTraversal.PRE_ORDER) treeData.add(root.key);
-            depthFirstTraversal(root.children[ChildNames.LEFT.i], type);
-            if (type == DepthFirstTraversal.INORDER) treeData.add(root.key);
-            depthFirstTraversal(root.children[ChildNames.RIGHT.i], type);
-            if (type == DepthFirstTraversal.POST_ORDER) treeData.add(root.key);
-        }
-    }
-
-    enum DepthFirstTraversal {
-        INORDER, PRE_ORDER, POST_ORDER
     }
 }

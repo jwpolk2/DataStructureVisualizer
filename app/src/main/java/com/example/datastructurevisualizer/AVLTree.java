@@ -6,8 +6,6 @@ package com.example.datastructurevisualizer;
 // TODO note that for this tree key is the integer key, value is the balance factor, and extraData[0] is the height of the node.
     // TODO the above may need to be changed
 
-// TODO traversals should be implemented in TreeVisualize.
-
 /**
  * This file contains an implementation of an AVL tree. An AVL tree is a special type of binary tree
  * which self balances itself to keep operations logarithmic.
@@ -278,54 +276,10 @@ public class AVLTree extends TreeVisualize {
         return node.key;
     }
 
-    // Returns as iterator to traverse the tree in order.
-    // TODO remove and put in TreeVisualize.
-    /*public java.util.Iterator<T> iterator() {
-
-        final int expectedNodeCount = nodeCount;
-        final java.util.Stack<Node> stack = new java.util.Stack<>();
-        stack.push(root);
-
-        return new java.util.Iterator<T>() {
-            Node trav = root;
-
-            @Override
-            public boolean hasNext() {
-                if (expectedNodeCount != nodeCount) throw new java.util.ConcurrentModificationException();
-                return root != null && !stack.isEmpty();
-            }
-
-            @Override
-            public T next() {
-
-                if (expectedNodeCount != nodeCount) throw new java.util.ConcurrentModificationException();
-
-                while (trav != null && trav.left != null) {
-                    stack.push(trav.left);
-                    trav = trav.left;
-                }
-
-                Node node = stack.pop();
-
-                if (node.children[ChildNames.RIGHT.i] != null) {
-                    stack.push(node.children[ChildNames.RIGHT.i]);
-                    trav = node.children[ChildNames.RIGHT.i];
-                }
-
-                return node.key;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }*/
-
     // Make sure all left child nodes are smaller in key than their parent and
     // make sure all right child nodes are greater in key than their parent.
     // (Used only for testing)
-    // TODO DEBUG REMOVE
+    // TODO DEBUG REMOVE (I didn't bother fixing this)
     /*public boolean validateBSTInvarient(Node node) {
         if (node == null) return true;
         int val = node.key;

@@ -4,11 +4,10 @@ package com.example.datastructurevisualizer;
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements
 // TODO note that for this tree key is the integer key and value is the boolean red/black value
-    // TODO could use colour to store the red/black value implicity
+    // TODO could use colour to store the red/black value implicitly
 // TODO note that this tree's Nodes use extraData[0] to store parent.
 
 // TODO !!I M P O R T A N T!! this tree contains no remove method.
-// TODO traversals should be implemented in TreeVisualize.
 
 /**
   * This file contains an implementation of a Red-Black tree. A RB tree is a special type of binary
@@ -259,53 +258,8 @@ public class RedBlackTree extends TreeVisualize {
         return node;
     }
 
-    // Returns as iterator to traverse the tree in order.
-    // TODO remove and put in TreeVisualize.
-    /*@Override
-    public java.util.Iterator<int> iterator() {
-
-        final int expectedNodeCount = nodeCount;
-        final java.util.Stack<Node> stack = new java.util.Stack<>();
-        stack.push(root);
-
-        return new java.util.Iterator<T>() {
-            Node trav = root;
-
-            @Override
-            public boolean hasNext() {
-                if (expectedNodeCount != nodeCount) throw new java.util.ConcurrentModificationException();
-                return root != null && !stack.isEmpty();
-            }
-
-            @Override
-            public T next() {
-
-                if (expectedNodeCount != nodeCount) throw new java.util.ConcurrentModificationException();
-
-                while (trav != null && trav.left != null) {
-                    stack.push(trav.left);
-                    trav = trav.left;
-                }
-
-                Node node = stack.pop();
-
-                if (node.children[ChildNames.RIGHT.i] != null) {
-                    stack.push(node.children[ChildNames.RIGHT.i]);
-                    trav = node.children[ChildNames.RIGHT.i];
-                }
-
-                return node.key;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }*/
-
     // Example usage of RB tree:
-    // TODO remove
+    // TODO DEBUG REMOVE
     public static void main(String[] args) {
 
         int[] values = {5, 8, 1, -4, 6, -2, 0, 7};
