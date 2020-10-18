@@ -168,7 +168,7 @@ public class TreeVisualize {
         root.position[1] = 0;
 
         // Calculates the width between children of the root Node.
-        width = (float)(Math.pow(numChildren, depth - 1) * ((float)treeWidth / (Math.pow(numChildren, depth) - 1.0)));
+        width = (float)treeWidth / numChildren;
 
         // If rendering a LinkedList, sets width to 0 for convenience.
         // TODO if LinkedList entered (float)treeWidth / (Math.pow(numChildren, depth) - 1.0) should divide by 0
