@@ -1,5 +1,9 @@
 package com.example.datastructurevisualizer;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.util.Log;
+
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
  * Contains numChildren, a field indicating the number of children per node for a given tree.
@@ -10,6 +14,9 @@ package com.example.datastructurevisualizer;
  */
 public class TreeVisualize {
     Node root;
+
+    // TODO move to superclass
+    float nodeWidth = 5f;
 
     /**
      * This method is used to get the number of children in a tree.
@@ -118,12 +125,18 @@ public class TreeVisualize {
      * @param currNode the Node whose children should be placed.
      */
     void placeTreeNodesRecursive(float width, int depth, int depthLen, Node currNode) {
-        int currX = currNode.position[0];
-        int currY = currNode.position[1];
-        int numChildren = getNumChildren();
+        int currX, currY;
+        int numChildren;
 
         // Returns if the bottom of the Tree has been reached.
         if (depth == 0 || currNode == null) return;
+
+        // Stores the number of children for measurement.
+        numChildren = getNumChildren();
+
+        // Starts from the current position.
+        currX = currNode.position[0];
+        currY = currNode.position[1];
 
         // Offsets currX to the leftmost Node.
         // Note: offsets slightly more than appropriate so the for loop below is easier to write.
@@ -135,10 +148,14 @@ public class TreeVisualize {
         // Recursively places each child Node.
         for (int i = 0; i < numChildren; ++i) {
             currX += width;
-            root.children[i].position[0] = currX;
-            root.children[i].position[1] = currY;
-            placeTreeNodesRecursive(width / numChildren, depth - 1, depthLen, root.children[i]);
 
+            // Will only place non-null nodes.
+            if (currNode.children[i] != null) {
+                currNode.children[i].position[0] = currX;
+                currNode.children[i].position[1] = currY;
+                placeTreeNodesRecursive(width / numChildren, depth - 1, depthLen, currNode.children[i]);
+
+            }
         }
     }
 
@@ -153,30 +170,68 @@ public class TreeVisualize {
      *
      * // TODO this was haphazardly adapted from C++ code and has not been debugged
      *
-     * @param depth the current maximum depth of the Tree.
+     * @param depth the current maximum depth of the Tree. // TODO make function to calculate this inside
      * @param depthLen the vertical distance between layers in the Tree.
-     * @param treeWidth the total width of the Tree.
      */
-    public void placeTreeNodes(int depth, int depthLen, int treeWidth) {
-        int currX, currY;
+    public void placeTreeNodes(int depth, int depthLen) {
+        int treeWidth = MainActivity.getCanvas().getWidth();
         int numChildren = getNumChildren();
         float width;
 
         // Initializes position of root.
-        // TODO make this compatible with moving about Tree (offset relative to some global currPosX).
         root.position[0] = treeWidth / 2;
-        root.position[1] = 0;
+        root.position[1] = 20;
 
         // Calculates the width between children of the root Node.
         width = (float)treeWidth / numChildren;
 
         // If rendering a LinkedList, sets width to 0 for convenience.
-        // TODO if LinkedList entered (float)treeWidth / (Math.pow(numChildren, depth) - 1.0) should divide by 0
-        // TODO not sure if it will do an exception or produce infinity
-        if (width == Double.POSITIVE_INFINITY) width = 0;
+        if (numChildren == 1) width = 0;
 
         // Begins recursively placing the Tree Nodes.
         placeTreeNodesRecursive(width, depth, depthLen, root);
+
+    }
+
+    /**
+     * TODO add to superclass
+     * @param node
+     */
+    protected void drawNode(Node node) {
+        Paint colour = new Paint();
+        colour.setARGB(255, node.r, node.g, node.b);
+        colour.setARGB(255, 255, 0, 0); // TODO temp
+
+        // TODO DEBUG REMOVE
+        Log.e("DRAW", node.position[0] + ", " + node.position[1]);
+
+        MainActivity.getCanvas().drawCircle(
+                node.position[0], node.position[1], nodeWidth, colour);
+    }
+
+    /**
+     * TODO
+     * @param currNode
+     */
+    private void drawTreeRecursive(Node currNode) {
+
+        // Returns if currNode is null.
+        if (currNode == null) return;
+
+        // Draws the current node.
+        drawNode(currNode);
+
+        // Draws all child Nodes.
+        for (int i = 0; i < getNumChildren(); ++i)
+            drawTreeRecursive(currNode.children[i]);
+
+    }
+
+    /**
+     * TODO
+     */
+    public void drawTree() {
+        drawTreeRecursive(root);
 
     }
 }

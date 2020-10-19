@@ -11,7 +11,7 @@ package com.example.datastructurevisualizer;
 public class Node {
     int key;
     int value;
-    char[] colour;
+    int r, g, b;
     int[] position;
     int[] destination;
     Node[] children;
@@ -20,16 +20,18 @@ public class Node {
     /**
      * Default constructor for this Node. Initializes key to the inputed key and
      * children to an array of size numChildren.
-     * colour will be intialized to an array of size 3, rgb.
      * position and destination will be initialized to arrays of size 2, xy.
-     * value and extraData will not be initialized, and must be initialized ad-hoc.
+     * rgb is grey by default. TODO change
+     * value, and extraData will not be initialized, and must be initialized ad-hoc.
      *
      * @param key the key for this Node.
      * @param numChildren number of children for this Node.
      */
     Node(int key, int numChildren) {
         this.key = key;
-        this.colour = new char[3];
+        this.r = 60;
+        this.g = 60;
+        this.b = 60;
         this.position = new int[2];
         this.destination = new int[2];
         this.children = new Node[numChildren];

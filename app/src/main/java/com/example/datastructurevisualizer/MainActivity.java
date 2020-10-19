@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
-    private Canvas canvas;
+    private static Canvas canvas;
     private ViewAnimator viewAnimator;
     private ImageView drawImage;
     private Paint paint;
@@ -36,12 +38,25 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.
-     * TODO delete this
+     * TODO I'm using this to debug now
      */
     public void drawRedCircle(View view) {
-        paint.setColor(Color.RED);
+
+        BinarySearchTree bst = new BinarySearchTree();
+        Random random = new Random();
+        random.setSeed(500);
+        bst.insert(50);
+        for (int i = 0; i < 60; ++i) {
+            bst.insert(random.nextInt());
+        }
+
+        // render
+        bst.placeTreeNodes(6, 20);
+        bst.drawTree();
+
+        /*paint.setColor(Color.RED);
         canvas.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);
-        circleOffset += 20;
+        circleOffset += 20;*/
 
     }
 
@@ -73,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         circleOffset += 20;
     }
 
-    public Canvas getCanvas() {
+    public static Canvas getCanvas() {
         return canvas;
     }
 }
