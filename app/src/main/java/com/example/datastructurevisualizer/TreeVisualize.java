@@ -1,8 +1,5 @@
 package com.example.datastructurevisualizer;
-
-import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
@@ -21,9 +18,6 @@ public class TreeVisualize {
     /**
      * This method is used to get the number of children in a tree.
      * Each tree will override it to return its own numChildren.
-     * TODO not sure if inheritance will prefer this method or methods defined in
-     * TODO child. Should prioritize methods defined in child, otherwise something
-     * TODO stupid will need to be done.
      */
     int getNumChildren() { return 0; }
 
@@ -168,8 +162,6 @@ public class TreeVisualize {
      * This method can be used for Trees with any fixed number of children (that
      * includes LinkedLists).
      *
-     * // TODO this was haphazardly adapted from C++ code and has not been debugged
-     *
      * @param depth the current maximum depth of the Tree. // TODO make function to calculate this inside
      * @param depthLen the vertical distance between layers in the Tree.
      */
@@ -194,31 +186,47 @@ public class TreeVisualize {
     }
 
     /**
+     * Draws a Node. Nodes are circles of width nodeWidth with their numerical
+     * values printed over them.
+     *
      * TODO add to superclass
-     * @param node
+     * TODO add values
+     *
+     * @param node the Node to draw.
      */
     protected void drawNode(Node node) {
         Paint colour = new Paint();
         colour.setARGB(255, node.r, node.g, node.b);
-        colour.setARGB(255, 255, 0, 0); // TODO temp
-
-        // TODO DEBUG REMOVE
-        Log.e("DRAW", node.position[0] + ", " + node.position[1]);
-
         MainActivity.getCanvas().drawCircle(
                 node.position[0], node.position[1], nodeWidth, colour);
     }
 
     /**
-     * TODO
-     * @param currNode
+     * Recursively draws Nodes in a tree. Does so by drawing the vectors
+     * between currNode and its children, then drawing currNode, then
+     * drawing currNode's children.
+     *
+     * @param currNode the current Node to be drawn.
      */
     private void drawTreeRecursive(Node currNode) {
 
         // Returns if currNode is null.
         if (currNode == null) return;
 
-        // Draws the current node.
+        // Draws vectors between this Node and all child Nodes.
+        Paint colour = new Paint();
+        colour.setARGB(255, 255, 255, 255); // TODO change vector colour
+        for (int i = 0; i < getNumChildren(); ++i) {
+            if (currNode.children[i] != null) {
+                MainActivity.getCanvas().drawLine(
+                        currNode.position[0], currNode.position[1],
+                        currNode.children[i].position[0], currNode.children[i].position[1],
+                        colour);
+
+            }
+        }
+
+        // Draws the current Node.
         drawNode(currNode);
 
         // Draws all child Nodes.
@@ -228,7 +236,7 @@ public class TreeVisualize {
     }
 
     /**
-     * TODO
+     * Draws this tree starting at the root.
      */
     public void drawTree() {
         drawTreeRecursive(root);

@@ -21,7 +21,7 @@ public class Node {
      * Default constructor for this Node. Initializes key to the inputed key and
      * children to an array of size numChildren.
      * position and destination will be initialized to arrays of size 2, xy.
-     * rgb is grey by default. TODO change
+     * rgb is red by default. TODO change
      * value, and extraData will not be initialized, and must be initialized ad-hoc.
      *
      * @param key the key for this Node.
@@ -29,9 +29,9 @@ public class Node {
      */
     Node(int key, int numChildren) {
         this.key = key;
-        this.r = 60;
-        this.g = 60;
-        this.b = 60;
+        this.r = 200;
+        this.g = 0;
+        this.b = 0;
         this.position = new int[2];
         this.destination = new int[2];
         this.children = new Node[numChildren];

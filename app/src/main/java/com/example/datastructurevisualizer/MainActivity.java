@@ -44,14 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         BinarySearchTree bst = new BinarySearchTree();
         Random random = new Random();
-        random.setSeed(500);
         bst.insert(50);
         for (int i = 0; i < 60; ++i) {
             bst.insert(random.nextInt());
         }
 
         // render
-        bst.placeTreeNodes(6, 20);
+        bst.placeTreeNodes(1000, 20);
         bst.drawTree();
 
         /*paint.setColor(Color.RED);
