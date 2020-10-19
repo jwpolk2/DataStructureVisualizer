@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         paint.setColor(Color.RED);
     }
 
-
     /**
      * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.
      * TODO I'm using this to debug now
@@ -50,8 +49,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // render
-        bst.placeTreeNodes(1000, 20);
-        bst.drawTree();
+        bst.placeTreeNodes(1000, 60);
+        //bst.render();
+
+        // does some traversals
+        bst.preOrderTraversal();
 
         /*paint.setColor(Color.RED);
         canvas.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);

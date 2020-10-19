@@ -1,5 +1,6 @@
 package com.example.datastructurevisualizer;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
@@ -9,25 +10,14 @@ import android.graphics.Paint;
  * Contains pre-order, post-order, and in-order traversals.
  * Contains a function for placing each Node in the tree at an appropriate position.
  */
-public class TreeVisualize {
+public class TreeVisualize extends NodeVisualizer {
     Node root;
-
-    // TODO move to superclass
-    float nodeWidth = 5f;
 
     /**
      * This method is used to get the number of children in a tree.
      * Each tree will override it to return its own numChildren.
      */
     int getNumChildren() { return 0; }
-
-    /**
-     * Begins a pre-order traversal.
-     */
-    void preOrderTraversal() {
-        treePreOrderTraversal(root);
-
-    }
 
     /**
      * Performs a pre-order traversal over a tree. Will perform an animation
@@ -38,7 +28,11 @@ public class TreeVisualize {
     private void treePreOrderTraversal(Node currNode) {
         int numChildren = getNumChildren();
 
-        // TODO animation cue
+        // Returns if currNode is null.
+        if (currNode == null) return;
+
+        // Highlights the current Node.
+        nodeSelectAnimation(currNode);
 
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
@@ -47,6 +41,30 @@ public class TreeVisualize {
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
             treePreOrderTraversal(currNode.children[i]);
+
+    }
+
+    /**
+     * Runs a pre-order traversal.
+     */
+    public class RunPreOrder implements Runnable {
+
+        /**
+         * Runs the pre-order traversal.
+         */
+        @Override
+        public void run() {
+            treePreOrderTraversal(root);
+
+        }
+    }
+
+    /**
+     * Begins a pre-order traversal.
+     */
+    void preOrderTraversal() {
+        RunPreOrder run = new RunPreOrder();
+        new Thread(run).start();
 
     }
 
@@ -67,6 +85,9 @@ public class TreeVisualize {
     private void treePostOrderTraversal(Node currNode) {
         int numChildren = getNumChildren();
 
+        // Returns if currNode is null.
+        if (currNode == null) return;
+
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
             treePreOrderTraversal(currNode.children[i]);
@@ -75,7 +96,8 @@ public class TreeVisualize {
         for (int i = numChildren / 2; i < numChildren; ++i)
             treePreOrderTraversal(currNode.children[i]);
 
-        // TODO animation cue
+        // Highlights the current Node.
+        nodeSelectAnimation(currNode);
 
     }
 
@@ -96,11 +118,15 @@ public class TreeVisualize {
     private void treeInOrderTraversal(Node currNode) {
         int numChildren = getNumChildren();
 
+        // Returns if currNode is null.
+        if (currNode == null) return;
+
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
             treePreOrderTraversal(currNode.children[i]);
 
-        // TODO animation cue
+        // Highlights the current Node.
+        nodeSelectAnimation(currNode);
 
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
@@ -186,22 +212,6 @@ public class TreeVisualize {
     }
 
     /**
-     * Draws a Node. Nodes are circles of width nodeWidth with their numerical
-     * values printed over them.
-     *
-     * TODO add to superclass
-     * TODO add values
-     *
-     * @param node the Node to draw.
-     */
-    protected void drawNode(Node node) {
-        Paint colour = new Paint();
-        colour.setARGB(255, node.r, node.g, node.b);
-        MainActivity.getCanvas().drawCircle(
-                node.position[0], node.position[1], nodeWidth, colour);
-    }
-
-    /**
      * Recursively draws Nodes in a tree. Does so by drawing the vectors
      * between currNode and its children, then drawing currNode, then
      * drawing currNode's children.
@@ -215,7 +225,7 @@ public class TreeVisualize {
 
         // Draws vectors between this Node and all child Nodes.
         Paint colour = new Paint();
-        colour.setARGB(255, 255, 255, 255); // TODO change vector colour
+        colour.setARGB(255, 0, 0, 0);
         for (int i = 0; i < getNumChildren(); ++i) {
             if (currNode.children[i] != null) {
                 MainActivity.getCanvas().drawLine(
@@ -236,9 +246,16 @@ public class TreeVisualize {
     }
 
     /**
-     * Draws this tree starting at the root.
+     * Renders the tree starting at the root.
      */
-    public void drawTree() {
+    @Override
+    public void render() {
+        Log.e("NODE", "render");
+
+        // Makes the entire Canvas White.
+        MainActivity.getCanvas().drawRGB(255, 255, 255);
+
+        // Draws the Tree over the Canvas.
         drawTreeRecursive(root);
 
     }
