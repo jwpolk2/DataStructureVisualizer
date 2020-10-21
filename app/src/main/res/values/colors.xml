@@ -2,5 +2,15 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#0479a8</color>
+    <color name="buttonColor">#0479a8</color>
+    <color name="darkRed">#9b0000</color>
+    <color name="red">#c5050c</color>
+    <color name="backgroundWhite">#f7f7f7</color>
+    <color name="grayBlue">#dadfe1</color>
+    <color name="grayDarker">#646569</color>
+    <color name="grayDarkest">#282728</color>
+    <color name="text">#494949</color>
+    <color name="backgroundRed">#9b0000</color>
+
 </resources>

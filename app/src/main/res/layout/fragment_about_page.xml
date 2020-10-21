@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.AboutPage"
+    android:background="@color/backgroundRed">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_foreground"
+        android:layout_marginTop="40dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About the app"
+        android:textSize="20sp"
+        android:textColor="@color/backgroundWhite"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_margin="5dp"
+
+        />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="This application was designed with students in mind. Used as an education tool for the instruction of data structure courses. "/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About the development team"
+        android:textSize="20sp"
+        android:textColor="@color/backgroundWhite"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:textAllCaps="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="This application was developed by six key members: ///LIST,PICTURES,BIO? "/>
+
+
+
+
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/homepage_button"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Back to Home"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>
