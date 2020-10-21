@@ -1,7 +1,5 @@
 package com.example.datastructurevisualizer;
-import android.graphics.HardwareRenderer;
 import android.graphics.Paint;
-import android.os.Build;
 import android.util.Log;
 
 /**
@@ -85,9 +83,7 @@ public class NodeVisualizer {
 
         // Highlights the Node and re-renders the data-structure.
         setHighlightedNode(node);
-        Log.e("CURRNODE", "[" + highlightedNode.position[0] + ", " + highlightedNode.position[1] + "]");
-        Log.e("COLOUR", "[" + highlightedNode.r + ", " + highlightedNode.g + ", " + highlightedNode.b + "]");
-        render(); // TODO this render does nothing since child threads cannot change the screen.
+        render();
 
         // Sleeps for a little while.
         try {
