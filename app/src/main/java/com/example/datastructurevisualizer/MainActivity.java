@@ -3,11 +3,14 @@ package com.example.datastructurevisualizer;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         bst.insert(50);
         for (int i = 0; i < 60; ++i) {
             bst.insert(random.nextInt());
+
         }
 
         // render
@@ -60,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         circleOffset += 20;*/
 
     }
-
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

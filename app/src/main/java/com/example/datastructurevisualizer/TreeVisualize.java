@@ -225,7 +225,7 @@ public class TreeVisualize extends NodeVisualizer {
 
         // Draws vectors between this Node and all child Nodes.
         Paint colour = new Paint();
-        colour.setARGB(255, 0, 0, 0);
+        colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G, AnimationParameters.VEC_B);
         for (int i = 0; i < getNumChildren(); ++i) {
             if (currNode.children[i] != null) {
                 MainActivity.getCanvas().drawLine(
