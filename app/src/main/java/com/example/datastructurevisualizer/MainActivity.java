@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,21 +48,22 @@ public class MainActivity extends AppCompatActivity {
         BinarySearchTree bst = new BinarySearchTree();
         Random random = new Random();
         bst.insert(50);
-        for (int i = 0; i < 60; ++i) {
-            bst.insert(random.nextInt());
+        for (int i = 0; i < 20; ++i) {
+            bst.insertNoAnim(random.nextInt() % 100);
 
         }
 
         // render
-        bst.placeTreeNodes(1000, 60);
+        bst.placeTreeNodes();
+        bst.placeNodesAtDestination();
         //bst.render();
 
-        // does some traversals
-        bst.preOrderTraversal();
+        // Inserts with an animation.
+        bst.insert(random.nextInt() % 100);
+        bst.render();
 
-        /*paint.setColor(Color.RED);
-        canvas.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);
-        circleOffset += 20;*/
+        // does some traversals
+        //bst.preOrderTraversal();
 
     }
 

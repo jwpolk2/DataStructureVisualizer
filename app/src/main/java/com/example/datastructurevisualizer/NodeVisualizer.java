@@ -2,6 +2,8 @@ package com.example.datastructurevisualizer;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Superclass for all visualizers that use Nodes.
  * Stores the nodeWidth and has method for drawing a Node.
@@ -10,7 +12,7 @@ public class NodeVisualizer {
 
     // Width of a Node.
     // TODO modify
-    static final float NODE_WIDTH =20f;
+    static final float NODE_WIDTH = 20f;
 
     // Current highlighted Node.
     Node highlightedNode;
@@ -23,6 +25,8 @@ public class NodeVisualizer {
      */
     protected void drawNode(Node node) {
         Paint colour = new Paint();
+
+        // Draws the Node.
         colour.setARGB(255, node.r, node.g, node.b);
         MainActivity.getCanvas().drawCircle(
                 node.position[0], node.position[1],
@@ -37,7 +41,7 @@ public class NodeVisualizer {
      *
      * @param node the Node to highlight.
      */
-    private void highlight(Node node) {
+    protected void highlight(Node node) {
         highlightedNode = node;
         highlightedNode.r += 20;
         highlightedNode.g += 20;
@@ -52,10 +56,11 @@ public class NodeVisualizer {
      *
      * @param node the Node to unHighlight.
      */
-    private void unHighlight(Node node) {
+    protected void unHighlight(Node node) {
         node.r -= 20;
         node.g -= 20;
         node.b -= 200;
+        highlightedNode = null;
 
     }
 
@@ -87,9 +92,63 @@ public class NodeVisualizer {
 
         // Sleeps for a little while.
         try {
-            Thread.sleep((long) (AnimationParameters.ANIM_TIME * AnimationParameters.animSpeed));
+            Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Unhighlights the current highlighted Node.
+     */
+    public void finishTraversalAnimation() {
+        if (highlightedNode != null) unHighlight(highlightedNode);
+
+    }
+
+    /**
+     * Sets the all Nodes' positions to their destinations.
+     */
+    public void placeNodesAtDestination() {
+        ArrayList<Node> nodes = getAllNodes();
+
+        // Places all Nodes at their destinations.
+        for (Node node : nodes) {
+            node.position[0] = node.destination[0];
+            node.position[1] = node.destination[1];
+
+        }
+    }
+
+    /**
+     * Animates movement of Nodes to their destination positions.
+     */
+    public void nodeMoveAnimation() {
+        float xMov, yMov;
+        float movementFraction;
+        ArrayList<Node> nodes = getAllNodes();
+
+        // Performs movement over several iterations.
+        for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
+
+            // Determines the fraction distance to move while interpolating.
+            movementFraction = (AnimationParameters.MOVEMENT_FRAMES - i);
+
+            // Moves every Node towards its destination by the movementFraction.
+            for (Node node : nodes) {
+                node.position[0] += (node.destination[0] - node.position[0]) / movementFraction;
+                node.position[1] += (node.destination[0] - node.position[0]) / movementFraction;
+
+            }
+
+            // Sleeps a while.
+            // TODO change value
+            try {
+                Thread.sleep((long) (AnimationParameters.ANIM_TIME /
+                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -97,5 +156,13 @@ public class NodeVisualizer {
      * Renders the data structure. Should be overriden.
      */
     public void render() {}
+
+    /**
+     * Returns an ArrayList containing all Nodes in this data structure.
+     * Should be overriden.
+     *
+     * @return an ArrayList containing all Nodes in this data structure.
+     */
+    public ArrayList<Node> getAllNodes() { return null; }
 
 }

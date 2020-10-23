@@ -2,6 +2,8 @@ package com.example.datastructurevisualizer;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
  * Contains numChildren, a field indicating the number of children per node for a given tree.
@@ -18,6 +20,44 @@ public class TreeVisualize extends NodeVisualizer {
      * Each tree will override it to return its own numChildren.
      */
     int getNumChildren() { return 0; }
+
+    /**
+     * Inserts a Node into the tree and plays an animation. Should be overriden.
+     *
+     * @param key the key to be inserted.
+     */
+    protected void insertAnim(int key) {}
+
+    /**
+     * Inserts a Node into the tree and plays no animation. Should be overriden.
+     *
+     * @param key the key to be inserted.
+     */
+    public void insertNoAnim(int key) {}
+
+    /**
+     * Runs an insert animation.
+     */
+    public class RunInsert implements Runnable {
+        int key;
+        @Override
+        public void run() {
+            insertAnim(key);
+
+        }
+    }
+
+    /**
+     * Inserts a Node into the tree.
+     *
+     * @param key the key to be inserted.
+     */
+    protected void insert(int key) {
+        RunInsert run = new RunInsert();
+        run.key = key;
+        new Thread(run).start();
+
+    }
 
     /**
      * Performs a pre-order traversal over a tree. Will perform an animation
@@ -48,10 +88,6 @@ public class TreeVisualize extends NodeVisualizer {
      * Runs a pre-order traversal.
      */
     public class RunPreOrder implements Runnable {
-
-        /**
-         * Runs the pre-order traversal.
-         */
         @Override
         public void run() {
             treePreOrderTraversal(root);
@@ -141,11 +177,10 @@ public class TreeVisualize extends NodeVisualizer {
      *
      * @param width horizontal distance between Nodes.
      * @param depth current depth within the Tree.
-     * @param depthLen vertical distance between Nodes.
      * @param currNode the Node whose children should be placed.
      */
-    void placeTreeNodesRecursive(float width, int depth, int depthLen, Node currNode) {
-        int currX, currY;
+    void placeTreeNodesRecursive(float width, int depth, Node currNode) {
+        float currX, currY;
         int numChildren;
 
         // Returns if the bottom of the Tree has been reached.
@@ -155,15 +190,15 @@ public class TreeVisualize extends NodeVisualizer {
         numChildren = getNumChildren();
 
         // Starts from the current position.
-        currX = currNode.position[0];
-        currY = currNode.position[1];
+        currX = currNode.destination[0];
+        currY = currNode.destination[1];
 
         // Offsets currX to the leftmost Node.
         // Note: offsets slightly more than appropriate so the for loop below is easier to write.
         currX -= (int)((width * (1.0 + numChildren)) / 2.0);
 
         // Offsets currY by depthLen.
-        currY += depthLen;
+        currY += AnimationParameters.depthLen;
 
         // Recursively places each child Node.
         for (int i = 0; i < numChildren; ++i) {
@@ -171,9 +206,9 @@ public class TreeVisualize extends NodeVisualizer {
 
             // Will only place non-null nodes.
             if (currNode.children[i] != null) {
-                currNode.children[i].position[0] = currX;
-                currNode.children[i].position[1] = currY;
-                placeTreeNodesRecursive(width / numChildren, depth - 1, depthLen, currNode.children[i]);
+                currNode.children[i].destination[0] = (int)currX;
+                currNode.children[i].destination[1] = (int)currY;
+                placeTreeNodesRecursive(width / numChildren, depth - 1, currNode.children[i]);
 
             }
         }
@@ -187,18 +222,16 @@ public class TreeVisualize extends NodeVisualizer {
      *
      * This method can be used for Trees with any fixed number of children (that
      * includes LinkedLists).
-     *
-     * @param depth the current maximum depth of the Tree. // TODO make function to calculate this inside
-     * @param depthLen the vertical distance between layers in the Tree.
      */
-    public void placeTreeNodes(int depth, int depthLen) {
+    public void placeTreeNodes() {
         int treeWidth = MainActivity.getCanvas().getWidth();
         int numChildren = getNumChildren();
+        int depth = getDepth();
         float width;
 
         // Initializes position of root.
-        root.position[0] = treeWidth / 2;
-        root.position[1] = 20;
+        root.destination[0] = treeWidth / 2;
+        root.destination[1] = 20;
 
         // Calculates the width between children of the root Node.
         width = (float)treeWidth / numChildren;
@@ -207,7 +240,7 @@ public class TreeVisualize extends NodeVisualizer {
         if (numChildren == 1) width = 0;
 
         // Begins recursively placing the Tree Nodes.
-        placeTreeNodesRecursive(width, depth, depthLen, root);
+        placeTreeNodesRecursive(width, depth, root);
 
     }
 
@@ -257,6 +290,87 @@ public class TreeVisualize extends NodeVisualizer {
 
         // Draws the Tree over the Canvas.
         drawTreeRecursive(root);
+
+    }
+
+    /**
+     * Quickly places all nodes and renders the tree.
+     * To be used at the end of insertions, deletions, and traversals.
+     */
+    protected void quickRender() {
+        finishTraversalAnimation();
+        placeTreeNodes();
+        placeNodesAtDestination();
+        render();
+
+    }
+
+    /**
+     * Recursively parses through the tree to fill an ArrayList of nodes.
+     *
+     * @param currNode the current Node being viewed.
+     * @return an ArrayList containing all children in this Node's subtrees.
+     */
+    private ArrayList<Node> getAllNodesRecursive(Node currNode) {
+        ArrayList<Node> nodes = new ArrayList<Node>();
+
+        // Returns an empty arrayList if this Node is null.
+        if (currNode == null) return new ArrayList<Node>();
+
+        // Adds all subtrees to nodes.
+        for (int i = 0; i < getNumChildren(); ++i) {
+            nodes.addAll(getAllNodesRecursive(currNode.children[i]));
+
+        }
+
+        // Adds this node to nodes.
+        nodes.add(currNode);
+
+        // Returns the ArrayList of Nodes.
+        return nodes;
+
+    }
+
+    /**
+     * Returns an ArrayList containing all Nodes in this data structure.
+     *
+     * @return an ArrayList containing all Nodes in this data structure.
+     */
+    public ArrayList<Node> getAllNodes() {
+        return getAllNodesRecursive(root);
+
+    }
+
+    /**
+     * Recursively parses through the tree to calculate its maximum depth.
+     *
+     * @param currNode the current Node being viewed.
+     * @return the maximum depth of this Node's subtree.
+     */
+    private int getDepthRecursive(Node currNode) {
+        int max = 0;
+        int val;
+
+        // Return 0 if this Node is null.
+        if (currNode == null) return 0;
+
+        // Finds the maximum depth of this Node's subtrees.
+        for (int i = 0; i < getNumChildren(); ++i) {
+            val = getDepthRecursive(currNode.children[i]);
+            max = max < val ? val : max;
+
+        }
+
+        // Returns the maximum depth of this Node's subtree plus one.
+        return max + 1;
+
+    }
+
+    /**
+     * Returns the depth of this tree.
+     */
+    public int getDepth() {
+        return getDepthRecursive(root);
 
     }
 }

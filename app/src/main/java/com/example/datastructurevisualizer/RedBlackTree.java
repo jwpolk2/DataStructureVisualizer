@@ -66,7 +66,13 @@ public class RedBlackTree extends TreeVisualize {
         return false;
     }
 
-    public boolean insert(int key) {
+    /**
+     * TODO comment
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    public void insertNoAnim(int key) {
 
         // No root node.
         if (root == null) {
@@ -74,7 +80,7 @@ public class RedBlackTree extends TreeVisualize {
             root.extraData = new Object[1];
             insertionRelabel(root);
             nodeCount++;
-            return true;
+            return;
 
         }
 
@@ -87,7 +93,7 @@ public class RedBlackTree extends TreeVisualize {
                     node.children[ChildNames.LEFT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.LEFT.i]);
                     nodeCount++;
-                    return true;
+                    return;
 
                 }
                 node = node.children[ChildNames.LEFT.i];
@@ -101,12 +107,12 @@ public class RedBlackTree extends TreeVisualize {
                     node.children[ChildNames.RIGHT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.RIGHT.i]);
                     nodeCount++;
-                    return true;
+                    return;
                 }
                 node = node.children[ChildNames.RIGHT.i];
 
                 // The value we're trying to insert already exists in the tree.
-            } else return false;
+            } else return;
         }
     }
 
