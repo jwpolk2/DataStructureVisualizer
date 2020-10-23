@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AboutPage"
-    android:background="@color/backgroundRed">
+    android:background="@color/backgroundWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="About the app"
         android:textSize="20sp"
-        android:textColor="@color/backgroundWhite"
+        android:textColor="@color/red"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:layout_margin="5dp"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:text="About the development team"
         android:textSize="20sp"
-        android:textColor="@color/backgroundWhite"
+        android:textColor="@color/red"
         android:layout_margin="5dp"
         android:textStyle="bold"
         android:textAllCaps="true"/>
@@ -72,7 +72,7 @@
         android:paddingRight="20dp"
         android:text="Back to Home"
         android:textAllCaps="false"
-        android:textColor="@color/text"
+        android:textColor="@color/textHomepageButtons"
         android:textSize="20sp"
         android:layout_margin="10dp"
         android:textStyle="bold" />
