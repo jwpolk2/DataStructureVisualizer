@@ -336,26 +336,30 @@ class BinarySearchTree extends TreeVisualize {
         return successor;
     }
 
-    Node insertWithArray(int... tree) {
+    // TODO remove
+    /*Node insertWithArray(int... tree) {
         Node fullTree = null;
         for (int i :
                 tree) {
-            fullTree = insert(i);
+            fullTree = insertNoAnim(i);
         }
         return fullTree;
-    }
+    }*/
 
     /**
      * This is not balanced binary search tree insert implementation
+     * TODO remove
      *
      * @param id
      * @return
      */
-    Node insert(int id) {
+    @Override
+    public void insertNoAnim(int id) {
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
-            return root;
+            quickRender();
+            return;
         }
         Node current = root;
         Node parent;
@@ -365,14 +369,57 @@ class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.LEFT.i];
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
-                    return newNode;
+                    quickRender();
+                    return;
                 }
             } else {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
-                    return newNode;
+                    quickRender();
+                    return;
                 }
+            }
+        }
+    }
+
+    /**
+     * Inserts a Node into the tree. Will animate the traversal that finds the
+     * appropriate place for the Node.
+     *
+     * @param id the ID of the node to insert.
+     */
+    @Override
+    protected void insertAnim(int id) {
+        Node newNode = new Node(id, numChildren);
+        if (root == null) {
+            root = newNode;
+            quickRender();
+            return;
+        }
+        Node current = root;
+        nodeSelectAnimation(current);
+        Node parent;
+        while (true) {
+            parent = current;
+            if (id < current.key) {
+                current = current.children[ChildNames.LEFT.i];
+                if (current == null) {
+                    parent.children[ChildNames.LEFT.i] = newNode;
+                    quickRender();
+                    return;
+
+                }
+                else nodeSelectAnimation(current);
+            } else {
+                current = current.children[ChildNames.RIGHT.i];
+                if (current == null) {
+                    parent.children[ChildNames.RIGHT.i] = newNode;
+                    quickRender();
+                    return;
+
+                }
+                else nodeSelectAnimation(current);
             }
         }
     }

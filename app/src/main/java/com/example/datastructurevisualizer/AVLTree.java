@@ -67,13 +67,12 @@ public class AVLTree extends TreeVisualize {
     }
 
     // Insert/add a key to the AVL tree. The key must not be null, O(log(n))
-    public boolean insert(int key) {
+    @Override
+    public void insertNoAnim(int key) {
         if (!contains(root, key)) {
             root = insert(root, key);
             nodeCount++;
-            return true;
         }
-        return false;
     }
 
     // Inserts a key inside the AVL tree.
