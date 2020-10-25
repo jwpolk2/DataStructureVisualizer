@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ViewAnimator;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private Button DrawBST;
     private Button InsertNode;
     BinarySearchTree bst ;
+    EditText inputNode;
 
-    public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
+    public int[] bst_array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
 
 
     @Override
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         paint.setColor(Color.RED);
         DrawBST = (Button) findViewById(R.id.drawButton);
         InsertNode = (Button) findViewById(R.id.InsertButtonMain);
+        inputNode = (EditText) findViewById(R.id.etInputNode);
 
 
         DrawBST.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void InsertIntoBST(){
-        bst.insert(20);
+        bst.insert(Integer.parseInt(String.valueOf(inputNode.getText())));
+
+
 
 
 

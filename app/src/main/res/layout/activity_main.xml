@@ -26,18 +26,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/InsertButtonMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="43dp"
         android:onClick="drawBlueCircle"
-        android:text="InsertNode"
+        android:text="Insert Node"
         app:layout_constraintBottom_toTopOf="@+id/animatorImage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/drawButton" />
 
-
+    <EditText
+        android:id="@+id/etInputNode"
+        android:layout_width="210dp"
+        android:layout_height="39dp"
+        android:inputType="number"
+        android:hint="Input Number"
+        app:layout_constraintBottom_toTopOf="@+id/animatorImage"
+        app:layout_constraintEnd_toStartOf="@+id/InsertButtonMain"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
