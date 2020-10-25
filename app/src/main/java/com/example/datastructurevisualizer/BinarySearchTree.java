@@ -270,7 +270,7 @@ class BinarySearchTree extends TreeVisualize {
      *
      * @param id the key for the new Node.
      */
-    void removeAnim(int id) {
+    protected void removeAnim(int id) {
         Node parent = root;
         Node current = root;
         boolean isLeftChild = false;

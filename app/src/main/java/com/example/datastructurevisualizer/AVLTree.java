@@ -245,7 +245,7 @@ public class AVLTree extends TreeVisualize {
      *
      * @param elem the key of the Node to be removed.
      */
-    public void removeAnim(int elem) {
+    protected void removeAnim(int elem) {
 
         if (contains(root, elem)) {
             root = removeAnim(root, elem);

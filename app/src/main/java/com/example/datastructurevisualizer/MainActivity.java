@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private int circleOffset;
     private Button DrawBST;
     private Button InsertNode;
-    BinarySearchTree bst ;
+    TreeVisualize bst;
 
     public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
 
