@@ -33,10 +33,10 @@ public class NodeVisualizer {
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(40);
-        MainActivity.getCanvas().drawCircle(
+        MainActivity.getVisualizer().getCanvas().drawCircle(
                 node.position[0], node.position[1],
                 NODE_WIDTH * AnimationParameters.scaleFactor, colour);
-        MainActivity.getCanvas().drawText(String.valueOf(node.key), node.position[0], node.position[1]+15, textPaint);
+        MainActivity.getVisualizer().getCanvas().drawText(String.valueOf(node.key), node.position[0], node.position[1]+15, textPaint);
     }
 
     /**
@@ -160,7 +160,9 @@ public class NodeVisualizer {
     /**
      * Renders the data structure. Should be overriden.
      */
-    public void render() {}
+    public void render() {
+        MainActivity.getVisualizer().render();
+    }
 
     /**
      * Returns an ArrayList containing all Nodes in this data structure.

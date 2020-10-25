@@ -1,28 +1,21 @@
 package com.example.datastructurevisualizer;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.ValueAnimator;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ViewAnimator;
-
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static Canvas canvas;
     private ViewAnimator viewAnimator;
-    private ImageView drawImage;
+    private static VisualizerCanvas drawImage;
     private Paint paint;
     private final int OFFSET = 120;
     private int mOffset = OFFSET;
@@ -35,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     BinarySearchTree bst ;
 
     public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,15 +103,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-
         vWidth = drawImage.getWidth();
         vHeight = drawImage.getHeight();
-
-        bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
-        drawImage.setImageBitmap(bitmap);
-        canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.BLACK);
+        drawImage.setDimensions(vHeight, vWidth);
     }
+
+    public static void setCanvas(Bitmap bitmap) {
+
+        drawImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
+    }
+
 
 
     /**
@@ -129,16 +124,28 @@ public class MainActivity extends AppCompatActivity {
         bst.insert(50);
 
     }
-    public void drawBlueCircle(View view) {
+    public void drawBlueCircle(View view) {}
 
-        Canvas canvas2 = getCanvas();
 
-        paint.setColor(Color.BLUE);
-        canvas2.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);
-        circleOffset += 20;
+//    /**
+//     * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.
+//     * TODO delete this
+//     */
+//    public void drawBlueCircle(View view) {
+//
+//        Canvas canvas2 = getCanvas();
+//
+////        paint.setColor(Color.BLUE);
+////        canvas2.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);
+////        circleOffset += 20;
+//    }
+
+//    public static Canvas getCanvas() {
+//        return drawImage.canvas;
+//    }
+
+    public static VisualizerCanvas getVisualizer() {
+        return drawImage;
     }
 
-    public static Canvas getCanvas() {
-        return canvas;
-    }
 }
