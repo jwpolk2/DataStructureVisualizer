@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ViewAnimator;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private int circleOffset;
     private Button DrawBST;
     private Button InsertNode;
+    BinarySearchTree bst ;
+    EditText inputNode;
     private static FragmentManager fragmentManager;
-    TreeVisualize bst;
 
-    public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
+    public int[] bst_array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
 
 
     @Override
@@ -44,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
 //        paint.setColor(Color.RED);
 //        DrawBST = (Button) findViewById(R.id.drawButton);
 //        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
-
-
+//        inputNode = (EditText) findViewById(R.id.etInputNode);
+//
+//
 //        DrawBST.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -62,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        }));
-
-//        InsertNode.setOnClickListener((new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                InsertIntoBST();
-
     }
 
     public static void openFragment(Fragment fragment) {
@@ -89,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             bst.insertNoAnim(bst_array[i]);
         }
 
-
         /*
         bst.insert(50);
 
@@ -107,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Inserts with an animation.
         //bst.insert(random.nextInt() % 100);
+
         bst.render();
 
         // does some traversals
@@ -137,8 +134,11 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void InsertIntoBST(){
-        java.util.Random rand = new java.util.Random();
-        bst.insert(rand.nextInt() % 100);
+        bst.insert(Integer.parseInt(String.valueOf(inputNode.getText())));
+
+
+
+
 
     }
     public void drawBlueCircle(View view) {}
