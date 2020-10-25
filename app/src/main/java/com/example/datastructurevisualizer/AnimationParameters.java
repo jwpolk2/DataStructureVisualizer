@@ -23,6 +23,11 @@ public class AnimationParameters {
     static final int TEXT_G = 0;
     static final int TEXT_B = 0;
 
+    // Default colour of background.
+    static final int BACK_R = 255;
+    static final int BACK_G = 255;
+    static final int BACK_B = 255;
+
     // Current position in the Canvas.
     static float xPos = 0;
     static float yPos = 0;
