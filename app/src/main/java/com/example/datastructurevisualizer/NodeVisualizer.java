@@ -1,4 +1,5 @@
 package com.example.datastructurevisualizer;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
@@ -29,13 +30,13 @@ public class NodeVisualizer {
         // Draws the Node.
         colour.setARGB(255, node.r, node.g, node.b);
         Paint textPaint = new Paint();
-        textPaint.setARGB(255, 255, 255,255);
+        textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(18 * AnimationParameters.scaleFactor);
+        textPaint.setTextSize(40);
         MainActivity.getCanvas().drawCircle(
                 node.position[0], node.position[1],
                 NODE_WIDTH * AnimationParameters.scaleFactor, colour);
-        MainActivity.getCanvas().drawText(String.valueOf(node.key), node.position[0], node.position[1], textPaint);
+        MainActivity.getCanvas().drawText(String.valueOf(node.key), node.position[0], node.position[1]+15, textPaint);
     }
 
     /**
