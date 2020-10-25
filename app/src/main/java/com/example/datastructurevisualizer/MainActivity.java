@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private int circleOffset;
     private Button DrawBST;
     private Button InsertNode;
-    BinarySearchTree bst ;
     private static FragmentManager fragmentManager;
+    TreeVisualize bst;
 
     public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
 
@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }));
 
+//        InsertNode.setOnClickListener((new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InsertIntoBST();
 
     }
 
@@ -133,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void InsertIntoBST(){
-        bst.insert(50);
+        java.util.Random rand = new java.util.Random();
+        bst.insert(rand.nextInt() % 100);
 
     }
     public void drawBlueCircle(View view) {}
