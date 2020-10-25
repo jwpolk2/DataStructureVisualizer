@@ -13,14 +13,14 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.datastructurevisualizer.R;
 
-public class DialogFileAction extends AppCompatDialogFragment {
+public class DialogSave extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_file_action, null); //TODO: Check if correct args
+        View view = inflater.inflate(R.layout.dialog_save, null); //TODO: Check if correct args
 
         builder.setView(view).setTitle("File Action").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -29,9 +29,5 @@ public class DialogFileAction extends AppCompatDialogFragment {
             }
         });
         return super.onCreateDialog(savedInstanceState);
-    }
-
-    public interface DialogFileActionListener {
-
     }
 }
