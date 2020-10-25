@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private int vWidth;
     private int vHeight;
     private int circleOffset;
+    public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         drawImage = findViewById(R.id.animatorImage);
         paint = new Paint();
         paint.setColor(Color.RED);
+
+
     }
 
     /**
@@ -46,12 +49,20 @@ public class MainActivity extends AppCompatActivity {
     public void drawRedCircle(View view) {
 
         BinarySearchTree bst = new BinarySearchTree();
-        Random random = new Random();
+        //Random random = new Random();
+        for (int i = 0; i< bst_array.length; i++){
+            bst.insertNoAnim(bst_array[i]);
+        }
+
+
+        /*
         bst.insert(50);
         for (int i = 0; i < 20; ++i) {
             bst.insertNoAnim(random.nextInt() % 100);
 
         }
+        */
+
 
         // render
         bst.placeTreeNodes();
@@ -59,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         //bst.render();
 
         // Inserts with an animation.
-        bst.insert(random.nextInt() % 100);
+        //bst.insert(random.nextInt() % 100);
         bst.render();
 
         // does some traversals
