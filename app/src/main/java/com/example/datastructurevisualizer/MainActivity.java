@@ -1,6 +1,9 @@
 package com.example.datastructurevisualizer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button DrawBST;
     private Button InsertNode;
     BinarySearchTree bst ;
+    private static FragmentManager fragmentManager;
 
     public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
 
@@ -33,32 +37,40 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
         setContentView(R.layout.activity_main);
-        drawImage = findViewById(R.id.animatorImage);
-        paint = new Paint();
-        paint.setColor(Color.RED);
-        DrawBST = (Button) findViewById(R.id.drawButton);
-        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
+//        drawImage = findViewById(R.id.animatorImage);
+//        paint = new Paint();
+//        paint.setColor(Color.RED);
+//        DrawBST = (Button) findViewById(R.id.drawButton);
+//        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
 
 
-        DrawBST.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawRedCircle(drawImage);
+//        DrawBST.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drawRedCircle(drawImage);
+//
+//
+//            }
+//        });
+//
+//        InsertNode.setOnClickListener((new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InsertIntoBST();
+//
+//            }
+//        }));
 
 
-            }
-        });
+    }
 
-        InsertNode.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InsertIntoBST();
-
-            }
-        }));
-
-
+    public static void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     /**
@@ -100,13 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        vWidth = drawImage.getWidth();
-        vHeight = drawImage.getHeight();
-        drawImage.setDimensions(vHeight, vWidth);
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        vWidth = drawImage.getWidth();
+//        vHeight = drawImage.getHeight();
+//        drawImage.setDimensions(vHeight, vWidth);
+//    }
 
     public static void setCanvas(Bitmap bitmap) {
 

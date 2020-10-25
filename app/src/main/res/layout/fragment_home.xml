@@ -24,6 +24,7 @@
         />
 
     <Button
+        android:id="@+id/bstButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/homepage_button"
@@ -36,6 +37,7 @@
         android:layout_margin="10dp"
         android:textStyle="bold" />
     <Button
+        android:id="@+id/rbtButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/homepage_button"
@@ -48,6 +50,7 @@
         android:layout_margin="10dp"
         android:textStyle="bold" />
     <Button
+        android:id="@+id/avlButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/homepage_button"
@@ -60,6 +63,7 @@
         android:textSize="20sp"
         android:textStyle="bold" />
     <Button
+        android:id="@+id/filesButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/homepage_button"

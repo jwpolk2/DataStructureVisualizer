@@ -213,7 +213,7 @@
             android:layout_marginTop="187dp"
             android:src="@android:drawable/ic_media_next" />
 
-        <ImageView
+        <com.example.datastructurevisualizer.VisualizerCanvas
             android:id="@+id/view_visualizer"
             android:layout_width="349dp"
             android:layout_height="473dp"
@@ -225,7 +225,7 @@
             android:layout_marginBottom="112dp"
             android:contentDescription="">
 
-        </ImageView>
+        </com.example.datastructurevisualizer.VisualizerCanvas>
 
 
     </RelativeLayout>

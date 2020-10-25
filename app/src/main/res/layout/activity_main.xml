@@ -6,36 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <com.example.datastructurevisualizer.VisualizerCanvas
-        android:id="@+id/animatorImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/InsertButtonMain" />
-
-    <Button
-        android:id="@+id/drawButton"
+    <fragment
+        android:name="com.example.datastructurevisualizer.ui.Home"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="drawRedCircle"
-        android:text="DrawBST"
-        app:layout_constraintBottom_toTopOf="@+id/InsertButtonMain"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:id="@+id/InsertButtonMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="drawBlueCircle"
-        android:text="InsertNode"
-        app:layout_constraintBottom_toTopOf="@+id/animatorImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/drawButton" />
+        android:layout_height="match_parent"/>
+
+
+<!--    <com.example.datastructurevisualizer.VisualizerCanvas-->
+<!--        android:id="@+id/animatorImage"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/InsertButtonMain" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/drawButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="drawRedCircle"-->
+<!--        android:text="DrawBST"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/InsertButtonMain"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+<!--    <Button-->
+<!--        android:id="@+id/InsertButtonMain"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="drawBlueCircle"-->
+<!--        android:text="InsertNode"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/animatorImage"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/drawButton" />-->
 
 
 
