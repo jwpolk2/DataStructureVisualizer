@@ -5,6 +5,7 @@ package com.example.datastructurevisualizer;
 // TODO implement MIT license requirements
 // TODO note that for this tree key is the integer key
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -155,6 +156,14 @@ class BinarySearchTree extends TreeVisualize {
     boolean isIsomorphic() {
         return isIsomorphic(getRoot().children[ChildNames.LEFT.i], getRoot().children[ChildNames.RIGHT.i]);
     }
+
+    /**
+     * Checks whether the key being inserted is a duplicate
+     *
+     * @param key the value being inserted
+     * @return true if key is not a duplicate, false if it is a duplicate
+     */
+
 
     /**
      * <a href="http://www.geeksforgeeks.org/tree-isomorphism-problem/">Is given tree isomorphic</a>
@@ -367,6 +376,12 @@ class BinarySearchTree extends TreeVisualize {
             quickRender();
             return;
         }
+
+        //first check if there is a duplicate before inserting
+        if(!checkInsert(id)){
+            return;
+        }
+
         Node current = root;
         Node parent;
         while (true) {
@@ -403,6 +418,11 @@ class BinarySearchTree extends TreeVisualize {
             quickRender();
             return;
         }
+        //first check if there is a duplicate before inserting
+        if(!checkInsert(id)){
+            return;
+        }
+
         Node current = root;
         nodeSelectAnimation(current);
         Node parent;
