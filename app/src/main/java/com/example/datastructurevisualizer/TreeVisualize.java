@@ -53,6 +53,7 @@ public class TreeVisualize extends NodeVisualizer {
         public void run() {
             AnimationParameters.beginAnimation();
             insertAnim(key);
+            quickRender();
             AnimationParameters.stopAnimation();
 
         }
@@ -79,6 +80,7 @@ public class TreeVisualize extends NodeVisualizer {
         public void run() {
             AnimationParameters.beginAnimation();
             removeAnim(key);
+            quickRender();
             AnimationParameters.stopAnimation();
 
         }
@@ -347,10 +349,10 @@ public class TreeVisualize extends NodeVisualizer {
     @Override
     public void render() {
         super.render();
-       // Log.e("NODE", "render");
 
         // Makes the entire Canvas White.
-        //MainActivity.getCanvas().drawRGB(255, 255, 255);
+        MainActivity.getVisualizer().getCanvas().drawRGB(AnimationParameters.BACK_R,
+                AnimationParameters.BACK_G, AnimationParameters.BACK_B);
 
         // Draws the Tree over the Canvas.
         drawTreeRecursive(root);

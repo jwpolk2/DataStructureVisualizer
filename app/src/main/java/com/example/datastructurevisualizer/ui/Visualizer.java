@@ -34,6 +34,8 @@ public class Visualizer extends Fragment {
 
     private EditText insertNumber;
     private Button insertButton;
+    private Button saveButton;
+    private Button loadButton;
     private ImageButton infoButton;
     private ImageButton homeButton;
     private static String dataStructureType;
@@ -64,6 +66,8 @@ public class Visualizer extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
 
+        loadButton = view.findViewById(R.id.button_load);
+        saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
         insertButton = view.findViewById(R.id.button_insert);
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
@@ -94,6 +98,18 @@ public class Visualizer extends Fragment {
             @Override
             public void onClick(View v) {
                 insert();
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                load();
             }
         });
 
@@ -137,6 +153,14 @@ public class Visualizer extends Fragment {
 
     public static void setCanvas(Bitmap bitmap) {
         visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
+    }
+
+    private void save() {
+        //TODO
+    }
+
+    private void load() {
+        //TODO
     }
 
 
