@@ -367,6 +367,25 @@ public class TreeVisualize extends NodeVisualizer {
     }
 
     /**
+     * Checks whether the key being inserted is a duplicate
+     *
+     * @param key the value being inserted
+     * @return true if key is not a duplicate, false if it is a duplicate
+     */
+    public boolean checkInsert(int key){
+        ArrayList<Node> currNodes = getAllNodes();
+
+        //loop through all nodes in data structure to see if duplicate exists. return false if so
+        for (int i = 0; i < currNodes.size(); i++) {
+            if(currNodes.get(i).key == key){
+                return false;
+            }
+        }
+        //made it this far, there must be no duplicates, return true
+        return true;
+    }
+
+    /**
      * Recursively parses through the tree to calculate its maximum depth.
      *
      * @param currNode the current Node being viewed.
