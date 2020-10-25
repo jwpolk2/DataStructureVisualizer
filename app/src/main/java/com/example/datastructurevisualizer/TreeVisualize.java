@@ -24,18 +24,25 @@ public class TreeVisualize extends NodeVisualizer {
     int getNumChildren() { return 0; }
 
     /**
-     * Inserts a Node into the tree and plays an animation. Should be overriden.
+     * Inserts a Node into the tree and plays no animation. Should be overridden.
+     *
+     * @param key the key to be inserted.
+     */
+    public void insertNoAnim(int key) {}
+
+    /**
+     * Inserts a Node into the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be inserted.
      */
     protected void insertAnim(int key) {}
 
     /**
-     * Inserts a Node into the tree and plays no animation. Should be overriden.
+     * Removes a Node from the tree and plays an animation. Should be overridden.
      *
-     * @param key the key to be inserted.
+     * @param key the key to be removed.
      */
-    public void insertNoAnim(int key) {}
+    protected void removeAnim(int key) {}
 
     /**
      * Runs an insert animation.
@@ -44,7 +51,9 @@ public class TreeVisualize extends NodeVisualizer {
         int key;
         @Override
         public void run() {
+            AnimationParameters.beginAnimation();
             insertAnim(key);
+            AnimationParameters.stopAnimation();
 
         }
     }
@@ -56,6 +65,32 @@ public class TreeVisualize extends NodeVisualizer {
      */
     protected void insert(int key) {
         RunInsert run = new RunInsert();
+        run.key = key;
+        new Thread(run).start();
+
+    }
+
+    /**
+     * Runs a removal animation.
+     */
+    public class RunRemove implements Runnable {
+        int key;
+        @Override
+        public void run() {
+            AnimationParameters.beginAnimation();
+            removeAnim(key);
+            AnimationParameters.stopAnimation();
+
+        }
+    }
+
+    /**
+     * Removes a Node from the tree.
+     *
+     * @param key the key to be removed.
+     */
+    public void remove(int key) {
+        RunRemove run = new RunRemove();
         run.key = key;
         new Thread(run).start();
 

@@ -116,6 +116,57 @@ public class RedBlackTree extends TreeVisualize {
         }
     }
 
+    /**
+     * TODO comment
+     * TODO animate
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    public void insertAnim(int key) {
+
+        // No root node.
+        if (root == null) {
+            root = new Node(key, numChildren);
+            root.extraData = new Object[1];
+            insertionRelabel(root);
+            nodeCount++;
+            return;
+
+        }
+
+        for (Node node = root; ; ) {
+
+            // Left subtree.
+            if (key < node.key) {
+                if (node.children[ChildNames.LEFT.i] == null) {
+                    node.children[ChildNames.LEFT.i] = new Node(key, numChildren);
+                    node.children[ChildNames.LEFT.i].extraData[0] = node;
+                    insertionRelabel(node.children[ChildNames.LEFT.i]);
+                    nodeCount++;
+                    return;
+
+                }
+                node = node.children[ChildNames.LEFT.i];
+
+
+            }
+            // Right subtree.
+            else if (key > node.key) {
+                if (node.children[ChildNames.RIGHT.i] == null) {
+                    node.children[ChildNames.RIGHT.i] = new Node(key, numChildren);
+                    node.children[ChildNames.RIGHT.i].extraData[0] = node;
+                    insertionRelabel(node.children[ChildNames.RIGHT.i]);
+                    nodeCount++;
+                    return;
+                }
+                node = node.children[ChildNames.RIGHT.i];
+
+                // The value we're trying to insert already exists in the tree.
+            } else return;
+        }
+    }
+
     private void insertionRelabel(Node node) {
         Node parent = (Node)node.extraData[0];
 

@@ -1,5 +1,7 @@
 package com.example.datastructurevisualizer;
 
+import java.util.concurrent.Semaphore;
+
 /**
  * Class that stores visualization parameters.
  */
@@ -34,4 +36,26 @@ public class AnimationParameters {
     // Default depth between layers of a tree.
     static float depthLen = 120;
 
+    // Mutex that prevents animations from occurring concurrently.
+    private static Semaphore mutex = new Semaphore(1);
+
+    /**
+     * Locks the animation mutex to stop concurrent animation.
+     */
+    public static void beginAnimation() {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            mutex.release();
+        }
+    }
+
+    /**
+     * Unlocks the animation mutex to allow another animation to occur.
+     */
+    public static void stopAnimation() {
+        mutex.release();
+
+    }
 }

@@ -264,7 +264,13 @@ class BinarySearchTree extends TreeVisualize {
         return false;
     }
 
-    boolean delete(int id) {
+    /**
+     * TODO comment
+     * TODO animate
+     *
+     * @param id the key for the new Node.
+     */
+    protected void removeAnim(int id) {
         Node parent = root;
         Node current = root;
         boolean isLeftChild = false;
@@ -278,7 +284,7 @@ class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.RIGHT.i];
             }
             if (current == null) {
-                return false;
+                return;
             }
         }
         //if i am here that means we have found the node
@@ -323,7 +329,7 @@ class BinarySearchTree extends TreeVisualize {
             }
             successor.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
         }
-        return true;
+        return;
     }
 
     private Node getSuccessor(Node deleteNode) {

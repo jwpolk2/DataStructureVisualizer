@@ -48,8 +48,7 @@ public class NodeVisualizer {
      */
     protected void highlight(Node node) {
         highlightedNode = node;
-        highlightedNode.r += 20;
-        highlightedNode.g += 20;
+        highlightedNode.r -= 200;
         highlightedNode.b += 200;
 
     }
@@ -62,8 +61,7 @@ public class NodeVisualizer {
      * @param node the Node to unHighlight.
      */
     protected void unHighlight(Node node) {
-        node.r -= 20;
-        node.g -= 20;
+        node.r += 200;
         node.b -= 200;
         highlightedNode = null;
 
