@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             bst.insertNoAnim(bst_array[i]);
         }
 
-
         /*
         bst.insert(50);
 
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Inserts with an animation.
         //bst.insert(random.nextInt() % 100);
+
         bst.render();
 
         // does some traversals
@@ -126,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void InsertIntoBST(){
-        bst.insert(50);
+        bst.insert(20);
+
+
 
     }
     public void drawBlueCircle(View view) {
