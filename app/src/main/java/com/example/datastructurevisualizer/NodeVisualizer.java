@@ -28,10 +28,14 @@ public class NodeVisualizer {
 
         // Draws the Node.
         colour.setARGB(255, node.r, node.g, node.b);
+        Paint textPaint = new Paint();
+        textPaint.setARGB(255, 255, 255,255);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTextSize(18 * AnimationParameters.scaleFactor);
         MainActivity.getCanvas().drawCircle(
                 node.position[0], node.position[1],
                 NODE_WIDTH * AnimationParameters.scaleFactor, colour);
-
+        MainActivity.getCanvas().drawText(String.valueOf(node.key), node.position[0], node.position[1], textPaint);
     }
 
     /**

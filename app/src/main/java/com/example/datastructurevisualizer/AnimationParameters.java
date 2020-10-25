@@ -29,7 +29,7 @@ public class AnimationParameters {
     static float animSpeed = 1;
 
     // All sizes and distances will be multiplied by the scaleFactor.
-    static float scaleFactor = 1;
+    static float scaleFactor = 2;
 
     // Default depth between layers of a tree.
     static float depthLen = 20;
