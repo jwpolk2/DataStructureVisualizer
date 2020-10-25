@@ -74,7 +74,18 @@ public class Visualizer extends Fragment {
             public void onClick(View view) {
                 AboutPage aboutFragment = new AboutPage();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.view_visualizer, aboutFragment);
+                transaction.replace(R.id.fragment_container, aboutFragment);
+                transaction.commit();
+            }
+        });
+
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Home homeFragment = new Home();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, homeFragment);
                 transaction.commit();
             }
         });
