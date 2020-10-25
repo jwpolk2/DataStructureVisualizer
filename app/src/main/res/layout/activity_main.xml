@@ -14,28 +14,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/drawButton2" />
+        app:layout_constraintTop_toBottomOf="@id/InsertButtonMain" />
 
     <Button
         android:id="@+id/drawButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="drawRedCircle"
-        android:text="Draw Red Circle"
-        app:layout_constraintBottom_toTopOf="@+id/drawButton2"
+        android:text="DrawBST"
+        app:layout_constraintBottom_toTopOf="@+id/InsertButtonMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <Button
-        android:id="@+id/drawButton2"
+        android:id="@+id/InsertButtonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="drawBlueCircle"
-        android:text="Draw Blue Circle"
+        android:text="InsertNode"
         app:layout_constraintBottom_toTopOf="@+id/animatorImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/drawButton" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

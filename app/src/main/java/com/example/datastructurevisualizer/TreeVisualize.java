@@ -231,7 +231,7 @@ public class TreeVisualize extends NodeVisualizer {
 
         // Initializes position of root.
         root.destination[0] = treeWidth / 2;
-        root.destination[1] = 20;
+        root.destination[1] = 40;
 
         // Calculates the width between children of the root Node.
         width = (float)treeWidth / numChildren;

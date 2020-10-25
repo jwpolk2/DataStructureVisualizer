@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
@@ -29,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     private int vWidth;
     private int vHeight;
     private int circleOffset;
+    private Button DrawBST;
+    private Button InsertNode;
+    BinarySearchTree bst ;
+
+    public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,28 @@ public class MainActivity extends AppCompatActivity {
         drawImage = findViewById(R.id.animatorImage);
         paint = new Paint();
         paint.setColor(Color.RED);
+        DrawBST = (Button) findViewById(R.id.drawButton);
+        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
+
+
+        DrawBST.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawRedCircle(drawImage);
+
+
+            }
+        });
+
+        InsertNode.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InsertIntoBST();
+
+            }
+        }));
+
+
     }
 
     /**
@@ -44,14 +72,23 @@ public class MainActivity extends AppCompatActivity {
      * TODO I'm using this to debug now
      */
     public void drawRedCircle(View view) {
+        bst = new BinarySearchTree();
 
-        BinarySearchTree bst = new BinarySearchTree();
-        Random random = new Random();
+        //Random random = new Random();
+        for (int i = 0; i< bst_array.length; i++){
+            bst.insertNoAnim(bst_array[i]);
+        }
+
+
+        /*
         bst.insert(50);
+
         for (int i = 0; i < 20; ++i) {
             bst.insertNoAnim(random.nextInt() % 100);
 
         }
+        */
+
 
         // render
         bst.placeTreeNodes();
@@ -59,11 +96,13 @@ public class MainActivity extends AppCompatActivity {
         //bst.render();
 
         // Inserts with an animation.
-        bst.insert(random.nextInt() % 100);
+        //bst.insert(random.nextInt() % 100);
         bst.render();
 
         // does some traversals
         //bst.preOrderTraversal();
+
+
 
     }
 
@@ -85,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
      * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.
      * TODO delete this
      */
+
+    public void InsertIntoBST(){
+        bst.insert(50);
+
+    }
     public void drawBlueCircle(View view) {
 
         Canvas canvas2 = getCanvas();
