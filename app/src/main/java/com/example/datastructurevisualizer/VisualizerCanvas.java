@@ -16,6 +16,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import com.example.datastructurevisualizer.ui.Visualizer;
+
 public class VisualizerCanvas extends SurfaceView {
 
     public Bitmap bitmap;
@@ -54,7 +56,7 @@ public class VisualizerCanvas extends SurfaceView {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                MainActivity.setCanvas(bitmap);
+                Visualizer.setCanvas(bitmap);
             }
         });
         Log.d("Rendering", "Render Method Called" );

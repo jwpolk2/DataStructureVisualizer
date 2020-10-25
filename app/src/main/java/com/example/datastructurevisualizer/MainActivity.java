@@ -1,5 +1,6 @@
 package com.example.datastructurevisualizer;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +26,17 @@ public class MainActivity extends AppCompatActivity {
     private final int OFFSET = 120;
     private int mOffset = OFFSET;
     private Bitmap bitmap;
-    private int vWidth;
-    private int vHeight;
+    private static int vWidth;
+    private static int vHeight;
     private int circleOffset;
     private Button DrawBST;
     private Button InsertNode;
     BinarySearchTree bst ;
     EditText inputNode;
+
+
     private static FragmentManager fragmentManager;
+    public static ActionBar actionBar;
 
     public int[] bst_array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
 
@@ -40,31 +45,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getSupportFragmentManager();
+        actionBar = getSupportActionBar();
+        actionBar.hide();
         setContentView(R.layout.activity_main);
-//        drawImage = findViewById(R.id.animatorImage);
-//        paint = new Paint();
-//        paint.setColor(Color.RED);
-//        DrawBST = (Button) findViewById(R.id.drawButton);
-//        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
-//        inputNode = (EditText) findViewById(R.id.etInputNode);
-//
-//
-//        DrawBST.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                drawRedCircle(drawImage);
-//
-//
-//            }
-//        });
-//
-//        InsertNode.setOnClickListener((new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                InsertIntoBST();
-//
-//            }
-//        }));
     }
 
     public static void openFragment(Fragment fragment) {
@@ -72,6 +55,17 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public static void setVisualizerCanvas(VisualizerCanvas visualizerCanvas){
+        drawImage = visualizerCanvas;
+//        vWidth = drawImage.getWidth();
+//        vHeight = drawImage.getHeight();
+//        drawImage.setDimensions(vHeight, vWidth);
+    }
+
+    public static VisualizerCanvas getVisualizer() {
+        return drawImage;
     }
 
     /**
@@ -116,15 +110,17 @@ public class MainActivity extends AppCompatActivity {
 //    @Override
 //    public void onWindowFocusChanged(boolean hasFocus) {
 //        super.onWindowFocusChanged(hasFocus);
-//        vWidth = drawImage.getWidth();
-//        vHeight = drawImage.getHeight();
-//        drawImage.setDimensions(vHeight, vWidth);
+//        if (drawImage != null) {
+//            vWidth = drawImage.getWidth();
+//            vHeight = drawImage.getHeight();
+//            drawImage.setDimensions(vHeight, vWidth);
+//        }
 //    }
 
-    public static void setCanvas(Bitmap bitmap) {
-
-        drawImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
-    }
+//    public static void setCanvas(Bitmap bitmap) {
+//
+//        drawImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
+//    }
 
 
 
@@ -161,8 +157,6 @@ public class MainActivity extends AppCompatActivity {
 //        return drawImage.canvas;
 //    }
 
-    public static VisualizerCanvas getVisualizer() {
-        return drawImage;
-    }
+
 
 }

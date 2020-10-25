@@ -63,7 +63,7 @@ public class TreeVisualize extends NodeVisualizer {
      *
      * @param key the key to be inserted.
      */
-    protected void insert(int key) {
+    public void insert(int key) {
         RunInsert run = new RunInsert();
         run.key = key;
         new Thread(run).start();
@@ -276,6 +276,10 @@ public class TreeVisualize extends NodeVisualizer {
      * includes LinkedLists).
      */
     public void placeTreeNodes() {
+        System.out.println("Canvas");
+        System.out.println(MainActivity.getVisualizer().getCanvas());
+        System.out.println("Visualizer");
+        System.out.println(MainActivity.getVisualizer());
         int treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
         //int treeWidth = MainActivity.getCanvas().getWidth();
         int numChildren = getNumChildren();

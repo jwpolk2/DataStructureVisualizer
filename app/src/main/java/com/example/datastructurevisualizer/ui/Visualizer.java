@@ -1,19 +1,30 @@
 package com.example.datastructurevisualizer.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.datastructurevisualizer.AVLTree;
+import com.example.datastructurevisualizer.BinarySearchTree;
+import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
+import com.example.datastructurevisualizer.RedBlackTree;
+import com.example.datastructurevisualizer.TreeVisualize;
+import com.example.datastructurevisualizer.VisualizerCanvas;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +32,14 @@ import com.example.datastructurevisualizer.R;
  */
 public class Visualizer extends Fragment {
 
+    private EditText insertNumber;
+    private Button insertButton;
     private ImageButton infoButton;
     private ImageButton homeButton;
     private static String dataStructureType;
     private TextView dataStructureHeader;
+    private static VisualizerCanvas visualizerCanvas;
+    private TreeVisualize tree;
 
 
     public Visualizer() {
@@ -34,6 +49,8 @@ public class Visualizer extends Fragment {
     public Visualizer(String dataStructureType){
         this.dataStructureType = dataStructureType;
     }
+
+
 
 
     @Override
@@ -46,6 +63,9 @@ public class Visualizer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
+
+        insertNumber = view.findViewById(R.id.editTextNumber);
+        insertButton = view.findViewById(R.id.button_insert3);
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -59,22 +79,55 @@ public class Visualizer extends Fragment {
             }
         });
 
+        insertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insert();
+            }
+        });
+
+
         dataStructureHeader = view.findViewById(R.id.visualizerHeader);
-        setHeaderText();
+        visualizerCanvas = view.findViewById(R.id.view_visualizer);
+        MainActivity.setVisualizerCanvas(visualizerCanvas);
+        MainActivity.actionBar.show();
+        initDataStructure();
         return view;
     }
 
-    private void setHeaderText() {
+    private void initDataStructure() {
         switch (dataStructureType) {
             case "Binary Search Tree":
-                dataStructureHeader.setText("Binary Search Tree");
+                tree = new BinarySearchTree();
+                MainActivity.actionBar.setTitle("Binary Search Tree");
+                MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 break;
             case "Red Black Tree":
-                dataStructureHeader.setText("Red Black Tree");
+                MainActivity.actionBar.setTitle("Red Black Tree");
+                MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+                tree = new RedBlackTree();
                 break;
             case "Balanced Search Tree":
-                dataStructureHeader.setText("Balanced Search Tree");
+                MainActivity.actionBar.setTitle("Balanced Search Tree");
+                MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+                tree = new AVLTree();
                 break;
         }
     }
+
+    private void insert() {
+        if (visualizerCanvas.canvas == null) {
+            int vHeight = visualizerCanvas.getHeight();
+            int vWidth = visualizerCanvas.getWidth();
+            visualizerCanvas.setDimensions(vHeight, vWidth);
+        }
+        tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
+    }
+
+    public static void setCanvas(Bitmap bitmap) {
+        visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
+    }
+
+
+
 }

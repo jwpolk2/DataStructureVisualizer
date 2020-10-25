@@ -21,14 +21,14 @@ import java.util.Queue;
  *
  * For this tree Node.key is the integer key.
  */
-class BinarySearchTree extends TreeVisualize {
+public class BinarySearchTree extends TreeVisualize {
     private int maxWidth = 0;
     private List<Integer> treeData;
 
     // Number of children per node in this tree.
     static final int numChildren = 2;
 
-    BinarySearchTree() {
+    public BinarySearchTree() {
         root = null;
         treeData = new LinkedList<>();
     }
