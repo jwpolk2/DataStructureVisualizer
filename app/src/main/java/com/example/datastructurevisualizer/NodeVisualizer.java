@@ -1,8 +1,11 @@
 package com.example.datastructurevisualizer;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import static android.graphics.Color.*;
 
 /**
  * Superclass for all visualizers that use Nodes.
@@ -17,6 +20,10 @@ public class NodeVisualizer {
     // Current highlighted Node.
     Node highlightedNode;
 
+
+
+
+
     /**
      * Draws a Node. Nodes are circles of width nodeWidth with their numerical
      * values printed over them.
@@ -26,11 +33,20 @@ public class NodeVisualizer {
     protected void drawNode(Node node) {
         Paint colour = new Paint();
 
+        Paint textPaint = new Paint();
+        textPaint.setColor(WHITE);
+        textPaint.setTextSize(40);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        String text = String.valueOf(node.key);
+
         // Draws the Node.
         colour.setARGB(255, node.r, node.g, node.b);
         MainActivity.getCanvas().drawCircle(
                 node.position[0], node.position[1],
                 NODE_WIDTH * AnimationParameters.scaleFactor, colour);
+        MainActivity.getCanvas().drawText(text, node.position[0], node.position[1]+15, textPaint);
+
 
     }
 
