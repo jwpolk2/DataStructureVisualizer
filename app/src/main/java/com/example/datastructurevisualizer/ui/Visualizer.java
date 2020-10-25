@@ -1,12 +1,16 @@
 package com.example.datastructurevisualizer.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.datastructurevisualizer.R;
 
@@ -16,6 +20,8 @@ import com.example.datastructurevisualizer.R;
  */
 public class Visualizer extends Fragment {
 
+    private ImageButton infoButton;
+    private ImageButton homeButton;
     private static String dataStructureType;
 
 
@@ -38,6 +44,19 @@ public class Visualizer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
+        infoButton = (ImageButton) view.findViewById(R.id.button_info);
+        homeButton = (ImageButton) view.findViewById(R.id.button_home);
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AboutPage aboutFragment = new AboutPage();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.view_visualizer, aboutFragment);
+                transaction.commit();
+            }
+        });
+
         return view;
     }
 }
