@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void InsertIntoBST(){
-        bst.insert(50);
+        java.util.Random rand = new java.util.Random();
+        bst.insert(rand.nextInt() % 100);
 
     }
     public void drawBlueCircle(View view) {}

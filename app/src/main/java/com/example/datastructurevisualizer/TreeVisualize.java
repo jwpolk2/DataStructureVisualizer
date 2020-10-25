@@ -44,7 +44,9 @@ public class TreeVisualize extends NodeVisualizer {
         int key;
         @Override
         public void run() {
+            AnimationParameters.beginAnimation();
             insertAnim(key);
+            AnimationParameters.stopAnimation();
 
         }
     }
