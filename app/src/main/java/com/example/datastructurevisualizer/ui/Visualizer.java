@@ -64,8 +64,8 @@ public class Visualizer extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
 
-        insertNumber = view.findViewById(R.id.editTextNumber);
-        insertButton = view.findViewById(R.id.button_insert3);
+        insertNumber = view.findViewById(R.id.input_nodes);
+        insertButton = view.findViewById(R.id.button_insert);
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
