@@ -415,7 +415,6 @@ public class BinarySearchTree extends TreeVisualize {
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
-            quickRender();
             return;
         }
         //first check if there is a duplicate before inserting
@@ -432,7 +431,6 @@ public class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.LEFT.i];
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
-                    quickRender();
                     return;
 
                 }
@@ -441,7 +439,6 @@ public class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
-                    quickRender();
                     return;
 
                 }

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private int circleOffset;
     private Button DrawBST;
     private Button InsertNode;
-    BinarySearchTree bst ;
+    TreeVisualize bst = new AVLTree();
     EditText inputNode;
 
 
@@ -48,6 +48,30 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.hide();
         setContentView(R.layout.activity_main);
+//        drawImage = findViewById(R.id.animatorImage);
+//        paint = new Paint();
+//        paint.setColor(Color.RED);
+//        DrawBST = (Button) findViewById(R.id.drawButton);
+//        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
+//        inputNode = (EditText) findViewById(R.id.etInputNode);
+//
+//
+//        DrawBST.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drawRedCircle(drawImage);
+//
+//
+//            }
+//        });
+//
+//        InsertNode.setOnClickListener((new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InsertIntoBST();
+//
+//            }
+//        }));
     }
 
     public static void openFragment(Fragment fragment) {

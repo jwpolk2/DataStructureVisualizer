@@ -6,6 +6,8 @@ package com.example.datastructurevisualizer;
 // TODO note that for this tree key is the integer key, value is the balance factor, and extraData[0] is the height of the node.
     // TODO the above may need to be changed
 
+import android.util.Log;
+
 /**
  * This file contains an implementation of an AVL tree. An AVL tree is a special type of binary tree
  * which self balances itself to keep operations logarithmic.
@@ -67,7 +69,7 @@ public class AVLTree extends TreeVisualize {
     }
 
     /**
-     * TODO comment
+     * Inserts a node into the tree without an animation.
      *
      * @param key the key to be inserted.
      */
@@ -80,7 +82,7 @@ public class AVLTree extends TreeVisualize {
     }
 
     /**
-     * TODO comment
+     * Recursively inserts a Node into the tree.
      *
      * @param node the node to be inserted.
      * @param key the key to be inserted.
@@ -90,6 +92,8 @@ public class AVLTree extends TreeVisualize {
         // Base case.
         if (node == null) {
             node = new Node(key, numChildren);
+            node.extraData = new Integer[1];
+            node.extraData[0] = new Integer(-1);
             return node;
 
         }
@@ -112,22 +116,34 @@ public class AVLTree extends TreeVisualize {
     }
 
     /**
-     * TODO comment
-     * TODO animate
+     * Inserts a node into the tree with an animation.
+     *
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
      *
      * @param key the key to be inserted.
      */
     @Override
     public void insertAnim(int key) {
         if (!contains(root, key)) {
-            root = insertNoAnim(root, key);
+            root = insertAnim(root, key);
             nodeCount++;
         }
+
+        // Sets Node destinations
+        placeTreeNodes();
+
+        // Moves the Nodes to their destinations and finishes the animation.
+        nodeMoveAnimation();
+
     }
 
     /**
-     * TODO comment
-     * TODO animate
+     * Recursively searches the tree in order to place the inputed key. Balances
+     * the tree while insertion occurs.
+     *
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
      *
      * @param node the node to be inserted.
      * @param key the key to be inserted.
@@ -137,14 +153,18 @@ public class AVLTree extends TreeVisualize {
         // Base case.
         if (node == null) {
             node = new Node(key, numChildren);
+            node.extraData = new Integer[1];
+            node.extraData[0] = new Integer(-1);
             return node;
 
         }
 
+        // Animates traversal.
+        nodeSelectAnimation(node);
+
         // Insert node in left subtree.
         if (key < node.key) {
             node.children[ChildNames.LEFT.i] = insertAnim(node.children[ChildNames.LEFT.i], key);
-            ;
 
             // Insert node in right subtree.
         } else {
@@ -155,20 +175,24 @@ public class AVLTree extends TreeVisualize {
         update(node);
 
         // Re-balance tree.
-        return balance(node);
+        return balanceAnim(node);
     }
 
     // Update a node's height and balance factor.
     private void update(Node node) {
+        int leftNodeHeight, rightNodeHeight;
 
-        int leftNodeHeight = (node.children[ChildNames.LEFT.i] == null) ? -1 : (Integer)node.children[ChildNames.LEFT.i].extraData[0];
-        int rightNodeHeight = (node.children[ChildNames.RIGHT.i] == null) ? -1 : (Integer)node.children[ChildNames.RIGHT.i].extraData[0];
+        if (node.children[ChildNames.LEFT.i] == null) leftNodeHeight = -1;
+        else leftNodeHeight = (Integer)node.children[ChildNames.LEFT.i].extraData[0];
+        if (node.children[ChildNames.RIGHT.i] == null) rightNodeHeight = -1;
+        else rightNodeHeight = (Integer)node.children[ChildNames.RIGHT.i].extraData[0];
 
         // Update this node's height.
         node.extraData[0] = 1 + Math.max(leftNodeHeight, rightNodeHeight);
 
         // Update balance factor.
         node.value = rightNodeHeight - leftNodeHeight;
+
     }
 
     // Re-balance a node if its balance factor is +2 or -2.
@@ -201,6 +225,44 @@ public class AVLTree extends TreeVisualize {
 
         // Node either has a balance factor of 0, +1 or -1 which is fine.
         return node;
+    }
+
+    /**
+     * TODO
+     *
+     * @param node
+     * @return
+     */
+    private Node balanceAnim(Node node) {
+
+        // Left heavy subtree.
+        if (node.value == -2) {
+
+            // Left-Left case.
+            if (node.children[ChildNames.LEFT.i].value <= 0) {
+                return leftLeftCase(node);
+
+                // Left-Right case.
+            } else {
+                return leftRightCase(node);
+            }
+
+            // Right heavy subtree needs balancing.
+        } else if (node.value == +2) {
+
+            // Right-Right case.
+            if (node.children[ChildNames.RIGHT.i].value >= 0) {
+                return rightRightCase(node);
+
+                // Right-Left case.
+            } else {
+                return rightLeftCase(node);
+            }
+        }
+
+        // Node either has a balance factor of 0, +1 or -1 which is fine.
+        return node;
+
     }
 
     private Node leftLeftCase(Node node) {
@@ -240,37 +302,56 @@ public class AVLTree extends TreeVisualize {
     }
 
     /**
-     * TODO comment
-     * TODO animate
+     * Removes a node into the tree with an animation.
      *
-     * @param elem the key of the Node to be removed.
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
+     *
+     * @param elem the key to be inserted.
      */
     protected void removeAnim(int elem) {
-
         if (contains(root, elem)) {
             root = removeAnim(root, elem);
             nodeCount--;
         }
+
+        // Sets Node destinations
+        placeTreeNodes();
+
+        // Moves the Nodes to their destinations and finishes the animation.
+        nodeMoveAnimation();
+
     }
 
     /**
-     * TODO comment
-     * TODO animate
+     * Recursively searches the tree in order to remove the inputed key. Balances
+     * the tree while removal occurs.
      *
-     * @param elem the key of the Node to be removed.
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
+     *
+     * @param node the node to be inserted.
+     * @param elem the key to be inserted.
      */
     private Node removeAnim(Node node, int elem) {
-
         if (node == null) return null;
 
         // Dig into left subtree, the key we're looking
         // for is smaller than the current key.
         if (elem < node.key) {
+
+            // Animates traversal.
+            nodeSelectAnimation(node);
+
             node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], elem);
 
             // Dig into right subtree, the key we're looking
             // for is greater than the current key.
         } else if (elem > node.key) {
+
+            // Animates traversal.
+            nodeSelectAnimation(node);
+
             node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], elem);
 
             // Found the node we wish to remove.
@@ -323,7 +404,7 @@ public class AVLTree extends TreeVisualize {
         update(node);
 
         // Re-balance tree.
-        return balance(node);
+        return balanceAnim(node);
     }
 
     // Helper method to find the leftmost node (which has the smallest key)

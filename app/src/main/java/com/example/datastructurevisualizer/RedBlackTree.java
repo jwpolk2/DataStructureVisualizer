@@ -67,7 +67,7 @@ public class RedBlackTree extends TreeVisualize {
     }
 
     /**
-     * TODO comment
+     * Inserts a key into this Red Black Tree. Performs no animation.
      *
      * @param key the key to be inserted.
      */
@@ -90,6 +90,7 @@ public class RedBlackTree extends TreeVisualize {
             if (key < node.key) {
                 if (node.children[ChildNames.LEFT.i] == null) {
                     node.children[ChildNames.LEFT.i] = new Node(key, numChildren);
+                    node.children[ChildNames.LEFT.i].extraData = new Object[1];
                     node.children[ChildNames.LEFT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.LEFT.i]);
                     nodeCount++;
@@ -104,6 +105,7 @@ public class RedBlackTree extends TreeVisualize {
             else if (key > node.key) {
                 if (node.children[ChildNames.RIGHT.i] == null) {
                     node.children[ChildNames.RIGHT.i] = new Node(key, numChildren);
+                    node.children[ChildNames.RIGHT.i].extraData = new Object[1];
                     node.children[ChildNames.RIGHT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.RIGHT.i]);
                     nodeCount++;
@@ -117,13 +119,12 @@ public class RedBlackTree extends TreeVisualize {
     }
 
     /**
-     * TODO comment
-     * TODO animate
+     * Inserts a key into this Red Black Tree and performs an animation.
      *
      * @param key the key to be inserted.
      */
     @Override
-    public void insertAnim(int key) {
+    protected void insertAnim(int key) {
 
         // No root node.
         if (root == null) {
@@ -137,10 +138,14 @@ public class RedBlackTree extends TreeVisualize {
 
         for (Node node = root; ; ) {
 
+            // Animates traversal.
+            nodeSelectAnimation(node);
+
             // Left subtree.
             if (key < node.key) {
                 if (node.children[ChildNames.LEFT.i] == null) {
                     node.children[ChildNames.LEFT.i] = new Node(key, numChildren);
+                    node.children[ChildNames.LEFT.i].extraData = new Object[1];
                     node.children[ChildNames.LEFT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.LEFT.i]);
                     nodeCount++;
@@ -155,6 +160,7 @@ public class RedBlackTree extends TreeVisualize {
             else if (key > node.key) {
                 if (node.children[ChildNames.RIGHT.i] == null) {
                     node.children[ChildNames.RIGHT.i] = new Node(key, numChildren);
+                    node.children[ChildNames.RIGHT.i].extraData = new Object[1];
                     node.children[ChildNames.RIGHT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.RIGHT.i]);
                     nodeCount++;
@@ -162,8 +168,10 @@ public class RedBlackTree extends TreeVisualize {
                 }
                 node = node.children[ChildNames.RIGHT.i];
 
-                // The value we're trying to insert already exists in the tree.
-            } else return;
+            }
+            // The value we're trying to insert already exists in the tree.
+            else return;
+
         }
     }
 
@@ -172,7 +180,7 @@ public class RedBlackTree extends TreeVisualize {
 
         // Root node case.
         if (parent == null) {
-            node.value = BLACK;
+            node.rbSetColour(BLACK);
             root = node;
             return;
         }
@@ -190,9 +198,9 @@ public class RedBlackTree extends TreeVisualize {
 
         if (uncleIsRedNode != 0) {
 
-            parent.value = BLACK;
-            grandParent.value = RED;
-            uncle.value = BLACK;
+            parent.rbSetColour(BLACK);
+            grandParent.rbSetColour(RED);
+            uncle.rbSetColour(BLACK);
 
             // At this point the parent node is red and so is the new child node.
             // We need to re-balance somehow because no two red nodes can be
@@ -228,10 +236,20 @@ public class RedBlackTree extends TreeVisualize {
         insertionRelabel(grandParent);
     }
 
+    /**
+     * TODO comment
+     * TODO animate
+     *
+     * @param key the key to be removed.
+     */
+    protected void removeAnim(int key) {
+
+    }
+
     private void swapColors(Node a, Node b) {
         int tmpColor = a.value;
-        a.value = b.value;
-        b.value = tmpColor;
+        a.rbSetColour(b.value);
+        b.rbSetColour(tmpColor);
     }
 
     private Node leftLeftCase(Node node) {
