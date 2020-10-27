@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Contains pre-order, post-order, and in-order traversals.
  * Contains a function for placing each Node in the tree at an appropriate position.
  */
-public class TreeVisualize extends NodeVisualizer {
+public class TreeVisualizer extends NodeVisualizer {
     Node root;
 
     /**

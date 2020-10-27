@@ -1,6 +1,5 @@
 package com.example.datastructurevisualizer.ui;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -9,21 +8,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import com.example.datastructurevisualizer.AVLTree;
 import com.example.datastructurevisualizer.BinarySearchTree;
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.RedBlackTree;
-import com.example.datastructurevisualizer.TreeVisualize;
+import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
 
 /**
@@ -41,7 +38,7 @@ public class Visualizer extends Fragment {
     private static String dataStructureType;
     private TextView dataStructureHeader;
     private static VisualizerCanvas visualizerCanvas;
-    private TreeVisualize tree;
+    private TreeVisualizer tree;
 
 
     public Visualizer() {

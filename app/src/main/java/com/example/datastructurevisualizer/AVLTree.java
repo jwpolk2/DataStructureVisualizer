@@ -6,8 +6,6 @@ package com.example.datastructurevisualizer;
 // TODO note that for this tree key is the integer key, value is the balance factor, and extraData[0] is the height of the node.
     // TODO the above may need to be changed
 
-import android.util.Log;
-
 /**
  * This file contains an implementation of an AVL tree. An AVL tree is a special type of binary tree
  * which self balances itself to keep operations logarithmic.
@@ -16,7 +14,7 @@ import android.util.Log;
  *
  * @author William Fiset, william.alexandre.fiset@gmail.com
  */
-public class AVLTree extends TreeVisualize {
+public class AVLTree extends TreeVisualizer {
 
     // Number of children per node in this tree.
     static final int numChildren = 2;

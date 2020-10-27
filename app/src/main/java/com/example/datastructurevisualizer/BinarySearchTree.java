@@ -5,7 +5,6 @@ package com.example.datastructurevisualizer;
 // TODO implement MIT license requirements
 // TODO note that for this tree key is the integer key
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -21,7 +20,7 @@ import java.util.Queue;
  *
  * For this tree Node.key is the integer key.
  */
-public class BinarySearchTree extends TreeVisualize {
+public class BinarySearchTree extends TreeVisualizer {
     private int maxWidth = 0;
     private List<Integer> treeData;
 
