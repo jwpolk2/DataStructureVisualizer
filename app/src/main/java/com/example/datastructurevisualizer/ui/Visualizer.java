@@ -164,7 +164,7 @@ public class Visualizer extends Fragment {
         }
         int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
         for (int i = 0; i< array.length; i++) {
-            tree.insertNoAnim(array[i]);
+            tree.insert(array[i]);
         }
     }
 
