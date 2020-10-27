@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.Home"
+    android:id="@+id/home_fragment"
     android:background="@color/backgroundWhite">
 
 <LinearLayout
@@ -74,6 +75,20 @@
         android:textColor="@color/textHomepageButtons"
         android:layout_margin="10dp"
         android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/aboutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_homepage_button"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="About the App"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
         android:textStyle="bold" />
 
 

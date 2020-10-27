@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
 
 /**
@@ -16,6 +18,8 @@ import com.example.datastructurevisualizer.R;
  * create an instance of this fragment.
  */
 public class AboutPage extends Fragment {
+
+    private Button backHome;
 
     public AboutPage() {
         // Required empty public constructor
@@ -42,6 +46,15 @@ public class AboutPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about_page, container, false);
+        View view =  inflater.inflate(R.layout.fragment_about_page, container, false);
+        backHome = view.findViewById(R.id.back_home);
+
+        backHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new Home(), false);
+            }
+        });
+        return view;
     }
 }

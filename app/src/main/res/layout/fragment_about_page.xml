@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AboutPage"
+    android:id="@+id/about_fragment"
     android:background="@color/backgroundWhite">
 
     <LinearLayout
@@ -65,6 +66,7 @@
 
 
         <Button
+            android:id="@+id/back_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/homepage_button"
