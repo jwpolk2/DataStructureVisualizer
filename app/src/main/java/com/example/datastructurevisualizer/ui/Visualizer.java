@@ -30,10 +30,10 @@ import com.example.datastructurevisualizer.VisualizerCanvas;
 public class Visualizer extends Fragment {
 
     private EditText insertNumber;
-    private Button insertButton;
+    private ImageButton insertButton;
     private Button saveButton;
     private Button loadButton;
-    private Button undoButton;
+    private ImageButton undoButton;
     private Button redoButton;
     private Button autopopulateButton;
     private ImageButton infoButton;
