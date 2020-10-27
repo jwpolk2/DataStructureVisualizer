@@ -33,6 +33,8 @@ public class Visualizer extends Fragment {
     private Button insertButton;
     private Button saveButton;
     private Button loadButton;
+    private Button undoButton;
+    private Button redoButton;
     private Button autopopulateButton;
     private ImageButton infoButton;
     private ImageButton homeButton;
@@ -68,6 +70,8 @@ public class Visualizer extends Fragment {
         saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
         insertButton = view.findViewById(R.id.button_insert);
+        undoButton = view.findViewById(R.id.button_undo);
+        //redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
@@ -117,6 +121,18 @@ public class Visualizer extends Fragment {
                 autoPopulate();
             }
         });
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undo();
+            }
+        });
+//        redoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                redo();
+//            }
+//        });
 
 
        // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
@@ -127,6 +143,15 @@ public class Visualizer extends Fragment {
         initDataStructure();
         return view;
     }
+
+    private void undo() {
+        tree.undo();
+    }
+
+    private void redo() {
+        tree.redo();
+    }
+
 
     private void initDataStructure() {
         switch (dataStructureType) {
