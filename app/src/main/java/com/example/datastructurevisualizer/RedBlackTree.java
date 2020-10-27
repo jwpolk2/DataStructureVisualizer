@@ -74,6 +74,9 @@ public class RedBlackTree extends TreeVisualizer {
     @Override
     public void insertNoAnim(int key) {
 
+        // Checks validity and logs insertion.
+        super.insertNoAnim(key);
+
         // No root node.
         if (root == null) {
             root = new Node(key, numChildren);
@@ -125,6 +128,9 @@ public class RedBlackTree extends TreeVisualizer {
      */
     @Override
     protected void insertAnim(int key) {
+
+        // Checks validity and logs insertion.
+        super.insertAnim(key);
 
         // No root node.
         if (root == null) {
@@ -238,11 +244,28 @@ public class RedBlackTree extends TreeVisualizer {
 
     /**
      * TODO comment
+     *
+     * @param key the key to be removed.
+     */
+    @Override
+    protected void removeNoAnim(int key) {
+
+        // Logs removal.
+        super.removeNoAnim(key);
+
+    }
+
+    /**
+     * TODO comment
      * TODO animate
      *
      * @param key the key to be removed.
      */
+    @Override
     protected void removeAnim(int key) {
+
+        // Logs removal.
+        super.removeAnim(key);
 
     }
 

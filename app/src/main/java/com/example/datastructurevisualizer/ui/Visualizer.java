@@ -33,6 +33,7 @@ public class Visualizer extends Fragment {
     private Button insertButton;
     private Button saveButton;
     private Button loadButton;
+    private Button autopopulateButton;
     private ImageButton infoButton;
     private ImageButton homeButton;
     private static String dataStructureType;
@@ -67,6 +68,7 @@ public class Visualizer extends Fragment {
         saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
         insertButton = view.findViewById(R.id.button_insert);
+        autopopulateButton = view.findViewById((R.id.button_autopopulate));
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -109,6 +111,12 @@ public class Visualizer extends Fragment {
                 load();
             }
         });
+        autopopulateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoPopulate();
+            }
+        });
 
 
        // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
@@ -148,6 +156,19 @@ public class Visualizer extends Fragment {
         }
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
     }
+
+    private void autoPopulate(){
+        if (visualizerCanvas.canvas == null) {
+            int vHeight = visualizerCanvas.getHeight();
+            int vWidth = visualizerCanvas.getWidth();
+            visualizerCanvas.setDimensions(vHeight, vWidth);
+        }
+        int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
+        for (int i = 0; i< array.length; i++) {
+            tree.insert(array[i]);
+        }
+    }
+
 
     public void setCanvas(Bitmap bitmap) {
         visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
