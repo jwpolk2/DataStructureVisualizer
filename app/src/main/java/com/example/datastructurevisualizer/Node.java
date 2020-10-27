@@ -21,7 +21,7 @@ public class Node {
      * Default constructor for this Node. Initializes key to the inputed key and
      * children to an array of size numChildren.
      * position and destination will be initialized to arrays of size 2, xy.
-     * rgb is red by default. TODO change
+     * rgb is red by default.
      * value, and extraData will not be initialized, and must be initialized ad-hoc.
      *
      * @param key the key for this Node.
@@ -35,6 +35,19 @@ public class Node {
         this.position = new int[2];
         this.destination = new int[2];
         this.children = new Node[numChildren];
+
+    }
+
+    /**
+     * Makes this Node RED or BLACK. To be used in the red-black tree.
+     *
+     * @param colour the colour for this Node.
+     */
+    public void rbSetColour(int colour) {
+        value = colour;
+        this.r = colour * 200;
+        this.g = 0;
+        this.b = 0;
 
     }
 }

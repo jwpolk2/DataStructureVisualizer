@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Contains pre-order, post-order, and in-order traversals.
  * Contains a function for placing each Node in the tree at an appropriate position.
  */
-public class TreeVisualize extends NodeVisualizer {
+public class TreeVisualizer extends NodeVisualizer {
     Node root;
 
     /**
@@ -24,18 +24,25 @@ public class TreeVisualize extends NodeVisualizer {
     int getNumChildren() { return 0; }
 
     /**
-     * Inserts a Node into the tree and plays an animation. Should be overriden.
+     * Inserts a Node into the tree and plays no animation. Should be overridden.
+     *
+     * @param key the key to be inserted.
+     */
+    public void insertNoAnim(int key) {}
+
+    /**
+     * Inserts a Node into the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be inserted.
      */
     protected void insertAnim(int key) {}
 
     /**
-     * Inserts a Node into the tree and plays no animation. Should be overriden.
+     * Removes a Node from the tree and plays an animation. Should be overridden.
      *
-     * @param key the key to be inserted.
+     * @param key the key to be removed.
      */
-    public void insertNoAnim(int key) {}
+    protected void removeAnim(int key) {}
 
     /**
      * Runs an insert animation.
@@ -44,7 +51,10 @@ public class TreeVisualize extends NodeVisualizer {
         int key;
         @Override
         public void run() {
+            AnimationParameters.beginAnimation();
             insertAnim(key);
+            quickRender();
+            AnimationParameters.stopAnimation();
 
         }
     }
@@ -54,8 +64,35 @@ public class TreeVisualize extends NodeVisualizer {
      *
      * @param key the key to be inserted.
      */
-    protected void insert(int key) {
+    public void insert(int key) {
         RunInsert run = new RunInsert();
+        run.key = key;
+        new Thread(run).start();
+
+    }
+
+    /**
+     * Runs a removal animation.
+     */
+    public class RunRemove implements Runnable {
+        int key;
+        @Override
+        public void run() {
+            AnimationParameters.beginAnimation();
+            removeAnim(key);
+            quickRender();
+            AnimationParameters.stopAnimation();
+
+        }
+    }
+
+    /**
+     * Removes a Node from the tree.
+     *
+     * @param key the key to be removed.
+     */
+    public void remove(int key) {
+        RunRemove run = new RunRemove();
         run.key = key;
         new Thread(run).start();
 
@@ -241,6 +278,10 @@ public class TreeVisualize extends NodeVisualizer {
      * includes LinkedLists).
      */
     public void placeTreeNodes() {
+        System.out.println("Canvas");
+        System.out.println(MainActivity.getVisualizer().getCanvas());
+        System.out.println("Visualizer");
+        System.out.println(MainActivity.getVisualizer());
         int treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
         //int treeWidth = MainActivity.getCanvas().getWidth();
         int numChildren = getNumChildren();
@@ -308,10 +349,10 @@ public class TreeVisualize extends NodeVisualizer {
     @Override
     public void render() {
         super.render();
-       // Log.e("NODE", "render");
 
         // Makes the entire Canvas White.
-        //MainActivity.getCanvas().drawRGB(255, 255, 255);
+        MainActivity.getVisualizer().getCanvas().drawRGB(AnimationParameters.BACK_R,
+                AnimationParameters.BACK_G, AnimationParameters.BACK_B);
 
         // Draws the Tree over the Canvas.
         drawTreeRecursive(root);
@@ -364,6 +405,25 @@ public class TreeVisualize extends NodeVisualizer {
     public ArrayList<Node> getAllNodes() {
         return getAllNodesRecursive(root);
 
+    }
+
+    /**
+     * Checks whether the key being inserted is a duplicate
+     *
+     * @param key the value being inserted
+     * @return true if key is not a duplicate, false if it is a duplicate
+     */
+    public boolean checkInsert(int key){
+        ArrayList<Node> currNodes = getAllNodes();
+
+        //loop through all nodes in data structure to see if duplicate exists. return false if so
+        for (int i = 0; i < currNodes.size(); i++) {
+            if(currNodes.get(i).key == key){
+                return false;
+            }
+        }
+        //made it this far, there must be no duplicates, return true
+        return true;
     }
 
     /**

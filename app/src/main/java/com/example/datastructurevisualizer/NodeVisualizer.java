@@ -48,8 +48,7 @@ public class NodeVisualizer {
      */
     protected void highlight(Node node) {
         highlightedNode = node;
-        highlightedNode.r += 20;
-        highlightedNode.g += 20;
+        highlightedNode.r -= 200;
         highlightedNode.b += 200;
 
     }
@@ -62,8 +61,7 @@ public class NodeVisualizer {
      * @param node the Node to unHighlight.
      */
     protected void unHighlight(Node node) {
-        node.r -= 20;
-        node.g -= 20;
+        node.r += 200;
         node.b -= 200;
         highlightedNode = null;
 
@@ -129,7 +127,6 @@ public class NodeVisualizer {
      * Animates movement of Nodes to their destination positions.
      */
     public void nodeMoveAnimation() {
-        float xMov, yMov;
         float movementFraction;
         ArrayList<Node> nodes = getAllNodes();
 
@@ -142,12 +139,14 @@ public class NodeVisualizer {
             // Moves every Node towards its destination by the movementFraction.
             for (Node node : nodes) {
                 node.position[0] += (node.destination[0] - node.position[0]) / movementFraction;
-                node.position[1] += (node.destination[0] - node.position[0]) / movementFraction;
+                node.position[1] += (node.destination[1] - node.position[1]) / movementFraction;
 
             }
 
+            // Renders the item.
+            render();
+
             // Sleeps a while.
-            // TODO change value
             try {
                 Thread.sleep((long) (AnimationParameters.ANIM_TIME /
                         (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
@@ -158,7 +157,7 @@ public class NodeVisualizer {
     }
 
     /**
-     * Renders the data structure. Should be overriden.
+     * Renders the data structure. Should be overridden.
      */
     public void render() {
         MainActivity.getVisualizer().render();

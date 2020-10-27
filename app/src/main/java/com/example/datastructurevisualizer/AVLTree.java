@@ -14,7 +14,7 @@ package com.example.datastructurevisualizer;
  *
  * @author William Fiset, william.alexandre.fiset@gmail.com
  */
-public class AVLTree extends TreeVisualize {
+public class AVLTree extends TreeVisualizer {
 
     // Number of children per node in this tree.
     static final int numChildren = 2;
@@ -66,33 +66,44 @@ public class AVLTree extends TreeVisualize {
 
     }
 
-    // Insert/add a key to the AVL tree. The key must not be null, O(log(n))
+    /**
+     * Inserts a node into the tree without an animation.
+     *
+     * @param key the key to be inserted.
+     */
     @Override
     public void insertNoAnim(int key) {
         if (!contains(root, key)) {
-            root = insert(root, key);
+            root = insertNoAnim(root, key);
             nodeCount++;
         }
     }
 
-    // Inserts a key inside the AVL tree.
-    private Node insert(Node node, int key) {
+    /**
+     * Recursively inserts a Node into the tree.
+     *
+     * @param node the node to be inserted.
+     * @param key the key to be inserted.
+     */
+    private Node insertNoAnim(Node node, int key) {
 
         // Base case.
         if (node == null) {
             node = new Node(key, numChildren);
+            node.extraData = new Integer[1];
+            node.extraData[0] = new Integer(-1);
             return node;
 
         }
 
         // Insert node in left subtree.
         if (key < node.key) {
-            node.children[ChildNames.LEFT.i] = insert(node.children[ChildNames.LEFT.i], key);
+            node.children[ChildNames.LEFT.i] = insertNoAnim(node.children[ChildNames.LEFT.i], key);
             ;
 
             // Insert node in right subtree.
         } else {
-            node.children[ChildNames.RIGHT.i] = insert(node.children[ChildNames.RIGHT.i], key);
+            node.children[ChildNames.RIGHT.i] = insertNoAnim(node.children[ChildNames.RIGHT.i], key);
         }
 
         // Update balance factor and height keys.
@@ -102,17 +113,84 @@ public class AVLTree extends TreeVisualize {
         return balance(node);
     }
 
+    /**
+     * Inserts a node into the tree with an animation.
+     *
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    public void insertAnim(int key) {
+        if (!contains(root, key)) {
+            root = insertAnim(root, key);
+            nodeCount++;
+        }
+
+        // Sets Node destinations
+        placeTreeNodes();
+
+        // Moves the Nodes to their destinations and finishes the animation.
+        nodeMoveAnimation();
+
+    }
+
+    /**
+     * Recursively searches the tree in order to place the inputed key. Balances
+     * the tree while insertion occurs.
+     *
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
+     *
+     * @param node the node to be inserted.
+     * @param key the key to be inserted.
+     */
+    private Node insertAnim(Node node, int key) {
+
+        // Base case.
+        if (node == null) {
+            node = new Node(key, numChildren);
+            node.extraData = new Integer[1];
+            node.extraData[0] = new Integer(-1);
+            return node;
+
+        }
+
+        // Animates traversal.
+        nodeSelectAnimation(node);
+
+        // Insert node in left subtree.
+        if (key < node.key) {
+            node.children[ChildNames.LEFT.i] = insertAnim(node.children[ChildNames.LEFT.i], key);
+
+            // Insert node in right subtree.
+        } else {
+            node.children[ChildNames.RIGHT.i] = insertAnim(node.children[ChildNames.RIGHT.i], key);
+        }
+
+        // Update balance factor and height keys.
+        update(node);
+
+        // Re-balance tree.
+        return balanceAnim(node);
+    }
+
     // Update a node's height and balance factor.
     private void update(Node node) {
+        int leftNodeHeight, rightNodeHeight;
 
-        int leftNodeHeight = (node.children[ChildNames.LEFT.i] == null) ? -1 : (Integer)node.children[ChildNames.LEFT.i].extraData[0];
-        int rightNodeHeight = (node.children[ChildNames.RIGHT.i] == null) ? -1 : (Integer)node.children[ChildNames.RIGHT.i].extraData[0];
+        if (node.children[ChildNames.LEFT.i] == null) leftNodeHeight = -1;
+        else leftNodeHeight = (Integer)node.children[ChildNames.LEFT.i].extraData[0];
+        if (node.children[ChildNames.RIGHT.i] == null) rightNodeHeight = -1;
+        else rightNodeHeight = (Integer)node.children[ChildNames.RIGHT.i].extraData[0];
 
         // Update this node's height.
         node.extraData[0] = 1 + Math.max(leftNodeHeight, rightNodeHeight);
 
         // Update balance factor.
         node.value = rightNodeHeight - leftNodeHeight;
+
     }
 
     // Re-balance a node if its balance factor is +2 or -2.
@@ -145,6 +223,44 @@ public class AVLTree extends TreeVisualize {
 
         // Node either has a balance factor of 0, +1 or -1 which is fine.
         return node;
+    }
+
+    /**
+     * TODO
+     *
+     * @param node
+     * @return
+     */
+    private Node balanceAnim(Node node) {
+
+        // Left heavy subtree.
+        if (node.value == -2) {
+
+            // Left-Left case.
+            if (node.children[ChildNames.LEFT.i].value <= 0) {
+                return leftLeftCase(node);
+
+                // Left-Right case.
+            } else {
+                return leftRightCase(node);
+            }
+
+            // Right heavy subtree needs balancing.
+        } else if (node.value == +2) {
+
+            // Right-Right case.
+            if (node.children[ChildNames.RIGHT.i].value >= 0) {
+                return rightRightCase(node);
+
+                // Right-Left case.
+            } else {
+                return rightLeftCase(node);
+            }
+        }
+
+        // Node either has a balance factor of 0, +1 or -1 which is fine.
+        return node;
+
     }
 
     private Node leftLeftCase(Node node) {
@@ -183,32 +299,58 @@ public class AVLTree extends TreeVisualize {
         return newParent;
     }
 
-    // Remove a key from this binary tree if it exists, O(log(n))
-    public boolean remove(int elem) {
-
+    /**
+     * Removes a node into the tree with an animation.
+     *
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
+     *
+     * @param elem the key to be inserted.
+     */
+    protected void removeAnim(int elem) {
         if (contains(root, elem)) {
-            root = remove(root, elem);
+            root = removeAnim(root, elem);
             nodeCount--;
-            return true;
         }
 
-        return false;
+        // Sets Node destinations
+        placeTreeNodes();
+
+        // Moves the Nodes to their destinations and finishes the animation.
+        nodeMoveAnimation();
+
     }
 
-    // Removes a key from the AVL tree.
-    private Node remove(Node node, int elem) {
-
+    /**
+     * Recursively searches the tree in order to remove the inputed key. Balances
+     * the tree while removal occurs.
+     *
+     * Performs a traversal animation while searching, then a movement animation
+     * after balancing.
+     *
+     * @param node the node to be inserted.
+     * @param elem the key to be inserted.
+     */
+    private Node removeAnim(Node node, int elem) {
         if (node == null) return null;
 
         // Dig into left subtree, the key we're looking
         // for is smaller than the current key.
         if (elem < node.key) {
-            node.children[ChildNames.LEFT.i] = remove(node.children[ChildNames.LEFT.i], elem);
+
+            // Animates traversal.
+            nodeSelectAnimation(node);
+
+            node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], elem);
 
             // Dig into right subtree, the key we're looking
             // for is greater than the current key.
         } else if (elem > node.key) {
-            node.children[ChildNames.RIGHT.i] = remove(node.children[ChildNames.RIGHT.i], elem);
+
+            // Animates traversal.
+            nodeSelectAnimation(node);
+
+            node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], elem);
 
             // Found the node we wish to remove.
         } else {
@@ -240,7 +382,7 @@ public class AVLTree extends TreeVisualize {
                     node.key = successorValue;
 
                     // Find the largest node in the left subtree.
-                    node.children[ChildNames.LEFT.i] = remove(node.children[ChildNames.LEFT.i], successorValue);
+                    node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], successorValue);
 
                 } else {
 
@@ -251,7 +393,7 @@ public class AVLTree extends TreeVisualize {
                     // Go into the right subtree and remove the leftmost node we
                     // found and swapped data with. This prevents us from having
                     // two nodes in our tree with the same key.
-                    node.children[ChildNames.RIGHT.i] = remove(node.children[ChildNames.RIGHT.i], successorValue);
+                    node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], successorValue);
                 }
             }
         }
@@ -260,7 +402,7 @@ public class AVLTree extends TreeVisualize {
         update(node);
 
         // Re-balance tree.
-        return balance(node);
+        return balanceAnim(node);
     }
 
     // Helper method to find the leftmost node (which has the smallest key)

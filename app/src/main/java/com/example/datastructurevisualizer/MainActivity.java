@@ -1,15 +1,18 @@
 package com.example.datastructurevisualizer;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ViewAnimator;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,45 +23,70 @@ public class MainActivity extends AppCompatActivity {
     private final int OFFSET = 120;
     private int mOffset = OFFSET;
     private Bitmap bitmap;
-    private int vWidth;
-    private int vHeight;
+    private static int vWidth;
+    private static int vHeight;
     private int circleOffset;
     private Button DrawBST;
     private Button InsertNode;
-    BinarySearchTree bst ;
+    TreeVisualizer bst = new AVLTree();
+    EditText inputNode;
 
-    public int[] bst_array = {5, 8, 10, 3, 1, 6, 9, 7, 2, 0};
+
+    private static FragmentManager fragmentManager;
+    public static ActionBar actionBar;
+
+    public int[] bst_array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
+        actionBar = getSupportActionBar();
+        actionBar.hide();
         setContentView(R.layout.activity_main);
-        drawImage = findViewById(R.id.animatorImage);
-        paint = new Paint();
-        paint.setColor(Color.RED);
-        DrawBST = (Button) findViewById(R.id.drawButton);
-        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
+//        drawImage = findViewById(R.id.animatorImage);
+//        paint = new Paint();
+//        paint.setColor(Color.RED);
+//        DrawBST = (Button) findViewById(R.id.drawButton);
+//        InsertNode = (Button) findViewById(R.id.InsertButtonMain);
+//        inputNode = (EditText) findViewById(R.id.etInputNode);
+//
+//
+//        DrawBST.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drawRedCircle(drawImage);
+//
+//
+//            }
+//        });
+//
+//        InsertNode.setOnClickListener((new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InsertIntoBST();
+//
+//            }
+//        }));
+    }
 
+    public static void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-        DrawBST.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawRedCircle(drawImage);
+    public static void setVisualizerCanvas(VisualizerCanvas visualizerCanvas){
+        drawImage = visualizerCanvas;
+//        vWidth = drawImage.getWidth();
+//        vHeight = drawImage.getHeight();
+//        drawImage.setDimensions(vHeight, vWidth);
+    }
 
-
-            }
-        });
-
-        InsertNode.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InsertIntoBST();
-
-            }
-        }));
-
-
+    public static VisualizerCanvas getVisualizer() {
+        return drawImage;
     }
 
     /**
@@ -72,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i< bst_array.length; i++){
             bst.insertNoAnim(bst_array[i]);
         }
-
 
         /*
         bst.insert(50);
@@ -91,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Inserts with an animation.
         //bst.insert(random.nextInt() % 100);
+
         bst.render();
 
         // does some traversals
@@ -100,18 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        vWidth = drawImage.getWidth();
-        vHeight = drawImage.getHeight();
-        drawImage.setDimensions(vHeight, vWidth);
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (drawImage != null) {
+//            vWidth = drawImage.getWidth();
+//            vHeight = drawImage.getHeight();
+//            drawImage.setDimensions(vHeight, vWidth);
+//        }
+//    }
 
-    public static void setCanvas(Bitmap bitmap) {
-
-        drawImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
-    }
+//    public static void setCanvas(Bitmap bitmap) {
+//
+//        drawImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
+//    }
 
 
 
@@ -121,7 +151,11 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void InsertIntoBST(){
-        bst.insert(50);
+        bst.insert(Integer.parseInt(String.valueOf(inputNode.getText())));
+
+
+
+
 
     }
     public void drawBlueCircle(View view) {}
@@ -144,8 +178,6 @@ public class MainActivity extends AppCompatActivity {
 //        return drawImage.canvas;
 //    }
 
-    public static VisualizerCanvas getVisualizer() {
-        return drawImage;
-    }
+
 
 }

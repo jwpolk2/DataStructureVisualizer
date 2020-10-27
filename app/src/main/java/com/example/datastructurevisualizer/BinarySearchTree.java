@@ -20,14 +20,14 @@ import java.util.Queue;
  *
  * For this tree Node.key is the integer key.
  */
-class BinarySearchTree extends TreeVisualize {
+public class BinarySearchTree extends TreeVisualizer {
     private int maxWidth = 0;
     private List<Integer> treeData;
 
     // Number of children per node in this tree.
     static final int numChildren = 2;
 
-    BinarySearchTree() {
+    public BinarySearchTree() {
         root = null;
         treeData = new LinkedList<>();
     }
@@ -157,6 +157,14 @@ class BinarySearchTree extends TreeVisualize {
     }
 
     /**
+     * Checks whether the key being inserted is a duplicate
+     *
+     * @param key the value being inserted
+     * @return true if key is not a duplicate, false if it is a duplicate
+     */
+
+
+    /**
      * <a href="http://www.geeksforgeeks.org/tree-isomorphism-problem/">Is given tree isomorphic</a>
      *
      * @param n1 Left node of root or vice versa
@@ -255,7 +263,13 @@ class BinarySearchTree extends TreeVisualize {
         return false;
     }
 
-    boolean delete(int id) {
+    /**
+     * TODO comment
+     * TODO animate
+     *
+     * @param id the key for the new Node.
+     */
+    protected void removeAnim(int id) {
         Node parent = root;
         Node current = root;
         boolean isLeftChild = false;
@@ -269,7 +283,7 @@ class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.RIGHT.i];
             }
             if (current == null) {
-                return false;
+                return;
             }
         }
         //if i am here that means we have found the node
@@ -314,7 +328,7 @@ class BinarySearchTree extends TreeVisualize {
             }
             successor.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
         }
-        return true;
+        return;
     }
 
     private Node getSuccessor(Node deleteNode) {
@@ -361,6 +375,12 @@ class BinarySearchTree extends TreeVisualize {
             quickRender();
             return;
         }
+
+        //first check if there is a duplicate before inserting
+        if(!checkInsert(id)){
+            return;
+        }
+
         Node current = root;
         Node parent;
         while (true) {
@@ -394,9 +414,13 @@ class BinarySearchTree extends TreeVisualize {
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
-            quickRender();
             return;
         }
+        //first check if there is a duplicate before inserting
+        if(!checkInsert(id)){
+            return;
+        }
+
         Node current = root;
         nodeSelectAnimation(current);
         Node parent;
@@ -406,7 +430,6 @@ class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.LEFT.i];
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
-                    quickRender();
                     return;
 
                 }
@@ -415,7 +438,6 @@ class BinarySearchTree extends TreeVisualize {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
-                    quickRender();
                     return;
 
                 }

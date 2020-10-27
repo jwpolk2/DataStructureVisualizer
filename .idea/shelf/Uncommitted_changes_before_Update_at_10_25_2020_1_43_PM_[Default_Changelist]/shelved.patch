@@ -1,124 +1,357 @@
-Index: app/src/main/java/com/example/datastructurevisualizer/ui/DialogFileAction.java
+Index: app/src/main/java/com/example/datastructurevisualizer/TreeVisualize.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
-<+>package com.example.datastructurevisualizer.ui;\r\n\r\nimport android.app.Dialog;\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatDialogFragment;\r\n\r\npublic class DialogFileAction extends AppCompatDialogFragment {\r\n    @NonNull\r\n    @Override\r\n    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {\r\n        return super.onCreateDialog(savedInstanceState);\r\n    }\r\n}\r\n
+<+>package com.example.datastructurevisualizer;\r\nimport android.graphics.Paint;\r\nimport android.util.Log;\r\n\r\nimport java.util.ArrayList;\r\n\r\n/**\r\n * Superclass for all trees. Enables code reuse among tree visualization.\r\n * Contains numChildren, a field indicating the number of children per node for a given tree.\r\n * Contains root, the root node for a given tree. It is located here so as to be used by\r\n * shared visualization methods.\r\n * Contains pre-order, post-order, and in-order traversals.\r\n * Contains a function for placing each Node in the tree at an appropriate position.\r\n */\r\npublic class TreeVisualize extends NodeVisualizer {\r\n    Node root;\r\n\r\n    /**\r\n     * This method is used to get the number of children in a tree.\r\n     * Each tree will override it to return its own numChildren.\r\n     */\r\n    int getNumChildren() { return 0; }\r\n\r\n    /**\r\n     * Inserts a Node into the tree and plays an animation. Should be overriden.\r\n     *\r\n     * @param key the key to be inserted.\r\n     */\r\n    protected void insertAnim(int key) {}\r\n\r\n    /**\r\n     * Inserts a Node into the tree and plays no animation. Should be overriden.\r\n     *\r\n     * @param key the key to be inserted.\r\n     */\r\n    public void insertNoAnim(int key) {}\r\n\r\n    /**\r\n     * Runs an insert animation.\r\n     */\r\n    public class RunInsert implements Runnable {\r\n        int key;\r\n        @Override\r\n        public void run() {\r\n            insertAnim(key);\r\n\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Inserts a Node into the tree.\r\n     *\r\n     * @param key the key to be inserted.\r\n     */\r\n    protected void insert(int key) {\r\n        RunInsert run = new RunInsert();\r\n        run.key = key;\r\n        new Thread(run).start();\r\n\r\n    }\r\n\r\n    /**\r\n     * Performs a pre-order traversal over a tree. Will perform an animation\r\n     * indicating the current node being targeted.\r\n     *\r\n     * @param currNode the node currently targeted by the traversal.\r\n     */\r\n    private void treePreOrderTraversal(Node currNode) {\r\n        int numChildren = getNumChildren();\r\n\r\n        // Returns if currNode is null.\r\n        if (currNode == null) return;\r\n\r\n        // Highlights the current Node.\r\n        nodeSelectAnimation(currNode);\r\n\r\n        // Explores left subtree.\r\n        for (int i = 0; i < numChildren / 2; ++i)\r\n            treePreOrderTraversal(currNode.children[i]);\r\n\r\n        // Explores right subtree.\r\n        for (int i = numChildren / 2; i < numChildren; ++i)\r\n            treePreOrderTraversal(currNode.children[i]);\r\n\r\n    }\r\n\r\n    /**\r\n     * Runs a pre-order traversal.\r\n     */\r\n    public class RunPreOrder implements Runnable {\r\n        @Override\r\n        public void run() {\r\n            treePreOrderTraversal(root);\r\n\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Begins a pre-order traversal.\r\n     */\r\n    void preOrderTraversal() {\r\n        RunPreOrder run = new RunPreOrder();\r\n        new Thread(run).start();\r\n\r\n    }\r\n\r\n    /**\r\n     * Begins a post-order traversal.\r\n     */\r\n    void postOrderTraversal() {\r\n        treePostOrderTraversal(root);\r\n\r\n    }\r\n\r\n    /**\r\n     * Performs a post-order traversal over a tree. Will perform an animation\r\n     * indicating the current node being targeted.\r\n     *\r\n     * @param currNode the node currently targeted by the traversal.\r\n     */\r\n    private void treePostOrderTraversal(Node currNode) {\r\n        int numChildren = getNumChildren();\r\n\r\n        // Returns if currNode is null.\r\n        if (currNode == null) return;\r\n\r\n        // Explores left subtree.\r\n        for (int i = 0; i < numChildren / 2; ++i)\r\n            treePreOrderTraversal(currNode.children[i]);\r\n\r\n        // Explores right subtree.\r\n        for (int i = numChildren / 2; i < numChildren; ++i)\r\n            treePreOrderTraversal(currNode.children[i]);\r\n\r\n        // Highlights the current Node.\r\n        nodeSelectAnimation(currNode);\r\n\r\n    }\r\n\r\n    /**\r\n     * Begins an in-order traversal.\r\n     */\r\n    void inOrderTraversal() {\r\n        treeInOrderTraversal(root);\r\n\r\n    }\r\n\r\n    /**\r\n     * Performs an in-order traversal over a tree. Will perform an animation\r\n     * indicating the current node being targeted.\r\n     *\r\n     * @param currNode the node currently targeted by the traversal.\r\n     */\r\n    private void treeInOrderTraversal(Node currNode) {\r\n        int numChildren = getNumChildren();\r\n\r\n        // Returns if currNode is null.\r\n        if (currNode == null) return;\r\n\r\n        // Explores left subtree.\r\n        for (int i = 0; i < numChildren / 2; ++i)\r\n            treePreOrderTraversal(currNode.children[i]);\r\n\r\n        // Highlights the current Node.\r\n        nodeSelectAnimation(currNode);\r\n\r\n        // Explores right subtree.\r\n        for (int i = numChildren / 2; i < numChildren; ++i)\r\n            treePreOrderTraversal(currNode.children[i]);\r\n\r\n    }\r\n\r\n    /**\r\n     * Recursively places each node in the Tree. Each successive layer will have\r\n     * width / numChildren horizontal distance between Nodes and depthLen vertical\r\n     * distance between Nodes.\r\n     *\r\n     * @param width horizontal distance between Nodes.\r\n     * @param depth current depth within the Tree.\r\n     * @param currNode the Node whose children should be placed.\r\n     */\r\n    void placeTreeNodesRecursive(float width, int depth, Node currNode) {\r\n        float currX, currY;\r\n        int numChildren;\r\n\r\n        // Returns if the bottom of the Tree has been reached.\r\n        if (depth == 0 || currNode == null) return;\r\n\r\n        // Stores the number of children for measurement.\r\n        numChildren = getNumChildren();\r\n\r\n        // Starts from the current position.\r\n        currX = currNode.destination[0];\r\n        currY = currNode.destination[1];\r\n\r\n        // Offsets currX to the leftmost Node.\r\n        // Note: offsets slightly more than appropriate so the for loop below is easier to write.\r\n        currX -= (int)((width * (1.0 + numChildren)) / 2.0);\r\n\r\n        // Offsets currY by depthLen.\r\n        currY += AnimationParameters.depthLen;\r\n\r\n        // Recursively places each child Node.\r\n        for (int i = 0; i < numChildren; ++i) {\r\n            currX += width;\r\n\r\n            // Will only place non-null nodes.\r\n            if (currNode.children[i] != null) {\r\n                currNode.children[i].destination[0] = (int)currX;\r\n                currNode.children[i].destination[1] = (int)currY;\r\n                placeTreeNodesRecursive(width / numChildren, depth - 1, currNode.children[i]);\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Places all Nodes. Does so by using the Tree's depth and desired width to\r\n     * calculate the appropriate width between the Nodes on the first layer, then\r\n     * recursively calculating the appropriate width between Nodes in every\r\n     * successive layer.\r\n     *\r\n     * This method can be used for Trees with any fixed number of children (that\r\n     * includes LinkedLists).\r\n     */\r\n    public void placeTreeNodes() {\r\n        int treeWidth = MainActivity.getCanvas().getWidth();\r\n        int numChildren = getNumChildren();\r\n        int depth = getDepth();\r\n        float width;\r\n\r\n        // Initializes position of root.\r\n        root.destination[0] = treeWidth / 2;\r\n        root.destination[1] = 20;\r\n\r\n        // Calculates the width between children of the root Node.\r\n        width = (float)treeWidth / numChildren;\r\n\r\n        // If rendering a LinkedList, sets width to 0 for convenience.\r\n        if (numChildren == 1) width = 0;\r\n\r\n        // Begins recursively placing the Tree Nodes.\r\n        placeTreeNodesRecursive(width, depth, root);\r\n\r\n    }\r\n\r\n    /**\r\n     * Recursively draws Nodes in a tree. Does so by drawing the vectors\r\n     * between currNode and its children, then drawing currNode, then\r\n     * drawing currNode's children.\r\n     *\r\n     * @param currNode the current Node to be drawn.\r\n     */\r\n    private void drawTreeRecursive(Node currNode) {\r\n\r\n        // Returns if currNode is null.\r\n        if (currNode == null) return;\r\n\r\n        // Draws vectors between this Node and all child Nodes.\r\n        Paint colour = new Paint();\r\n        colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G, AnimationParameters.VEC_B);\r\n        for (int i = 0; i < getNumChildren(); ++i) {\r\n            if (currNode.children[i] != null) {\r\n                MainActivity.getCanvas().drawLine(\r\n                        currNode.position[0], currNode.position[1],\r\n                        currNode.children[i].position[0], currNode.children[i].position[1],\r\n                        colour);\r\n\r\n            }\r\n        }\r\n\r\n        // Draws the current Node.\r\n        drawNode(currNode);\r\n\r\n        // Draws all child Nodes.\r\n        for (int i = 0; i < getNumChildren(); ++i)\r\n            drawTreeRecursive(currNode.children[i]);\r\n\r\n    }\r\n\r\n    /**\r\n     * Renders the tree starting at the root.\r\n     */\r\n    @Override\r\n    public void render() {\r\n        Log.e(\"NODE\", \"render\");\r\n\r\n        // Makes the entire Canvas White.\r\n        MainActivity.getCanvas().drawRGB(255, 255, 255);\r\n\r\n        // Draws the Tree over the Canvas.\r\n        drawTreeRecursive(root);\r\n\r\n    }\r\n\r\n    /**\r\n     * Quickly places all nodes and renders the tree.\r\n     * To be used at the end of insertions, deletions, and traversals.\r\n     */\r\n    protected void quickRender() {\r\n        finishTraversalAnimation();\r\n        placeTreeNodes();\r\n        placeNodesAtDestination();\r\n        render();\r\n\r\n    }\r\n\r\n    /**\r\n     * Recursively parses through the tree to fill an ArrayList of nodes.\r\n     *\r\n     * @param currNode the current Node being viewed.\r\n     * @return an ArrayList containing all children in this Node's subtrees.\r\n     */\r\n    private ArrayList<Node> getAllNodesRecursive(Node currNode) {\r\n        ArrayList<Node> nodes = new ArrayList<Node>();\r\n\r\n        // Returns an empty arrayList if this Node is null.\r\n        if (currNode == null) return new ArrayList<Node>();\r\n\r\n        // Adds all subtrees to nodes.\r\n        for (int i = 0; i < getNumChildren(); ++i) {\r\n            nodes.addAll(getAllNodesRecursive(currNode.children[i]));\r\n\r\n        }\r\n\r\n        // Adds this node to nodes.\r\n        nodes.add(currNode);\r\n\r\n        // Returns the ArrayList of Nodes.\r\n        return nodes;\r\n\r\n    }\r\n\r\n    /**\r\n     * Returns an ArrayList containing all Nodes in this data structure.\r\n     *\r\n     * @return an ArrayList containing all Nodes in this data structure.\r\n     */\r\n    public ArrayList<Node> getAllNodes() {\r\n        return getAllNodesRecursive(root);\r\n\r\n    }\r\n\r\n    /**\r\n     * Recursively parses through the tree to calculate its maximum depth.\r\n     *\r\n     * @param currNode the current Node being viewed.\r\n     * @return the maximum depth of this Node's subtree.\r\n     */\r\n    private int getDepthRecursive(Node currNode) {\r\n        int max = 0;\r\n        int val;\r\n\r\n        // Return 0 if this Node is null.\r\n        if (currNode == null) return 0;\r\n\r\n        // Finds the maximum depth of this Node's subtrees.\r\n        for (int i = 0; i < getNumChildren(); ++i) {\r\n            val = getDepthRecursive(currNode.children[i]);\r\n            max = max < val ? val : max;\r\n\r\n        }\r\n\r\n        // Returns the maximum depth of this Node's subtree plus one.\r\n        return max + 1;\r\n\r\n    }\r\n\r\n    /**\r\n     * Returns the depth of this tree.\r\n     */\r\n    public int getDepth() {\r\n        return getDepthRecursive(root);\r\n\r\n    }\r\n}
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- app/src/main/java/com/example/datastructurevisualizer/ui/DialogFileAction.java	(revision 81da609d52846cd7db265c260cd9fdf2df8258d8)
-+++ app/src/main/java/com/example/datastructurevisualizer/ui/DialogFileAction.java	(date 1603650610787)
-@@ -1,16 +1,37 @@
- package com.example.datastructurevisualizer.ui;
+--- app/src/main/java/com/example/datastructurevisualizer/TreeVisualize.java	(revision 6562a5b979c24ebee7ee0cf450cf9c172ab3f834)
++++ app/src/main/java/com/example/datastructurevisualizer/TreeVisualize.java	(date 1603650382251)
+@@ -1,5 +1,7 @@
+ package com.example.datastructurevisualizer;
+ import android.graphics.Paint;
++import android.os.Handler;
++import android.os.Looper;
+ import android.util.Log;
  
-+import android.app.AlertDialog;
- import android.app.Dialog;
-+import android.content.DialogInterface;
- import android.os.Bundle;
-+import android.view.LayoutInflater;
-+import android.view.View;
+ import java.util.ArrayList;
+@@ -65,14 +67,29 @@
+      *
+      * @param currNode the node currently targeted by the traversal.
+      */
+-    private void treePreOrderTraversal(Node currNode) {
++    private void treePreOrderTraversal(final Node currNode) {
+         int numChildren = getNumChildren();
  
- import androidx.annotation.NonNull;
- import androidx.annotation.Nullable;
- import androidx.appcompat.app.AppCompatDialogFragment;
+         // Returns if currNode is null.
+         if (currNode == null) return;
  
-+import com.example.datastructurevisualizer.R;
-+
- public class DialogFileAction extends AppCompatDialogFragment {
-     @NonNull
-     @Override
-     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-+
-+        LayoutInflater inflater = getActivity().getLayoutInflater();
-+        View view = inflater.inflate(R.layout.fragment_files, null); //TODO: Check if correct args
-+
-+        builder.setView(view).setTitle("File Action").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+         // Highlights the current Node.
+-        nodeSelectAnimation(currNode);
++        new Handler(Looper.getMainLooper()).post(new Runnable() {
 +            @Override
-+            public void onClick(DialogInterface dialog, int which) {
-+
++            public void run() {
++                final Node NODE = currNode;
++                nodeSelectAnimation(NODE);
 +            }
 +        });
-         return super.onCreateDialog(savedInstanceState);
++
++        // Sleeps for a little while.
++        try {
++            if (!Thread.currentThread().equals(Looper.getMainLooper().getThread()));{
++            Thread.sleep((long) (AnimationParameters.ANIM_TIME * AnimationParameters.animSpeed));
++            }
++        } catch (InterruptedException e) {
++            e.printStackTrace();
++        }
+ 
+         // Explores left subtree.
+         for (int i = 0; i < numChildren / 2; ++i)
+@@ -224,7 +241,8 @@
+      * includes LinkedLists).
+      */
+     public void placeTreeNodes() {
+-        int treeWidth = MainActivity.getCanvas().getWidth();
++        int treeWidth = MainActivity.getVisualizer().getWidth();
++        //int treeWidth = MainActivity.getCanvas().getWidth();
+         int numChildren = getNumChildren();
+         int depth = getDepth();
+         float width;
+@@ -261,10 +279,16 @@
+         colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G, AnimationParameters.VEC_B);
+         for (int i = 0; i < getNumChildren(); ++i) {
+             if (currNode.children[i] != null) {
+-                MainActivity.getCanvas().drawLine(
++                MainActivity.getVisualizer().canvas.drawLine(
+                         currNode.position[0], currNode.position[1],
+                         currNode.children[i].position[0], currNode.children[i].position[1],
+                         colour);
++                MainActivity.getVisualizer().canvas.save(); //TODO test this
++//                MainActivity.getCanvas().drawLine(
++//                        currNode.position[0], currNode.position[1],
++//                        currNode.children[i].position[0], currNode.children[i].position[1],
++//                        colour);
++//                MainActivity.getCanvas().save(); //TODO test this
+ 
+             }
+         }
+@@ -283,10 +307,11 @@
+      */
+     @Override
+     public void render() {
+-        Log.e("NODE", "render");
++        super.render();
++       // Log.e("NODE", "render");
+ 
+         // Makes the entire Canvas White.
+-        MainActivity.getCanvas().drawRGB(255, 255, 255);
++        //MainActivity.getCanvas().drawRGB(255, 255, 255);
+ 
+         // Draws the Tree over the Canvas.
+         drawTreeRecursive(root);
+Index: app/src/main/java/com/example/datastructurevisualizer/NodeVisualizer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.datastructurevisualizer;\r\nimport android.graphics.Paint;\r\nimport android.util.Log;\r\n\r\nimport java.util.ArrayList;\r\n\r\n/**\r\n * Superclass for all visualizers that use Nodes.\r\n * Stores the nodeWidth and has method for drawing a Node.\r\n */\r\npublic class NodeVisualizer {\r\n\r\n    // Width of a Node.\r\n    // TODO modify\r\n    static final float NODE_WIDTH = 20f;\r\n\r\n    // Current highlighted Node.\r\n    Node highlightedNode;\r\n\r\n    /**\r\n     * Draws a Node. Nodes are circles of width nodeWidth with their numerical\r\n     * values printed over them.\r\n     *\r\n     * @param node the Node to draw.\r\n     */\r\n    protected void drawNode(Node node) {\r\n        Paint colour = new Paint();\r\n\r\n        // Draws the Node.\r\n        colour.setARGB(255, node.r, node.g, node.b);\r\n        MainActivity.getCanvas().drawCircle(\r\n                node.position[0], node.position[1],\r\n                NODE_WIDTH * AnimationParameters.scaleFactor, colour);\r\n\r\n    }\r\n\r\n    /**\r\n     * Highlights a Node by incrementing all of its colour values by 20.\r\n     *\r\n     * TODO may be reworked by merely editing drawNode\r\n     *\r\n     * @param node the Node to highlight.\r\n     */\r\n    protected void highlight(Node node) {\r\n        highlightedNode = node;\r\n        highlightedNode.r += 20;\r\n        highlightedNode.g += 20;\r\n        highlightedNode.b += 200;\r\n\r\n    }\r\n\r\n    /**\r\n     * UnHighlights a Node by decrementing all of its colour values by 20.\r\n     *\r\n     * TODO may be reworked by merely editing drawNode\r\n     *\r\n     * @param node the Node to unHighlight.\r\n     */\r\n    protected void unHighlight(Node node) {\r\n        node.r -= 20;\r\n        node.g -= 20;\r\n        node.b -= 200;\r\n        highlightedNode = null;\r\n\r\n    }\r\n\r\n    /**\r\n     * Sets the highlighted Node.\r\n     *\r\n     * @param node the Node to highlight.\r\n     */\r\n    protected void setHighlightedNode(Node node) {\r\n\r\n        // Un-highlights the previous Node.\r\n        if (highlightedNode != null) unHighlight(highlightedNode);\r\n\r\n        // Highlights the new Node.\r\n        highlight(node);\r\n\r\n    }\r\n\r\n    /**\r\n     * Sets the highlighted Node and waits for a small time.\r\n     *\r\n     * @param node the Node to animate.\r\n     */\r\n    public void nodeSelectAnimation(Node node) {\r\n\r\n        // Highlights the Node and re-renders the data-structure.\r\n        setHighlightedNode(node);\r\n        render();\r\n\r\n        // Sleeps for a little while.\r\n        try {\r\n            Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));\r\n        } catch (InterruptedException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Unhighlights the current highlighted Node.\r\n     */\r\n    public void finishTraversalAnimation() {\r\n        if (highlightedNode != null) unHighlight(highlightedNode);\r\n\r\n    }\r\n\r\n    /**\r\n     * Sets the all Nodes' positions to their destinations.\r\n     */\r\n    public void placeNodesAtDestination() {\r\n        ArrayList<Node> nodes = getAllNodes();\r\n\r\n        // Places all Nodes at their destinations.\r\n        for (Node node : nodes) {\r\n            node.position[0] = node.destination[0];\r\n            node.position[1] = node.destination[1];\r\n\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Animates movement of Nodes to their destination positions.\r\n     */\r\n    public void nodeMoveAnimation() {\r\n        float xMov, yMov;\r\n        float movementFraction;\r\n        ArrayList<Node> nodes = getAllNodes();\r\n\r\n        // Performs movement over several iterations.\r\n        for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {\r\n\r\n            // Determines the fraction distance to move while interpolating.\r\n            movementFraction = (AnimationParameters.MOVEMENT_FRAMES - i);\r\n\r\n            // Moves every Node towards its destination by the movementFraction.\r\n            for (Node node : nodes) {\r\n                node.position[0] += (node.destination[0] - node.position[0]) / movementFraction;\r\n                node.position[1] += (node.destination[0] - node.position[0]) / movementFraction;\r\n\r\n            }\r\n\r\n            // Sleeps a while.\r\n            // TODO change value\r\n            try {\r\n                Thread.sleep((long) (AnimationParameters.ANIM_TIME /\r\n                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));\r\n            } catch (InterruptedException e) {\r\n                e.printStackTrace();\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Renders the data structure. Should be overriden.\r\n     */\r\n    public void render() {}\r\n\r\n    /**\r\n     * Returns an ArrayList containing all Nodes in this data structure.\r\n     * Should be overriden.\r\n     *\r\n     * @return an ArrayList containing all Nodes in this data structure.\r\n     */\r\n    public ArrayList<Node> getAllNodes() { return null; }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/datastructurevisualizer/NodeVisualizer.java	(revision 6562a5b979c24ebee7ee0cf450cf9c172ab3f834)
++++ app/src/main/java/com/example/datastructurevisualizer/NodeVisualizer.java	(date 1603649029639)
+@@ -28,9 +28,12 @@
+ 
+         // Draws the Node.
+         colour.setARGB(255, node.r, node.g, node.b);
+-        MainActivity.getCanvas().drawCircle(
++        MainActivity.getVisualizer().canvas.drawCircle(
+                 node.position[0], node.position[1],
+                 NODE_WIDTH * AnimationParameters.scaleFactor, colour);
++//        MainActivity.getCanvas().drawCircle(
++//                node.position[0], node.position[1],
++//                NODE_WIDTH * AnimationParameters.scaleFactor, colour);
+ 
      }
-+
-+    public interface DialogFileActionListener {
-+
+ 
+@@ -155,7 +158,9 @@
+     /**
+      * Renders the data structure. Should be overriden.
+      */
+-    public void render() {}
++    public void render() {
++        MainActivity.getVisualizer().render();
 +    }
- }
-Index: app/src/main/res/layout/fragment_files.xml
+ 
+     /**
+      * Returns an ArrayList containing all Nodes in this data structure.
+Index: app/src/main/java/com/example/datastructurevisualizer/MainActivity.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    tools:context=\"ui.Files\"\r\n    android:background=\"@color/backgroundRed\">\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/apiaryRecycle\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            tools:listitem=\"@layout/files_view\"\r\n            />\r\n\r\n</RelativeLayout>\r\n
+<+>package com.example.datastructurevisualizer;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.animation.ValueAnimator;\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.os.Bundle;\r\nimport android.provider.ContactsContract;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.ViewAnimator;\r\n\r\nimport java.util.Random;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n    private static Canvas canvas;\r\n    private ViewAnimator viewAnimator;\r\n    private ImageView drawImage;\r\n    private Paint paint;\r\n    private final int OFFSET = 120;\r\n    private int mOffset = OFFSET;\r\n    private Bitmap bitmap;\r\n    private int vWidth;\r\n    private int vHeight;\r\n    private int circleOffset;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        drawImage = findViewById(R.id.animatorImage);\r\n        paint = new Paint();\r\n        paint.setColor(Color.RED);\r\n    }\r\n\r\n    /**\r\n     * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.\r\n     * TODO I'm using this to debug now\r\n     */\r\n    public void drawRedCircle(View view) {\r\n\r\n        BinarySearchTree bst = new BinarySearchTree();\r\n        Random random = new Random();\r\n        bst.insert(50);\r\n        for (int i = 0; i < 20; ++i) {\r\n            bst.insertNoAnim(random.nextInt() % 100);\r\n\r\n        }\r\n\r\n        // render\r\n        bst.placeTreeNodes();\r\n        bst.placeNodesAtDestination();\r\n        //bst.render();\r\n\r\n        // Inserts with an animation.\r\n        bst.insert(random.nextInt() % 100);\r\n        bst.render();\r\n\r\n        // does some traversals\r\n        //bst.preOrderTraversal();\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onWindowFocusChanged(boolean hasFocus) {\r\n        super.onWindowFocusChanged(hasFocus);\r\n\r\n        vWidth = drawImage.getWidth();\r\n        vHeight = drawImage.getHeight();\r\n\r\n        bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);\r\n        drawImage.setImageBitmap(bitmap);\r\n        canvas = new Canvas(bitmap);\r\n        canvas.drawColor(Color.BLACK);\r\n    }\r\n\r\n\r\n    /**\r\n     * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.\r\n     * TODO delete this\r\n     */\r\n    public void drawBlueCircle(View view) {\r\n\r\n        Canvas canvas2 = getCanvas();\r\n\r\n        paint.setColor(Color.BLUE);\r\n        canvas2.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);\r\n        circleOffset += 20;\r\n    }\r\n\r\n    public static Canvas getCanvas() {\r\n        return canvas;\r\n    }\r\n}
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- app/src/main/res/layout/fragment_files.xml	(revision 81da609d52846cd7db265c260cd9fdf2df8258d8)
-+++ app/src/main/res/layout/fragment_files.xml	(date 1603650108797)
-@@ -13,5 +13,11 @@
-             android:layout_height="match_parent"
-             tools:listitem="@layout/files_view"
-             />
-+        <Button
-+            android:id="@+id/fileDialogTestBtn"
-+            android:layout_width="150dp"
-+            android:layout_height="wrap_content"
-+            android:layout_gravity="center"
-+            android:text="Test file action" />
- 
- </RelativeLayout>
-Index: app/src/main/java/com/example/datastructurevisualizer/ui/Files.java
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
-<+>package com.example.datastructurevisualizer.ui;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.example.datastructurevisualizer.R;\r\n\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link Files#newInstance} factory method to\r\n * create an instance of this fragment.\r\n */\r\npublic class Files extends Fragment {\r\n\r\n    public Files() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    /**\r\n     * Use this factory method to create a new instance of\r\n     * this fragment using the provided parameters.\r\n     */\r\n    // TODO: Rename and change types and number of parameters\r\n    public static Files newInstance(String param1, String param2) {\r\n        Files fragment = new Files();\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_files, container, false);\r\n    }\r\n}
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- app/src/main/java/com/example/datastructurevisualizer/ui/Files.java	(revision 81da609d52846cd7db265c260cd9fdf2df8258d8)
-+++ app/src/main/java/com/example/datastructurevisualizer/ui/Files.java	(date 1603651145273)
-@@ -1,10 +1,14 @@
- package com.example.datastructurevisualizer.ui;
- 
-+import android.app.Dialog;
-+import androidx.appcompat.app.AppCompatDialogFragment;
+--- app/src/main/java/com/example/datastructurevisualizer/MainActivity.java	(revision 6562a5b979c24ebee7ee0cf450cf9c172ab3f834)
++++ app/src/main/java/com/example/datastructurevisualizer/MainActivity.java	(date 1603647418821)
+@@ -12,6 +12,7 @@
  import android.os.Bundle;
- import android.view.LayoutInflater;
+ import android.provider.ContactsContract;
+ import android.util.Log;
++import android.view.SurfaceView;
  import android.view.View;
- import android.view.ViewGroup;
+ import android.widget.ImageView;
+ import android.widget.ViewAnimator;
+@@ -21,7 +22,7 @@
+ public class MainActivity extends AppCompatActivity {
+     private static Canvas canvas;
+     private ViewAnimator viewAnimator;
+-    private ImageView drawImage;
++    private static VisualizerCanvas drawImage;
+     private Paint paint;
+     private final int OFFSET = 120;
+     private int mOffset = OFFSET;
+@@ -71,30 +72,31 @@
+     public void onWindowFocusChanged(boolean hasFocus) {
+         super.onWindowFocusChanged(hasFocus);
  
-+import android.widget.Button;
-+
- import androidx.fragment.app.Fragment;
- 
- import com.example.datastructurevisualizer.R;
-@@ -15,8 +19,8 @@
-  * Use the {@link Files#newInstance} factory method to
-  * create an instance of this fragment.
-  */
--public class Files extends Fragment {
+-        vWidth = drawImage.getWidth();
+-        vHeight = drawImage.getHeight();
 -
-+public class Files extends Fragment implements DialogFileAction.DialogFileActionListener{
-+    private Button testButton;
-     public Files() {
-         // Required empty public constructor
+-        bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
+-        drawImage.setImageBitmap(bitmap);
+-        canvas = new Canvas(bitmap);
+-        canvas.drawColor(Color.BLACK);
++        drawImage.render();
      }
-@@ -34,6 +38,20 @@
-     @Override
-     public void onCreate(Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
-+        LayoutInflater inflater = getActivity().getLayoutInflater();
-+        View view = inflater.inflate(R.layout.dialog_file_action, null);
-+        testButton = (Button) view.findViewById(R.id.fileDialogTestBtn);
-+        testButton.setOnClickListener(new View.OnClickListener() {
-+            @Override
-+            public void onClick(View v) {
-+                openDialog();
-+            }
-+        });
+ 
+ 
+-    /**
+-     * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.
+-     * TODO delete this
+-     */
+-    public void drawBlueCircle(View view) {
+ 
+-        Canvas canvas2 = getCanvas();
+ 
+-        paint.setColor(Color.BLUE);
+-        canvas2.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);
+-        circleOffset += 20;
+-    }
++//    /**
++//     * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.
++//     * TODO delete this
++//     */
++//    public void drawBlueCircle(View view) {
++//
++//        Canvas canvas2 = getCanvas();
++//
++////        paint.setColor(Color.BLUE);
++////        canvas2.drawCircle(300f + circleOffset,300f + circleOffset,100f, paint);
++////        circleOffset += 20;
++//    }
+ 
+     public static Canvas getCanvas() {
+-        return canvas;
++        return drawImage.canvas;
+     }
++
++    public static VisualizerCanvas getVisualizer() {
++        return drawImage;
 +    }
 +
-+    public void openDialog() {
-+        DialogFileAction dialogFileAction = new DialogFileAction();
-+        dialogFileAction.show(getFragmentManager(), "file action dialog");
-     }
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/animatorImage\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/drawButton2\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/drawButton\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:onClick=\"drawRedCircle\"\r\n        android:text=\"Draw Red Circle\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/drawButton2\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n    <Button\r\n        android:id=\"@+id/drawButton2\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:onClick=\"drawBlueCircle\"\r\n        android:text=\"Draw Blue Circle\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/animatorImage\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/drawButton\" />\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 6562a5b979c24ebee7ee0cf450cf9c172ab3f834)
++++ app/src/main/res/layout/activity_main.xml	(date 1603650655918)
+@@ -7,35 +7,25 @@
+     tools:context=".MainActivity">
  
-     @Override
+ 
+-    <ImageView
++    <com.example.datastructurevisualizer.VisualizerCanvas
+         android:id="@+id/animatorImage"
+-        android:layout_width="0dp"
+-        android:layout_height="0dp"
++        android:layout_width="300dp"
++        android:layout_height="300dp"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/drawButton2" />
++        app:layout_constraintTop_toBottomOf="@id/drawButton" />
+ 
+     <Button
+         android:id="@+id/drawButton"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:onClick="drawRedCircle"
+-        android:text="Draw Red Circle"
+-        app:layout_constraintBottom_toTopOf="@+id/drawButton2"
++        android:text="Draw Tree and Animate"
++        app:layout_constraintBottom_toTopOf="@id/animatorImage"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent" />
+-    <Button
+-        android:id="@+id/drawButton2"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:onClick="drawBlueCircle"
+-        android:text="Draw Blue Circle"
+-        app:layout_constraintBottom_toTopOf="@+id/animatorImage"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/drawButton" />
+ 
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/datastructurevisualizer/VisualizerCanvas.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/datastructurevisualizer/VisualizerCanvas.java	(date 1603651118789)
++++ app/src/main/java/com/example/datastructurevisualizer/VisualizerCanvas.java	(date 1603651118789)
+@@ -0,0 +1,95 @@
++package com.example.datastructurevisualizer;
++
++import android.content.Context;
++import android.graphics.Bitmap;
++import android.graphics.Canvas;
++import android.graphics.Color;
++import android.graphics.drawable.BitmapDrawable;
++import android.graphics.drawable.Drawable;
++import android.os.Handler;
++import android.os.Looper;
++import android.util.AttributeSet;
++import android.util.Log;
++import android.view.SurfaceView;
++import android.view.View;
++import android.widget.ImageView;
++
++import androidx.annotation.Nullable;
++
++public class VisualizerCanvas extends SurfaceView {
++
++    public Bitmap bitmap;
++    public Canvas canvas;
++    private int vWidth;
++    private int vHeight;
++    AttributeSet attrs;
++
++
++    public VisualizerCanvas(Context context) {
++        super(context);
++        init(null);
++
++
++    }
++
++    public VisualizerCanvas(Context context, AttributeSet attrs) {
++        super(context, attrs);
++
++        init(attrs);
++    }
++
++    public VisualizerCanvas(Context context, AttributeSet attrs, int defStyleAttr) {
++        super(context, attrs, defStyleAttr);
++        init(attrs);
++    }
++
++
++    //Requires different API level
++//    public VisualizerCanvas(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
++//        super(context, attrs, defStyleAttr, defStyleRes);
++//        init(attrs);
++//    }
++
++    public void render() {
++        new Handler(Looper.getMainLooper()).post(new Runnable() {
++            @Override
++            public void run() {
++                setCanvas();
++            }
++        });
++        Log.d("Rendering", "Render Method Called" );
++    }
++
++    @Override
++    protected void onDraw(Canvas canvas) {
++        super.onDraw(canvas);
++
++        this.canvas = canvas;
++        this.canvas.drawColor(Color.WHITE);
++
++    }
++
++    public void init(AttributeSet attrs) {
++
++
++        this.attrs = attrs;
++
++
++    }
++
++    public void setCanvas() {
++        setBackground(new BitmapDrawable(getResources(), bitmap));
++    }
++
++
++    @Override
++    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
++        super.onSizeChanged(w, h, oldw, oldh);
++
++        vWidth = w;
++        vHeight = h;
++
++        bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
++
++    }
++}
