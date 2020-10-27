@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +50,38 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.hide();
         setContentView(R.layout.activity_main);
+
+
+      fragmentManager.addOnBackStackChangedListener(
+                new FragmentManager.OnBackStackChangedListener() {
+                    public void onBackStackChanged() {
+                        Log.d("FRAGMENT", "outside Switch");
+                        Fragment fragment = fragmentManager.findFragmentByTag("visible_fragment");
+
+                        Log.d("FRAGMENT", String.format("%d", fragment.getId()));
+                        Log.d("FRAGMENT", String.format("About %d", R.id.about_fragment));
+                        Log.d("FRAGMENT", String.format("Home %d", R.id.home_fragment));
+                        Log.d("FRAGMENT", String.format("Files %d", R.id.files_fragment));
+                        Log.d("FRAGMENT", String.format("Visualizer %d", R.id.visualizer_fragment));
+                        Log.d("FRAGMENT", String.format("Container %d", R.id.fragment_container));
+
+                        switch (fragment.getId()) {
+                            case R.id.about_fragment:
+                            case R.id.visualizer_fragment:
+                            case R.id.files_fragment:
+                                Log.d("FRAGMENT", "here");
+                                actionBar.show();
+                                break;
+                            case R.id.home_fragment:
+                                Log.d("FRAGMENT", "hereHome");
+                                getSupportActionBar().hide();
+                                break;
+                        }
+
+                    }
+                });
+
+
 //        drawImage = findViewById(R.id.animatorImage);
 //        paint = new Paint();
 //        paint.setColor(Color.RED);
@@ -74,9 +108,15 @@ public class MainActivity extends AppCompatActivity {
 //        }));
     }
 
-    public static void openFragment(Fragment fragment) {
+    public static void openFragment(Fragment fragment, boolean actionBar) {
+        if(actionBar) {
+            MainActivity.actionBar.show();
+        }
+        else {
+            MainActivity.actionBar.hide();
+        }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment, "visible_fragment");
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -90,6 +130,17 @@ public class MainActivity extends AppCompatActivity {
 
     public static VisualizerCanvas getVisualizer() {
         return drawImage;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                getSupportFragmentManager().popBackStack();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**

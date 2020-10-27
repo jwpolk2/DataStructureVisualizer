@@ -70,29 +70,29 @@ public class Visualizer extends Fragment {
         saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
         insertButton = view.findViewById(R.id.button_insert);
-        infoButton = (ImageButton) view.findViewById(R.id.button_info);
-        homeButton = (ImageButton) view.findViewById(R.id.button_home);
+        //infoButton = (ImageButton) view.findViewById(R.id.button_info);
+       // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AboutPage aboutFragment = new AboutPage();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, aboutFragment);
-                transaction.commit();
-            }
-        });
+//        infoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AboutPage aboutFragment = new AboutPage();
+//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, aboutFragment);
+//                transaction.commit();
+//            }
+//        });
 
 
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Home homeFragment = new Home();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, homeFragment);
-                transaction.commit();
-            }
-        });
+//        homeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Home homeFragment = new Home();
+//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, homeFragment);
+//                transaction.commit();
+//            }
+//        });
 
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +114,7 @@ public class Visualizer extends Fragment {
         });
 
 
-        dataStructureHeader = view.findViewById(R.id.visualizerHeader);
+       // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();

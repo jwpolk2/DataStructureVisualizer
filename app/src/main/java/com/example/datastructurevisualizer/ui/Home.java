@@ -2,6 +2,7 @@ package com.example.datastructurevisualizer.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class Home extends Fragment {
     private Button balancedSearchTree;
     private Button files;
 
+
     public Home() {
         // Required empty public constructor
     }
@@ -28,6 +30,11 @@ public class Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
 
     }
@@ -45,30 +52,38 @@ public class Home extends Fragment {
         binarySearchTree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Visualizer("Binary Search Tree"));
+                MainActivity.openFragment(new Visualizer("Binary Search Tree"), true);
             }
         });
         redBlackTree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Visualizer("Red Black Tree"));
+                MainActivity.openFragment(new Visualizer("Red Black Tree"), true);
             }
         });
         balancedSearchTree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Visualizer("Balanced Search Tree"));
+                MainActivity.openFragment(new Visualizer("Balanced Search Tree"), true);
             }
         });
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Files());
+                MainActivity.openFragment(new Files(), false);
             }
         });
 
 
 
         return view;
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            // Set title
+            MainActivity.actionBar.hide();
+        }
     }
 }
