@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
@@ -22,11 +23,14 @@ public class TreeVisualizer extends NodeVisualizer {
     // Log of additions and deletions into this tree.
     ArrayList<TreeAction> log = new ArrayList<TreeAction>();
 
-    // Log of animations that have happened during the most recent animation.
-    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
-
     // Current position within the log.
     int logIndex = 0;
+
+    // Whether or not the log can be edited.
+    boolean logAvailable = true;
+
+    // Log of animations that have happened during the most recent animation.
+    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
 
     /**
      * This method is used to get the number of children in a tree.
@@ -72,6 +76,7 @@ public class TreeVisualizer extends NodeVisualizer {
             AnimationParameters.beginAnimation();
             insertAnim(key);
             quickRender();
+            //postOrderTraversal();
             AnimationParameters.stopAnimation();
 
         }
@@ -528,13 +533,14 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     protected void logAdd(int key) {
 
+        // Will not add to the log if it is unavailable.
+        if (!logAvailable) return;
+
         // Removes any items which are ahead of the current index.
         while (logIndex < log.size()) log.remove(logIndex);
 
-        // Increments the index in the log.
-        ++logIndex;
-
         // Adds the item to the log.
+        ++logIndex;
         log.add(new TreeAdd(key));
 
     }
@@ -545,6 +551,12 @@ public class TreeVisualizer extends NodeVisualizer {
      * @param key the key that has been removed.
      */
     protected void logRemove(int key) {
+
+        // Will not add to the log if it is unavailable.
+        if (!logAvailable) return;
+
+        // Adds the item to the log.
+        ++logIndex;
         log.add(new TreeRemove(key));
 
     }
@@ -557,12 +569,18 @@ public class TreeVisualizer extends NodeVisualizer {
         // Will redo if and only if there is something to be redone.
         if (logIndex < log.size()) {
 
+            // Marks the log as unavailable.
+            logAvailable = false;
+
             // Clears the tree.
             root = null;
 
             // Rebuilds the tree.
             ++logIndex;
             for (int i = 0; i < logIndex; ++i) log.get(i).action();
+
+            // Marks the log as available.
+            logAvailable = true;
 
         }
     }
@@ -572,6 +590,9 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public void undo() {
 
+        // Marks the log as unavailable.
+        logAvailable = false;
+
         // Clears the tree.
         root = null;
 
@@ -579,10 +600,68 @@ public class TreeVisualizer extends NodeVisualizer {
         logIndex = logIndex - 1 < 0 ? 0 : logIndex - 1;
         for (int i = 0; i < logIndex; ++i) log.get(i).action();
 
+        // Marks the log as available.
+        logAvailable = true;
+
     }
 
     /**
      * Animation item for highlighting a Node.
      */
+    private class HighlightNode implements AnimationItem {
+        Node highlighted;
 
+        /**
+         * Highlights this Node.
+         */
+        @Override
+        public void run() { nodeSelectAnimation(highlighted); }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for highlighting a Node.
+     */
+    private class MoveTree implements AnimationItem {
+        Map<Integer, Integer[][]> keyPos;
+
+        // Defs to help with movement.
+        static final int pos = 0;
+        static final int dest = 1;
+        static final int x = 0;
+        static final int y = 1;
+        static final int arrSize = 2;
+
+        /**
+         * Moves the tree.
+         */
+        @Override
+        public void run() {
+
+            // Sets each key
+
+            nodeMoveAnimation();
+
+        }
+
+        /**
+         * Reverses the movement.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Performs all animations in the animation queue.
+     */
+    public void animate() {
+
+    }
 }
