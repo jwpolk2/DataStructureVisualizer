@@ -23,7 +23,7 @@ public class DialogDelete extends AppCompatDialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_files, null);
 
-        builder.setView(view).setTitle("Node Action").setPositiveButton("delete", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle("delete").setPositiveButton("delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 //TODO
