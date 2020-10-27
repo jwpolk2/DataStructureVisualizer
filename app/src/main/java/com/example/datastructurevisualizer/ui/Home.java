@@ -21,7 +21,7 @@ public class Home extends Fragment {
     private Button redBlackTree;
     private Button balancedSearchTree;
     private Button files;
-
+    private Button about;
 
     public Home() {
         // Required empty public constructor
@@ -48,6 +48,7 @@ public class Home extends Fragment {
         redBlackTree = view.findViewById(R.id.rbtButton);
         balancedSearchTree = view.findViewById(R.id.avlButton);
         files = view.findViewById(R.id.filesButton);
+        about = view.findViewById(R.id.aboutButton);
 
         binarySearchTree.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +72,12 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity.openFragment(new Files(), false);
+            }
+        });
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new AboutPage(), false);
             }
         });
 
