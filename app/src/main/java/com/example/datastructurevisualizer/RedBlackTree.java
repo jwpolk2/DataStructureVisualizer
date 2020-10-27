@@ -74,8 +74,10 @@ public class RedBlackTree extends TreeVisualizer {
     @Override
     public void insertNoAnim(int key) {
 
-        // Checks validity and logs insertion.
-        super.insertNoAnim(key);
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(key)) return;
+        // If there is no duplicate, logs the insertion.
+        else logAdd(key);
 
         // No root node.
         if (root == null) {
@@ -129,8 +131,10 @@ public class RedBlackTree extends TreeVisualizer {
     @Override
     protected void insertAnim(int key) {
 
-        // Checks validity and logs insertion.
-        super.insertAnim(key);
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(key)) return;
+        // If there is no duplicate, logs the insertion.
+        else logAdd(key);
 
         // No root node.
         if (root == null) {
@@ -251,7 +255,7 @@ public class RedBlackTree extends TreeVisualizer {
     protected void removeNoAnim(int key) {
 
         // Logs removal.
-        super.removeNoAnim(key);
+        logRemove(key);
 
     }
 
@@ -265,7 +269,7 @@ public class RedBlackTree extends TreeVisualizer {
     protected void removeAnim(int key) {
 
         // Logs removal.
-        super.removeAnim(key);
+        logRemove(key);
 
     }
 

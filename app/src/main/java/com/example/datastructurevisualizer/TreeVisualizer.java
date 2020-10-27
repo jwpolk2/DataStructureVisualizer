@@ -22,6 +22,9 @@ public class TreeVisualizer extends NodeVisualizer {
     // Log of additions and deletions into this tree.
     ArrayList<TreeAction> log = new ArrayList<TreeAction>();
 
+    // Log of animations that have happened during the most recent animation.
+    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
+
     // Current position within the log.
     int logIndex = 0;
 
@@ -36,52 +39,28 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param key the key to be inserted.
      */
-    public void insertNoAnim(int key) {
-
-        // If there is a duplicate, returns without performing an action.
-        if(!checkInsert(key)) return;
-        // If there is no duplicate, logs the insertion.
-        else logAdd(key);
-
-    }
+    public void insertNoAnim(int key) {}
 
     /**
      * Inserts a Node into the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be inserted.
      */
-    protected void insertAnim(int key) {
-
-        // If there is a duplicate, returns without performing an action.
-        if(!checkInsert(key)) return;
-        // If there is no duplicate, logs the insertion.
-        else logAdd(key);
-
-    }
+    protected void insertAnim(int key) {}
 
     /**
      * Removes a Node from the tree abd plays no animation. Should be overridden.
      *
      * @param key the key to be removed.
      */
-    protected void removeNoAnim(int key) {
-
-        // Logs the deletion.
-        logRemove(key);
-
-    }
+    protected void removeNoAnim(int key) {}
 
     /**
      * Removes a Node from the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be removed.
      */
-    protected void removeAnim(int key) {
-
-        // Logs the deletion.
-        logRemove(key);
-
-    }
+    protected void removeAnim(int key) {}
 
     /**
      * Runs an insert animation.
@@ -597,8 +576,13 @@ public class TreeVisualizer extends NodeVisualizer {
         root = null;
 
         // Rebuilds the tree.
-        --logIndex;
+        logIndex = logIndex - 1 < 0 ? 0 : logIndex - 1;
         for (int i = 0; i < logIndex; ++i) log.get(i).action();
 
     }
+
+    /**
+     * Animation item for highlighting a Node.
+     */
+
 }
