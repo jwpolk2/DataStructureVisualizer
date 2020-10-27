@@ -1,5 +1,6 @@
 package com.example.datastructurevisualizer;
 
+import android.app.Dialog;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ViewAnimator;
+
+import com.example.datastructurevisualizer.ui.DialogNodeAction;
 
 public class MainActivity extends AppCompatActivity {
 //    private static Canvas canvas;
@@ -117,6 +120,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment, "visible_fragment");
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public static void openDialog(Dialog dialog, String title) {
+        dialog.show();
     }
 
     public static void setVisualizerCanvas(VisualizerCanvas visualizerCanvas){
