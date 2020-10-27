@@ -1,0 +1,124 @@
+Index: app/src/main/java/com/example/datastructurevisualizer/ui/DialogFileAction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.datastructurevisualizer.ui;\r\n\r\nimport android.app.Dialog;\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatDialogFragment;\r\n\r\npublic class DialogFileAction extends AppCompatDialogFragment {\r\n    @NonNull\r\n    @Override\r\n    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {\r\n        return super.onCreateDialog(savedInstanceState);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/datastructurevisualizer/ui/DialogFileAction.java	(revision 81da609d52846cd7db265c260cd9fdf2df8258d8)
++++ app/src/main/java/com/example/datastructurevisualizer/ui/DialogFileAction.java	(date 1603650610787)
+@@ -1,16 +1,37 @@
+ package com.example.datastructurevisualizer.ui;
+ 
++import android.app.AlertDialog;
+ import android.app.Dialog;
++import android.content.DialogInterface;
+ import android.os.Bundle;
++import android.view.LayoutInflater;
++import android.view.View;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatDialogFragment;
+ 
++import com.example.datastructurevisualizer.R;
++
+ public class DialogFileAction extends AppCompatDialogFragment {
+     @NonNull
+     @Override
+     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
++        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
++
++        LayoutInflater inflater = getActivity().getLayoutInflater();
++        View view = inflater.inflate(R.layout.fragment_files, null); //TODO: Check if correct args
++
++        builder.setView(view).setTitle("File Action").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
++            @Override
++            public void onClick(DialogInterface dialog, int which) {
++
++            }
++        });
+         return super.onCreateDialog(savedInstanceState);
+     }
++
++    public interface DialogFileActionListener {
++
++    }
+ }
+Index: app/src/main/res/layout/fragment_files.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    tools:context=\"ui.Files\"\r\n    android:background=\"@color/backgroundRed\">\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/apiaryRecycle\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            tools:listitem=\"@layout/files_view\"\r\n            />\r\n\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_files.xml	(revision 81da609d52846cd7db265c260cd9fdf2df8258d8)
++++ app/src/main/res/layout/fragment_files.xml	(date 1603650108797)
+@@ -13,5 +13,11 @@
+             android:layout_height="match_parent"
+             tools:listitem="@layout/files_view"
+             />
++        <Button
++            android:id="@+id/fileDialogTestBtn"
++            android:layout_width="150dp"
++            android:layout_height="wrap_content"
++            android:layout_gravity="center"
++            android:text="Test file action" />
+ 
+ </RelativeLayout>
+Index: app/src/main/java/com/example/datastructurevisualizer/ui/Files.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.datastructurevisualizer.ui;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.example.datastructurevisualizer.R;\r\n\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link Files#newInstance} factory method to\r\n * create an instance of this fragment.\r\n */\r\npublic class Files extends Fragment {\r\n\r\n    public Files() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    /**\r\n     * Use this factory method to create a new instance of\r\n     * this fragment using the provided parameters.\r\n     */\r\n    // TODO: Rename and change types and number of parameters\r\n    public static Files newInstance(String param1, String param2) {\r\n        Files fragment = new Files();\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_files, container, false);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/datastructurevisualizer/ui/Files.java	(revision 81da609d52846cd7db265c260cd9fdf2df8258d8)
++++ app/src/main/java/com/example/datastructurevisualizer/ui/Files.java	(date 1603651145273)
+@@ -1,10 +1,14 @@
+ package com.example.datastructurevisualizer.ui;
+ 
++import android.app.Dialog;
++import androidx.appcompat.app.AppCompatDialogFragment;
+ import android.os.Bundle;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+ 
++import android.widget.Button;
++
+ import androidx.fragment.app.Fragment;
+ 
+ import com.example.datastructurevisualizer.R;
+@@ -15,8 +19,8 @@
+  * Use the {@link Files#newInstance} factory method to
+  * create an instance of this fragment.
+  */
+-public class Files extends Fragment {
+-
++public class Files extends Fragment implements DialogFileAction.DialogFileActionListener{
++    private Button testButton;
+     public Files() {
+         // Required empty public constructor
+     }
+@@ -34,6 +38,20 @@
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
++        LayoutInflater inflater = getActivity().getLayoutInflater();
++        View view = inflater.inflate(R.layout.dialog_file_action, null);
++        testButton = (Button) view.findViewById(R.id.fileDialogTestBtn);
++        testButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                openDialog();
++            }
++        });
++    }
++
++    public void openDialog() {
++        DialogFileAction dialogFileAction = new DialogFileAction();
++        dialogFileAction.show(getFragmentManager(), "file action dialog");
+     }
+ 
+     @Override
