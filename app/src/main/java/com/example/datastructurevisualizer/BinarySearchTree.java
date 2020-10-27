@@ -272,7 +272,7 @@ public class BinarySearchTree extends TreeVisualizer {
     protected void removeNoAnim(int id) {
 
         // Logs removal.
-        super.removeNoAnim(id);
+        logRemove(id);
 
         Node parent = root;
         Node current = root;
@@ -345,7 +345,7 @@ public class BinarySearchTree extends TreeVisualizer {
     protected void removeAnim(int id) {
 
         // Logs removal.
-        super.removeAnim(id);
+        logRemove(id);
 
         Node parent = root;
         Node current = root;
@@ -438,8 +438,7 @@ public class BinarySearchTree extends TreeVisualizer {
     }*/
 
     /**
-     * This is not balanced binary search tree insert implementation
-     * TODO remove
+     * TODO comment
      *
      * @param id
      * @return
@@ -447,8 +446,10 @@ public class BinarySearchTree extends TreeVisualizer {
     @Override
     public void insertNoAnim(int id) {
 
-        // Checks validity and logs insertion.
-        super.insertNoAnim(id);
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(id)) return;
+            // If there is no duplicate, logs the insertion.
+        else logAdd(id);
 
         Node newNode = new Node(id, numChildren);
         if (root == null) {
@@ -488,8 +489,10 @@ public class BinarySearchTree extends TreeVisualizer {
     @Override
     protected void insertAnim(int id) {
 
-        // Checks validity and logs insertion.
-        super.insertAnim(id);
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(id)) return;
+            // If there is no duplicate, logs the insertion.
+        else logAdd(id);
 
         Node newNode = new Node(id, numChildren);
         if (root == null) {

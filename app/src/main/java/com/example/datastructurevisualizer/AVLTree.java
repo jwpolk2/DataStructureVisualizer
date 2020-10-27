@@ -74,8 +74,10 @@ public class AVLTree extends TreeVisualizer {
     @Override
     public void insertNoAnim(int key) {
 
-        // Checks validity and logs insertion.
-        super.insertNoAnim(key);
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(key)) return;
+        // If there is no duplicate, logs the insertion.
+        else logAdd(key);
 
         if (!contains(root, key)) {
             root = insertNoAnim(root, key);
@@ -128,8 +130,10 @@ public class AVLTree extends TreeVisualizer {
     @Override
     public void insertAnim(int key) {
 
-        // Checks validity and logs insertion.
-        super.insertAnim(key);
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(key)) return;
+        // If there is no duplicate, logs the insertion.
+        else logAdd(key);
 
         if (!contains(root, key)) {
             root = insertAnim(root, key);
@@ -316,7 +320,7 @@ public class AVLTree extends TreeVisualizer {
     protected void removeNoAnim(int elem) {
 
         // Logs removal.
-        super.removeNoAnim(elem);
+        logRemove(elem);
 
         if (contains(root, elem)) {
             root = removeNoAnim(root, elem);
@@ -409,7 +413,7 @@ public class AVLTree extends TreeVisualizer {
     protected void removeAnim(int elem) {
 
         // Logs removal.
-        super.removeAnim(elem);
+        logRemove(elem);
 
         if (contains(root, elem)) {
             root = removeAnim(root, elem);
