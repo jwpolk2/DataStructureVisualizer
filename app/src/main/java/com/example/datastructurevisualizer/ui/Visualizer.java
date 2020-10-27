@@ -52,9 +52,6 @@ public class Visualizer extends Fragment {
         this.dataStructureType = dataStructureType;
     }
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,6 +177,7 @@ public class Visualizer extends Fragment {
             visualizerCanvas.setDimensions(vHeight, vWidth);
         }
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
+        insertNumber.setText("");
     }
 
     private void autoPopulate(){
