@@ -4,12 +4,17 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Superclass for all visualizers that use Nodes.
  * Stores the nodeWidth and has method for drawing a Node.
  */
 public class NodeVisualizer {
+
+    // Log of animations that have happened during the most recent animation.
+    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
 
     // Width of a Node.
     // TODO modify
@@ -56,13 +61,11 @@ public class NodeVisualizer {
     /**
      * UnHighlights a Node by decrementing all of its colour values by 20.
      *
-     * TODO may be reworked by merely editing drawNode
-     *
-     * @param node the Node to unHighlight.
+     * TODO may be reworked by merely editing drawNode.
      */
-    protected void unHighlight(Node node) {
-        node.r += 200;
-        node.b -= 200;
+    protected void unHighlight() {
+        highlightedNode.r += 200;
+        highlightedNode.b -= 200;
         highlightedNode = null;
 
     }
@@ -75,7 +78,7 @@ public class NodeVisualizer {
     protected void setHighlightedNode(Node node) {
 
         // Un-highlights the previous Node.
-        if (highlightedNode != null) unHighlight(highlightedNode);
+        if (highlightedNode != null) unHighlight();
 
         // Highlights the new Node.
         highlight(node);
@@ -87,7 +90,7 @@ public class NodeVisualizer {
      *
      * @param node the Node to animate.
      */
-    public void nodeSelectAnimation(Node node) {
+    protected void nodeSelectAnimation(Node node) {
 
         // Highlights the Node and re-renders the data-structure.
         setHighlightedNode(node);
@@ -102,31 +105,19 @@ public class NodeVisualizer {
     }
 
     /**
-     * Unhighlights the current highlighted Node.
+     * Sets the highlighted Node and waits for a small time.
+     *
+     * @param node the Node to animate.
      */
-    public void finishTraversalAnimation() {
-        if (highlightedNode != null) unHighlight(highlightedNode);
+    protected void queueNodeSelectAnimation(Node node) {
+        animationLog.add(new HighlightNode(node));
 
-    }
-
-    /**
-     * Sets the all Nodes' positions to their destinations.
-     */
-    public void placeNodesAtDestination() {
-        ArrayList<Node> nodes = getAllNodes();
-
-        // Places all Nodes at their destinations.
-        for (Node node : nodes) {
-            node.position[0] = node.destination[0];
-            node.position[1] = node.destination[1];
-
-        }
     }
 
     /**
      * Animates movement of Nodes to their destination positions.
      */
-    public void nodeMoveAnimation() {
+    protected void nodeMoveAnimation() {
         float movementFraction;
         ArrayList<Node> nodes = getAllNodes();
 
@@ -157,11 +148,46 @@ public class NodeVisualizer {
     }
 
     /**
+     * Animates movement of Nodes to their destination positions.
+     */
+    protected void queueNodeMoveAnimation() {
+        animationLog.add(new MoveNodes(getAllNodes()));
+
+    }
+
+    /**
+     * Unhighlights the current highlighted Node.
+     */
+    public void finishTraversalAnimation() {
+        if (highlightedNode != null) unHighlight();
+
+    }
+
+    /**
+     * Sets the all Nodes' positions to their destinations.
+     */
+    public void placeNodesAtDestination() {
+        ArrayList<Node> nodes = getAllNodes();
+
+        // Places all Nodes at their destinations.
+        for (Node node : nodes) {
+            node.position[0] = node.destination[0];
+            node.position[1] = node.destination[1];
+
+        }
+    }
+
+    /**
      * Renders the data structure. Should be overridden.
      */
     public void render() {
         MainActivity.getVisualizer().render();
     }
+
+    /**
+     * Renders the data structure and does a handful of other things. Should be overridden.
+     */
+    protected void finalRender() {}
 
     /**
      * Returns an ArrayList containing all Nodes in this data structure.
@@ -171,4 +197,111 @@ public class NodeVisualizer {
      */
     public ArrayList<Node> getAllNodes() { return null; }
 
+    /**
+     * Animation item for highlighting a Node.
+     */
+    private class HighlightNode implements AnimationItem {
+        Node highlighted;
+
+        /**
+         * Constructor for this item. Stores the Node to highlight.
+         */
+        HighlightNode(Node node) { highlighted = node; }
+
+        /**
+         * Highlights this Node.
+         */
+        @Override
+        public void run() { nodeSelectAnimation(highlighted); }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for moving Nodes.
+     */
+    private class MoveNodes implements AnimationItem {
+        Map<Node, Integer[][]> keyPos;
+
+        // Defs to help with movement.
+        static final int pos = 0;
+        static final int dest = 1;
+        static final int x = 0;
+        static final int y = 1;
+        static final int arrSize = 2;
+
+        /**
+         * Constructor for this item. Maps Nodes to their current and destination
+         * positions.
+         */
+        MoveNodes(ArrayList<Node> nodes) {
+            keyPos = new TreeMap<Node, Integer[][]>();
+
+            // Places each and its position/destination into the tree.
+           for (Node node : nodes) {
+               Integer[][] coords = new Integer[arrSize][arrSize];
+               coords[pos][x] = node.position[x];
+               coords[pos][y] = node.position[y];
+               coords[dest][x] = node.destination[x];
+               coords[dest][y] = node.destination[y];
+               keyPos.put(node, coords);
+
+           }
+        }
+
+        /**
+         * Moves the nodes.
+         */
+        @Override
+        public void run() {
+
+            // Sets each Node's position and destination.
+            for (Map.Entry<Node, Integer[][]> currNode : keyPos.entrySet()) {
+                currNode.getKey().position[x] = (int)currNode.getValue()[pos][x];
+                currNode.getKey().position[y] = (int)currNode.getValue()[pos][y];
+                currNode.getKey().destination[x] = (int)currNode.getValue()[dest][x];
+                currNode.getKey().destination[y] = (int)currNode.getValue()[dest][y];
+
+            }
+
+            // Performs the Node movement animation.
+            nodeMoveAnimation();
+
+        }
+
+        /**
+         * Reverses the movement.
+         */
+        @Override
+        public void reverse() {
+
+            // Sets each Node's position and destination.
+            for (Map.Entry<Node, Integer[][]> currNode : keyPos.entrySet()) {
+                currNode.getKey().destination[x] = (int)currNode.getValue()[pos][x];
+                currNode.getKey().destination[y] = (int)currNode.getValue()[pos][y];
+                currNode.getKey().position[x] = (int)currNode.getValue()[dest][x];
+                currNode.getKey().position[y] = (int)currNode.getValue()[dest][y];
+
+            }
+
+            // Performs the Node movement animation.
+            nodeMoveAnimation();
+
+        }
+    }
+
+    /**
+     * Performs all animations in the animation queue, then empties the queue.
+     */
+    public void animate() {
+        for (AnimationItem item : animationLog) item.run();
+        animationLog.clear();
+        finalRender();
+
+    }
 }

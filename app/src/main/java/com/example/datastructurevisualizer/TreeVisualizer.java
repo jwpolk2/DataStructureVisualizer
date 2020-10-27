@@ -29,9 +29,6 @@ public class TreeVisualizer extends NodeVisualizer {
     // Whether or not the log can be edited.
     boolean logAvailable = true;
 
-    // Log of animations that have happened during the most recent animation.
-    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
-
     /**
      * This method is used to get the number of children in a tree.
      * Each tree will override it to return its own numChildren.
@@ -75,8 +72,7 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             AnimationParameters.beginAnimation();
             insertAnim(key);
-            quickRender();
-            //postOrderTraversal();
+            animate();
             AnimationParameters.stopAnimation();
 
         }
@@ -103,7 +99,7 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             AnimationParameters.beginAnimation();
             removeAnim(key);
-            quickRender();
+            animate();
             AnimationParameters.stopAnimation();
 
         }
@@ -134,22 +130,7 @@ public class TreeVisualizer extends NodeVisualizer {
         if (currNode == null) return;
 
         // Highlights the current Node.
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                final Node NODE = currNode;
-                nodeSelectAnimation(NODE);
-            }
-        });
-
-        // Sleeps for a little while.
-        try {
-            if (!Thread.currentThread().equals(Looper.getMainLooper().getThread()));{
-            Thread.sleep((long) (AnimationParameters.ANIM_TIME * AnimationParameters.animSpeed));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        queueNodeSelectAnimation(currNode);
 
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
@@ -167,7 +148,10 @@ public class TreeVisualizer extends NodeVisualizer {
     public class RunPreOrder implements Runnable {
         @Override
         public void run() {
+            AnimationParameters.beginAnimation();
             treePreOrderTraversal(root);
+            animate();
+            AnimationParameters.stopAnimation();
 
         }
     }
@@ -178,14 +162,6 @@ public class TreeVisualizer extends NodeVisualizer {
     void preOrderTraversal() {
         RunPreOrder run = new RunPreOrder();
         new Thread(run).start();
-
-    }
-
-    /**
-     * Begins a post-order traversal.
-     */
-    void postOrderTraversal() {
-        treePostOrderTraversal(root);
 
     }
 
@@ -210,15 +186,30 @@ public class TreeVisualizer extends NodeVisualizer {
             treePreOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        nodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode);
 
     }
 
     /**
-     * Begins an in-order traversal.
+     * Runs a post-order traversal.
      */
-    void inOrderTraversal() {
-        treeInOrderTraversal(root);
+    public class RunPostOrder implements Runnable {
+        @Override
+        public void run() {
+            AnimationParameters.beginAnimation();
+            treePostOrderTraversal(root);
+            animate();
+            AnimationParameters.stopAnimation();
+
+        }
+    }
+
+    /**
+     * Begins a post-order traversal.
+     */
+    void postOrderTraversal() {
+        RunPostOrder run = new RunPostOrder();
+        new Thread(run).start();
 
     }
 
@@ -239,11 +230,34 @@ public class TreeVisualizer extends NodeVisualizer {
             treePreOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        nodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode);
 
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
             treePreOrderTraversal(currNode.children[i]);
+
+    }
+
+    /**
+     * Runs a post-order traversal.
+     */
+    public class RunInOrder implements Runnable {
+        @Override
+        public void run() {
+            AnimationParameters.beginAnimation();
+            treeInOrderTraversal(root);
+            animate();
+            AnimationParameters.stopAnimation();
+
+        }
+    }
+
+    /**
+     * Begins an in-order traversal.
+     */
+    void inOrderTraversal() {
+        RunInOrder run = new RunInOrder();
+        new Thread(run).start();
 
     }
 
@@ -386,7 +400,8 @@ public class TreeVisualizer extends NodeVisualizer {
      * Quickly places all nodes and renders the tree.
      * To be used at the end of insertions, deletions, and traversals.
      */
-    protected void quickRender() {
+    @Override
+    protected void finalRender() {
         finishTraversalAnimation();
         placeTreeNodes();
         placeNodesAtDestination();
@@ -602,66 +617,6 @@ public class TreeVisualizer extends NodeVisualizer {
 
         // Marks the log as available.
         logAvailable = true;
-
-    }
-
-    /**
-     * Animation item for highlighting a Node.
-     */
-    private class HighlightNode implements AnimationItem {
-        Node highlighted;
-
-        /**
-         * Highlights this Node.
-         */
-        @Override
-        public void run() { nodeSelectAnimation(highlighted); }
-
-        /**
-         * Same as run.
-         */
-        @Override
-        public void reverse() { run(); }
-
-    }
-
-    /**
-     * Animation item for highlighting a Node.
-     */
-    private class MoveTree implements AnimationItem {
-        Map<Integer, Integer[][]> keyPos;
-
-        // Defs to help with movement.
-        static final int pos = 0;
-        static final int dest = 1;
-        static final int x = 0;
-        static final int y = 1;
-        static final int arrSize = 2;
-
-        /**
-         * Moves the tree.
-         */
-        @Override
-        public void run() {
-
-            // Sets each key
-
-            nodeMoveAnimation();
-
-        }
-
-        /**
-         * Reverses the movement.
-         */
-        @Override
-        public void reverse() { run(); }
-
-    }
-
-    /**
-     * Performs all animations in the animation queue.
-     */
-    public void animate() {
 
     }
 }

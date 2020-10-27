@@ -454,7 +454,7 @@ public class BinarySearchTree extends TreeVisualizer {
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
-            quickRender();
+            finalRender();
             return;
         }
 
@@ -466,14 +466,14 @@ public class BinarySearchTree extends TreeVisualizer {
                 current = current.children[ChildNames.LEFT.i];
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
-                    quickRender();
+                    finalRender();
                     return;
                 }
             } else {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
-                    quickRender();
+                    finalRender();
                     return;
                 }
             }
@@ -501,7 +501,7 @@ public class BinarySearchTree extends TreeVisualizer {
         }
 
         Node current = root;
-        nodeSelectAnimation(current);
+        queueNodeSelectAnimation(current);
         Node parent;
         while (true) {
             parent = current;
@@ -512,7 +512,7 @@ public class BinarySearchTree extends TreeVisualizer {
                     return;
 
                 }
-                else nodeSelectAnimation(current);
+                else queueNodeSelectAnimation(current);
             } else {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
@@ -520,7 +520,7 @@ public class BinarySearchTree extends TreeVisualizer {
                     return;
 
                 }
-                else nodeSelectAnimation(current);
+                else queueNodeSelectAnimation(current);
             }
         }
     }
