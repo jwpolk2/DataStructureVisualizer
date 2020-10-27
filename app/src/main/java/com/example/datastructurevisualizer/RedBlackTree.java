@@ -19,7 +19,7 @@ package com.example.datastructurevisualizer;
   *
   * @author William Fiset, william.alexandre.fiset@gmail.com
  */
-public class RedBlackTree extends TreeVisualize {
+public class RedBlackTree extends TreeVisualizer {
 
     // Definitions for RED and BLACK.
     public static final int RED = 1;
