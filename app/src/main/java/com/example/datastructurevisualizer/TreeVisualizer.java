@@ -15,7 +15,15 @@ import java.util.ArrayList;
  * Contains a function for placing each Node in the tree at an appropriate position.
  */
 public class TreeVisualizer extends NodeVisualizer {
+
+    // Root of this tree.
     Node root;
+
+    // Log of additions and deletions into this tree.
+    ArrayList<TreeAction> log = new ArrayList<TreeAction>();
+
+    // Current position within the log.
+    int logIndex = 0;
 
     /**
      * This method is used to get the number of children in a tree.
@@ -28,21 +36,52 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param key the key to be inserted.
      */
-    public void insertNoAnim(int key) {}
+    public void insertNoAnim(int key) {
+
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(key)) return;
+        // If there is no duplicate, logs the insertion.
+        else logAdd(key);
+
+    }
 
     /**
      * Inserts a Node into the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be inserted.
      */
-    protected void insertAnim(int key) {}
+    protected void insertAnim(int key) {
+
+        // If there is a duplicate, returns without performing an action.
+        if(!checkInsert(key)) return;
+        // If there is no duplicate, logs the insertion.
+        else logAdd(key);
+
+    }
+
+    /**
+     * Removes a Node from the tree abd plays no animation. Should be overridden.
+     *
+     * @param key the key to be removed.
+     */
+    protected void removeNoAnim(int key) {
+
+        // Logs the deletion.
+        logRemove(key);
+
+    }
 
     /**
      * Removes a Node from the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be removed.
      */
-    protected void removeAnim(int key) {}
+    protected void removeAnim(int key) {
+
+        // Logs the deletion.
+        logRemove(key);
+
+    }
 
     /**
      * Runs an insert animation.
@@ -456,6 +495,110 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public int getDepth() {
         return getDepthRecursive(root);
+
+    }
+
+    /**
+     * Class representing an addition or deletion performed in the Tree.
+     */
+    private class TreeAction {
+        int key;
+
+        /**
+         * @param key the key for this action.
+         */
+        TreeAction(int key) { this.key = key; }
+
+        /**
+         * Performs this TreeAction's action. Should be overridden.
+         */
+        void action() {}
+
+    }
+
+    /**
+     * Class representing an insertion into the Tree.
+     */
+    private class TreeAdd extends TreeAction {
+        TreeAdd(int key) { super(key); }
+
+        /**
+         * Inserts the stored key into the Tree.
+         */
+        void action() { insertNoAnim(key); }
+
+    }
+
+    /**
+     * Class representing a deletion from the Tree.
+     */
+    private class TreeRemove extends TreeAction {
+        TreeRemove(int key) { super(key); }
+
+        /**
+         * Removes the stored key from the Tree.
+         */
+        void action() { insertNoAnim(key); }
+
+    }
+
+    /**
+     * Logs an addition to the Tree.
+     *
+     * @param key the key that has been added.
+     */
+    protected void logAdd(int key) {
+
+        // Removes any items which are ahead of the current index.
+        while (logIndex < log.size()) log.remove(logIndex);
+
+        // Increments the index in the log.
+        ++logIndex;
+
+        // Adds the item to the log.
+        log.add(new TreeAdd(key));
+
+    }
+
+    /**
+     * Logs a deletion from the Tree.
+     *
+     * @param key the key that has been removed.
+     */
+    protected void logRemove(int key) {
+        log.add(new TreeRemove(key));
+
+    }
+
+    /**
+     * Redoes an action.
+     */
+    public void redo() {
+
+        // Will redo if and only if there is something to be redone.
+        if (logIndex < log.size()) {
+
+            // Clears the tree.
+            root = null;
+
+            // Rebuilds the tree.
+            ++logIndex;
+            for (int i = 0; i < logIndex; ++i) log.get(i).action();
+
+        }
+    }
+
+    /**
+     * Undoes the previous action.
+     */
+    public void undo() {
+
+        // Clears the tree.
+        root = null;
+
+        // Rebuilds the tree.
+        --logIndex;
+        for (int i = 0; i < logIndex; ++i) log.get(i).action();
 
     }
 }

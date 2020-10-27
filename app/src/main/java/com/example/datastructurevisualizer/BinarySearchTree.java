@@ -265,11 +265,88 @@ public class BinarySearchTree extends TreeVisualizer {
 
     /**
      * TODO comment
+     *
+     * @param id the key to be removed.
+     */
+    @Override
+    protected void removeNoAnim(int id) {
+
+        // Logs removal.
+        super.removeNoAnim(id);
+
+        Node parent = root;
+        Node current = root;
+        boolean isLeftChild = false;
+        while (current.key != id) {
+            parent = current;
+            if (current.key > id) {
+                isLeftChild = true;
+                current = current.children[ChildNames.LEFT.i];
+            } else {
+                isLeftChild = false;
+                current = current.children[ChildNames.RIGHT.i];
+            }
+            if (current == null) {
+                return;
+            }
+        }
+        //if i am here that means we have found the node
+        //Case 1: if node to be deleted has no children
+        if (current.children[ChildNames.LEFT.i] == null && current.children[ChildNames.RIGHT.i] == null) {
+            if (current == root) {
+                root = null;
+            }
+            if (isLeftChild) {
+                parent.children[ChildNames.LEFT.i] = null;
+            } else {
+                parent.children[ChildNames.RIGHT.i] = null;
+            }
+        }
+        //Case 2 : if node to be deleted has only one child
+        else if (current.children[ChildNames.RIGHT.i] == null) {
+            if (current == root) {
+                root = current.children[ChildNames.LEFT.i];
+            } else if (isLeftChild) {
+                parent.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
+            } else {
+                parent.children[ChildNames.RIGHT.i] = current.children[ChildNames.LEFT.i];
+            }
+        } else if (current.children[ChildNames.LEFT.i] == null) {
+            if (current == root) {
+                root = current.children[ChildNames.RIGHT.i];
+            } else if (isLeftChild) {
+                parent.children[ChildNames.LEFT.i] = current.children[ChildNames.RIGHT.i];
+            } else {
+                parent.children[ChildNames.RIGHT.i] = current.children[ChildNames.RIGHT.i];
+            }
+        } else {
+
+            //now we have found the minimum element in the right sub tree
+            Node successor = getSuccessor(current);
+            if (current == root) {
+                root = successor;
+            } else if (isLeftChild) {
+                parent.children[ChildNames.LEFT.i] = successor;
+            } else {
+                parent.children[ChildNames.RIGHT.i] = successor;
+            }
+            successor.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
+        }
+        return;
+    }
+
+    /**
+     * TODO comment
      * TODO animate
      *
      * @param id the key for the new Node.
      */
+    @Override
     protected void removeAnim(int id) {
+
+        // Logs removal.
+        super.removeAnim(id);
+
         Node parent = root;
         Node current = root;
         boolean isLeftChild = false;
@@ -369,15 +446,14 @@ public class BinarySearchTree extends TreeVisualizer {
      */
     @Override
     public void insertNoAnim(int id) {
+
+        // Checks validity and logs insertion.
+        super.insertNoAnim(id);
+
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
             quickRender();
-            return;
-        }
-
-        //first check if there is a duplicate before inserting
-        if(!checkInsert(id)){
             return;
         }
 
@@ -411,13 +487,13 @@ public class BinarySearchTree extends TreeVisualizer {
      */
     @Override
     protected void insertAnim(int id) {
+
+        // Checks validity and logs insertion.
+        super.insertAnim(id);
+
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
-            return;
-        }
-        //first check if there is a duplicate before inserting
-        if(!checkInsert(id)){
             return;
         }
 
