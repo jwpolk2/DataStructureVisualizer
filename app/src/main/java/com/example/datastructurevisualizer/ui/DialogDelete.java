@@ -10,10 +10,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import com.example.datastructurevisualizer.R;
 
 import com.example.datastructurevisualizer.R;
 
-public class DialogRename extends AppCompatDialogFragment {
+public class DialogDelete extends AppCompatDialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -22,15 +23,15 @@ public class DialogRename extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_files, null);
 
-        builder.setView(view).setTitle("File Action").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle("Node Action").setPositiveButton("delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-
+                //TODO
             }
-        }).setPositiveButton("save", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int i) {
-                //TODO: save renamed file in here
+            public void onClick(DialogInterface dialog, int which) {
+                //leave blank
             }
         });
         return super.onCreateDialog(savedInstanceState);
