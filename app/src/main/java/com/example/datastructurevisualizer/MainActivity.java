@@ -139,11 +139,16 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("FRAGMENT", String.format("Files %d", R.id.files_fragment));
 //                Log.d("FRAGMENT", String.format("Visualizer %d", R.id.visualizer_fragment));
 //                Log.d("FRAGMENT", String.format("Container %d", R.id.fragment_container));
-//               // getSupportFragmentManager().popBackStack();
+            if (fragmentManager.getBackStackEntryCount()>0){
+                drawImage = null;
+                fragmentManager.popBackStack();
+            }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 //    /**
 //     * Method used to test the functionality of Canvas. Draws a circle when the button is pressed.

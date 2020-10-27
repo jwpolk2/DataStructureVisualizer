@@ -37,7 +37,7 @@ public class Visualizer extends Fragment {
     private ImageButton homeButton;
     private static String dataStructureType;
     private TextView dataStructureHeader;
-    private static VisualizerCanvas visualizerCanvas;
+    private VisualizerCanvas visualizerCanvas;
     private TreeVisualizer tree;
 
 
@@ -113,6 +113,7 @@ public class Visualizer extends Fragment {
 
        // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
+        visualizerCanvas.setParent(this);
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();
         initDataStructure();
@@ -148,7 +149,7 @@ public class Visualizer extends Fragment {
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
     }
 
-    public static void setCanvas(Bitmap bitmap) {
+    public void setCanvas(Bitmap bitmap) {
         visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
     }
 

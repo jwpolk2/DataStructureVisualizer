@@ -21,10 +21,11 @@ import com.example.datastructurevisualizer.ui.Visualizer;
 public class VisualizerCanvas extends SurfaceView {
 
     public Bitmap bitmap;
-    public static Canvas canvas;
+    public Canvas canvas;
     private int vWidth;
     private int vHeight;
     AttributeSet attrs;
+    private Visualizer parent;
 
 
     public VisualizerCanvas(Context context) {
@@ -56,7 +57,7 @@ public class VisualizerCanvas extends SurfaceView {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Visualizer.setCanvas(bitmap);
+                parent.setCanvas(bitmap);
             }
         });
         Log.d("Rendering", "Render Method Called" );
@@ -101,5 +102,9 @@ public class VisualizerCanvas extends SurfaceView {
             canvas.setBitmap(bitmap);
             canvas.drawColor(Color.WHITE);
         }
+    }
+
+    public void setParent(Visualizer visualizer) {
+        parent = visualizer;
     }
 }
