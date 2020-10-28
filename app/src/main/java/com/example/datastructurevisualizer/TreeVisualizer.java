@@ -4,7 +4,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
@@ -22,11 +27,11 @@ public class TreeVisualizer extends NodeVisualizer {
     // Log of additions and deletions into this tree.
     ArrayList<TreeAction> log = new ArrayList<TreeAction>();
 
-    // Log of animations that have happened during the most recent animation.
-    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
-
     // Current position within the log.
     int logIndex = 0;
+
+    // Whether or not the log can be edited.
+    boolean logAvailable = true;
 
     /**
      * This method is used to get the number of children in a tree.
@@ -71,7 +76,7 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             AnimationParameters.beginAnimation();
             insertAnim(key);
-            quickRender();
+            animate();
             AnimationParameters.stopAnimation();
 
         }
@@ -98,7 +103,7 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             AnimationParameters.beginAnimation();
             removeAnim(key);
-            quickRender();
+            animate();
             AnimationParameters.stopAnimation();
 
         }
@@ -129,22 +134,7 @@ public class TreeVisualizer extends NodeVisualizer {
         if (currNode == null) return;
 
         // Highlights the current Node.
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                final Node NODE = currNode;
-                nodeSelectAnimation(NODE);
-            }
-        });
-
-        // Sleeps for a little while.
-        try {
-            if (!Thread.currentThread().equals(Looper.getMainLooper().getThread()));{
-            Thread.sleep((long) (AnimationParameters.ANIM_TIME * AnimationParameters.animSpeed));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        queueNodeSelectAnimation(currNode);
 
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
@@ -162,7 +152,10 @@ public class TreeVisualizer extends NodeVisualizer {
     public class RunPreOrder implements Runnable {
         @Override
         public void run() {
+            AnimationParameters.beginAnimation();
             treePreOrderTraversal(root);
+            animate();
+            AnimationParameters.stopAnimation();
 
         }
     }
@@ -173,14 +166,6 @@ public class TreeVisualizer extends NodeVisualizer {
     void preOrderTraversal() {
         RunPreOrder run = new RunPreOrder();
         new Thread(run).start();
-
-    }
-
-    /**
-     * Begins a post-order traversal.
-     */
-    void postOrderTraversal() {
-        treePostOrderTraversal(root);
 
     }
 
@@ -205,15 +190,30 @@ public class TreeVisualizer extends NodeVisualizer {
             treePreOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        nodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode);
 
     }
 
     /**
-     * Begins an in-order traversal.
+     * Runs a post-order traversal.
      */
-    void inOrderTraversal() {
-        treeInOrderTraversal(root);
+    public class RunPostOrder implements Runnable {
+        @Override
+        public void run() {
+            AnimationParameters.beginAnimation();
+            treePostOrderTraversal(root);
+            animate();
+            AnimationParameters.stopAnimation();
+
+        }
+    }
+
+    /**
+     * Begins a post-order traversal.
+     */
+    void postOrderTraversal() {
+        RunPostOrder run = new RunPostOrder();
+        new Thread(run).start();
 
     }
 
@@ -234,11 +234,34 @@ public class TreeVisualizer extends NodeVisualizer {
             treePreOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        nodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode);
 
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
             treePreOrderTraversal(currNode.children[i]);
+
+    }
+
+    /**
+     * Runs a post-order traversal.
+     */
+    public class RunInOrder implements Runnable {
+        @Override
+        public void run() {
+            AnimationParameters.beginAnimation();
+            treeInOrderTraversal(root);
+            animate();
+            AnimationParameters.stopAnimation();
+
+        }
+    }
+
+    /**
+     * Begins an in-order traversal.
+     */
+    void inOrderTraversal() {
+        RunInOrder run = new RunInOrder();
+        new Thread(run).start();
 
     }
 
@@ -381,7 +404,8 @@ public class TreeVisualizer extends NodeVisualizer {
      * Quickly places all nodes and renders the tree.
      * To be used at the end of insertions, deletions, and traversals.
      */
-    protected void quickRender() {
+    @Override
+    protected void finalRender() {
         finishTraversalAnimation();
         placeTreeNodes();
         placeNodesAtDestination();
@@ -423,6 +447,58 @@ public class TreeVisualizer extends NodeVisualizer {
     public ArrayList<Node> getAllNodes() {
         return getAllNodesRecursive(root);
 
+    }
+
+    /**
+     * Returns an ArrayList containing all keys in this data structure.
+     *
+     * @return an ArrayList containing all keys in this data structure.
+     */
+    public ArrayList<Integer> getAllKeys() {
+        ArrayList<Node> currNodes = getAllNodes();
+        ArrayList<Integer> keyArrl = new ArrayList<Integer>();
+
+        for(int i = 0; i < currNodes.size(); i++){
+            keyArrl.add(currNodes.get(i).key);
+        }
+        return keyArrl;
+
+    }
+
+    /**
+     * Returns an ArrayList containing all keys in this data structure.
+     *
+     * @param fileName what the user wants the file to be named
+     * @param type what type of data structure is being saved
+     * @return a JSONObject to be stored as a JSON file
+     */
+    public JSONObject createJSON(String fileName, String type){
+        ArrayList<Integer> keyArrl = getAllKeys();
+        //try to create a JSONObject
+        try {
+            JSONObject jObj = new JSONObject();
+            //insert the file name and type
+            jObj.put("FileName", fileName);
+            jObj.put("Type", type);
+
+            //check to make sure not saving empty file
+            if(keyArrl == null || keyArrl.isEmpty()){
+                return null;
+            }
+
+            //insert JSONArray of the keys
+            JSONArray jsArray = new JSONArray(keyArrl);
+            jObj.put("Values", jsArray);
+
+            //return the JSONObject
+            return jObj;
+
+            //catch the error if JSONObject not made
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+            return null;
+        }
     }
 
     /**
@@ -478,6 +554,14 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
+     * Sets the root to null so that the tree is empty
+     */
+    public void clearTree(){
+        root = null;
+       // render();
+    }
+
+    /**
      * Class representing an addition or deletion performed in the Tree.
      */
     private class TreeAction {
@@ -528,13 +612,14 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     protected void logAdd(int key) {
 
+        // Will not add to the log if it is unavailable.
+        if (!logAvailable) return;
+
         // Removes any items which are ahead of the current index.
         while (logIndex < log.size()) log.remove(logIndex);
 
-        // Increments the index in the log.
-        ++logIndex;
-
         // Adds the item to the log.
+        ++logIndex;
         log.add(new TreeAdd(key));
 
     }
@@ -545,6 +630,12 @@ public class TreeVisualizer extends NodeVisualizer {
      * @param key the key that has been removed.
      */
     protected void logRemove(int key) {
+
+        // Will not add to the log if it is unavailable.
+        if (!logAvailable) return;
+
+        // Adds the item to the log.
+        ++logIndex;
         log.add(new TreeRemove(key));
 
     }
@@ -557,12 +648,18 @@ public class TreeVisualizer extends NodeVisualizer {
         // Will redo if and only if there is something to be redone.
         if (logIndex < log.size()) {
 
+            // Marks the log as unavailable.
+            logAvailable = false;
+
             // Clears the tree.
             root = null;
 
             // Rebuilds the tree.
             ++logIndex;
             for (int i = 0; i < logIndex; ++i) log.get(i).action();
+
+            // Marks the log as available.
+            logAvailable = true;
 
         }
     }
@@ -572,6 +669,9 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public void undo() {
 
+        // Marks the log as unavailable.
+        logAvailable = false;
+
         // Clears the tree.
         root = null;
 
@@ -579,10 +679,8 @@ public class TreeVisualizer extends NodeVisualizer {
         logIndex = logIndex - 1 < 0 ? 0 : logIndex - 1;
         for (int i = 0; i < logIndex; ++i) log.get(i).action();
 
+        // Marks the log as available.
+        logAvailable = true;
+
     }
-
-    /**
-     * Animation item for highlighting a Node.
-     */
-
 }

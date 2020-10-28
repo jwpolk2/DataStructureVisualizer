@@ -1,14 +1,16 @@
 package com.example.datastructurevisualizer;
 
+import android.app.Dialog;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+
+import com.example.datastructurevisualizer.ui.DialogNodeAction;
 
 public class MainActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
@@ -66,16 +68,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public static void openDialog(DialogFragment dialogFragment, String openDialog) {
-//        switch (openDialog) {
-//            case "file_action":
-//                break;
-//                case ""
-//        }
-
+    public static void openDialog(Dialog dialog, String title) {
+        dialog.show();
     }
-
-
 
     public static void setVisualizerCanvas(VisualizerCanvas visualizerCanvas){
         drawImage = visualizerCanvas;

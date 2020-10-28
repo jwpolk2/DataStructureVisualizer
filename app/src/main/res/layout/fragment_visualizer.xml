@@ -125,53 +125,57 @@
     <com.example.datastructurevisualizer.VisualizerCanvas
         android:id="@+id/view_visualizer"
         android:layout_width="349dp"
-        android:layout_height="473dp"
+        android:layout_height="447dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:contentDescription=""
         android:layout_gravity="center"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:contentDescription="">
 
     </com.example.datastructurevisualizer.VisualizerCanvas>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal"
         android:layout_margin="5dp">
 
         <Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/visulizer_button"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
             android:text="Save"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:textAllCaps="false"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button_load"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_load"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:background="@drawable/visulizer_button"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
             android:text="Load"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:textAllCaps="false"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/button_save"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <!--            <ImageButton-->

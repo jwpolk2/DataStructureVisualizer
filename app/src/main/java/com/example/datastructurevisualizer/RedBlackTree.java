@@ -149,7 +149,7 @@ public class RedBlackTree extends TreeVisualizer {
         for (Node node = root; ; ) {
 
             // Animates traversal.
-            nodeSelectAnimation(node);
+            queueNodeSelectAnimation(node);
 
             // Left subtree.
             if (key < node.key) {
