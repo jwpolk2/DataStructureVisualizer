@@ -60,7 +60,7 @@
             android:textSize="15sp"
             android:textColor="@color/text"
             android:padding="7dp"
-            android:text="This application was developed by six key members: ///LIST,PICTURES,BIO? "/>
+            android:text="This application was developed by six key members: \nSamuel Gronseth \nJessica Miyake \nJoseph Polk \nSamraaj Thackeray \nMilan Tomic \nAllison Winter-Reed "/>
 
 
 

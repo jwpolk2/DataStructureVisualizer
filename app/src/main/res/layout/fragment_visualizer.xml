@@ -131,6 +131,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_margin="5dp"
+        android:background="#FFFFFF"
         android:contentDescription="">
 
     </com.example.datastructurevisualizer.VisualizerCanvas>
@@ -141,7 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:background="#FFFFFF">
+>
 
         <Button
             android:id="@+id/button_save"
