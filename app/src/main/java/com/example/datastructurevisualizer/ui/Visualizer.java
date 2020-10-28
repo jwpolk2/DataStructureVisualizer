@@ -1,5 +1,6 @@
 package com.example.datastructurevisualizer.ui;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,18 @@ import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.RedBlackTree;
 import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -200,11 +214,91 @@ public class Visualizer extends Fragment {
     }
 
     private void save() {
-        //TODO
+        Context context = getContext();
+        JSONObject treeObj = new JSONObject();
+
+        switch (dataStructureType) {
+
+            case "Binary Search Tree":
+                treeObj = tree.createJSON("file 1", "Binary Search Tree");
+                break;
+            case "Red Black Tree":
+                treeObj = tree.createJSON("file 1", "Red Black Tree");
+                //TODO
+                break;
+            case "Balanced Search Tree":
+                treeObj = tree.createJSON("file 1", "Balanced Search Tree");
+               //TODO
+                break;
+        }
+        if(treeObj == null || treeObj.equals(null)){
+            Log.i("Message", "Tried to save empty JSONObject");
+            return;
+        }
+        // Convert JsonObject to String Format
+        String userString = treeObj.toString();
+        // Define the File Path and its Name
+        try {
+            //Write JSON format string into a file
+            File file = new File(context.getFilesDir(), "fileExample");
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(userString);
+            bufferedWriter.close();
+            Log.i("Saved", userString);
+            Log.i("Save Location", context.getFilesDir().toString());
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
     }
 
     private void load() {
-        //TODO
+        Context context = getContext();
+        try {
+            //read from file into a JSON format string
+            Log.i("Read from", context.getFilesDir().toString());
+            File file = new File(context.getFilesDir(), "fileExample");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+            // This response will have Json Format String
+            String response = stringBuilder.toString();
+
+            //parse string to JSONObject
+            JSONObject obj = new JSONObject(response);
+
+            //get json array of values from the object
+            JSONArray array = obj.optJSONArray("Values");
+
+            // Deal with the case of a non-array value.
+            if (array == null) {
+                return;
+            }
+
+            //remove all the nodes from the tree if there are any so the new ones can be loaded in
+            tree.clearTree();
+            if (visualizerCanvas.canvas == null) {
+                int vHeight = visualizerCanvas.getHeight();
+                int vWidth = visualizerCanvas.getWidth();
+                visualizerCanvas.setDimensions(vHeight, vWidth);
+            }
+
+            // Insert numbers from JSONArray into
+            for (int i = 0; i < array.length(); ++i) {
+                tree.insert(array.optInt(i));
+            }
+        }
+        catch(IOException | JSONException e){
+            Log.e("Exception", "File read failed: " + e.toString());
+        }
     }
 
 

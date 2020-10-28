@@ -4,6 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -446,6 +450,58 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
+     * Returns an ArrayList containing all keys in this data structure.
+     *
+     * @return an ArrayList containing all keys in this data structure.
+     */
+    public ArrayList<Integer> getAllKeys() {
+        ArrayList<Node> currNodes = getAllNodes();
+        ArrayList<Integer> keyArrl = new ArrayList<Integer>();
+
+        for(int i = 0; i < currNodes.size(); i++){
+            keyArrl.add(currNodes.get(i).key);
+        }
+        return keyArrl;
+
+    }
+
+    /**
+     * Returns an ArrayList containing all keys in this data structure.
+     *
+     * @param fileName what the user wants the file to be named
+     * @param type what type of data structure is being saved
+     * @return a JSONObject to be stored as a JSON file
+     */
+    public JSONObject createJSON(String fileName, String type){
+        ArrayList<Integer> keyArrl = getAllKeys();
+        //try to create a JSONObject
+        try {
+            JSONObject jObj = new JSONObject();
+            //insert the file name and type
+            jObj.put("FileName", fileName);
+            jObj.put("Type", type);
+
+            //check to make sure not saving empty file
+            if(keyArrl == null || keyArrl.isEmpty()){
+                return null;
+            }
+
+            //insert JSONArray of the keys
+            JSONArray jsArray = new JSONArray(keyArrl);
+            jObj.put("Values", jsArray);
+
+            //return the JSONObject
+            return jObj;
+
+            //catch the error if JSONObject not made
+        } catch (JSONException e) {
+            Log.e("MYAPP", "unexpected JSON exception", e);
+            // Do something to recover ... or kill the app.
+            return null;
+        }
+    }
+
+    /**
      * Checks whether the key being inserted is a duplicate
      *
      * @param key the value being inserted
@@ -495,6 +551,14 @@ public class TreeVisualizer extends NodeVisualizer {
     public int getDepth() {
         return getDepthRecursive(root);
 
+    }
+
+    /**
+     * Sets the root to null so that the tree is empty
+     */
+    public void clearTree(){
+        root = null;
+       // render();
     }
 
     /**
