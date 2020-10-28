@@ -100,7 +100,8 @@ public class VisualizerCanvas extends SurfaceView {
             bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
             canvas = new Canvas();
             canvas.setBitmap(bitmap);
-            canvas.drawColor(Color.WHITE);
+            canvas.drawRGB(AnimationParameters.BACK_R,
+                    AnimationParameters.BACK_G, AnimationParameters.BACK_B);
         }
     }
 
