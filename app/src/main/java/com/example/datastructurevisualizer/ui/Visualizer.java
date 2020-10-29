@@ -2,6 +2,8 @@ package com.example.datastructurevisualizer.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.datastructurevisualizer.AVLTree;
 import com.example.datastructurevisualizer.BinarySearchTree;
@@ -81,6 +84,7 @@ public class Visualizer extends Fragment {
         loadButton = view.findViewById(R.id.button_load);
         saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
+
         insertButton = view.findViewById(R.id.button_insert);
         undoButton = view.findViewById(R.id.button_undo);
         //redoButton = view.findViewById(R.id.button_redo);
@@ -112,7 +116,14 @@ public class Visualizer extends Fragment {
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insert();
+                if (insertNumber.getText().length() == 0) {
+                    Toast.makeText(getActivity(), "Bruh", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    insert();
+                }
+
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
