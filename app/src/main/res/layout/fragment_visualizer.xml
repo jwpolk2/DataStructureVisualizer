@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/visualizer_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grayBlue"
+    android:clickable="true"
     android:orientation="vertical"
-    android:id="@+id/visualizer_fragment"
-    tools:context=".ui.Visualizer"
-    android:clickable="true">
+    tools:context=".ui.Visualizer">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/input_nodes"
@@ -57,17 +57,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_traversal"
             android:layout_width="145dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/visulizer_button"
-            android:text="Tree Traversal"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
+            android:background="@drawable/visulizer_button"
+            android:text="Tree Traversal"
             android:textAllCaps="false"
             android:textSize="20sp" />
 
@@ -76,9 +76,9 @@
             android:id="@+id/button_autopopulate"
             android:layout_width="221dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/visulizer_button"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
+            android:background="@drawable/visulizer_button"
             android:text="Auto-Populate"
             android:textAllCaps="false"
             android:textSize="20sp" />
@@ -90,16 +90,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/button_previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_media_previous"
             android:layout_marginLeft="7dp"
-            />
+            android:src="@android:drawable/ic_media_previous" />
 
 
         <ImageButton
@@ -125,25 +124,42 @@
 
     <com.example.datastructurevisualizer.VisualizerCanvas
         android:id="@+id/view_visualizer"
-        android:layout_width="349dp"
-        android:layout_height="447dp"
+        android:layout_width="348dp"
+        android:layout_height="334dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_margin="5dp"
+        android:layout_weight="1"
         android:background="#FFFFFF"
-        android:contentDescription="">
+        android:contentDescription=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
     </com.example.datastructurevisualizer.VisualizerCanvas>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/printout_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:text="\n\n\n\n\n"
+            android:textColor="@color/text" />
+    </ScrollView>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
->
+        android:layout_margin="5dp">
 
         <Button
             android:id="@+id/button_save"
