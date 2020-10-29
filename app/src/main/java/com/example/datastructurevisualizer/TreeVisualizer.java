@@ -1,4 +1,5 @@
 package com.example.datastructurevisualizer;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Superclass for all trees. Enables code reuse among tree visualization.
@@ -319,12 +319,7 @@ public class TreeVisualizer extends NodeVisualizer {
      * includes LinkedLists).
      */
     public void placeTreeNodes() {
-        System.out.println("Canvas");
-        System.out.println(MainActivity.getVisualizer().getCanvas());
-        System.out.println("Visualizer");
-        System.out.println(MainActivity.getVisualizer());
         int treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
-        //int treeWidth = MainActivity.getCanvas().getWidth();
         int numChildren = getNumChildren();
         int depth = getDepth();
         float width;
@@ -351,7 +346,7 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param currNode the current Node to be drawn.
      */
-    private void drawTreeRecursive(Node currNode) {
+    private void drawTreeRecursive(Node currNode, Canvas canvas) {
 
         // Returns if currNode is null.
         if (currNode == null) return;
@@ -361,42 +356,36 @@ public class TreeVisualizer extends NodeVisualizer {
         colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G, AnimationParameters.VEC_B);
         for (int i = 0; i < getNumChildren(); ++i) {
             if (currNode.children[i] != null) {
-                MainActivity.getVisualizer().getCanvas().drawLine(
+                canvas.drawLine(
                         currNode.position[0], currNode.position[1],
                         currNode.children[i].position[0], currNode.children[i].position[1],
                         colour);
-                MainActivity.getVisualizer().getCanvas().save(); //TODO test this
-//                MainActivity.getCanvas().drawLine(
-//                        currNode.position[0], currNode.position[1],
-//                        currNode.children[i].position[0], currNode.children[i].position[1],
-//                        colour);
-//                MainActivity.getCanvas().save(); //TODO test this
 
             }
         }
 
         // Draws the current Node.
-        drawNode(currNode);
+        drawNode(currNode, canvas);
 
         // Draws all child Nodes.
         for (int i = 0; i < getNumChildren(); ++i)
-            drawTreeRecursive(currNode.children[i]);
+            drawTreeRecursive(currNode.children[i], canvas);
 
     }
 
     /**
-     * Renders the tree starting at the root.
+     * Renders the tree to the inputed canvas, starting at the root.
      */
     @Override
-    public void render() {
-        super.render();
+    public void render(Canvas canvas) {
+        super.render(canvas);
 
         // Makes the entire Canvas White.
-        MainActivity.getVisualizer().getCanvas().drawRGB(AnimationParameters.BACK_R,
+        canvas.drawRGB(AnimationParameters.BACK_R,
                 AnimationParameters.BACK_G, AnimationParameters.BACK_B);
 
         // Draws the Tree over the Canvas.
-        drawTreeRecursive(root);
+        drawTreeRecursive(root, canvas);
 
     }
 
