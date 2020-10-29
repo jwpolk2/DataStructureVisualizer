@@ -58,6 +58,7 @@ public class Visualizer extends Fragment {
     private ImageButton homeButton;
     private static String dataStructureType;
     private TextView dataStructureHeader;
+    private TextView displayExec;
     private VisualizerCanvas visualizerCanvas;
     private TreeVisualizer tree;
 
@@ -89,6 +90,7 @@ public class Visualizer extends Fragment {
         undoButton = view.findViewById(R.id.button_undo);
         //redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
+        displayExec = view.findViewById(R.id.printout_textview);
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -121,6 +123,7 @@ public class Visualizer extends Fragment {
 
                 }
                 else {
+                    displayExecution(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
                     insert();
                 }
 
@@ -204,6 +207,7 @@ public class Visualizer extends Fragment {
         }
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
+
     }
 
     private void autoPopulate(){
@@ -214,6 +218,7 @@ public class Visualizer extends Fragment {
         }
         int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
         for (int i = 0; i< array.length; i++) {
+            displayExecution(array[i]);
             tree.insert(array[i]);
         }
     }
@@ -309,5 +314,9 @@ public class Visualizer extends Fragment {
         catch(IOException | JSONException e){
             Log.e("Exception", "File read failed: " + e.toString());
         }
+    }
+
+    private void displayExecution(int id){
+        displayExec.setText("\n Inserting " + id);
     }
 }
