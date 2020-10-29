@@ -7,7 +7,8 @@
     android:background="@color/grayBlue"
     android:orientation="vertical"
     android:id="@+id/visualizer_fragment"
-    tools:context=".ui.Visualizer">
+    tools:context=".ui.Visualizer"
+    android:clickable="true">
 
 
     <LinearLayout

@@ -299,7 +299,4 @@ public class Visualizer extends Fragment {
             Log.e("Exception", "File read failed: " + e.toString());
         }
     }
-
-
-
 }

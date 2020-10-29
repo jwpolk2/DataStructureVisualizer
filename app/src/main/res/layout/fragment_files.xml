@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="ui.Files"
-    android:background="@color/backgroundRed">
+    android:background="@color/backgroundRed"
+    android:clickable="true">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apiaryRecycle"
             android:layout_width="match_parent"
