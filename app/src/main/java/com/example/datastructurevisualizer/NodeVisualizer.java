@@ -1,11 +1,9 @@
 package com.example.datastructurevisualizer;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Superclass for all visualizers that use Nodes.
@@ -16,10 +14,6 @@ public class NodeVisualizer {
     // Log of animations that have happened during the most recent animation.
     ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
 
-    // Width of a Node.
-    // TODO modify
-    static final float NODE_WIDTH = 20f;
-
     // Current highlighted Node.
     Node highlightedNode;
 
@@ -29,7 +23,7 @@ public class NodeVisualizer {
      *
      * @param node the Node to draw.
      */
-    protected void drawNode(Node node) {
+    protected void drawNode(Node node, Canvas canvas) {
         Paint colour = new Paint();
 
         // Draws the Node.
@@ -38,10 +32,11 @@ public class NodeVisualizer {
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(40);
-        MainActivity.getVisualizer().getCanvas().drawCircle(
+        canvas.drawCircle(
                 node.position[0], node.position[1],
-                NODE_WIDTH * AnimationParameters.scaleFactor, colour);
-        MainActivity.getVisualizer().getCanvas().drawText(String.valueOf(node.key), node.position[0], node.position[1]+15, textPaint);
+                AnimationParameters.NODE_RADIUS * AnimationParameters.scaleFactor, colour);
+        canvas.drawText(String.valueOf(node.key), node.position[0], node.position[1]+15, textPaint);
+
     }
 
     /**
@@ -90,18 +85,12 @@ public class NodeVisualizer {
      *
      * @param node the Node to animate.
      */
-    protected void nodeSelectAnimation(Node node) {
+    protected void nodeSelectAnimation(Node node, Canvas canvas) {
 
         // Highlights the Node and re-renders the data-structure.
         setHighlightedNode(node);
-        render();
+        render(canvas);
 
-        // Sleeps for a little while.
-        try {
-            Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -117,34 +106,23 @@ public class NodeVisualizer {
     /**
      * Animates movement of Nodes to their destination positions.
      */
-    protected void nodeMoveAnimation() {
+    private void nodeMoveAnimation(Canvas canvas, int currFrame) {
         float movementFraction;
         ArrayList<Node> nodes = getAllNodes();
 
-        // Performs movement over several iterations.
-        for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
+        // Determines the fraction distance to move while interpolating.
+        movementFraction = (AnimationParameters.MOVEMENT_FRAMES - currFrame);
 
-            // Determines the fraction distance to move while interpolating.
-            movementFraction = (AnimationParameters.MOVEMENT_FRAMES - i);
+        // Moves every Node towards its destination by the movementFraction.
+        for (Node node : nodes) {
+            node.position[0] += (node.destination[0] - node.position[0]) / movementFraction;
+            node.position[1] += (node.destination[1] - node.position[1]) / movementFraction;
 
-            // Moves every Node towards its destination by the movementFraction.
-            for (Node node : nodes) {
-                node.position[0] += (node.destination[0] - node.position[0]) / movementFraction;
-                node.position[1] += (node.destination[1] - node.position[1]) / movementFraction;
-
-            }
-
-            // Renders the item.
-            render();
-
-            // Sleeps a while.
-            try {
-                Thread.sleep((long) (AnimationParameters.ANIM_TIME /
-                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
+
+        // Renders the frame.
+        render(canvas);
+
     }
 
     /**
@@ -178,11 +156,14 @@ public class NodeVisualizer {
     }
 
     /**
-     * Renders the data structure. Should be overridden.
+     * Renders the data structure to the given Canvas. Should be overridden.
      */
-    public void render() {
-        MainActivity.getVisualizer().render();
-    }
+    public void render(Canvas canvas) { MainActivity.getVisualizer().render(); }
+
+    /**
+     * Renders the data structure to the default Canvas.
+     */
+    public void render() { render(MainActivity.getVisualizer().getCanvas()); }
 
     /**
      * Renders the data structure and does a handful of other things. Should be overridden.
@@ -201,18 +182,40 @@ public class NodeVisualizer {
      * Animation item for highlighting a Node.
      */
     private class HighlightNode implements AnimationItem {
-        Node highlighted;
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
 
         /**
-         * Constructor for this item. Stores the Node to highlight.
+         * Constructor for this item. Stores a frame wherein the Node is highlighted.
          */
-        HighlightNode(Node node) { highlighted = node; }
+        HighlightNode(Node node) {
+            canvas = new Canvas(bmp);
+            nodeSelectAnimation(node, canvas);
+
+        }
 
         /**
          * Highlights this Node.
          */
         @Override
-        public void run() { nodeSelectAnimation(highlighted); }
+        public void run() {
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            try {
+                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         /**
          * Same as run.
@@ -226,32 +229,30 @@ public class NodeVisualizer {
      * Animation item for moving Nodes.
      */
     private class MoveNodes implements AnimationItem {
-        Map<Node, Integer[][]> keyPos;
 
-        // Defs to help with movement.
-        static final int pos = 0;
-        static final int dest = 1;
-        static final int x = 0;
-        static final int y = 1;
-        static final int arrSize = 2;
+        // Canvas and bitmap to store the frame.
+        Canvas canvas[] = new Canvas[AnimationParameters.MOVEMENT_FRAMES];
+        Bitmap bmp[] = new Bitmap[AnimationParameters.MOVEMENT_FRAMES];
 
         /**
          * Constructor for this item. Maps Nodes to their current and destination
          * positions.
          */
         MoveNodes(ArrayList<Node> nodes) {
-            keyPos = new TreeMap<Node, Integer[][]>();
 
-            // Places each and its position/destination into the tree.
-           for (Node node : nodes) {
-               Integer[][] coords = new Integer[arrSize][arrSize];
-               coords[pos][x] = node.position[x];
-               coords[pos][y] = node.position[y];
-               coords[dest][x] = node.destination[x];
-               coords[dest][y] = node.destination[y];
-               keyPos.put(node, coords);
+            // Renders each frame for the animation.
+            for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
 
-           }
+                // Initializes bmp and Canvas.
+                bmp[i] = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                        MainActivity.getVisualizer().getCanvas().getHeight(),
+                        Bitmap.Config.ARGB_8888);
+                canvas[i] = new Canvas(bmp[i]);
+
+                // Performs the Node movement animation.
+                nodeMoveAnimation(canvas[i], i);
+
+            }
         }
 
         /**
@@ -260,18 +261,23 @@ public class NodeVisualizer {
         @Override
         public void run() {
 
-            // Sets each Node's position and destination.
-            for (Map.Entry<Node, Integer[][]> currNode : keyPos.entrySet()) {
-                currNode.getKey().position[x] = (int)currNode.getValue()[pos][x];
-                currNode.getKey().position[y] = (int)currNode.getValue()[pos][y];
-                currNode.getKey().destination[x] = (int)currNode.getValue()[dest][x];
-                currNode.getKey().destination[y] = (int)currNode.getValue()[dest][y];
+            // Renders each frame.
+            for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
 
+                // Draws the frame.
+                MainActivity.getVisualizer().getCanvas().drawBitmap(
+                        bmp[i], MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                        canvas[i].getClipBounds(), new Paint());
+                MainActivity.getVisualizer().render();
+
+                // Sleeps a while.
+                try {
+                    Thread.sleep((long) (AnimationParameters.ANIM_TIME /
+                            (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
-            // Performs the Node movement animation.
-            nodeMoveAnimation();
-
         }
 
         /**
@@ -280,18 +286,22 @@ public class NodeVisualizer {
         @Override
         public void reverse() {
 
-            // Sets each Node's position and destination.
-            for (Map.Entry<Node, Integer[][]> currNode : keyPos.entrySet()) {
-                currNode.getKey().destination[x] = (int)currNode.getValue()[pos][x];
-                currNode.getKey().destination[y] = (int)currNode.getValue()[pos][y];
-                currNode.getKey().position[x] = (int)currNode.getValue()[dest][x];
-                currNode.getKey().position[y] = (int)currNode.getValue()[dest][y];
+            // Renders each frame backwards.
+            for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {
 
+                // Draws the frame.
+                MainActivity.getVisualizer().getCanvas().drawBitmap(
+                        bmp[i], MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                        canvas[i].getClipBounds(), new Paint());
+
+                // Sleeps a while.
+                try {
+                    Thread.sleep((long) (AnimationParameters.ANIM_TIME /
+                            (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
-            // Performs the Node movement animation.
-            nodeMoveAnimation();
-
         }
     }
 
