@@ -119,7 +119,7 @@ public class Visualizer extends Fragment {
             @Override
             public void onClick(View v) {
                 if (insertNumber.getText().length() == 0) {
-                    Toast.makeText(getActivity(), "Bruh", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please insert a value", Toast.LENGTH_SHORT).show();
 
                 }
                 else {
