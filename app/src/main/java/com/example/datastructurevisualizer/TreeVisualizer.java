@@ -319,7 +319,14 @@ public class TreeVisualizer extends NodeVisualizer {
      * includes LinkedLists).
      */
     public void placeTreeNodes() {
-        int treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
+        int treeWidth = 0;
+
+        //give tree width 0 when null so that null pointer not called in test cases
+        if (MainActivity.getVisualizer() != null) {
+            treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
+        } else{
+            treeWidth = 0;
+         }
         int numChildren = getNumChildren();
         int depth = getDepth();
         float width;

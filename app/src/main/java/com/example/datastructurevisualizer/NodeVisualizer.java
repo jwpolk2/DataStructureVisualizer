@@ -163,7 +163,11 @@ public class NodeVisualizer {
     /**
      * Renders the data structure to the default Canvas.
      */
-    public void render() { render(MainActivity.getVisualizer().getCanvas()); }
+    public void render() {
+        if(MainActivity.getVisualizer() != null){
+        render(MainActivity.getVisualizer().getCanvas());
+        }
+    }
 
     /**
      * Renders the data structure and does a handful of other things. Should be overridden.

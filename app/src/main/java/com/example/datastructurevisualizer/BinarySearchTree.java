@@ -33,7 +33,7 @@ public class BinarySearchTree extends TreeVisualizer {
     }
 
     /**
-     * Return numChildren, which is 2. Used in TreeVisualize.
+     * Return numChildren per node, which is 2. Used in TreeVisualize.
      */
     @Override
     int getNumChildren() { return numChildren; }
@@ -276,6 +276,13 @@ public class BinarySearchTree extends TreeVisualizer {
 
         Node parent = root;
         Node current = root;
+
+        //prevents null pointer when run on tree without nodes
+        //not likely for this application, but good to have
+        if(current == null){
+            return;
+        }
+
         boolean isLeftChild = false;
         while (current.key != id) {
             parent = current;
@@ -349,6 +356,13 @@ public class BinarySearchTree extends TreeVisualizer {
 
         Node parent = root;
         Node current = root;
+
+        //prevents null pointer when run on tree without nodes
+        //not likely for this application, but good to have
+        if(current == null){
+            return;
+        }
+
         boolean isLeftChild = false;
         while (current.key != id) {
             parent = current;
