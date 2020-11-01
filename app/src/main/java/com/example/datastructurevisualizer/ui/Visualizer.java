@@ -299,7 +299,7 @@ public class Visualizer extends Fragment {
             }
 
             //remove all the nodes from the tree if there are any so the new ones can be loaded in
-            tree.clearTree();
+            tree.clear();
             if (visualizerCanvas.canvas == null) {
                 int vHeight = visualizerCanvas.getHeight();
                 int vWidth = visualizerCanvas.getWidth();

@@ -1,8 +1,6 @@
 package com.example.datastructurevisualizer;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -24,102 +22,11 @@ public class TreeVisualizer extends NodeVisualizer {
     // Root of this tree.
     Node root;
 
-    // Log of additions and deletions into this tree.
-    ArrayList<TreeAction> log = new ArrayList<TreeAction>();
-
-    // Current position within the log.
-    int logIndex = 0;
-
-    // Whether or not the log can be edited.
-    boolean logAvailable = true;
-
     /**
      * This method is used to get the number of children in a tree.
      * Each tree will override it to return its own numChildren.
      */
     int getNumChildren() { return 0; }
-
-    /**
-     * Inserts a Node into the tree and plays no animation. Should be overridden.
-     *
-     * @param key the key to be inserted.
-     */
-    public void insertNoAnim(int key) {}
-
-    /**
-     * Inserts a Node into the tree and plays an animation. Should be overridden.
-     *
-     * @param key the key to be inserted.
-     */
-    protected void insertAnim(int key) {}
-
-    /**
-     * Removes a Node from the tree abd plays no animation. Should be overridden.
-     *
-     * @param key the key to be removed.
-     */
-    protected void removeNoAnim(int key) {}
-
-    /**
-     * Removes a Node from the tree and plays an animation. Should be overridden.
-     *
-     * @param key the key to be removed.
-     */
-    protected void removeAnim(int key) {}
-
-    /**
-     * Runs an insert animation.
-     */
-    public class RunInsert implements Runnable {
-        int key;
-        @Override
-        public void run() {
-            AnimationParameters.beginAnimation();
-            insertAnim(key);
-            animate();
-            AnimationParameters.stopAnimation();
-
-        }
-    }
-
-    /**
-     * Inserts a Node into the tree.
-     *
-     * @param key the key to be inserted.
-     */
-    public void insert(int key) {
-        RunInsert run = new RunInsert();
-        run.key = key;
-        new Thread(run).start();
-
-    }
-
-    /**
-     * Runs a removal animation.
-     */
-    public class RunRemove implements Runnable {
-        int key;
-        @Override
-        public void run() {
-            AnimationParameters.beginAnimation();
-            removeAnim(key);
-            animate();
-            AnimationParameters.stopAnimation();
-
-        }
-    }
-
-    /**
-     * Removes a Node from the tree.
-     *
-     * @param key the key to be removed.
-     */
-    public void remove(int key) {
-        RunRemove run = new RunRemove();
-        run.key = key;
-        new Thread(run).start();
-
-    }
 
     /**
      * Performs a pre-order traversal over a tree. Will perform an animation
@@ -152,10 +59,10 @@ public class TreeVisualizer extends NodeVisualizer {
     public class RunPreOrder implements Runnable {
         @Override
         public void run() {
-            AnimationParameters.beginAnimation();
+            beginAnimation();
             treePreOrderTraversal(root);
             animate();
-            AnimationParameters.stopAnimation();
+            stopAnimation();
 
         }
     }
@@ -200,10 +107,10 @@ public class TreeVisualizer extends NodeVisualizer {
     public class RunPostOrder implements Runnable {
         @Override
         public void run() {
-            AnimationParameters.beginAnimation();
+            beginAnimation();
             treePostOrderTraversal(root);
             animate();
-            AnimationParameters.stopAnimation();
+            stopAnimation();
 
         }
     }
@@ -248,10 +155,10 @@ public class TreeVisualizer extends NodeVisualizer {
     public class RunInOrder implements Runnable {
         @Override
         public void run() {
-            AnimationParameters.beginAnimation();
+            beginAnimation();
             treeInOrderTraversal(root);
             animate();
-            AnimationParameters.stopAnimation();
+            stopAnimation();
 
         }
     }
@@ -279,7 +186,7 @@ public class TreeVisualizer extends NodeVisualizer {
         int numChildren;
 
         // Returns if the bottom of the Tree has been reached.
-        if (depth == 0 || currNode == null) return;
+        if (depth <= 0 || currNode == null) return;
 
         // Stores the number of children for measurement.
         numChildren = getNumChildren();
@@ -317,23 +224,26 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * This method can be used for Trees with any fixed number of children (that
      * includes LinkedLists).
+     *
+     * @param xStart the x position of the root.
+     * @param yStart the y position of the root.
      */
-    public void placeTreeNodes() {
+    public void placeTreeNodes(int xStart, int yStart) {
         int treeWidth = 0;
-
-        //give tree width 0 when null so that null pointer not called in test cases
-        if (MainActivity.getVisualizer() != null) {
-            treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
-        } else{
-            treeWidth = 0;
-         }
         int numChildren = getNumChildren();
         int depth = getDepth();
         float width;
 
+        // Will not execute if the tree is empty.
+        if (root == null) return;
+
+        // Tree will retain width 0 when empty so that null pointer is not called in test cases.
+        if (MainActivity.getVisualizer() != null)
+            treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
+
         // Initializes position of root.
-        root.destination[0] = treeWidth / 2;
-        root.destination[1] = 40;
+        root.destination[0] = xStart;
+        root.destination[1] = yStart;
 
         // Calculates the width between children of the root Node.
         width = (float)treeWidth / numChildren;
@@ -343,6 +253,15 @@ public class TreeVisualizer extends NodeVisualizer {
 
         // Begins recursively placing the Tree Nodes.
         placeTreeNodesRecursive(width, depth, root);
+
+    }
+
+    /**
+     * Places Nodes in the tree. Starts at the center of the tree, depthlen pixels from the top.
+     */
+    public void placeTreeNodes() {
+        placeTreeNodes(MainActivity.getVisualizer().getCanvas().getWidth() / 2,
+                (int)AnimationParameters.depthLen / 5);
 
     }
 
@@ -550,133 +469,11 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Sets the root to null so that the tree is empty
+     * Sets the root to null so that the tree is empty.
      */
-    public void clearTree(){
+    @Override
+    public void clear() {
         root = null;
-       // render();
-    }
-
-    /**
-     * Class representing an addition or deletion performed in the Tree.
-     */
-    private class TreeAction {
-        int key;
-
-        /**
-         * @param key the key for this action.
-         */
-        TreeAction(int key) { this.key = key; }
-
-        /**
-         * Performs this TreeAction's action. Should be overridden.
-         */
-        void action() {}
-
-    }
-
-    /**
-     * Class representing an insertion into the Tree.
-     */
-    private class TreeAdd extends TreeAction {
-        TreeAdd(int key) { super(key); }
-
-        /**
-         * Inserts the stored key into the Tree.
-         */
-        void action() { insertNoAnim(key); }
-
-    }
-
-    /**
-     * Class representing a deletion from the Tree.
-     */
-    private class TreeRemove extends TreeAction {
-        TreeRemove(int key) { super(key); }
-
-        /**
-         * Removes the stored key from the Tree.
-         */
-        void action() { insertNoAnim(key); }
-
-    }
-
-    /**
-     * Logs an addition to the Tree.
-     *
-     * @param key the key that has been added.
-     */
-    protected void logAdd(int key) {
-
-        // Will not add to the log if it is unavailable.
-        if (!logAvailable) return;
-
-        // Removes any items which are ahead of the current index.
-        while (logIndex < log.size()) log.remove(logIndex);
-
-        // Adds the item to the log.
-        ++logIndex;
-        log.add(new TreeAdd(key));
-
-    }
-
-    /**
-     * Logs a deletion from the Tree.
-     *
-     * @param key the key that has been removed.
-     */
-    protected void logRemove(int key) {
-
-        // Will not add to the log if it is unavailable.
-        if (!logAvailable) return;
-
-        // Adds the item to the log.
-        ++logIndex;
-        log.add(new TreeRemove(key));
-
-    }
-
-    /**
-     * Redoes an action.
-     */
-    public void redo() {
-
-        // Will redo if and only if there is something to be redone.
-        if (logIndex < log.size()) {
-
-            // Marks the log as unavailable.
-            logAvailable = false;
-
-            // Clears the tree.
-            root = null;
-
-            // Rebuilds the tree.
-            ++logIndex;
-            for (int i = 0; i < logIndex; ++i) log.get(i).action();
-
-            // Marks the log as available.
-            logAvailable = true;
-
-        }
-    }
-
-    /**
-     * Undoes the previous action.
-     */
-    public void undo() {
-
-        // Marks the log as unavailable.
-        logAvailable = false;
-
-        // Clears the tree.
-        root = null;
-
-        // Rebuilds the tree.
-        logIndex = logIndex - 1 < 0 ? 0 : logIndex - 1;
-        for (int i = 0; i < logIndex; ++i) log.get(i).action();
-
-        // Marks the log as available.
-        logAvailable = true;
 
     }
 }

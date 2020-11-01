@@ -99,6 +99,7 @@ public class RedBlackTree extends TreeVisualizer {
                     node.children[ChildNames.LEFT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.LEFT.i]);
                     nodeCount++;
+                    finalRender();
                     return;
 
                 }
@@ -114,12 +115,16 @@ public class RedBlackTree extends TreeVisualizer {
                     node.children[ChildNames.RIGHT.i].extraData[0] = node;
                     insertionRelabel(node.children[ChildNames.RIGHT.i]);
                     nodeCount++;
+                    finalRender();
                     return;
                 }
                 node = node.children[ChildNames.RIGHT.i];
 
                 // The value we're trying to insert already exists in the tree.
-            } else return;
+            } else {
+                finalRender();
+                return;
+            }
         }
     }
 
@@ -257,6 +262,9 @@ public class RedBlackTree extends TreeVisualizer {
         // Logs removal.
         logRemove(key);
 
+        // Renders after removal.
+        finalRender();
+
     }
 
     /**
@@ -270,6 +278,9 @@ public class RedBlackTree extends TreeVisualizer {
 
         // Logs removal.
         logRemove(key);
+
+        // Renders after removal.
+        finalRender();
 
     }
 

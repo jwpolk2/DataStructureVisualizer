@@ -294,6 +294,7 @@ public class BinarySearchTree extends TreeVisualizer {
                 current = current.children[ChildNames.RIGHT.i];
             }
             if (current == null) {
+                finalRender();
                 return;
             }
         }
@@ -339,6 +340,7 @@ public class BinarySearchTree extends TreeVisualizer {
             }
             successor.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
         }
+        finalRender();
         return;
     }
 
@@ -462,7 +464,7 @@ public class BinarySearchTree extends TreeVisualizer {
 
         // If there is a duplicate, returns without performing an action.
         if(!checkInsert(id)) return;
-            // If there is no duplicate, logs the insertion.
+        // If there is no duplicate, logs the insertion.
         else logAdd(id);
 
         Node newNode = new Node(id, numChildren);
@@ -505,7 +507,7 @@ public class BinarySearchTree extends TreeVisualizer {
 
         // If there is a duplicate, returns without performing an action.
         if(!checkInsert(id)) return;
-            // If there is no duplicate, logs the insertion.
+        // If there is no duplicate, logs the insertion.
         else logAdd(id);
 
         Node newNode = new Node(id, numChildren);
