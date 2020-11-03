@@ -9,10 +9,7 @@ import java.util.ArrayList;
  * Superclass for all visualizers that use Nodes.
  * Stores the nodeWidth and has method for drawing a Node.
  */
-public class NodeVisualizer {
-
-    // Log of animations that have happened during the most recent animation.
-    ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
+public class NodeVisualizer extends DataStructureVisualizer {
 
     // Current highlighted Node.
     Node highlightedNode;
@@ -156,21 +153,6 @@ public class NodeVisualizer {
     }
 
     /**
-     * Renders the data structure to the given Canvas. Should be overridden.
-     */
-    public void render(Canvas canvas) { MainActivity.getVisualizer().render(); }
-
-    /**
-     * Renders the data structure to the default Canvas.
-     */
-    public void render() { render(MainActivity.getVisualizer().getCanvas()); }
-
-    /**
-     * Renders the data structure and does a handful of other things. Should be overridden.
-     */
-    protected void finalRender() {}
-
-    /**
      * Returns an ArrayList containing all Nodes in this data structure.
      * Should be overriden.
      *
@@ -303,15 +285,5 @@ public class NodeVisualizer {
                 }
             }
         }
-    }
-
-    /**
-     * Performs all animations in the animation queue, then empties the queue.
-     */
-    public void animate() {
-        for (AnimationItem item : animationLog) item.run();
-        animationLog.clear();
-        finalRender();
-
     }
 }

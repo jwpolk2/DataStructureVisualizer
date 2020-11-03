@@ -33,7 +33,7 @@ public class BinarySearchTree extends TreeVisualizer {
     }
 
     /**
-     * Return numChildren, which is 2. Used in TreeVisualize.
+     * Return numChildren per node, which is 2. Used in TreeVisualize.
      */
     @Override
     int getNumChildren() { return numChildren; }
@@ -276,6 +276,13 @@ public class BinarySearchTree extends TreeVisualizer {
 
         Node parent = root;
         Node current = root;
+
+        //prevents null pointer when run on tree without nodes
+        //not likely for this application, but good to have
+        if(current == null){
+            return;
+        }
+
         boolean isLeftChild = false;
         while (current.key != id) {
             parent = current;
@@ -287,6 +294,7 @@ public class BinarySearchTree extends TreeVisualizer {
                 current = current.children[ChildNames.RIGHT.i];
             }
             if (current == null) {
+                finalRender();
                 return;
             }
         }
@@ -332,6 +340,7 @@ public class BinarySearchTree extends TreeVisualizer {
             }
             successor.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
         }
+        finalRender();
         return;
     }
 
@@ -349,6 +358,13 @@ public class BinarySearchTree extends TreeVisualizer {
 
         Node parent = root;
         Node current = root;
+
+        //prevents null pointer when run on tree without nodes
+        //not likely for this application, but good to have
+        if(current == null){
+            return;
+        }
+
         boolean isLeftChild = false;
         while (current.key != id) {
             parent = current;
@@ -448,7 +464,7 @@ public class BinarySearchTree extends TreeVisualizer {
 
         // If there is a duplicate, returns without performing an action.
         if(!checkInsert(id)) return;
-            // If there is no duplicate, logs the insertion.
+        // If there is no duplicate, logs the insertion.
         else logAdd(id);
 
         Node newNode = new Node(id, numChildren);
@@ -491,7 +507,7 @@ public class BinarySearchTree extends TreeVisualizer {
 
         // If there is a duplicate, returns without performing an action.
         if(!checkInsert(id)) return;
-            // If there is no duplicate, logs the insertion.
+        // If there is no duplicate, logs the insertion.
         else logAdd(id);
 
         Node newNode = new Node(id, numChildren);

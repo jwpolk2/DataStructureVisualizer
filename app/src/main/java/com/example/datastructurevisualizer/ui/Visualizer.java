@@ -119,7 +119,7 @@ public class Visualizer extends Fragment {
             @Override
             public void onClick(View v) {
                 if (insertNumber.getText().length() == 0) {
-                    Toast.makeText(getActivity(), "Input a number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please insert a value", Toast.LENGTH_SHORT).show();
 
                 }
                 else {
@@ -299,7 +299,7 @@ public class Visualizer extends Fragment {
             }
 
             //remove all the nodes from the tree if there are any so the new ones can be loaded in
-            tree.clearTree();
+            tree.clear();
             if (visualizerCanvas.canvas == null) {
                 int vHeight = visualizerCanvas.getHeight();
                 int vWidth = visualizerCanvas.getWidth();
