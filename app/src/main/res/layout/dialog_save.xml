@@ -8,13 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <TextView
+    <EditText
         android:id="@+id/saveDialog_fileName"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_margin="10dp"
         android:layout_gravity="center"
+        android:textAlignment="center"
         android:text="File Name" />
     <Button
         android:id="@+id/saveDialog_SaveBtn"

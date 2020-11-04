@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -132,6 +133,15 @@ public class Visualizer extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("save");
+                if (prev != null) {
+                    ft.remove(prev);
+                } ft.addToBackStack(null);
+
+                DialogFragment saveDialog = new DialogSave();
+                saveDialog.show(ft, "save");
+                //TODO: set conditional for save() method from dialog window, alertdialog.builder?
                 save();
             }
         });
