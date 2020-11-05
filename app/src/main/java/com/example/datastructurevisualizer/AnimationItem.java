@@ -3,13 +3,36 @@ package com.example.datastructurevisualizer;
 /**
  * Class representing an individual animation. Should be inherited and used
  * within Visualizer classes.
+ *
+ * Stores a message which will be rendered during run and reverse.
  */
-public interface AnimationItem {
+public class AnimationItem {
+    private String message;
 
-    // Runs the animation.
-    void run();
+    /**
+     * Stores a message to display while running.
+     *
+     * @param message the message to display while running.
+     */
+    public AnimationItem(String message) {
+        this.message = message;
 
-    // Runs the animation backwards.
-    void reverse();
+    }
+
+    /**
+     * Runs the animation. Should be overridden.
+     * This method displays message and should be called in all child classes.
+     */
+    public void run() {
+        // TODO display message
+    }
+
+    /**
+     * Runs the animation in reverse. Should be overridden.
+     * This method displays message and should be called in all child classes.
+     */
+    public void reverse() {
+        // TODO display message
+    }
 
 }

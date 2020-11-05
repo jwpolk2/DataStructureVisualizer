@@ -25,6 +25,17 @@ public class LinkedList extends TreeVisualizer {
     int getNumChildren() { return numChildren; }
 
     /**
+     * Checks whether this LinkedList is empty. Used when this LinkedList is treated
+     * as a queue.
+     *
+     * @return true if the LinkedList is empty, otherwise false.
+     */
+    protected boolean isEmpty() {
+        return root == null;
+
+    }
+
+    /**
      * Sets the desired position of the root Node of this LinkedList.
      * This method does not actually move the Nodes to their proper positions.
      *
@@ -96,7 +107,7 @@ public class LinkedList extends TreeVisualizer {
 
         // Queues a movement animation.
         placeTreeNodes(xPos, yPos);
-        queueNodeMoveAnimation();
+        queueNodeMoveAnimation("Moving Nodes");
 
     }
 
@@ -117,6 +128,38 @@ public class LinkedList extends TreeVisualizer {
      */
     @Override
     protected void removeAnim(int key) {
+
+    }
+
+    /**
+     * Deletes the root and returns its key. If root is null, returns -1.
+     *
+     * @return the key of root or -1.
+     */
+    public int pop() {
+        Node node = root;
+
+        // Returns -1 if the root is null.
+        if (root == null) return -1;
+
+        // If the root is not null, replaces root and returns its key.
+        root = root.children[0];
+        return node.key;
+
+    }
+
+    /**
+     * Returns the key of the root. If root is null, returns -1.
+     *
+     * @return the key of the root or -1.
+     */
+    public int peek() {
+
+        // Returns -1 if the root is null.
+        if (root == null) return -1;
+
+        // If the root is not null, returns its key.
+        return root.key;
 
     }
 

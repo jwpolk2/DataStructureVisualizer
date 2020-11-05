@@ -128,34 +128,82 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to select.
      */
-    protected void queueNodeSelectAnimation(Node node) {
-        animationLog.add(new SelectNode(node));
+    protected void queueNodeSelectAnimation(Node node, String message) {
+        animationLog.add(new SelectNode(node, message));
 
     }
 
     /**
-     * Animates the addition of a node to the queue. The node will be highlighted.
+     * Animates the addition of a node to the stack. The node will be highlighted.
      *
-     * @param node the Node to add to the queue.
+     * @param node the Node to add to the stack.
      * @param canvas the Canvas to render in.
      */
     private void stackAddAnimation(Node node, Canvas canvas) {
 
-        // Highlights node and adds it to the queue.
-        highlightedNodes.add(node);
+        // Highlights node and adds it to the stack.
+        highlightNode(node);
         nodeList.stackInsert(node.key);
         render(canvas);
 
     }
 
     /**
-     * Queues an animation to add the selected Node to the queue. The Node will be
+     * Queues an animation to add the selected Node to the stack. The Node will be
      * highlighted.
      *
-     * @param node the Node to add to the queue.
+     * @param node the Node to add to the stack.
      */
-    protected void queueStackAddAnimation(Node node) {
-        animationLog.add(new StackAddNode(node));
+    protected void queueStackAddAnimation(Node node, String message) {
+        animationLog.add(new StackAddNode(node, message));
+
+    }
+
+    /**
+     * Animates the addition of a node to the queue. The node will be highlighted.
+     *
+     * @param node the Node to add to the stack.
+     * @param canvas the Canvas to render in.
+     */
+    private void queueAddAnimation(Node node, Canvas canvas) {
+
+        // Highlights node and adds it to the queue.
+        highlightNode(node);
+        nodeList.queueInsert(node.key);
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to add the selected Node to the stack. The Node will be
+     * highlighted.
+     *
+     * @param node the Node to add to the stack.
+     */
+    protected void queueQueueAddAnimation(Node node, String message) {
+        animationLog.add(new QueueAddNode(node, message));
+
+    }
+
+    /**
+     * Animates removing a Node from the list. Will also UnHighlight said Node
+     * in the tree.
+     *
+     * @param canvas the Canvas to render in.
+     */
+    private void listPopAnimaton(Canvas canvas) {
+
+        // UnHighlights the first node in the list and pops it.
+        unHighlightNode(getNode(nodeList.pop()));
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to remove the first Node from nodeList.
+     */
+    protected void queueListPopAnimation(String message) {
+        animationLog.add(new ListPopNode(message));
 
     }
 
@@ -187,8 +235,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * Animates movement of Nodes to their destination positions.
      */
-    protected void queueNodeMoveAnimation() {
-        animationLog.add(new MoveNodes(getAllNodes()));
+    protected void queueNodeMoveAnimation(String message) {
+        animationLog.add(new MoveNodes(getAllNodes(), message));
 
     }
 
@@ -198,7 +246,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     public void finishTraversalAnimation() {
         if (selectedNode != null) unSelect();
-        highlightedNodes.clear();
+        unHighlightAllNodes();
         nodeList.clear();
 
     }
@@ -219,16 +267,24 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
     /**
      * Returns an ArrayList containing all Nodes in this data structure.
-     * Should be overriden.
+     * Should be overridden.
      *
      * @return an ArrayList containing all Nodes in this data structure.
      */
     public ArrayList<Node> getAllNodes() { return null; }
 
     /**
+     * Returns the Node containing the inputed key if it exists.
+     * Should be overridden.
+     *
+     * @return the Node containing the given key or null.
+     */
+    public Node getNode(int key) { return null; }
+
+    /**
      * Animation item for selecting a Node.
      */
-    private class SelectNode implements AnimationItem {
+    private class SelectNode extends AnimationItem {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
@@ -239,7 +295,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
         /**
          * Constructor for this item. Stores a frame wherein the inputed Node is selected.
          */
-        SelectNode(Node node) {
+        SelectNode(Node node, String message) {
+            super(message);
             canvas = new Canvas(bmp);
             nodeSelectAnimation(node, canvas);
 
@@ -273,9 +330,54 @@ public class NodeVisualizer extends DataStructureVisualizer {
     }
 
     /**
-     * Animation item for adding a Node to a queue.
+     * Animation item for adding a Node to nodeList as a stack.
+     * This 'animation' is instantaneous.
      */
-    private class StackAddNode implements AnimationItem {
+    private class StackAddNode extends AnimationItem {
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the inputed Node is added
+         * to the stack.
+         */
+        StackAddNode(Node node, String message) {
+            super(message);
+            canvas = new Canvas(bmp);
+            stackAddAnimation(node, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the inputed Node is added to the stack.
+         */
+        @Override
+        public void run() {
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for adding a Node to nodeList as a queue.
+     * This 'animation' is instantaneous.
+     */
+    private class QueueAddNode extends AnimationItem {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
@@ -287,9 +389,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
          * Constructor for this item. Stores a frame wherein the inputed Node is added
          * to a queue.
          */
-        StackAddNode(Node node) {
+        QueueAddNode(Node node, String message) {
+            super(message);
             canvas = new Canvas(bmp);
-            stackAddAnimation(node, canvas);
+            queueAddAnimation(node, canvas);
 
         }
 
@@ -304,12 +407,50 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
-            // Sleeps for a little while.
-            try {
-                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for adding popping a Node from nodeList. Popping is the
+     * same across stacks and queues.
+     * This 'animation' is instantaneous.
+     */
+    private class ListPopNode extends AnimationItem {
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the Node is popped.
+         */
+        ListPopNode(String message) {
+            super(message);
+            canvas = new Canvas(bmp);
+            listPopAnimaton(canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the Node is popped.
+         */
+        @Override
+        public void run() {
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
         }
 
         /**
@@ -323,7 +464,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * Animation item for moving Nodes.
      */
-    private class MoveNodes implements AnimationItem {
+    private class MoveNodes extends AnimationItem {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas[] = new Canvas[AnimationParameters.MOVEMENT_FRAMES];
@@ -333,7 +474,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
          * Constructor for this item. Maps Nodes to their current and destination
          * positions.
          */
-        MoveNodes(ArrayList<Node> nodes) {
+        MoveNodes(ArrayList<Node> nodes, String message) {
+            super(message);
 
             // Renders each frame for the animation.
             for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {

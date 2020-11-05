@@ -30,7 +30,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
     /**
      * Performs a pre-order traversal over a tree. Will perform an animation
-     * indicating the current node being targeted.
+     * indicating the current node being targeted and the stack of explored Nodes.
      *
      * @param currNode the node currently targeted by the traversal.
      */
@@ -41,7 +41,7 @@ public class TreeVisualizer extends NodeVisualizer {
         if (currNode == null) return;
 
         // Highlights the current Node.
-        queueNodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
@@ -78,7 +78,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
     /**
      * Performs a post-order traversal over a tree. Will perform an animation
-     * indicating the current node being targeted.
+     * indicating the current node being targeted and the stack of explored Nodes.
      *
      * @param currNode the node currently targeted by the traversal.
      */
@@ -97,7 +97,7 @@ public class TreeVisualizer extends NodeVisualizer {
             treePreOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        queueNodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
     }
 
@@ -126,7 +126,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
     /**
      * Performs an in-order traversal over a tree. Will perform an animation
-     * indicating the current node being targeted.
+     * indicating the current node being targeted and the stack of explored Nodes.
      *
      * @param currNode the node currently targeted by the traversal.
      */
@@ -141,7 +141,7 @@ public class TreeVisualizer extends NodeVisualizer {
             treePreOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        queueNodeSelectAnimation(currNode);
+        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
@@ -168,6 +168,61 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     void inOrderTraversal() {
         RunInOrder run = new RunInOrder();
+        new Thread(run).start();
+
+    }
+
+    /**
+     * Performs a breadth-first traversal over a tree. Will perform an animation
+     * indicating the current node being targeted and the queue of Nodes to explore.
+     *
+     * @param currNode the first Node in the traversal.
+     */
+    void treeBreadthFirstTraversal(Node currNode) {
+        java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
+
+        // Highlights the first Node.
+        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+
+        // Explores Nodes until the queue is empty.
+        while (currNode != null) {
+
+            // Marks that this Node's children should be explored.
+            for (int i = 0; i < getNumChildren(); ++i) {
+                if (currNode.children[i] != null) {
+                    queue.addLast(currNode);
+                    queueQueueAddAnimation(currNode.children[i], "Queueing " + currNode.key);
+
+                }
+            }
+
+            // Pops the next Node from the queue.
+            currNode = queue.pop();
+            queueListPopAnimation("Popped " + currNode.key);
+            queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+
+        }
+    }
+
+    /**
+     * Runs a breadth-first traversal.
+     */
+    public class RunBreadthFirst implements Runnable {
+        @Override
+        public void run() {
+            beginAnimation();
+            treeBreadthFirstTraversal(root);
+            animate();
+            stopAnimation();
+
+        }
+    }
+
+    /**
+     * Begins a breadth-first traversal.
+     */
+    void breadthFirstTraversal() {
+        RunBreadthFirst run = new RunBreadthFirst();
         new Thread(run).start();
 
     }
@@ -369,6 +424,44 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public ArrayList<Node> getAllNodes() {
         return getAllNodesRecursive(root);
+
+    }
+
+    /**
+     * Recursively parses through the tree until the Node with the inputed key
+     * is found.
+     *
+     * @param currNode the current Node being viewed.
+     * @return the Node matching the desired key.
+     */
+    private Node getNodeRecursive(int key, Node currNode) {
+        Node node;
+
+        // Returns this Node if it is the desired one.
+        if (currNode.key == key) return currNode;
+
+        // Returns null if this Node is null.
+        if (currNode == null) return null;
+
+        // Parses through the subtrees of this Node.
+        for (int i = 0; i < getNumChildren(); ++i) {
+            node = getNodeRecursive(key, currNode.children[i]);
+            if (node != null) return node;
+
+        }
+
+        // Returns null if the Node is not found in this Node's subtrees.
+        return null;
+
+    }
+
+    /**
+     * Parses through the tree in order to find the Node with the inputed key.
+     *
+     * @return the Node containing the given Key.
+     */
+    public Node getNode(int key) {
+        return getNodeRecursive(key, root);
 
     }
 
