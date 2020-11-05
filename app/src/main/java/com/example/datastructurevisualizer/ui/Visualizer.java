@@ -48,10 +48,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
+
 public class Visualizer extends Fragment {
 
     private EditText insertNumber;
