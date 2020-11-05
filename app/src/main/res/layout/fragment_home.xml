@@ -1,102 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.Home"
-    android:id="@+id/home_fragment"
     android:background="@color/backgroundWhite"
-    android:clickable="true">
+    android:clickable="true"
+    tools:context=".ui.Home">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:orientation="vertical"
-    >
-
-    <ImageView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo_foreground"
-        />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/bstButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/homepage_button"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Binary Search Tree"
-        android:textAllCaps="false"
-        android:textColor="@color/textHomepageButtons"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:textStyle="bold" />
-    <Button
-        android:id="@+id/rbtButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/homepage_button"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Red Black Tree"
-        android:textAllCaps="false"
-        android:textColor="@color/textHomepageButtons"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:textStyle="bold" />
-    <Button
-        android:id="@+id/avlButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/homepage_button"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Balanced Search Tree"
-        android:textAllCaps="false"
-        android:textColor="@color/textHomepageButtons"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    <Button
-        android:id="@+id/filesButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/homepage_button"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Files / Load Structure"
-        android:textAllCaps="false"
-        android:textColor="@color/textHomepageButtons"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground" />
 
-    <Button
-        android:id="@+id/aboutButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/gray_homepage_button"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="About the App"
-        android:textAllCaps="false"
-        android:textColor="@color/text"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:textStyle="bold" />
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/bstButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/homepage_button"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="Binary Search Tree"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textHomepageButtons"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/bstInfoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_information" />
 
 
+            </TableRow>
 
 
-</LinearLayout>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
+                <Button
+                    android:id="@+id/rbtButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/homepage_button"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Red Black Tree"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textHomepageButtons"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/rbtInfoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_information" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/avlButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/homepage_button"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Balanced Search Tree"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textHomepageButtons"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/avlInfoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_information" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/graphButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/homepage_button"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Graphs"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textHomepageButtons"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/graphInfoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_information" />
+
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left">
+            <Button
+                android:id="@+id/filesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/homepage_button"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Files / Load Structure"
+                android:textAllCaps="false"
+                android:textColor="@color/textHomepageButtons"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            </TableRow>
+<!--            <TableRow-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="left">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/aboutButton"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:background="@drawable/gray_homepage_button"-->
+<!--                    android:paddingLeft="20dp"-->
+<!--                    android:paddingRight="20dp"-->
+<!--                    android:text="About the App"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/text"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:textStyle="bold" />-->
+<!--            </TableRow>-->
+
+        </TableLayout>
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

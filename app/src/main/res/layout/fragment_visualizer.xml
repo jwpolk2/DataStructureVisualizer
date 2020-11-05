@@ -60,16 +60,17 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_traversal"
+        <Spinner
+            android:id="@+id/spinner_traversal"
             android:layout_width="145dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
+            android:padding="10dp"
             android:background="@drawable/visulizer_button"
-            android:text="Tree Traversal"
             android:textAllCaps="false"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:dropDownSelector="@color/button_blue"/>
 
 
         <Button
@@ -147,10 +148,9 @@
         <TextView
             android:id="@+id/printout_textview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:text="\n\n\n\n\n"
-            android:textColor="@color/text" />
+            android:layout_height="50dp"
+            android:textColor="@color/text"
+            android:textSize="12sp"/>
     </ScrollView>
 
 

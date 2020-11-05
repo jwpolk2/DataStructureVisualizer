@@ -9,14 +9,18 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -40,6 +44,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,9 +65,15 @@ public class Visualizer extends Fragment {
     private ImageButton homeButton;
     private static String dataStructureType;
     private TextView dataStructureHeader;
-    private TextView displayExec;
+    private static TextView displayExec;
     private VisualizerCanvas visualizerCanvas;
     private TreeVisualizer tree;
+    private ArrayList<String> traversals;
+    private Spinner traversalsSpinner;
+    private ImageButton play;
+    private ImageButton pause;
+    private ImageButton previous;
+    private ImageButton next;
 
 
     public Visualizer() {
@@ -74,6 +87,7 @@ public class Visualizer extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -91,6 +105,12 @@ public class Visualizer extends Fragment {
         //redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
+        //TRAVERSAL
+        traversalsSpinner = view.findViewById(R.id.spinner_traversal);
+        play = view.findViewById(R.id.button_play);
+        pause = view.findViewById(R.id.button_pause);
+        next = view.findViewById(R.id.button_next);
+        previous = view.findViewById(R.id.button_previous);
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -132,6 +152,15 @@ public class Visualizer extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("save");
+                if (prev != null) {
+                    ft.remove(prev);
+                } ft.addToBackStack(null);
+
+                DialogFragment saveDialog = new DialogSave();
+                saveDialog.show(ft, "save");
+                //TODO: set conditional for save() method from dialog window, alertdialog.builder?
                 save();
             }
         });
@@ -167,7 +196,181 @@ public class Visualizer extends Fragment {
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();
         initDataStructure();
+        initSpinner();
         return view;
+    }
+
+    private void initSpinner() {
+        traversals = new ArrayList<>();
+        traversals.add("Select Traversal");
+        traversals.add("In-Order");
+        traversals.add("Post-Order");
+        traversals.add("Pre-Order");
+        traversals.add("Value Search");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
+
+        traversalsSpinner.setAdapter(adapter);
+
+        traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(parent.getItemAtPosition(position).toString()) {
+                    case "In-Order":
+                        initInOrder();
+                        break;
+                    case "Post-Order":
+                        initPostOrder();
+                        break;
+                    case "Pre-Order":
+                        initPreOrder();
+                        break;
+                    case "Value Search":
+                        initValueSearch();
+                        break;
+                    case "Select Traversal":
+                        initBlankTraversal();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initBlankTraversal() {
+        play.setVisibility(View.INVISIBLE);
+        pause.setVisibility(View.INVISIBLE);
+        next.setVisibility(View.INVISIBLE);
+        previous.setVisibility(View.INVISIBLE);
+    }
+
+    private void initPostOrder() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.postOrderTraversal();
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+    }
+
+    private void initPreOrder() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.preOrderTraversal();
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+    }
+    private void initValueSearch() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+    }
+
+    private void initInOrder() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.inOrderTraversal();
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
     }
 
     private void undo() {
@@ -316,7 +519,17 @@ public class Visualizer extends Fragment {
         }
     }
 
-    private void displayExecution(int id){
+    private static void displayExecution(int id){
         displayExec.setText("\n Inserting " + id);
+    }
+
+    /**
+     * Displays a message in the displayExec text.
+     *
+     * @param message the message to be displayed.
+     */
+    public static void displayMessage(String message) {
+        displayExec.setText(message);
+
     }
 }

@@ -144,7 +144,7 @@ public class AVLTree extends TreeVisualizer {
         placeTreeNodes();
 
         // Moves the Nodes to their destinations and finishes the animation.
-        queueNodeMoveAnimation();
+        queueNodeMoveAnimation("TODO make more moves");
 
     }
 
@@ -170,7 +170,7 @@ public class AVLTree extends TreeVisualizer {
         }
 
         // Animates traversal.
-        queueNodeSelectAnimation(node);
+        queueNodeSelectAnimation(node, "Exploring " + node.key);
 
         // Insert node in left subtree.
         if (key < node.key) {
@@ -424,7 +424,7 @@ public class AVLTree extends TreeVisualizer {
         placeTreeNodes();
 
         // Moves the Nodes to their destinations and finishes the animation.
-        queueNodeMoveAnimation();
+        queueNodeMoveAnimation("TODO more rotations");
 
     }
 
@@ -446,7 +446,7 @@ public class AVLTree extends TreeVisualizer {
         if (elem < node.key) {
 
             // Animates traversal.
-            queueNodeSelectAnimation(node);
+            queueNodeSelectAnimation(node, "Exploring " + node.key);
 
             node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], elem);
 
@@ -455,7 +455,7 @@ public class AVLTree extends TreeVisualizer {
         } else if (elem > node.key) {
 
             // Animates traversal.
-            queueNodeSelectAnimation(node);
+            queueNodeSelectAnimation(node, "Exploring " + node.key);
 
             node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], elem);
 
