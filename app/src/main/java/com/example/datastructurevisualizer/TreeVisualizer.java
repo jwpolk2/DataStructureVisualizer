@@ -255,6 +255,74 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
+     * Performs a search traversal over a tree. Will perform an animation
+     * indicating the current node being searched.
+     *
+     * @param currNode the node currently targeted by the traversal.
+     */
+    private void valueSearch(int key, Node currNode) {
+        int numChildren = getNumChildren();
+
+        // Returns if currNode is null.
+        if (currNode == null) return;
+
+        // Finishes the traversal if the key has been found.
+        if (currNode.key == key) {
+            queueNodeSelectAnimation(currNode, key + " == "
+                    + currNode.key + ", desired Node found");
+            return;
+        }
+
+        // Explores the left subtree.
+        if (key < currNode.key) {
+            for (int i = 0; i < numChildren / 2; ++i) {
+                queueNodeSelectAnimation(currNode.children[i],
+                        key + " < " + currNode.key +
+                                ", exploring left subtree");
+                valueSearch(key, currNode.children[i]);
+
+            }
+        }
+        // Explores the right subtree.
+        else if (key > currNode.key) {
+            for (int i = numChildren / 2; i < numChildren; ++i) {
+                queueNodeSelectAnimation(currNode.children[i],
+                        key + " > " + currNode.key +
+                                ", exploring right subtree");
+                valueSearch(key, currNode.children[i]);
+
+            }
+        }
+    }
+
+    /**
+     * Runs a search traversal.
+     */
+    private class RunValueSearch implements Runnable {
+        int key;
+        RunValueSearch(int key) { this.key = key; }
+        @Override
+        public void run() {
+            beginAnimation();
+            valueSearch(key, root);
+            animate();
+            stopAnimation();
+
+        }
+    }
+
+    /**
+     * Begins searching for a key.
+     *
+     * @param key the key to search for.
+     */
+    public void search(int key) {
+        RunValueSearch run = new RunValueSearch(key);
+        new Thread(run).start();
+
+    }
+
+    /**
      * Recursively places each node in the Tree. Each successive layer will have
      * width / numChildren horizontal distance between Nodes and depthLen vertical
      * distance between Nodes.
