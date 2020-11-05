@@ -70,6 +70,10 @@ public class Visualizer extends Fragment {
     private TreeVisualizer tree;
     private ArrayList<String> traversals;
     private Spinner traversalsSpinner;
+    private ImageButton play;
+    private ImageButton pause;
+    private ImageButton previous;
+    private ImageButton next;
 
 
     public Visualizer() {
@@ -101,7 +105,12 @@ public class Visualizer extends Fragment {
         //redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
+        //TRAVERSAL
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
+        play = view.findViewById(R.id.button_play);
+        pause = view.findViewById(R.id.button_pause);
+        next = view.findViewById(R.id.button_next);
+        previous = view.findViewById(R.id.button_previous);
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -210,14 +219,19 @@ public class Visualizer extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
+                        initInOrder();
                         break;
                     case "Post-Order":
+                        initPostOrder();
                         break;
                     case "Pre-Order":
+                        initPreOrder();
                         break;
                     case "Value Search":
+                        initValueSearch();
                         break;
                     case "Select Traversal":
+                        initBlankTraversal();
                         break;
                 }
             }
@@ -225,6 +239,136 @@ public class Visualizer extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+    }
+
+    private void initBlankTraversal() {
+        play.setVisibility(View.INVISIBLE);
+        pause.setVisibility(View.INVISIBLE);
+        next.setVisibility(View.INVISIBLE);
+        previous.setVisibility(View.INVISIBLE);
+    }
+
+    private void initPostOrder() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.postOrderTraversal();
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+    }
+
+    private void initPreOrder() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.preOrderTraversal();
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+    }
+    private void initValueSearch() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+    }
+
+    private void initInOrder() {
+        play.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.inOrderTraversal();
+            }
+        });
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
             }
         });
     }

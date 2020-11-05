@@ -79,7 +79,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Begins a pre-order traversal.
      */
-    void preOrderTraversal() {
+    public void preOrderTraversal() {
         RunPreOrder run = new RunPreOrder();
         new Thread(run).start();
 
@@ -127,7 +127,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Begins a post-order traversal.
      */
-    void postOrderTraversal() {
+    public void postOrderTraversal() {
         RunPostOrder run = new RunPostOrder();
         new Thread(run).start();
 
@@ -175,7 +175,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Begins an in-order traversal.
      */
-    void inOrderTraversal() {
+    public void inOrderTraversal() {
         RunInOrder run = new RunInOrder();
         new Thread(run).start();
 
