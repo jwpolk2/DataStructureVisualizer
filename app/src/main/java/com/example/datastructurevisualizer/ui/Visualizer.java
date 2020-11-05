@@ -245,6 +245,11 @@ public class Visualizer extends Fragment {
         traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (visualizerCanvas.canvas == null) {
+                    int vHeight = visualizerCanvas.getHeight();
+                    int vWidth = visualizerCanvas.getWidth();
+                    visualizerCanvas.setDimensions(vHeight, vWidth);
+                }
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
                         tree.animationPause();
@@ -431,7 +436,6 @@ public class Visualizer extends Fragment {
         }
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
-
     }
 
     private void autoPopulate(){
