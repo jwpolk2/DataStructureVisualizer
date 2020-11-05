@@ -115,7 +115,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * @param node the Node to select.
      * @param canvas the Canvas to render in.
      */
-    private void nodeSelectAnimation(Node node, Canvas canvas) {
+    void nodeSelectAnimation(Node node, Canvas canvas) {
 
         // Highlights the Node and re-renders the data-structure.
         setSelectedNode(node);

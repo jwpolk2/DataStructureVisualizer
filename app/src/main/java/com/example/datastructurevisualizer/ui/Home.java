@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
@@ -20,8 +21,13 @@ public class Home extends Fragment {
     private Button binarySearchTree;
     private Button redBlackTree;
     private Button balancedSearchTree;
+    private Button graph;
     private Button files;
     private Button about;
+    private ImageButton bstInfo;
+    private ImageButton rbtInfo;
+    private ImageButton avlInfo;
+    private ImageButton graphInfo;
 
     public Home() {
         // Required empty public constructor
@@ -47,8 +53,13 @@ public class Home extends Fragment {
         binarySearchTree = view.findViewById(R.id.bstButton);
         redBlackTree = view.findViewById(R.id.rbtButton);
         balancedSearchTree = view.findViewById(R.id.avlButton);
+        graph = view.findViewById(R.id.graphButton);
         files = view.findViewById(R.id.filesButton);
         about = view.findViewById(R.id.aboutButton);
+        bstInfo = view.findViewById(R.id.bstInfoButton);
+        rbtInfo = view.findViewById(R.id.rbtInfoButton);
+        avlInfo = view.findViewById(R.id.avlInfoButton);
+        graphInfo = view.findViewById(R.id.graphInfoButton);
 
         binarySearchTree.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +79,12 @@ public class Home extends Fragment {
                 MainActivity.openFragment(new Visualizer("Balanced Search Tree"), true);
             }
         });
+        graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new GraphVisualizer(), true);
+            }
+        });
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +95,30 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity.openFragment(new AboutPage(), false);
+            }
+        });
+        bstInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new InformationPage("Binary Search Tree"), true);
+            }
+        });
+        rbtInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new InformationPage("Red Black Tree"), true);
+            }
+        });
+        avlInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new InformationPage("Balanced Search Tree"), true);
+            }
+        });
+        graphInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new InformationPage("Graph"), true);
             }
         });
 
