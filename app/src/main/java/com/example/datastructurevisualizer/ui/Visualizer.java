@@ -261,19 +261,19 @@ public class Visualizer extends Fragment {
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPause();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationNext();
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPrev();
             }
         });
     }
@@ -292,19 +292,19 @@ public class Visualizer extends Fragment {
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPause();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationNext();
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPrev();
             }
         });
     }
@@ -316,25 +316,26 @@ public class Visualizer extends Fragment {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                //TODO get key somehow
+                tree.search(10);
             }
         });
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPause();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationNext();
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPrev();
             }
         });
     }
@@ -353,19 +354,19 @@ public class Visualizer extends Fragment {
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPause();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationNext();
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                tree.animationPrev();
             }
         });
     }
@@ -417,10 +418,10 @@ public class Visualizer extends Fragment {
             visualizerCanvas.setDimensions(vHeight, vWidth);
         }
         int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
-        for (int i = 0; i< array.length; i++) {
-            displayExecution(array[i]);
-            tree.insert(array[i]);
-        }
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        for (int i = 0; i< array.length; i++) arr.add(array[i]);
+        tree.insert(arr);
+
     }
 
 
@@ -506,10 +507,11 @@ public class Visualizer extends Fragment {
                 visualizerCanvas.setDimensions(vHeight, vWidth);
             }
 
-            // Insert numbers from JSONArray into
-            for (int i = 0; i < array.length(); ++i) {
-                tree.insert(array.optInt(i));
-            }
+            // Insert numbers from JSONArray into the tree.
+            ArrayList<Integer> arr = new ArrayList<Integer>();
+            for (int i = 0; i < array.length(); ++i) arr.add(array.optInt(i));
+            tree.insert(arr);
+
         }
         catch(IOException | JSONException e){
             Log.e("Exception", "File read failed: " + e.toString());

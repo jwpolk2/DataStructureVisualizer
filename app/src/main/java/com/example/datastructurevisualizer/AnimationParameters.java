@@ -82,11 +82,50 @@ public class AnimationParameters {
     }
 
     /**
+     * Attempts to begin an animation.
+     *
+     * @return true if the mutex is acquired, otherwise false.
+     */
+    public static boolean tryBeginAnimation() {
+        return mutex.tryAcquire();
+
+    }
+
+    /**
      * Unlocks the animation mutex to allow another animation to occur.
      */
     public static void stopAnimation() {
         Visualizer.displayMessage("");
         mutex.release();
+
+    }
+
+    // Pause variable.
+    static boolean paused = false;
+
+    /**
+     * Pauses the animation.
+     */
+    public static void pause() {
+        paused = true;
+
+    }
+
+    /**
+     * Unpauses the animation.
+     */
+    public static void unpause() {
+        paused = false;
+
+    }
+
+    /**
+     * Tells the user whether or not the Animation is paused.
+     *
+     * @return true if paused, otherwise false.
+     */
+    public static boolean isPaused() {
+       return paused;
 
     }
 }

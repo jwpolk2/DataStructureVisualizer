@@ -324,11 +324,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            try {
-                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
         }
 
         /**
@@ -374,11 +371,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            try {
-                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
         }
 
         /**
@@ -424,11 +418,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            try {
-                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
         }
 
         /**
@@ -474,11 +465,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            try {
-                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
         }
 
         /**
@@ -537,12 +525,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
                 MainActivity.getVisualizer().render();
 
                 // Sleeps a while.
-                try {
-                    Thread.sleep((long) (AnimationParameters.ANIM_TIME /
-                            (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep((int) (AnimationParameters.ANIM_TIME /
+                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+
             }
         }
 
@@ -562,12 +547,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
                         canvas[i].getClipBounds(), new Paint());
 
                 // Sleeps a while.
-                try {
-                    Thread.sleep((long) (AnimationParameters.ANIM_TIME /
-                            (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep((int) (AnimationParameters.ANIM_TIME /
+                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+
             }
         }
     }

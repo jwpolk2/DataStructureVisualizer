@@ -2,12 +2,13 @@ package com.example.datastructurevisualizer;
 
 import android.graphics.Canvas;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Parent class for all data structures.
  *
- * Includes the log of insertions and deletions as well as the log of animations.
+ * Includes a log of insertions/deletions and a log of animations.
  * A LinkedList 'nodeList' is included to serve as a visible stack or queue
  * while performing traversals.
  * Incomplete insert, remove, and clear methods are defined here as templates
@@ -21,6 +22,8 @@ import java.util.ArrayList;
  * There are two render methods, one of which takes a Canvas as input, the other
  * takes no input and uses the default canvas. super.render(Canvas) should be
  * called in each child render method.
+ * Includes animationPause, animationNext, and animationPrev to iterate through
+ * animations. Pause must be called before any animation is run.
  */
 public class DataStructureVisualizer {
 
@@ -34,7 +37,14 @@ public class DataStructureVisualizer {
     protected boolean logAvailable = true;
 
     // Log of animations that have happened during the most recent animation.
+    // Static so that substructures can agglomerate animations.
     protected static ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
+
+    // Current position within the animation log.
+    private static int animationIndex = 0;
+
+    // Whether or not the last animation went forwards.
+    private static boolean animationForward = true;
 
     // List of items. Used for various traversals and pathfinds.
     protected static LinkedList nodeList = new LinkedList();
@@ -72,6 +82,7 @@ public class DataStructureVisualizer {
      */
     public class RunInsert implements Runnable {
         int key;
+        RunInsert(int key) { this.key = key; }
         @Override
         public void run() {
             beginAnimation();
@@ -83,13 +94,41 @@ public class DataStructureVisualizer {
     }
 
     /**
-     * Inserts a Node into the tree.
+     * Inserts an element into the DataStructure.
      *
      * @param key the key to be inserted.
      */
     public void insert(int key) {
-        RunInsert run = new RunInsert();
-        run.key = key;
+        RunInsert run = new RunInsert(key);
+        new Thread(run).start();
+
+    }
+
+    /**
+     * Runs several insert animations.
+     */
+    public class RunInsertMany implements Runnable {
+        ArrayList<Integer> keys;
+        RunInsertMany(ArrayList<Integer> keys) { this.keys = keys; }
+        @Override
+        public void run() {
+            for (Integer curr : keys) {
+                beginAnimation();
+                insertAnim(curr);
+                animate();
+                stopAnimation();
+
+            }
+        }
+    }
+
+    /**
+     * Inserts many elements into the DataStructure.
+     *
+     * @param keys the keys to be inserted.
+     */
+    public void insert(ArrayList<Integer> keys) {
+        RunInsertMany run = new RunInsertMany(keys);
         new Thread(run).start();
 
     }
@@ -99,6 +138,7 @@ public class DataStructureVisualizer {
      */
     public class RunRemove implements Runnable {
         int key;
+        RunRemove(int key) { this.key = key; }
         @Override
         public void run() {
             beginAnimation();
@@ -110,13 +150,12 @@ public class DataStructureVisualizer {
     }
 
     /**
-     * Removes a Node from the tree.
+     * Removes an element from a DataStructure.
      *
      * @param key the key to be removed.
      */
     public void remove(int key) {
-        RunRemove run = new RunRemove();
-        run.key = key;
+        RunRemove run = new RunRemove(key);
         new Thread(run).start();
 
     }
@@ -206,12 +245,17 @@ public class DataStructureVisualizer {
     }
 
     /**
-     * Redoes an action.
+     * Redoes an action. Does so by reconstructing the DataStructure using log.
+     *
+     * Will fail if it cannot lock the animation mutex.
      */
     public void redo() {
 
         // Will redo if and only if there is something to be redone.
         if (logIndex < log.size()) {
+
+            // Fails if the animation mutex cannot be locked.
+            if (!tryBeginAnimation()) return;
 
             // Marks the log as unavailable.
             logAvailable = false;
@@ -229,13 +273,22 @@ public class DataStructureVisualizer {
             // Marks the log as available.
             logAvailable = true;
 
+            // Unlocks the animation mutex.
+            stopAnimation();
+
         }
     }
 
     /**
-     * Undoes the previous action.
+     * Undoes the previous action. Does so by reconstructing the DataStructure
+     * using log.
+     *
+     * Will fail if it cannot lock the animation mutex.
      */
     public void undo() {
+
+        // Fails if the animation mutex cannot be locked.
+        if (!tryBeginAnimation()) return;
 
         // Marks the log as unavailable.
         logAvailable = false;
@@ -253,24 +306,64 @@ public class DataStructureVisualizer {
         // Marks the log as available.
         logAvailable = true;
 
+        // Unlocks the animation mutex.
+        stopAnimation();
+
     }
 
     /**
      * Performs all animations in the animation queue, then empties the queue.
+     * Will return early if the animation is paused.
      */
     public void animate() {
-        for (AnimationItem item : animationLog) item.run();
+
+        // Unpauses the animation.
+        AnimationParameters.unpause();
+
+        // Animates every item in the animationLog.
+        // animationIndex is initialized in beginAnimation.
+        for (; animationIndex < animationLog.size(); ++animationIndex) {
+            if (AnimationParameters.isPaused()) return;
+            animationLog.get(animationIndex).run();
+
+        }
+
+        // Performs a finalRender of the DataStructure.
         finalRender();
 
     }
 
     /**
      * Begins an animation in the DataStructure. Locks the animation mutex and
-     * clears the AnimationLog.
+     * clears the animationLog.
      */
     protected void beginAnimation() {
         AnimationParameters.beginAnimation();
+        finalRender();
+        animationIndex = 0;
+        animationForward = true;
         animationLog.clear();
+
+    }
+
+    /**
+     * Attempts to begin an animation in the DataStructure. Locks the animation
+     * mutex and clears the animationLog.
+     *
+     * @return true if locking successful, otherwise false.
+     */
+    protected boolean tryBeginAnimation() {
+
+        // Fails if mutex cannot be locked.
+        if (!AnimationParameters.tryBeginAnimation()) return false;
+
+        // Clears the animation log.
+        animationIndex = 0;
+        animationForward = true;
+        animationLog.clear();
+
+        // Returns true.
+        return true;
 
     }
 
@@ -278,6 +371,89 @@ public class DataStructureVisualizer {
      * Stops an animation in the DataStructure. Unlocks the animation mutex.
      */
     protected void stopAnimation() {
+        AnimationParameters.stopAnimation();
+
+    }
+
+    /**
+     * Pauses animation of all data structures.
+     * Written here for convenience.
+     */
+    public void animationPause() { AnimationParameters.pause(); }
+
+    /**
+     * Moves one step forwards in the animation.
+     * Will fail if not paused or if the animation mutex cannot be locked
+     * (another animation is playing).
+     */
+    public void animationNext() {
+
+        // Will not attempt to animate if not paused.
+        if (!AnimationParameters.isPaused()) return;
+
+        // Attempts to lock the animation mutex.
+        if (!AnimationParameters.tryBeginAnimation()) return;
+
+        // Moves forwards one more when inverting.
+        if (!animationForward) {
+            ++animationIndex;
+            animationForward = true;
+
+        }
+
+        // Will perform a finalRender if at the end of the animation.
+        if (animationIndex >= animationLog.size()) {
+            finalRender();
+            animationIndex = animationLog.size();
+            animationForward = false;
+
+        }
+        // Will otherwise perform the next animation.
+        else {
+            animationLog.get(animationIndex).run();
+            ++animationIndex;
+
+        }
+
+        // Will unlock the animation mutex.
+        AnimationParameters.stopAnimation();
+
+    }
+
+    /**
+     * Moves one step backwards in the animation.
+     * Will fail if not paused or if the animation mutex cannot be locked
+     * (another animation is playing).
+     */
+    public void animationPrev() {
+
+        // Will not attempt to animate if not paused.
+        if (!AnimationParameters.isPaused()) return;
+
+        // Attempts to lock the animation mutex.
+        if (!AnimationParameters.tryBeginAnimation()) return;
+
+        // Decrements animationIndex.
+        --animationIndex;
+
+        // Moves backwards one more when inverting.
+        if (animationForward) {
+            --animationIndex;
+            animationForward = false;
+
+        }
+
+        // Will perform a finalRender if at the beginning of the animation.
+        if (animationIndex < 0) {
+            finalRender();
+            animationIndex = 0;
+            animationForward = true;
+
+        }
+        // Will otherwise perform the previous animation.
+        else animationLog.get(animationIndex).reverse();
+
+        // Unlock the animation mutex after successful animation.
         AnimationParameters.stopAnimation();
 
     }
