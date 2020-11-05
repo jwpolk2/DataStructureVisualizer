@@ -1,4 +1,5 @@
 package com.example.datastructurevisualizer.ui;
+import com.example.datastructurevisualizer.ui.Visualizer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
@@ -17,34 +19,11 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.datastructurevisualizer.R;
 
-//public class DialogSave extends AppCompatDialogFragment {
-//    @NonNull
-//    public static DialogSave newInstance(int title) {
-//        DialogSave dialogSave = new DialogSave();
-//        Bundle args = new Bundle();
-//        args.putInt("title", title);
-//        dialogSave.setArguments(args);
-//        return dialogSave;
-//    }
-//
-//    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//        LayoutInflater inflater = getActivity().getLayoutInflater();
-//        View view = inflater.inflate(R.layout.dialog_save, null); //TODO: Check if correct args
-//
-//        builder.setView(view).setTitle("save").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//        return super.onCreateDialog(savedInstanceState);
-//    }
-//}
-
 public class DialogSave extends DialogFragment {
     private EditText fileName;
+    private Button saveBtn;
+    private Button cancelBtn;
+    private Visualizer visualizer;
 
     public DialogSave() {
 
@@ -60,16 +39,24 @@ public class DialogSave extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_save, container);
-    }
+        View view = inflater.inflate(R.layout.dialog_save, container);
+        fileName = view.findViewById(R.id.saveDialog_fileName);
+        saveBtn = view.findViewById(R.id.saveDialog_saveBtn);
+        cancelBtn = view.findViewById(R.id.saveDialog_cancelBtn);
 
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view,savedInstanceState);
-//        fileName = (EditText) view.findViewById(R.id.saveDialog_fileName);
-//        String title = getArguments().getString("save","Save data structure?");
-//        getDialog().setTitle("save");
-//
-//
-//    }
+//        saveBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                visualizer.save();
+//            }
+//        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        return view;
+    }
 }
