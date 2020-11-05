@@ -29,9 +29,9 @@ public class Node implements Comparable {
      */
     Node(int key, int numChildren) {
         this.key = key;
-        this.r = 200;
-        this.g = 0;
-        this.b = 0;
+        this.r = AnimationParameters.NODE_R;
+        this.g = AnimationParameters.NODE_G;
+        this.b = AnimationParameters.NODE_B;
         this.position = new int[2];
         this.destination = new int[2];
         this.children = new Node[numChildren];

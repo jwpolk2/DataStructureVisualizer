@@ -11,24 +11,36 @@ import java.util.ArrayList;
  */
 public class NodeVisualizer extends DataStructureVisualizer {
 
-    // Current highlighted Node.
-    Node highlightedNode;
+    // Current selected Node. Head of a traversal.
+    Node selectedNode;
+
+    // Current highlighted Nodes. Explored in traversal/pathfinding.
+    ArrayList<Node> highlightedNodes = new ArrayList<Node>();
 
     /**
      * Draws a Node. Nodes are circles of width nodeWidth with their numerical
-     * values printed over them.
+     * values printed over them. Nodes will be recoloured if they are the
+     * selectedNode or if the are among the highlightedNodes.
      *
      * @param node the Node to draw.
      */
     protected void drawNode(Node node, Canvas canvas) {
         Paint colour = new Paint();
 
-        // Draws the Node.
-        colour.setARGB(255, node.r, node.g, node.b);
+        // The Node will be coloured depending upon its highlight status.
+        if (node == selectedNode) colour.setARGB(255, AnimationParameters.SEL_NODE_R,
+                AnimationParameters.SEL_NODE_G, AnimationParameters.SEL_NODE_B);
+        else if (highlightedNodes.contains(node)) colour.setARGB(255, AnimationParameters.HIL_NODE_R,
+                AnimationParameters.HIL_NODE_G, AnimationParameters.HIL_NODE_B);
+        else colour.setARGB(255, node.r, node.g, node.b);
+
+        // Displays the key on the Node.
         Paint textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(40);
+
+        // Draws the Node and text.
         canvas.drawCircle(
                 node.position[0], node.position[1],
                 AnimationParameters.NODE_RADIUS * AnimationParameters.scaleFactor, colour);
@@ -37,73 +49,123 @@ public class NodeVisualizer extends DataStructureVisualizer {
     }
 
     /**
-     * Highlights a Node by incrementing all of its colour values by 20.
+     * Selects a Node.
      *
-     * TODO may be reworked by merely editing drawNode
+     * @param node the Node to select.
+     */
+    private void select(Node node) {
+        selectedNode = node;
+
+    }
+
+    /**
+     * Un-Selects a Node.
+     */
+    private void unSelect() {
+        selectedNode = null;
+
+    }
+
+    /**
+     * Sets the selected Node.
+     *
+     * @param node the Node to select.
+     */
+    protected void setSelectedNode(Node node) {
+
+        // UnSelects the previous Node.
+        if (selectedNode != null) unSelect();
+
+        // Selects the new Node.
+        select(node);
+
+    }
+
+    /**
+     * Highlights a Node.
      *
      * @param node the Node to highlight.
      */
-    protected void highlight(Node node) {
-        highlightedNode = node;
-        highlightedNode.r -= 200;
-        highlightedNode.b += 200;
+    private void highlightNode(Node node) {
+        highlightedNodes.add(node);
 
     }
 
     /**
-     * UnHighlights a Node by decrementing all of its colour values by 20.
+     * UnHighlights a Node.
      *
-     * TODO may be reworked by merely editing drawNode.
+     * @param node the Node to unhighlight.
      */
-    protected void unHighlight() {
-        highlightedNode.r += 200;
-        highlightedNode.b -= 200;
-        highlightedNode = null;
+    private void unHighlightNode(Node node) {
+        highlightedNodes.remove(node);
 
     }
 
     /**
-     * Sets the highlighted Node.
-     *
-     * @param node the Node to highlight.
+     * UnHighlights all Nodes.
      */
-    protected void setHighlightedNode(Node node) {
-
-        // Un-highlights the previous Node.
-        if (highlightedNode != null) unHighlight();
-
-        // Highlights the new Node.
-        highlight(node);
+    private void unHighlightAllNodes() {
+        highlightedNodes.clear();
 
     }
 
     /**
-     * Sets the highlighted Node and waits for a small time.
+     * Sets the highlighted Node and renders a frame.
      *
-     * @param node the Node to animate.
+     * @param node the Node to select.
+     * @param canvas the Canvas to render in.
      */
-    protected void nodeSelectAnimation(Node node, Canvas canvas) {
+    private void nodeSelectAnimation(Node node, Canvas canvas) {
 
         // Highlights the Node and re-renders the data-structure.
-        setHighlightedNode(node);
+        setSelectedNode(node);
         render(canvas);
 
     }
 
     /**
-     * Sets the highlighted Node and waits for a small time.
+     * Queues an animation to change the selected Node and wait for a small time.
      *
-     * @param node the Node to animate.
+     * @param node the Node to select.
      */
     protected void queueNodeSelectAnimation(Node node) {
-        animationLog.add(new HighlightNode(node));
+        animationLog.add(new SelectNode(node));
+
+    }
+
+    /**
+     * Animates the addition of a node to the queue. The node will be highlighted.
+     *
+     * @param node the Node to add to the queue.
+     * @param canvas the Canvas to render in.
+     */
+    private void stackAddAnimation(Node node, Canvas canvas) {
+
+        // Highlights node and adds it to the queue.
+        highlightedNodes.add(node);
+        nodeList.stackInsert(node.key);
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to add the selected Node to the queue. The Node will be
+     * highlighted.
+     *
+     * @param node the Node to add to the queue.
+     */
+    protected void queueStackAddAnimation(Node node) {
+        animationLog.add(new StackAddNode(node));
 
     }
 
     /**
      * Animates movement of Nodes to their destination positions.
+     *
+     * @param currFrame the current frame of this animation.
+     * @param canvas the Canvas to render in.
      */
-    private void nodeMoveAnimation(Canvas canvas, int currFrame) {
+    private void nodeMoveAnimation(int currFrame, Canvas canvas) {
         float movementFraction;
         ArrayList<Node> nodes = getAllNodes();
 
@@ -131,10 +193,13 @@ public class NodeVisualizer extends DataStructureVisualizer {
     }
 
     /**
-     * Unhighlights the current highlighted Node.
+     * UnSelects the current selected Node, UnHighlights all Nodes, and clears
+     * the nodeList.
      */
     public void finishTraversalAnimation() {
-        if (highlightedNode != null) unHighlight();
+        if (selectedNode != null) unSelect();
+        highlightedNodes.clear();
+        nodeList.clear();
 
     }
 
@@ -161,9 +226,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
     public ArrayList<Node> getAllNodes() { return null; }
 
     /**
-     * Animation item for highlighting a Node.
+     * Animation item for selecting a Node.
      */
-    private class HighlightNode implements AnimationItem {
+    private class SelectNode implements AnimationItem {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
@@ -172,16 +237,64 @@ public class NodeVisualizer extends DataStructureVisualizer {
                 Bitmap.Config.ARGB_8888);
 
         /**
-         * Constructor for this item. Stores a frame wherein the Node is highlighted.
+         * Constructor for this item. Stores a frame wherein the inputed Node is selected.
          */
-        HighlightNode(Node node) {
+        SelectNode(Node node) {
             canvas = new Canvas(bmp);
             nodeSelectAnimation(node, canvas);
 
         }
 
         /**
-         * Highlights this Node.
+         * Displays the frame wherein the the inputed Node is selected.
+         */
+        @Override
+        public void run() {
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            try {
+                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for adding a Node to a queue.
+     */
+    private class StackAddNode implements AnimationItem {
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the inputed Node is added
+         * to a queue.
+         */
+        StackAddNode(Node node) {
+            canvas = new Canvas(bmp);
+            stackAddAnimation(node, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the inputed Node is added to the queue.
          */
         @Override
         public void run() {
@@ -232,7 +345,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                 canvas[i] = new Canvas(bmp[i]);
 
                 // Performs the Node movement animation.
-                nodeMoveAnimation(canvas[i], i);
+                nodeMoveAnimation(i, canvas[i]);
 
             }
         }

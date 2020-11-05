@@ -272,7 +272,7 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param currNode the current Node to be drawn.
      */
-    private void drawTreeRecursive(Node currNode, Canvas canvas) {
+    protected void drawTreeRecursive(Node currNode, Canvas canvas) {
 
         // Returns if currNode is null.
         if (currNode == null) return;
@@ -301,10 +301,12 @@ public class TreeVisualizer extends NodeVisualizer {
 
     /**
      * Renders the tree to the inputed canvas, starting at the root.
+     * Will also render the nodeList.
+     *
+     * @param canvas the Canvas to draw in.
      */
     @Override
     public void render(Canvas canvas) {
-        super.render(canvas);
 
         // Makes the entire Canvas White.
         canvas.drawRGB(AnimationParameters.BACK_R,
@@ -312,6 +314,12 @@ public class TreeVisualizer extends NodeVisualizer {
 
         // Draws the Tree over the Canvas.
         drawTreeRecursive(root, canvas);
+
+        // Draws the nodeList over the Canvas.
+        nodeList.render(canvas);
+
+        // Renders this frame to the Canvas.
+        super.render(canvas);
 
     }
 

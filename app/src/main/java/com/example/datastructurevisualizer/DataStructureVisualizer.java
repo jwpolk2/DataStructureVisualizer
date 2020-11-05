@@ -10,16 +10,19 @@ import java.util.ArrayList;
 public class DataStructureVisualizer {
 
     // Log of additions and deletions into this tree.
-    ArrayList<StructureAction> log = new ArrayList<StructureAction>();
+    protected ArrayList<StructureAction> log = new ArrayList<StructureAction>();
 
     // Current position within the log.
-    int logIndex = 0;
+    protected int logIndex = 0;
 
     // Whether or not the log can be edited.
-    boolean logAvailable = true;
+    protected boolean logAvailable = true;
 
     // Log of animations that have happened during the most recent animation.
-    static ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
+    protected static ArrayList<AnimationItem> animationLog = new ArrayList<AnimationItem>();
+
+    // List of items. Used for various traversals and pathfinds.
+    protected static LinkedList nodeList = new LinkedList();
 
     /**
      * Inserts a Node into the tree and plays no animation. Should be overridden.

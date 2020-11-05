@@ -518,6 +518,7 @@ public class BinarySearchTree extends TreeVisualizer {
 
         Node current = root;
         queueNodeSelectAnimation(current);
+        queueStackAddAnimation(current);
         Node parent;
         while (true) {
             parent = current;
@@ -528,7 +529,10 @@ public class BinarySearchTree extends TreeVisualizer {
                     return;
 
                 }
-                else queueNodeSelectAnimation(current);
+                else {
+                    queueNodeSelectAnimation(current);
+                    queueStackAddAnimation(current);
+                }
             } else {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
@@ -536,7 +540,10 @@ public class BinarySearchTree extends TreeVisualizer {
                     return;
 
                 }
-                else queueNodeSelectAnimation(current);
+                else {
+                    queueNodeSelectAnimation(current);
+                    queueStackAddAnimation(current);
+                }
             }
         }
     }
