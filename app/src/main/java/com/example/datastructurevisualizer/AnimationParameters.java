@@ -73,6 +73,7 @@ public class AnimationParameters {
      */
     public static void beginAnimation() {
         try {
+            pause();
             mutex.acquire();
             Visualizer.displayMessage("");
         } catch (InterruptedException e) {

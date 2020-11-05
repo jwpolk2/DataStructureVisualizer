@@ -319,7 +319,7 @@ public class DataStructureVisualizer {
     public void animate() {
 
         // Unpauses the animation.
-        AnimationParameters.unpause();
+        animationUnpause();
 
         Log.e("ind", "" + animationIndex);
 
@@ -383,6 +383,12 @@ public class DataStructureVisualizer {
      * Written here for convenience.
      */
     public void animationPause() { AnimationParameters.pause(); }
+
+    /**
+     * Unpauses animation of all data structures.
+     * Written here for convenience.
+     */
+    public void animationUnpause() { AnimationParameters.unpause(); }
 
     /**
      * Moves one step forwards in the animation.

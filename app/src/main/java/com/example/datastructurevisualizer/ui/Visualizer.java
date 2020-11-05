@@ -215,7 +215,9 @@ public class Visualizer extends Fragment {
                 new Thread(new Runnable () {
                     @Override
                     public void run() {
+                        AnimationParameters.beginAnimation();
                         tree.animate();
+                        AnimationParameters.stopAnimation();
                     }
                 }).start();
             }
@@ -252,19 +254,15 @@ public class Visualizer extends Fragment {
                 }
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
-                        tree.animationPause();
                         tree.inOrderTraversal();
                         break;
                     case "Post-Order":
-                        tree.animationPause();
                         tree.postOrderTraversal();
                         break;
                     case "Pre-Order":
-                        tree.animationPause();
                         tree.preOrderTraversal();
                         break;
                     case "Value Search":
-                        tree.animationPause();
                         tree.search(10);
                         break;
                     case "Select Traversal":
