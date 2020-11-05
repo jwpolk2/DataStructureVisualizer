@@ -4,7 +4,7 @@ import com.example.datastructurevisualizer.ui.Visualizer;
 
 /**
  * Class representing an individual animation. Should be inherited and used
- * within Visualizer classes.
+ * within DataStructureVisualizer and its child classes.
  *
  * Stores a message which will be rendered during run and reverse.
  */

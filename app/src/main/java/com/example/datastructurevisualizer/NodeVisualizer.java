@@ -7,7 +7,16 @@ import java.util.ArrayList;
 
 /**
  * Superclass for all visualizers that use Nodes.
- * Stores the nodeWidth and has method for drawing a Node.
+ *
+ * Contains the selectedNode and the list of highlightedNodes, as well as some
+ * methods to interact with them.
+ * Uses drawNode to place Nodes into an inputed Canvas. The selectedNode is
+ * blue and highlightedNodes are green.
+ * Includes AnimationItems to select nodes, add them to nodeList as a
+ * stack/queue, pop nodes from nodeList, and moveNodes. Also contains animation
+ * methods for these items.
+ * Contains getAllNodes and getNode, to be overridden by individual
+ * implementations of NodeVisualizers.
  */
 public class NodeVisualizer extends DataStructureVisualizer {
 
