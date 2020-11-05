@@ -65,7 +65,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Runs a pre-order traversal.
      */
-    public class RunPreOrder implements Runnable {
+    private class RunPreOrder implements Runnable {
         @Override
         public void run() {
             beginAnimation();
@@ -113,7 +113,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Runs a post-order traversal.
      */
-    public class RunPostOrder implements Runnable {
+    private class RunPostOrder implements Runnable {
         @Override
         public void run() {
             beginAnimation();
@@ -142,6 +142,9 @@ public class TreeVisualizer extends NodeVisualizer {
     private void treeInOrderTraversal(Node currNode) {
         int numChildren = getNumChildren();
 
+        // Adds this Node to the stack.
+        queueStackAddAnimation(currNode, "Exploring " + currNode.key);
+
         // Returns if currNode is null.
         if (currNode == null) return;
 
@@ -156,12 +159,15 @@ public class TreeVisualizer extends NodeVisualizer {
         for (int i = numChildren / 2; i < numChildren; ++i)
             treePreOrderTraversal(currNode.children[i]);
 
+        // Removes this Node from the stack.
+        queueListPopAnimation("Finished exploring " + currNode.key);
+
     }
 
     /**
      * Runs a post-order traversal.
      */
-    public class RunInOrder implements Runnable {
+    private class RunInOrder implements Runnable {
         @Override
         public void run() {
             beginAnimation();
@@ -187,7 +193,7 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param currNode the first Node in the traversal.
      */
-    void treeBreadthFirstTraversal(Node currNode) {
+    private void treeBreadthFirstTraversal(Node currNode) {
         java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
 
         // Highlights the first Node.
@@ -216,7 +222,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Runs a breadth-first traversal.
      */
-    public class RunBreadthFirst implements Runnable {
+    private class RunBreadthFirst implements Runnable {
         @Override
         public void run() {
             beginAnimation();
@@ -230,7 +236,7 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Begins a breadth-first traversal.
      */
-    void breadthFirstTraversal() {
+    public void breadthFirstTraversal() {
         RunBreadthFirst run = new RunBreadthFirst();
         new Thread(run).start();
 
@@ -245,7 +251,7 @@ public class TreeVisualizer extends NodeVisualizer {
      * @param depth current depth within the Tree.
      * @param currNode the Node whose children should be placed.
      */
-    void placeTreeNodesRecursive(float width, int depth, Node currNode) {
+    private void placeTreeNodesRecursive(float width, int depth, Node currNode) {
         float currX, currY;
         int numChildren;
 
