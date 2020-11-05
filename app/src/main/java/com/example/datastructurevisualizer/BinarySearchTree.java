@@ -517,8 +517,8 @@ public class BinarySearchTree extends TreeVisualizer {
         }
 
         Node current = root;
-        queueNodeSelectAnimation(current, "Exploring " + current.key);
         queueStackAddAnimation(current, "Exploring " + current.key);
+        queueNodeSelectAnimation(current, "Start at root " + current.key);
         Node parent;
         while (true) {
             parent = current;
@@ -526,23 +526,29 @@ public class BinarySearchTree extends TreeVisualizer {
                 current = current.children[ChildNames.LEFT.i];
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
+                    placeTreeNodes();
+                    queueNodeMoveAnimation(id + " < " + parent.key + ", placing " + id);
                     return;
 
                 }
                 else {
-                    queueNodeSelectAnimation(current, "Exploring " + current.key);
                     queueStackAddAnimation(current, "Exploring " + current.key);
+                    queueNodeSelectAnimation(current, id + " < " + parent.key +
+                            ", exploring left subtree");
                 }
             } else {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
+                    placeTreeNodes();
+                    queueNodeMoveAnimation(id + " > " + parent.key + ", placing " + id);
                     return;
 
                 }
                 else {
-                    queueNodeSelectAnimation(current, "Exploring " + current.key);
                     queueStackAddAnimation(current, "Exploring " + current.key);
+                    queueNodeSelectAnimation(current, id + " > " + parent.key +
+                            ", exploring right subtree");
                 }
             }
         }
