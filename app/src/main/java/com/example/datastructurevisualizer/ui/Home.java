@@ -55,7 +55,7 @@ public class Home extends Fragment {
         balancedSearchTree = view.findViewById(R.id.avlButton);
         graph = view.findViewById(R.id.graphButton);
         files = view.findViewById(R.id.filesButton);
-        about = view.findViewById(R.id.aboutButton);
+        //about = view.findViewById(R.id.aboutButton);
         bstInfo = view.findViewById(R.id.bstInfoButton);
         rbtInfo = view.findViewById(R.id.rbtInfoButton);
         avlInfo = view.findViewById(R.id.avlInfoButton);
@@ -91,12 +91,12 @@ public class Home extends Fragment {
                 MainActivity.openFragment(new Files(), false);
             }
         });
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.openFragment(new AboutPage(), false);
-            }
-        });
+//        about.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.openFragment(new AboutPage(), false);
+//            }
+//        });
         bstInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

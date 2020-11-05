@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.GraphVisualizer"
     android:clickable="true"
-    android:background="@color/backgroundWhite">
+    android:background="@color/grayBlue">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.example.datastructurevisualizer.VisualizerCanvas
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="20dp"
+        android:background="@color/backgroundWhite"
+ />
 
 </FrameLayout>
