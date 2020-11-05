@@ -1,9 +1,14 @@
 package com.example.datastructurevisualizer;
 
+import com.example.datastructurevisualizer.ui.Visualizer;
+
 import java.util.concurrent.Semaphore;
 
 /**
  * Class that stores visualization parameters.
+ *
+ * Also contains methods to begin and end an animation (lock mutex and empty
+ * visualizer text).
  */
 public class AnimationParameters {
 
@@ -44,6 +49,7 @@ public class AnimationParameters {
     static final int HIL_NODE_B = 0;
 
     // Current position in the Canvas.
+    // TODO remove
     static float xPos = 0;
     static float yPos = 0;
 
@@ -68,6 +74,7 @@ public class AnimationParameters {
     public static void beginAnimation() {
         try {
             mutex.acquire();
+            Visualizer.displayMessage("");
         } catch (InterruptedException e) {
             e.printStackTrace();
             mutex.release();
@@ -78,6 +85,7 @@ public class AnimationParameters {
      * Unlocks the animation mutex to allow another animation to occur.
      */
     public static void stopAnimation() {
+        Visualizer.displayMessage("");
         mutex.release();
 
     }

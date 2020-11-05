@@ -307,6 +307,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void run() {
+            super.run();
 
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
@@ -357,6 +358,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void run() {
+            super.run();
 
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
@@ -401,6 +403,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void run() {
+            super.run();
 
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
@@ -445,6 +448,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void run() {
+            super.run();
 
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
@@ -497,6 +501,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void run() {
+            super.run();
 
             // Renders each frame.
             for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
@@ -522,6 +527,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void reverse() {
+            super.run();
 
             // Renders each frame backwards.
             for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {
