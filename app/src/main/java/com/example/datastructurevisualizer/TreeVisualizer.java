@@ -49,8 +49,11 @@ public class TreeVisualizer extends NodeVisualizer {
         // Returns if currNode is null.
         if (currNode == null) return;
 
+        // Adds this Node to the stack.
+        queueStackAddAnimation(currNode, "Exploring " + currNode.key);
+
         // Highlights the current Node.
-        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+        queueNodeSelectAnimation(currNode, "Current Node " + currNode.key);
 
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
@@ -59,6 +62,9 @@ public class TreeVisualizer extends NodeVisualizer {
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
             treePreOrderTraversal(currNode.children[i]);
+
+        // Removes this Node from the stack.
+        queueListPopAnimation("Finished exploring " + currNode.key);
 
     }
 
@@ -97,16 +103,22 @@ public class TreeVisualizer extends NodeVisualizer {
         // Returns if currNode is null.
         if (currNode == null) return;
 
+        // Adds this Node to the stack.
+        queueStackAddAnimation(currNode, "Exploring " + currNode.key);
+
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
-            treePreOrderTraversal(currNode.children[i]);
+            treePostOrderTraversal(currNode.children[i]);
 
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
-            treePreOrderTraversal(currNode.children[i]);
+            treePostOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+        queueNodeSelectAnimation(currNode, "Current Node " + currNode.key);
+
+        // Removes this Node from the stack.
+        queueListPopAnimation("Finished exploring " + currNode.key);
 
     }
 
@@ -142,22 +154,22 @@ public class TreeVisualizer extends NodeVisualizer {
     private void treeInOrderTraversal(Node currNode) {
         int numChildren = getNumChildren();
 
-        // Adds this Node to the stack.
-        queueStackAddAnimation(currNode, "Exploring " + currNode.key);
-
         // Returns if currNode is null.
         if (currNode == null) return;
 
+        // Adds this Node to the stack.
+        queueStackAddAnimation(currNode, "Exploring " + currNode.key);
+
         // Explores left subtree.
         for (int i = 0; i < numChildren / 2; ++i)
-            treePreOrderTraversal(currNode.children[i]);
+            treeInOrderTraversal(currNode.children[i]);
 
         // Highlights the current Node.
-        queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+        queueNodeSelectAnimation(currNode, "Current Node " + currNode.key);
 
         // Explores right subtree.
         for (int i = numChildren / 2; i < numChildren; ++i)
-            treePreOrderTraversal(currNode.children[i]);
+            treeInOrderTraversal(currNode.children[i]);
 
         // Removes this Node from the stack.
         queueListPopAnimation("Finished exploring " + currNode.key);
@@ -452,11 +464,11 @@ public class TreeVisualizer extends NodeVisualizer {
     private Node getNodeRecursive(int key, Node currNode) {
         Node node;
 
-        // Returns this Node if it is the desired one.
-        if (currNode.key == key) return currNode;
-
         // Returns null if this Node is null.
         if (currNode == null) return null;
+
+        // Returns this Node if it is the desired one.
+        if (currNode.key == key) return currNode;
 
         // Parses through the subtrees of this Node.
         for (int i = 0; i < getNumChildren(); ++i) {
