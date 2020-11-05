@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_margin="15dp"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
@@ -19,6 +20,153 @@
             android:textColor="@color/text"
             android:textStyle="bold"
             android:textSize="25sp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_marginTop="40dp"
+            />
+
+                <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section Header"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_gravity="left"
+            android:layout_margin="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="text"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section Header"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_gravity="left"
+            android:textAllCaps="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:textColor="@color/text"
+            android:layout_marginBottom="30dp"
+            android:padding="7dp"
+            android:text="text"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section Header"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_gravity="left"
+            android:layout_margin="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="text"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section Header"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_gravity="left"
+            android:layout_margin="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="text"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section Header"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_gravity="left"
+            android:layout_margin="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section Header"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_gravity="left"
+            android:layout_margin="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/about_page_text_background"
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/text"
+            android:padding="7dp"
+            android:text="text"/>
         <Button
             android:id="@+id/visualize_button"
             android:layout_width="wrap_content"
