@@ -8,7 +8,8 @@ import android.graphics.Canvas;
  *
  * Since LinkedList is only used as a smaller part of larger data structures,
  * it includes some special functionality. For example, it stores xPos and
- * yPos in order to guarantee correct placement.
+ * yPos in order to guarantee correct placement. It also overrides render so as
+ * not to clear the screen before rendering.
  */
 public class LinkedList extends TreeVisualizer {
 
@@ -107,7 +108,7 @@ public class LinkedList extends TreeVisualizer {
 
         // Queues a movement animation.
         placeTreeNodes(xPos, yPos);
-        queueNodeMoveAnimation("Moving Nodes");
+        queueNodeMoveAnimation("Adding " + key + " to LinkedList");
 
     }
 

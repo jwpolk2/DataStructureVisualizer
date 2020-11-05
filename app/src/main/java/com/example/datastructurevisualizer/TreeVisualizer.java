@@ -3,6 +3,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.example.datastructurevisualizer.ui.Visualizer;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,12 +12,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Superclass for all trees. Enables code reuse among tree visualization.
+ * Superclass for all trees. Enables code reuse during tree visualization.
+ *
  * Contains numChildren, a field indicating the number of children per node for a given tree.
  * Contains root, the root node for a given tree. It is located here so as to be used by
  * shared visualization methods.
- * Contains pre-order, post-order, and in-order traversals.
- * Contains a function for placing each Node in the tree at an appropriate position.
+ * Contains pre-order, post-order, in-order, and breadth-first traversals.
+ * Contains placeNodes, which places each Node in the tree at an appropriate
+ * position. Will place the root at the inputed position, or at the upper
+ * center of the screen if no position is inputed.
+ * Redefines getAllNodes and getNode to function over a Tree.
+ * Defines getDepth and checkInsert to prevent invalid entries into the tree.
+ * Redefines render to recursively render Tree Nodes and edges between them.
+ * Contains a method createJSON which is used to save the Tree.
  */
 public class TreeVisualizer extends NodeVisualizer {
 
@@ -482,6 +491,15 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
+     * Sets the root to null so that the tree is empty.
+     */
+    @Override
+    public void clear() {
+        root = null;
+
+    }
+
+    /**
      * Returns an ArrayList containing all keys in this data structure.
      *
      * @param fileName what the user wants the file to be named
@@ -566,15 +584,6 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public int getDepth() {
         return getDepthRecursive(root);
-
-    }
-
-    /**
-     * Sets the root to null so that the tree is empty.
-     */
-    @Override
-    public void clear() {
-        root = null;
 
     }
 }

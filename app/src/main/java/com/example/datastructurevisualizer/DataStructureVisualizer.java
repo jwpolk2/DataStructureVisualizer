@@ -5,7 +5,22 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 /**
- * TODO comment
+ * Parent class for all data structures.
+ *
+ * Includes the log of insertions and deletions as well as the log of animations.
+ * A LinkedList 'nodeList' is included to serve as a visible stack or queue
+ * while performing traversals.
+ * Incomplete insert, remove, and clear methods are defined here as templates
+ * for child classes.
+ * Every insertion and deletion in the tree is tracked in insert and remove.
+ * These can be undone/redone with undo/redo.
+ * animate, beginAnimation, and stopAnimation help mediate use of the
+ * animationQueue.
+ * finalRender should be overridden. It should reset a data structure's state
+ * and perform a final render.
+ * There are two render methods, one of which takes a Canvas as input, the other
+ * takes no input and uses the default canvas. super.render(Canvas) should be
+ * called in each child render method.
  */
 public class DataStructureVisualizer {
 

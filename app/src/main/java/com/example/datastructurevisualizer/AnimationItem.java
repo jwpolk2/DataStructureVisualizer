@@ -1,8 +1,10 @@
 package com.example.datastructurevisualizer;
 
+import com.example.datastructurevisualizer.ui.Visualizer;
+
 /**
  * Class representing an individual animation. Should be inherited and used
- * within Visualizer classes.
+ * within DataStructureVisualizer and its child classes.
  *
  * Stores a message which will be rendered during run and reverse.
  */
@@ -24,7 +26,8 @@ public class AnimationItem {
      * This method displays message and should be called in all child classes.
      */
     public void run() {
-        // TODO display message
+        Visualizer.displayMessage(message);
+
     }
 
     /**
@@ -32,7 +35,7 @@ public class AnimationItem {
      * This method displays message and should be called in all child classes.
      */
     public void reverse() {
-        // TODO display message
-    }
+        Visualizer.displayMessage(message);
 
+    }
 }

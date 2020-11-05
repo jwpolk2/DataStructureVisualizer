@@ -65,7 +65,7 @@ public class Visualizer extends Fragment {
     private ImageButton homeButton;
     private static String dataStructureType;
     private TextView dataStructureHeader;
-    private TextView displayExec;
+    private static TextView displayExec;
     private VisualizerCanvas visualizerCanvas;
     private TreeVisualizer tree;
     private ArrayList<String> traversals;
@@ -375,7 +375,17 @@ public class Visualizer extends Fragment {
         }
     }
 
-    private void displayExecution(int id){
+    private static void displayExecution(int id){
         displayExec.setText("\n Inserting " + id);
+    }
+
+    /**
+     * Displays a message in the displayExec text.
+     *
+     * @param message the message to be displayed.
+     */
+    public static void displayMessage(String message) {
+        displayExec.setText(message);
+
     }
 }
