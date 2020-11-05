@@ -145,6 +145,8 @@ public class LinkedList extends TreeVisualizer {
 
         // If the root is not null, replaces root and returns its key.
         root = root.children[0];
+        placeTreeNodes(xPos, yPos);
+        placeNodesAtDestination();
         return node.key;
 
     }

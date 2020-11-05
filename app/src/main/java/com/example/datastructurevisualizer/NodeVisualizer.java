@@ -341,7 +341,6 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
     /**
      * Animation item for adding a Node to nodeList as a stack.
-     * This 'animation' is instantaneous.
      */
     private class StackAddNode extends AnimationItem {
 
@@ -374,6 +373,12 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
+            // Sleeps for a little while.
+            try {
+                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
@@ -386,7 +391,6 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
     /**
      * Animation item for adding a Node to nodeList as a queue.
-     * This 'animation' is instantaneous.
      */
     private class QueueAddNode extends AnimationItem {
 
@@ -419,6 +423,12 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
+            // Sleeps for a little while.
+            try {
+                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
@@ -432,7 +442,6 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * Animation item for adding popping a Node from nodeList. Popping is the
      * same across stacks and queues.
-     * This 'animation' is instantaneous.
      */
     private class ListPopNode extends AnimationItem {
 
@@ -464,6 +473,12 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
+            // Sleeps for a little while.
+            try {
+                Thread.sleep((long) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
