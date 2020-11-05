@@ -3,6 +3,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
 import java.util.ArrayList;
 
 /**
@@ -536,7 +537,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void reverse() {
-            super.run();
+            super.reverse();
 
             // Renders each frame backwards.
             for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {

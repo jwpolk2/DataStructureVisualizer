@@ -50,6 +50,5 @@ public class AnimationItem {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

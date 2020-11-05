@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.datastructurevisualizer.AVLTree;
+import com.example.datastructurevisualizer.AnimationParameters;
 import com.example.datastructurevisualizer.BinarySearchTree;
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
@@ -140,7 +141,6 @@ public class Visualizer extends Fragment {
 
                 }
                 else {
-                    displayExecution(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
                     insert();
                 }
 
@@ -217,7 +217,7 @@ public class Visualizer extends Fragment {
                     public void run() {
                         tree.animate();
                     }
-                });
+                }).start();
             }
         });
 
@@ -543,10 +543,6 @@ public class Visualizer extends Fragment {
         catch(IOException | JSONException e){
             Log.e("Exception", "File read failed: " + e.toString());
         }
-    }
-
-    private static void displayExecution(int id){
-        displayExec.setText("\n Inserting " + id);
     }
 
     /**

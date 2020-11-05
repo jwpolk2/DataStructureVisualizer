@@ -1,6 +1,7 @@
 package com.example.datastructurevisualizer;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -319,6 +320,8 @@ public class DataStructureVisualizer {
 
         // Unpauses the animation.
         AnimationParameters.unpause();
+
+        Log.e("ind", "" + animationIndex);
 
         // Animates every item in the animationLog.
         // animationIndex is initialized in beginAnimation.

@@ -76,7 +76,6 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             beginAnimation();
             treePreOrderTraversal(root);
-            animate();
             stopAnimation();
 
         }
@@ -130,7 +129,6 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             beginAnimation();
             treePostOrderTraversal(root);
-            animate();
             stopAnimation();
 
         }
@@ -184,7 +182,6 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             beginAnimation();
             treeInOrderTraversal(root);
-            animate();
             stopAnimation();
 
         }
@@ -239,7 +236,6 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             beginAnimation();
             treeBreadthFirstTraversal(root);
-            animate();
             stopAnimation();
 
         }
@@ -305,7 +301,6 @@ public class TreeVisualizer extends NodeVisualizer {
         public void run() {
             beginAnimation();
             valueSearch(key, root);
-            animate();
             stopAnimation();
 
         }
