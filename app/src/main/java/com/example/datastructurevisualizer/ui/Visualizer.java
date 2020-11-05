@@ -190,6 +190,37 @@ public class Visualizer extends Fragment {
        // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
         visualizerCanvas.setParent(this);
+
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.animationPause();
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.animationNext();
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tree.animationPrev();
+            }
+        });
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable () {
+                    @Override
+                    public void run() {
+                        tree.animate();
+                    }
+                });
+            }
+        });
+
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();
         initDataStructure();
@@ -216,19 +247,22 @@ public class Visualizer extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
-                        initInOrder();
+                        tree.animationPause();
+                        tree.inOrderTraversal();
                         break;
                     case "Post-Order":
-                        initPostOrder();
+                        tree.animationPause();
+                        tree.postOrderTraversal();
                         break;
                     case "Pre-Order":
-                        initPreOrder();
+                        tree.animationPause();
+                        tree.preOrderTraversal();
                         break;
                     case "Value Search":
-                        initValueSearch();
+                        tree.animationPause();
+                        tree.search(10);
                         break;
                     case "Select Traversal":
-                        initBlankTraversal();
                         break;
                 }
             }
@@ -240,136 +274,125 @@ public class Visualizer extends Fragment {
         });
     }
 
-    private void initBlankTraversal() {
-        play.setVisibility(View.INVISIBLE);
-        pause.setVisibility(View.INVISIBLE);
-        next.setVisibility(View.INVISIBLE);
-        previous.setVisibility(View.INVISIBLE);
-    }
-
-    private void initPostOrder() {
-        play.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.VISIBLE);
-        next.setVisibility(View.VISIBLE);
-        previous.setVisibility(View.VISIBLE);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.postOrderTraversal();
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPause();
-            }
-        });
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationNext();
-            }
-        });
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPrev();
-            }
-        });
-    }
-
-    private void initPreOrder() {
-        play.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.VISIBLE);
-        next.setVisibility(View.VISIBLE);
-        previous.setVisibility(View.VISIBLE);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.preOrderTraversal();
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPause();
-            }
-        });
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationNext();
-            }
-        });
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPrev();
-            }
-        });
-    }
-    private void initValueSearch() {
-        play.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.VISIBLE);
-        next.setVisibility(View.VISIBLE);
-        previous.setVisibility(View.VISIBLE);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO get key somehow
-                tree.search(10);
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPause();
-            }
-        });
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationNext();
-            }
-        });
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPrev();
-            }
-        });
-    }
-
-    private void initInOrder() {
-        play.setVisibility(View.VISIBLE);
-        pause.setVisibility(View.VISIBLE);
-        next.setVisibility(View.VISIBLE);
-        previous.setVisibility(View.VISIBLE);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.inOrderTraversal();
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPause();
-            }
-        });
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationNext();
-            }
-        });
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tree.animationPrev();
-            }
-        });
-    }
+//    private void initPostOrder() {
+//        play.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.postOrderTraversal();
+//            }
+//        });
+//        pause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPause();
+//            }
+//        });
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationNext();
+//            }
+//        });
+//        previous.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPrev();
+//            }
+//        });
+//    }
+//
+//    private void initPreOrder() {
+//        play.setVisibility(View.VISIBLE);
+//        pause.setVisibility(View.VISIBLE);
+//        next.setVisibility(View.VISIBLE);
+//        previous.setVisibility(View.VISIBLE);
+//        play.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.preOrderTraversal();
+//            }
+//        });
+//        pause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPause();
+//            }
+//        });
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationNext();
+//            }
+//        });
+//        previous.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPrev();
+//            }
+//        });
+//    }
+//    private void initValueSearch() {
+//        play.setVisibility(View.VISIBLE);
+//        pause.setVisibility(View.VISIBLE);
+//        next.setVisibility(View.VISIBLE);
+//        previous.setVisibility(View.VISIBLE);
+//        play.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //TODO get key somehow
+//                tree.search(10);
+//            }
+//        });
+//        pause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPause();
+//            }
+//        });
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationNext();
+//            }
+//        });
+//        previous.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPrev();
+//            }
+//        });
+//    }
+//
+//    private void initInOrder() {
+//        play.setVisibility(View.VISIBLE);
+//        pause.setVisibility(View.VISIBLE);
+//        next.setVisibility(View.VISIBLE);
+//        previous.setVisibility(View.VISIBLE);
+//        play.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.inOrderTraversal();
+//            }
+//        });
+//        pause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPause();
+//            }
+//        });
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationNext();
+//            }
+//        });
+//        previous.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tree.animationPrev();
+//            }
+//        });
+//    }
 
     private void undo() {
         tree.undo();
