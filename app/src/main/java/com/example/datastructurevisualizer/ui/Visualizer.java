@@ -16,8 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -41,6 +44,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +68,8 @@ public class Visualizer extends Fragment {
     private TextView displayExec;
     private VisualizerCanvas visualizerCanvas;
     private TreeVisualizer tree;
+    private ArrayList<String> traversals;
+    private Spinner traversalsSpinner;
 
 
     public Visualizer() {
@@ -75,6 +83,7 @@ public class Visualizer extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -92,6 +101,7 @@ public class Visualizer extends Fragment {
         //redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
+        traversalsSpinner = view.findViewById(R.id.spinner_traversal);
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -177,7 +187,46 @@ public class Visualizer extends Fragment {
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();
         initDataStructure();
+        initSpinner();
         return view;
+    }
+
+    private void initSpinner() {
+        traversals = new ArrayList<>();
+        traversals.add("Select Traversal");
+        traversals.add("In-Order");
+        traversals.add("Post-Order");
+        traversals.add("Pre-Order");
+        traversals.add("Value Search");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
+
+        traversalsSpinner.setAdapter(adapter);
+
+        traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(parent.getItemAtPosition(position).toString()) {
+                    case "In-Order":
+                        break;
+                    case "Post-Order":
+                        break;
+                    case "Pre-Order":
+                        break;
+                    case "Value Search":
+                        break;
+                    case "Select Traversal":
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void undo() {
