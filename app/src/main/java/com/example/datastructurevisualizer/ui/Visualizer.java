@@ -57,7 +57,7 @@ public class Visualizer extends Fragment {
     private Button saveButton;
     private Button loadButton;
     private ImageButton undoButton;
-    private Button redoButton;
+    private ImageButton redoButton;
     private Button autopopulateButton;
     private ImageButton infoButton;
     private ImageButton homeButton;
@@ -100,7 +100,7 @@ public class Visualizer extends Fragment {
 
         insertButton = view.findViewById(R.id.button_insert);
         undoButton = view.findViewById(R.id.button_undo);
-        //redoButton = view.findViewById(R.id.button_redo);
+        redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
         //TRAVERSAL
@@ -179,12 +179,12 @@ public class Visualizer extends Fragment {
                 undo();
             }
         });
-//        redoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                redo();
-//            }
-//        });
+        redoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redo();
+            }
+        });
 
 
        // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
