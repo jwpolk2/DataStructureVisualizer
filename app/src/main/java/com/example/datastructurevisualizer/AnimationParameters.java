@@ -45,8 +45,13 @@ public class AnimationParameters {
 
     // Default colour of a highlighted Node.
     static final int HIL_NODE_R = 0;
-    static final int HIL_NODE_G = 80;
+    static final int HIL_NODE_G = 120;
     static final int HIL_NODE_B = 0;
+
+    // Default colour of an explored Node.
+    static final int EXP_NODE_R = 0;
+    static final int EXP_NODE_G = 40;
+    static final int EXP_NODE_B = 0;
 
     // Current position in the Canvas.
     // TODO remove

@@ -44,7 +44,7 @@ public class DataStructureVisualizer {
     // Whether or not the last animation went forwards.
     private static boolean animationForward = true;
 
-    // List of items. Used for various traversals and pathfinds.
+    // Stack/Queue of items. Used for various traversals and pathfinds.
     protected static LinkedList nodeList = new LinkedList();
 
     /**
