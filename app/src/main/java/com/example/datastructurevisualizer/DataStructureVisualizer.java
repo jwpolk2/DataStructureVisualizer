@@ -1,9 +1,6 @@
 package com.example.datastructurevisualizer;
 
 import android.graphics.Canvas;
-import android.util.Log;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -113,13 +110,11 @@ public class DataStructureVisualizer {
         RunInsertMany(ArrayList<Integer> keys) { this.keys = keys; }
         @Override
         public void run() {
-            for (Integer curr : keys) {
-                beginAnimation();
-                insertAnim(curr);
-                animate();
-                stopAnimation();
+            beginAnimation();
+            for (Integer curr : keys) insertAnim(curr);
+            animate();
+            stopAnimation();
 
-            }
         }
     }
 
@@ -320,8 +315,6 @@ public class DataStructureVisualizer {
 
         // Unpauses the animation.
         animationUnpause();
-
-        Log.e("ind", "" + animationIndex);
 
         // Animates every item in the animationLog.
         // animationIndex is initialized in beginAnimation.

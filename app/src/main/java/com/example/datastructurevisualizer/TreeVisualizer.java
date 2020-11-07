@@ -69,24 +69,12 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Runs a pre-order traversal.
-     */
-    private class RunPreOrder implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treePreOrderTraversal(root);
-            stopAnimation();
-
-        }
-    }
-
-    /**
      * Begins a pre-order traversal.
      */
     public void preOrderTraversal() {
-        RunPreOrder run = new RunPreOrder();
-        new Thread(run).start();
+        beginAnimation();
+        treePreOrderTraversal(root);
+        stopAnimation();
 
     }
 
@@ -121,25 +109,14 @@ public class TreeVisualizer extends NodeVisualizer {
 
     }
 
-    /**
-     * Runs a post-order traversal.
-     */
-    private class RunPostOrder implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treePostOrderTraversal(root);
-            stopAnimation();
-
-        }
-    }
 
     /**
      * Begins a post-order traversal.
      */
     public void postOrderTraversal() {
-        RunPostOrder run = new RunPostOrder();
-        new Thread(run).start();
+        beginAnimation();
+        treePostOrderTraversal(root);
+        stopAnimation();
 
     }
 
@@ -175,24 +152,12 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Runs a post-order traversal.
-     */
-    private class RunInOrder implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treeInOrderTraversal(root);
-            stopAnimation();
-
-        }
-    }
-
-    /**
      * Begins an in-order traversal.
      */
     public void inOrderTraversal() {
-        RunInOrder run = new RunInOrder();
-        new Thread(run).start();
+        beginAnimation();
+        treeInOrderTraversal(root);
+        stopAnimation();
 
     }
 
@@ -229,24 +194,12 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Runs a breadth-first traversal.
-     */
-    private class RunBreadthFirst implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treeBreadthFirstTraversal(root);
-            stopAnimation();
-
-        }
-    }
-
-    /**
      * Begins a breadth-first traversal.
      */
     public void breadthFirstTraversal() {
-        RunBreadthFirst run = new RunBreadthFirst();
-        new Thread(run).start();
+        beginAnimation();
+        treeBreadthFirstTraversal(root);
+        stopAnimation();
 
     }
 
@@ -260,13 +213,18 @@ public class TreeVisualizer extends NodeVisualizer {
         int numChildren = getNumChildren();
 
         // Returns if currNode is null.
-        if (currNode == null) return;
+        if (currNode == null) {
+            queueNodeSelectAnimation(currNode, "Current Node null, desired Node not found");
+            return;
+
+        }
 
         // Finishes the traversal if the key has been found.
         if (currNode.key == key) {
             queueNodeSelectAnimation(currNode, key + " == "
                     + currNode.key + ", desired Node found");
             return;
+
         }
 
         // Explores the left subtree.
@@ -292,28 +250,15 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Runs a search traversal.
-     */
-    private class RunValueSearch implements Runnable {
-        int key;
-        RunValueSearch(int key) { this.key = key; }
-        @Override
-        public void run() {
-            beginAnimation();
-            valueSearch(key, root);
-            stopAnimation();
-
-        }
-    }
-
-    /**
      * Begins searching for a key.
      *
      * @param key the key to search for.
      */
     public void search(int key) {
-        RunValueSearch run = new RunValueSearch(key);
-        new Thread(run).start();
+        beginAnimation();
+        queueNodeSelectAnimation(root, "Start at root");
+        valueSearch(key, root);
+        stopAnimation();
 
     }
 

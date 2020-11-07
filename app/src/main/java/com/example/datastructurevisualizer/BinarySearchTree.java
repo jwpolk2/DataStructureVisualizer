@@ -513,6 +513,8 @@ public class BinarySearchTree extends TreeVisualizer {
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
+            placeTreeNodes();
+            queueNodeMoveAnimation("Creating root");
             return;
         }
 
