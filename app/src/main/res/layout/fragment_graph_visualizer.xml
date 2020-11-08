@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.GraphVisualizer"
     android:clickable="true"
-    android:background="@color/grayBlue">
+    android:background="@color/grayBlue"
+    android:orientation="vertical"
+    android:gravity="center">
 
     <com.example.datastructurevisualizer.VisualizerCanvas
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
         android:background="@color/backgroundWhite"
  />
+    <TableRow
+        android:gravity="center"
+        android:layout_weight="8"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <Button
+            android:id="@+id/display_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Display"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:background="@drawable/visulizer_button"
+            android:textColor="@color/textHomepageButtons"/>
+        <Button
+            android:id="@+id/button2_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button 2"
+            android:textAllCaps="false"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:textSize="20sp"
+            android:background="@drawable/visulizer_button"
+            android:textColor="@color/textHomepageButtons"/>
+</TableRow>
 
-</FrameLayout>
+
+</LinearLayout>
