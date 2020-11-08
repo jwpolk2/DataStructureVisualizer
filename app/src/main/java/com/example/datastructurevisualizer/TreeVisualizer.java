@@ -426,7 +426,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
     }
 
-    /**
+     /**
      * Recursively parses through the tree to fill an ArrayList of nodes.
      *
      * @param currNode the current Node being viewed.

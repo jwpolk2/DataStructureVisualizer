@@ -3,6 +3,7 @@ package com.example.datastructurevisualizer;
 import android.app.Dialog;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public static void openDialog(Dialog dialog, String title) {
-        dialog.show();
+    public static void openDialog(DialogFragment dialog, String title, FragmentTransaction ft) {
+        dialog.show(ft, title);
     }
 
     public static void setVisualizerCanvas(VisualizerCanvas visualizerCanvas){

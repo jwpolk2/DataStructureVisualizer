@@ -73,6 +73,7 @@ public class Visualizer extends Fragment {
     private ImageButton previous;
     private ImageButton next;
 
+    private Button saveDialogSave;
 
     public Visualizer() {
         // Required empty public constructor
@@ -109,6 +110,8 @@ public class Visualizer extends Fragment {
         pause = view.findViewById(R.id.button_pause);
         next = view.findViewById(R.id.button_next);
         previous = view.findViewById(R.id.button_previous);
+
+        saveDialogSave = view.findViewById(R.id.saveDialog_saveBtn);
         //infoButton = (ImageButton) view.findViewById(R.id.button_info);
        // homeButton = (ImageButton) view.findViewById(R.id.button_home);
 
@@ -157,14 +160,25 @@ public class Visualizer extends Fragment {
 
                 DialogFragment saveDialog = new DialogSave();
                 saveDialog.show(ft, "save");
-                //TODO: set conditional for save() method from dialog window, alertdialog.builder?
-                save();
+//                saveDialogSave.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        save();
+//                    }
+//                });
             }
         });
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                load();
+//                load();
+//                Fragment filesFrag = new Files();
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.visualizer_fragment, filesFrag);
+//                ft.addToBackStack(null);
+//                ft.commit();
+                MainActivity.openFragment(new Files(), false);
+
             }
         });
         autopopulateButton.setOnClickListener(new View.OnClickListener() {
@@ -454,7 +468,7 @@ public class Visualizer extends Fragment {
         visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
     }
 
-    private void save() {
+    public void save() {
         Context context = getContext();
         JSONObject treeObj = new JSONObject();
 
