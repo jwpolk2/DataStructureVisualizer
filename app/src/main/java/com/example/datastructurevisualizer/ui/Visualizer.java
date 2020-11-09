@@ -328,6 +328,7 @@ public class Visualizer extends Fragment {
 
     private void insert() {
         checkCanvas();
+        initSpinner();
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
     }
