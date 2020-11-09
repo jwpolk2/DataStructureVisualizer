@@ -59,9 +59,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Displays the key on the Node.
         Paint textPaint = new Paint();
-        textPaint.setColor(Color.WHITE);
+        textPaint.setARGB(255, AnimationParameters.TEXT_R, AnimationParameters.TEXT_G,
+                AnimationParameters.TEXT_B);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(40);
+        textPaint.setTextSize(2 * (int)AnimationParameters.NODE_RADIUS);
 
         // Draws the Node and text.
         canvas.drawCircle(

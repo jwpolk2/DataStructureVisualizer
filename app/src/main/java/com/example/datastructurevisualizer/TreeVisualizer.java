@@ -2,9 +2,6 @@ package com.example.datastructurevisualizer;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
-
-import com.example.datastructurevisualizer.ui.Visualizer;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -187,9 +184,11 @@ public class TreeVisualizer extends NodeVisualizer {
 
             // Pops the next Node from the queue.
             currNode = queue.pop();
-            queueListPopAnimation("Popped " + currNode.key);
-            queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+            if (currNode != null) {
+                queueListPopAnimation("Popped " + currNode.key);
+                queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
+            }
         }
     }
 
@@ -214,7 +213,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
         // Returns if currNode is null.
         if (currNode == null) {
-            queueNodeSelectAnimation(currNode, "Current Node null, desired Node not found");
+            queueNodeSelectAnimation(null, "Current Node null, desired Node not found");
             return;
 
         }
@@ -223,12 +222,10 @@ public class TreeVisualizer extends NodeVisualizer {
         if (currNode.key == key) {
             queueNodeSelectAnimation(currNode, key + " == "
                     + currNode.key + ", desired Node found");
-            return;
 
         }
-
         // Explores the left subtree.
-        if (key < currNode.key) {
+        else if (key < currNode.key) {
             for (int i = 0; i < numChildren / 2; ++i) {
                 queueNodeSelectAnimation(currNode.children[i],
                         key + " < " + currNode.key +
@@ -238,7 +235,7 @@ public class TreeVisualizer extends NodeVisualizer {
             }
         }
         // Explores the right subtree.
-        else if (key > currNode.key) {
+        else {
             for (int i = numChildren / 2; i < numChildren; ++i) {
                 queueNodeSelectAnimation(currNode.children[i],
                         key + " > " + currNode.key +
@@ -596,7 +593,7 @@ public class TreeVisualizer extends NodeVisualizer {
         // Finds the maximum depth of this Node's subtrees.
         for (int i = 0; i < getNumChildren(); ++i) {
             val = getDepthRecursive(currNode.children[i]);
-            max = max < val ? val : max;
+            max = Math.max(max, val);
 
         }
 

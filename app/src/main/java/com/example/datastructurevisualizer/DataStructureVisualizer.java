@@ -293,7 +293,7 @@ public class DataStructureVisualizer {
         clear();
 
         // Rebuilds the tree.
-        logIndex = logIndex - 1 < 0 ? 0 : logIndex - 1;
+        logIndex = Math.max(logIndex - 1, 0);
         for (int i = 0; i < logIndex; ++i) log.get(i).action();
 
         // Renders the DataStructure.
