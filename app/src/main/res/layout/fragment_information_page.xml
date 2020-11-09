@@ -1,37 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/information_frag_container"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_gravity="top"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundWhite"
     android:clickable="true"
 
     >
-    <LinearLayout
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/informationTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-        <TextView
+        android:background="@color/backgroundRed"
+        app:tabTextColor="@color/textHomepageButtons"
+        app:tabRippleColor="@color/button_blue"
+        app:tabIndicatorColor="@color/button_blue"
+        >
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/info_datastructure_header"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:text="Unexpected Error occurred return to home"/>
-        <Button
-            android:id="@+id/visualize_button"
+            android:text="Overview and Complexities"
+            />
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/homepage_button"
-            android:textColor="@color/textHomepageButtons"
-            android:textAllCaps="false"
-            android:textSize="20sp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textStyle="bold"
-            android:text="Home"
-            android:layout_marginBottom="40dp"
-            android:gravity="center"/>
-    </LinearLayout>
-</ScrollView>
+            android:text="Modern Uses"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Code"
+/>
+
+
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_pager"/>
+</LinearLayout>
