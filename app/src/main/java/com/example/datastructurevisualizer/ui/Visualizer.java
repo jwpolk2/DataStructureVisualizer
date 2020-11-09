@@ -158,7 +158,9 @@ public class Visualizer extends Fragment {
                     ft.remove(prev);
                 } ft.addToBackStack(null);
 
-                DialogFragment saveDialog = new DialogSave();
+                DialogSave saveDialog = new DialogSave();
+                saveDialog.setTree(tree);
+                saveDialog.setDataStructureType(dataStructureType);
                 saveDialog.show(ft, "save");
 //                saveDialogSave.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -171,13 +173,13 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                load();
+                load();
 //                Fragment filesFrag = new Files();
 //                FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                ft.replace(R.id.visualizer_fragment, filesFrag);
 //                ft.addToBackStack(null);
 //                ft.commit();
-                MainActivity.openFragment(new Files(), false);
+  //              MainActivity.openFragment(new Files(), false);
 
             }
         });
@@ -278,9 +280,9 @@ public class Visualizer extends Fragment {
                         break;
                     case "Value Search":
                         checkCanvas();
-                        tree.search(10);
+                        tree.search(10); // TODO this should be modifiable
                         break;
-                    case "Breadth-First Search":
+                    case "Breadth-First":
                         checkCanvas();
                         tree.breadthFirstTraversal();
                         break;

@@ -24,9 +24,9 @@ public class AnimationParameters {
     static final int VEC_B = 0;
 
     // Default colour of text.
-    static final int TEXT_R = 0;
-    static final int TEXT_G = 0;
-    static final int TEXT_B = 0;
+    static final int TEXT_R = 255;
+    static final int TEXT_G = 255;
+    static final int TEXT_B = 255;
 
     // Default colour of background.
     static final int BACK_R = 255;
@@ -71,7 +71,7 @@ public class AnimationParameters {
     static float animSpeed = 1;
 
     // Mutex that prevents animations from occurring concurrently.
-    private static Semaphore mutex = new Semaphore(1);
+    private static final Semaphore mutex = new Semaphore(1);
 
     /**
      * Locks the animation mutex to stop concurrent animation.

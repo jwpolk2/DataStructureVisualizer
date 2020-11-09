@@ -9,6 +9,9 @@
     tools:context="ui.Files"
     android:background="@color/backgroundRed"
     android:clickable="true">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/filesRecycle"
             android:layout_width="match_parent"
@@ -21,5 +24,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Test file action" />
-
+        </ScrollView>
 </RelativeLayout>

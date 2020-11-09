@@ -19,7 +19,7 @@ public class HashTable extends DataStructureVisualizer {
     int numBuckets;
 
     // Table containing keys.
-    LinkedList hashTable[];
+    LinkedList[] hashTable;
 
     /**
      * Constructor for HashTable, determines the hashing function.

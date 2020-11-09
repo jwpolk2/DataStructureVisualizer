@@ -2,9 +2,6 @@ package com.example.datastructurevisualizer;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
-
-import com.example.datastructurevisualizer.ui.Visualizer;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -164,31 +161,36 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Performs a breadth-first traversal over a tree. Will perform an animation
      * indicating the current node being targeted and the queue of Nodes to explore.
-     *
-     * @param currNode the first Node in the traversal.
      */
-    private void treeBreadthFirstTraversal(Node currNode) {
+    private void treeBreadthFirstTraversal() {
+        Node currNode = root;
         java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
 
         // Highlights the first Node.
         queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
         // Explores Nodes until the queue is empty.
-        while (currNode != null) {
+        while (true) {
 
             // Marks that this Node's children should be explored.
             for (int i = 0; i < getNumChildren(); ++i) {
                 if (currNode.children[i] != null) {
-                    queue.addLast(currNode);
-                    queueQueueAddAnimation(currNode.children[i], "Queueing " + currNode.key);
+                    queue.addLast(currNode.children[i]);
+                    queueQueueAddAnimation(currNode.children[i],
+                            "Queueing " + currNode.children[i].key);
 
                 }
             }
 
             // Pops the next Node from the queue.
-            currNode = queue.pop();
-            queueListPopAnimation("Popped " + currNode.key);
-            queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+            if (!queue.isEmpty()) {
+                currNode = queue.pop();
+                queueListPopAnimation("Popped " + currNode.key);
+                queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+
+            }
+            // If the queue is empty, breaks.
+            else break;
 
         }
     }
@@ -198,7 +200,7 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public void breadthFirstTraversal() {
         beginAnimation();
-        treeBreadthFirstTraversal(root);
+        treeBreadthFirstTraversal();
         stopAnimation();
 
     }
@@ -214,7 +216,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
         // Returns if currNode is null.
         if (currNode == null) {
-            queueNodeSelectAnimation(currNode, "Current Node null, desired Node not found");
+            queueNodeSelectAnimation(null, "Current Node null, desired Node not found");
             return;
 
         }
@@ -223,12 +225,10 @@ public class TreeVisualizer extends NodeVisualizer {
         if (currNode.key == key) {
             queueNodeSelectAnimation(currNode, key + " == "
                     + currNode.key + ", desired Node found");
-            return;
 
         }
-
         // Explores the left subtree.
-        if (key < currNode.key) {
+        else if (key < currNode.key) {
             for (int i = 0; i < numChildren / 2; ++i) {
                 queueNodeSelectAnimation(currNode.children[i],
                         key + " < " + currNode.key +
@@ -238,7 +238,7 @@ public class TreeVisualizer extends NodeVisualizer {
             }
         }
         // Explores the right subtree.
-        else if (key > currNode.key) {
+        else {
             for (int i = numChildren / 2; i < numChildren; ++i) {
                 queueNodeSelectAnimation(currNode.children[i],
                         key + " > " + currNode.key +
@@ -596,7 +596,7 @@ public class TreeVisualizer extends NodeVisualizer {
         // Finds the maximum depth of this Node's subtrees.
         for (int i = 0; i < getNumChildren(); ++i) {
             val = getDepthRecursive(currNode.children[i]);
-            max = max < val ? val : max;
+            max = Math.max(max, val);
 
         }
 
