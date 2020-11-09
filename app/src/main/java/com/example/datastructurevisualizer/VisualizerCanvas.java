@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -107,5 +108,16 @@ public class VisualizerCanvas extends SurfaceView {
 
     public void setParent(Visualizer visualizer) {
         parent = visualizer;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public void clearCanvas() {
+        bitmap.eraseColor(Color.TRANSPARENT);
+        canvas.setBitmap(bitmap);
+        canvas.drawRGB(AnimationParameters.BACK_R,
+                AnimationParameters.BACK_G, AnimationParameters.BACK_B);
     }
 }
