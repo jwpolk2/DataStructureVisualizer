@@ -161,34 +161,37 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Performs a breadth-first traversal over a tree. Will perform an animation
      * indicating the current node being targeted and the queue of Nodes to explore.
-     *
-     * @param currNode the first Node in the traversal.
      */
-    private void treeBreadthFirstTraversal(Node currNode) {
+    private void treeBreadthFirstTraversal() {
+        Node currNode = root;
         java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
 
         // Highlights the first Node.
         queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
         // Explores Nodes until the queue is empty.
-        while (currNode != null) {
+        while (true) {
 
             // Marks that this Node's children should be explored.
             for (int i = 0; i < getNumChildren(); ++i) {
                 if (currNode.children[i] != null) {
-                    queue.addLast(currNode);
-                    queueQueueAddAnimation(currNode.children[i], "Queueing " + currNode.key);
+                    queue.addLast(currNode.children[i]);
+                    queueQueueAddAnimation(currNode.children[i],
+                            "Queueing " + currNode.children[i].key);
 
                 }
             }
 
             // Pops the next Node from the queue.
-            currNode = queue.pop();
-            if (currNode != null) {
+            if (!queue.isEmpty()) {
+                currNode = queue.pop();
                 queueListPopAnimation("Popped " + currNode.key);
                 queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
             }
+            // If the queue is empty, breaks.
+            else break;
+
         }
     }
 
@@ -197,7 +200,7 @@ public class TreeVisualizer extends NodeVisualizer {
      */
     public void breadthFirstTraversal() {
         beginAnimation();
-        treeBreadthFirstTraversal(root);
+        treeBreadthFirstTraversal();
         stopAnimation();
 
     }

@@ -280,9 +280,9 @@ public class Visualizer extends Fragment {
                         break;
                     case "Value Search":
                         checkCanvas();
-                        tree.search(10);
+                        tree.search(10); // TODO this should be modifiable
                         break;
-                    case "Breadth-First Search":
+                    case "Breadth-First":
                         checkCanvas();
                         tree.breadthFirstTraversal();
                         break;
