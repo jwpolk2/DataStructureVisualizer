@@ -3,7 +3,6 @@ package com.example.datastructurevisualizer;
 // https://github.com/tgvdinesh/binary-search-tree
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements
-// TODO note that for this tree key is the integer key
 
 import java.util.LinkedList;
 import java.util.List;
@@ -119,7 +118,7 @@ public class BinarySearchTree extends TreeVisualizer {
      * Breadth-First Search/Traversal in a Binary Tree</a>
      * <a href="https://youtu.be/AmG20guDrPw">Level Order Traversal</a>
      *
-     * TODO remove?
+     * This is not used, see breadthFirstTraversal in TreeVisualizer.
      *
      * @param root Root element
      */
@@ -264,7 +263,7 @@ public class BinarySearchTree extends TreeVisualizer {
     }
 
     /**
-     * TODO comment
+     * Removes a Node from the tree without any animation.
      *
      * @param id the key to be removed.
      */
@@ -345,10 +344,12 @@ public class BinarySearchTree extends TreeVisualizer {
     }
 
     /**
-     * TODO comment
+     * Removes a Node from the tree. Will animate the traversal that finds the
+     * Node to remove, as well as the removal of said Node.
+     *
      * TODO animate
      *
-     * @param id the key for the new Node.
+     * @param id the key to be removed.
      */
     @Override
     protected void removeAnim(int id) {
@@ -443,21 +444,10 @@ public class BinarySearchTree extends TreeVisualizer {
         return successor;
     }
 
-    // TODO remove
-    /*Node insertWithArray(int... tree) {
-        Node fullTree = null;
-        for (int i :
-                tree) {
-            fullTree = insertNoAnim(i);
-        }
-        return fullTree;
-    }*/
-
     /**
-     * TODO comment
+     * Inserts a Node into the tree with no animation.
      *
-     * @param id
-     * @return
+     * @param id the ID of the Node to be inserted.
      */
     @Override
     public void insertNoAnim(int id) {
@@ -500,7 +490,7 @@ public class BinarySearchTree extends TreeVisualizer {
      * Inserts a Node into the tree. Will animate the traversal that finds the
      * appropriate place for the Node.
      *
-     * @param id the ID of the node to insert.
+     * @param id the key of the Node to be inserted.
      */
     @Override
     protected void insertAnim(int id) {
@@ -513,11 +503,12 @@ public class BinarySearchTree extends TreeVisualizer {
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;
+            placeTreeNodes();
+            queueNodeMoveAnimation("Creating root");
             return;
         }
 
         Node current = root;
-        queueStackAddAnimation(current, "Exploring " + current.key);
         queueNodeSelectAnimation(current, "Start at root " + current.key);
         Node parent;
         while (true) {
@@ -527,12 +518,11 @@ public class BinarySearchTree extends TreeVisualizer {
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
                     placeTreeNodes();
-                    queueNodeMoveAnimation(id + " < " + parent.key + ", placing " + id);
+                    queueNodeMoveAnimation(id + " < " + parent.key + ", placing " + id + " as left child");
                     return;
 
                 }
                 else {
-                    queueStackAddAnimation(current, "Exploring " + current.key);
                     queueNodeSelectAnimation(current, id + " < " + parent.key +
                             ", exploring left subtree");
                 }
@@ -541,12 +531,11 @@ public class BinarySearchTree extends TreeVisualizer {
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
                     placeTreeNodes();
-                    queueNodeMoveAnimation(id + " > " + parent.key + ", placing " + id);
+                    queueNodeMoveAnimation(id + " > " + parent.key + ", placing " + id + " as right child");
                     return;
 
                 }
                 else {
-                    queueStackAddAnimation(current, "Exploring " + current.key);
                     queueNodeSelectAnimation(current, id + " > " + parent.key +
                             ", exploring right subtree");
                 }

@@ -2,15 +2,16 @@ package com.example.datastructurevisualizer;
 
 // https://github.com/williamfiset/data-structures/blob/master/com/williamfiset/datastructures/balancedtree/AVLTreeRecursive.java#L366
 // TODO this tree is distributed under the MIT license
-// TODO implement MIT license requirements
-// TODO note that for this tree key is the integer key, value is the balance factor, and extraData[0] is the height of the node.
-    // TODO the above may need to be changed
+// TODO implement MIT license requirements.
+
+import android.util.Log;
 
 /**
  * This file contains an implementation of an AVL tree. An AVL tree is a special type of binary tree
  * which self balances itself to keep operations logarithmic.
  *
- * For this tree Node.key is the integer key
+ * For this tree Node.key is the integer key, Node.value is the balance factor,
+ * and extraData[0] stores an Integer that contains the height of the Node.
  *
  * @author William Fiset, william.alexandre.fiset@gmail.com
  */
@@ -105,11 +106,11 @@ public class AVLTree extends TreeVisualizer {
         // Insert node in left subtree.
         if (key < node.key) {
             node.children[ChildNames.LEFT.i] = insertNoAnim(node.children[ChildNames.LEFT.i], key);
-            ;
 
             // Insert node in right subtree.
         } else {
             node.children[ChildNames.RIGHT.i] = insertNoAnim(node.children[ChildNames.RIGHT.i], key);
+
         }
 
         // Update balance factor and height keys.
@@ -135,17 +136,22 @@ public class AVLTree extends TreeVisualizer {
         // If there is no duplicate, logs the insertion.
         else logAdd(key);
 
-        if (!contains(root, key)) {
-            root = insertAnim(root, key);
-            nodeCount++;
+        // Creates a root if there is no root.
+        if (root == null) {
+            root = new Node(key, getNumChildren());
+            root.extraData = new Integer[1];
+            root.extraData[0] = new Integer(-1);
+            placeTreeNodes();
+            queueNodeMoveAnimation("Creating root");
+
         }
+        // Places the Node.
+        else {
+            queueNodeSelectAnimation(root, "Start at root " + root.key);
+            root = insertAnim(root, null, 0, key);
+            nodeCount++;
 
-        // Sets Node destinations
-        placeTreeNodes();
-
-        // Moves the Nodes to their destinations and finishes the animation.
-        queueNodeMoveAnimation("TODO make more moves");
-
+        }
     }
 
     /**
@@ -155,37 +161,63 @@ public class AVLTree extends TreeVisualizer {
      * Performs a traversal animation while searching, then a movement animation
      * after balancing.
      *
-     * @param node the node to be inserted.
+     * @param node the node being viewed.
+     * @param parent the parent of the node.
+     * @param child the index of the child being considered.
      * @param key the key to be inserted.
      */
-    private Node insertAnim(Node node, int key) {
-
-        // Base case.
-        if (node == null) {
-            node = new Node(key, numChildren);
-            node.extraData = new Integer[1];
-            node.extraData[0] = new Integer(-1);
-            return node;
-
-        }
-
-        // Animates traversal.
-        queueNodeSelectAnimation(node, "Exploring " + node.key);
+    private Node insertAnim(Node node, Node parent, int child, int key) {
+        Node newNode;
 
         // Insert node in left subtree.
         if (key < node.key) {
-            node.children[ChildNames.LEFT.i] = insertAnim(node.children[ChildNames.LEFT.i], key);
 
-            // Insert node in right subtree.
-        } else {
-            node.children[ChildNames.RIGHT.i] = insertAnim(node.children[ChildNames.RIGHT.i], key);
+            // Places the Node if the left child is null.
+            if (node.children[ChildNames.LEFT.i] == null) {
+                newNode = new Node(key, getNumChildren());
+                newNode.extraData = new Integer[1];
+                newNode.extraData[0] = new Integer(-1);
+                node.children[ChildNames.LEFT.i] = newNode;
+                placeTreeNodes();
+                queueNodeMoveAnimation(key + " < " + node.key + ", placing " + key + " as left child");
+
+            }
+            // Continues parsing if the left child is non-null.
+            else {
+                queueNodeSelectAnimation(node.children[ChildNames.LEFT.i], key + " < " + node.key +
+                        ", exploring left subtree");
+                node.children[ChildNames.LEFT.i] = insertAnim(node.children[ChildNames.LEFT.i], node, ChildNames.LEFT.i, key);
+
+            }
+        }
+        // Insert node in right subtree.
+        else {
+
+            // Places the Node if the right child is null.
+            if (node.children[ChildNames.RIGHT.i] == null) {
+                newNode = new Node(key, getNumChildren());
+                newNode.extraData = new Integer[1];
+                newNode.extraData[0] = new Integer(-1);
+                node.children[ChildNames.RIGHT.i] = newNode;
+                placeTreeNodes();
+                queueNodeMoveAnimation(key + " > " + node.key + ", placing " + key + " as right child");
+
+            }
+            // Continues parsing if the right child is non-null.
+            else {
+                queueNodeSelectAnimation(node.children[ChildNames.RIGHT.i], key + " > " + node.key +
+                        ", exploring right subtree");
+                node.children[ChildNames.RIGHT.i] = insertAnim(node.children[ChildNames.RIGHT.i], node, ChildNames.RIGHT.i, key);
+
+            }
         }
 
         // Update balance factor and height keys.
         update(node);
 
         // Re-balance tree.
-        return balanceAnim(node);
+        return balanceAnim(node, parent, child);
+
     }
 
     // Update a node's height and balance factor.
@@ -238,40 +270,93 @@ public class AVLTree extends TreeVisualizer {
     }
 
     /**
-     * TODO
+     * Performs an animation while balancing the tree.
      *
-     * @param node
-     * @return
+     * @param node the Node being balanced around.
+     * @param parent the parent of Node (root if null).
+     * @param child which child of parent node belongs to.
+     * @return a Node to be made the child of parent (deprecated).
      */
-    private Node balanceAnim(Node node) {
+    private Node balanceAnim(Node node, Node parent, int child) {
+        Node ret = node;
 
         // Left heavy subtree.
         if (node.value == -2) {
 
             // Left-Left case.
             if (node.children[ChildNames.LEFT.i].value <= 0) {
-                return leftLeftCase(node);
 
-                // Left-Right case.
-            } else {
-                return leftRightCase(node);
+                // Performs right rotation.
+                ret =  rightRotation(node);
+                if (parent == null) root = ret;
+                else parent.children[child] = ret;
+
+                // Moves the Nodes to their destinations and returns.
+                placeTreeNodes();
+                queueNodeMoveAnimation("LL Right rotation");
+
             }
+            // Left-Right case.
+            else {
 
-            // Right heavy subtree needs balancing.
-        } else if (node.value == +2) {
+                // Performs left rotation.
+                node.children[ChildNames.LEFT.i] = leftRotation(node.children[ChildNames.LEFT.i]);
+
+                // Animates rotation.
+                placeTreeNodes();
+                queueNodeMoveAnimation("LR Left rotation");
+
+                // Performs right rotation.
+                ret =  rightRotation(node);
+                if (parent == null) root = ret;
+                else parent.children[child] = ret;
+
+                // Animates rotation.
+                placeTreeNodes();
+                queueNodeMoveAnimation("LR Right rotation");
+
+            }
+        }
+        // Right heavy subtree needs balancing.
+        else if (node.value == +2) {
 
             // Right-Right case.
             if (node.children[ChildNames.RIGHT.i].value >= 0) {
-                return rightRightCase(node);
 
-                // Right-Left case.
-            } else {
-                return rightLeftCase(node);
+                // Performs left rotation.
+                ret =  leftRotation(node);
+                if (parent == null) root = ret;
+                else parent.children[child] = ret;
+
+                // Animates rotation.
+                placeTreeNodes();
+                queueNodeMoveAnimation("RR Left rotation ");
+
+            }
+            // Right-Left case.
+            else {
+
+                // Performs right rotation.
+                node.children[ChildNames.RIGHT.i] = rightRotation(node.children[ChildNames.RIGHT.i]);
+
+                // Animates rotation.
+                placeTreeNodes();
+                queueNodeMoveAnimation("RL Right rotation");
+
+                // Performs left rotation.
+                ret = leftRotation(node);
+                if (parent == null) root = ret;
+                else parent.children[child] = ret;
+
+                // Animates rotation.
+                placeTreeNodes();
+                queueNodeMoveAnimation("RL Left rotation");
+
             }
         }
 
-        // Node either has a balance factor of 0, +1 or -1 which is fine.
-        return node;
+        // Returns the node.
+        return ret;
 
     }
 
@@ -341,12 +426,12 @@ public class AVLTree extends TreeVisualizer {
         // Dig into left subtree, the key we're looking
         // for is smaller than the current key.
         if (elem < node.key) {
-            node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], elem);
+            node.children[ChildNames.LEFT.i] = removeNoAnim(node.children[ChildNames.LEFT.i], elem);
 
             // Dig into right subtree, the key we're looking
             // for is greater than the current key.
         } else if (elem > node.key) {
-            node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], elem);
+            node.children[ChildNames.RIGHT.i] = removeNoAnim(node.children[ChildNames.RIGHT.i], elem);
 
             // Found the node we wish to remove.
         } else {
@@ -378,7 +463,7 @@ public class AVLTree extends TreeVisualizer {
                     node.key = successorValue;
 
                     // Find the largest node in the left subtree.
-                    node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], successorValue);
+                    node.children[ChildNames.LEFT.i] = removeNoAnim(node.children[ChildNames.LEFT.i], successorValue);
 
                 } else {
 
@@ -389,7 +474,7 @@ public class AVLTree extends TreeVisualizer {
                     // Go into the right subtree and remove the leftmost node we
                     // found and swapped data with. This prevents us from having
                     // two nodes in our tree with the same key.
-                    node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], successorValue);
+                    node.children[ChildNames.RIGHT.i] = removeNoAnim(node.children[ChildNames.RIGHT.i], successorValue);
                 }
             }
         }
@@ -408,6 +493,8 @@ public class AVLTree extends TreeVisualizer {
      * Performs a traversal animation while searching, then a movement animation
      * after balancing.
      *
+     * TODO test rotations in removeAnim recursion, animate removal
+     *
      * @param elem the key to be removed.
      */
     protected void removeAnim(int elem) {
@@ -416,16 +503,9 @@ public class AVLTree extends TreeVisualizer {
         logRemove(elem);
 
         if (contains(root, elem)) {
-            root = removeAnim(root, elem);
+            root = removeAnim(root, null, ChildNames.LEFT.i, elem);
             nodeCount--;
         }
-
-        // Sets Node destinations
-        placeTreeNodes();
-
-        // Moves the Nodes to their destinations and finishes the animation.
-        queueNodeMoveAnimation("TODO more rotations");
-
     }
 
     /**
@@ -435,10 +515,12 @@ public class AVLTree extends TreeVisualizer {
      * Performs a traversal animation while searching, then a movement animation
      * after balancing.
      *
-     * @param node the node to be removed.
+     * @param node the node being viewed.
+     * @param parent the parent of the node.
+     * @param child the index of the child being considered.
      * @param elem the key to be removed.
      */
-    private Node removeAnim(Node node, int elem) {
+    private Node removeAnim(Node node, Node parent, int child, int elem) {
         if (node == null) return null;
 
         // Dig into left subtree, the key we're looking
@@ -448,7 +530,7 @@ public class AVLTree extends TreeVisualizer {
             // Animates traversal.
             queueNodeSelectAnimation(node, "Exploring " + node.key);
 
-            node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], elem);
+            node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], parent, ChildNames.LEFT.i, elem);
 
             // Dig into right subtree, the key we're looking
             // for is greater than the current key.
@@ -457,7 +539,7 @@ public class AVLTree extends TreeVisualizer {
             // Animates traversal.
             queueNodeSelectAnimation(node, "Exploring " + node.key);
 
-            node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], elem);
+            node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], parent, ChildNames.RIGHT.i, elem);
 
             // Found the node we wish to remove.
         } else {
@@ -489,7 +571,7 @@ public class AVLTree extends TreeVisualizer {
                     node.key = successorValue;
 
                     // Find the largest node in the left subtree.
-                    node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], successorValue);
+                    node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], parent, ChildNames.LEFT.i, successorValue);
 
                 } else {
 
@@ -500,7 +582,7 @@ public class AVLTree extends TreeVisualizer {
                     // Go into the right subtree and remove the leftmost node we
                     // found and swapped data with. This prevents us from having
                     // two nodes in our tree with the same key.
-                    node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], successorValue);
+                    node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], parent, ChildNames.RIGHT.i, successorValue);
                 }
             }
         }
@@ -509,7 +591,8 @@ public class AVLTree extends TreeVisualizer {
         update(node);
 
         // Re-balance tree.
-        return balanceAnim(node);
+        return balanceAnim(node, parent, child);
+
     }
 
     // Helper method to find the leftmost node (which has the smallest key)
@@ -523,18 +606,4 @@ public class AVLTree extends TreeVisualizer {
         while (node.children[ChildNames.RIGHT.i] != null) node = node.children[ChildNames.RIGHT.i];
         return node.key;
     }
-
-    // Make sure all left child nodes are smaller in key than their parent and
-    // make sure all right child nodes are greater in key than their parent.
-    // (Used only for testing)
-    // TODO DEBUG REMOVE (I didn't bother fixing this)
-    /*public boolean validateBSTInvarient(Node node) {
-        if (node == null) return true;
-        int val = node.key;
-        boolean isValid = true;
-        if (node.children[ChildNames.LEFT.i] != null) isValid = isValid && node.children[ChildNames.LEFT.i].key.compareTo(val) < 0;
-        if (node.children[ChildNames.RIGHT.i] != null) isValid = isValid && node.children[ChildNames.RIGHT.i].key.compareTo(val) > 0;
-        return isValid && validateBSTInvarient(node.children[ChildNames.LEFT.i]) && validateBSTInvarient(node.children[ChildNames.RIGHT.i]);
-
-    }*/
 }

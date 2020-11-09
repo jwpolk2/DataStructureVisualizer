@@ -3,7 +3,8 @@ package com.example.datastructurevisualizer;
 /**
  * TODO comment
  *
- * TODO implement special HashTable functionality (what?)
+ * TODO implement HashTable collisions
+ * TODO implement more Hash functions.
  */
 public class HashTable extends DataStructureVisualizer {
 
@@ -18,7 +19,7 @@ public class HashTable extends DataStructureVisualizer {
     int numBuckets;
 
     // Table containing keys.
-    LinkedList hashTable[];
+    LinkedList[] hashTable;
 
     /**
      * Constructor for HashTable, determines the hashing function.

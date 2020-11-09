@@ -2,9 +2,6 @@ package com.example.datastructurevisualizer;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
-
-import com.example.datastructurevisualizer.ui.Visualizer;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,25 +66,12 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Runs a pre-order traversal.
-     */
-    private class RunPreOrder implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treePreOrderTraversal(root);
-            animate();
-            stopAnimation();
-
-        }
-    }
-
-    /**
      * Begins a pre-order traversal.
      */
     public void preOrderTraversal() {
-        RunPreOrder run = new RunPreOrder();
-        new Thread(run).start();
+        beginAnimation();
+        treePreOrderTraversal(root);
+        stopAnimation();
 
     }
 
@@ -122,26 +106,14 @@ public class TreeVisualizer extends NodeVisualizer {
 
     }
 
-    /**
-     * Runs a post-order traversal.
-     */
-    private class RunPostOrder implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treePostOrderTraversal(root);
-            animate();
-            stopAnimation();
-
-        }
-    }
 
     /**
      * Begins a post-order traversal.
      */
     public void postOrderTraversal() {
-        RunPostOrder run = new RunPostOrder();
-        new Thread(run).start();
+        beginAnimation();
+        treePostOrderTraversal(root);
+        stopAnimation();
 
     }
 
@@ -177,70 +149,48 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Runs a post-order traversal.
-     */
-    private class RunInOrder implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treeInOrderTraversal(root);
-            animate();
-            stopAnimation();
-
-        }
-    }
-
-    /**
      * Begins an in-order traversal.
      */
     public void inOrderTraversal() {
-        RunInOrder run = new RunInOrder();
-        new Thread(run).start();
+        beginAnimation();
+        treeInOrderTraversal(root);
+        stopAnimation();
 
     }
 
     /**
      * Performs a breadth-first traversal over a tree. Will perform an animation
      * indicating the current node being targeted and the queue of Nodes to explore.
-     *
-     * @param currNode the first Node in the traversal.
      */
-    private void treeBreadthFirstTraversal(Node currNode) {
+    private void treeBreadthFirstTraversal() {
+        Node currNode = root;
         java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
 
         // Highlights the first Node.
         queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
         // Explores Nodes until the queue is empty.
-        while (currNode != null) {
+        while (true) {
 
             // Marks that this Node's children should be explored.
             for (int i = 0; i < getNumChildren(); ++i) {
                 if (currNode.children[i] != null) {
-                    queue.addLast(currNode);
-                    queueQueueAddAnimation(currNode.children[i], "Queueing " + currNode.key);
+                    queue.addLast(currNode.children[i]);
+                    queueQueueAddAnimation(currNode.children[i],
+                            "Queueing " + currNode.children[i].key);
 
                 }
             }
 
             // Pops the next Node from the queue.
-            currNode = queue.pop();
-            queueListPopAnimation("Popped " + currNode.key);
-            queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
+            if (!queue.isEmpty()) {
+                currNode = queue.pop();
+                queueListPopAnimation("Popped " + currNode.key);
+                queueNodeSelectAnimation(currNode, "Exploring " + currNode.key);
 
-        }
-    }
-
-    /**
-     * Runs a breadth-first traversal.
-     */
-    private class RunBreadthFirst implements Runnable {
-        @Override
-        public void run() {
-            beginAnimation();
-            treeBreadthFirstTraversal(root);
-            animate();
-            stopAnimation();
+            }
+            // If the queue is empty, breaks.
+            else break;
 
         }
     }
@@ -249,8 +199,66 @@ public class TreeVisualizer extends NodeVisualizer {
      * Begins a breadth-first traversal.
      */
     public void breadthFirstTraversal() {
-        RunBreadthFirst run = new RunBreadthFirst();
-        new Thread(run).start();
+        beginAnimation();
+        treeBreadthFirstTraversal();
+        stopAnimation();
+
+    }
+
+    /**
+     * Performs a search traversal over a tree. Will perform an animation
+     * indicating the current node being searched.
+     *
+     * @param currNode the node currently targeted by the traversal.
+     */
+    private void valueSearch(int key, Node currNode) {
+        int numChildren = getNumChildren();
+
+        // Returns if currNode is null.
+        if (currNode == null) {
+            queueNodeSelectAnimation(null, "Current Node null, desired Node not found");
+            return;
+
+        }
+
+        // Finishes the traversal if the key has been found.
+        if (currNode.key == key) {
+            queueNodeSelectAnimation(currNode, key + " == "
+                    + currNode.key + ", desired Node found");
+
+        }
+        // Explores the left subtree.
+        else if (key < currNode.key) {
+            for (int i = 0; i < numChildren / 2; ++i) {
+                queueNodeSelectAnimation(currNode.children[i],
+                        key + " < " + currNode.key +
+                                ", exploring left subtree");
+                valueSearch(key, currNode.children[i]);
+
+            }
+        }
+        // Explores the right subtree.
+        else {
+            for (int i = numChildren / 2; i < numChildren; ++i) {
+                queueNodeSelectAnimation(currNode.children[i],
+                        key + " > " + currNode.key +
+                                ", exploring right subtree");
+                valueSearch(key, currNode.children[i]);
+
+            }
+        }
+    }
+
+    /**
+     * Begins searching for a key.
+     *
+     * @param key the key to search for.
+     */
+    public void search(int key) {
+        beginAnimation();
+        queueNodeSelectAnimation(root, "Start at root");
+        valueSearch(key, root);
+        stopAnimation();
 
     }
 
@@ -418,7 +426,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
     }
 
-    /**
+     /**
      * Recursively parses through the tree to fill an ArrayList of nodes.
      *
      * @param currNode the current Node being viewed.
@@ -588,7 +596,7 @@ public class TreeVisualizer extends NodeVisualizer {
         // Finds the maximum depth of this Node's subtrees.
         for (int i = 0; i < getNumChildren(); ++i) {
             val = getDepthRecursive(currNode.children[i]);
-            max = max < val ? val : max;
+            max = Math.max(max, val);
 
         }
 

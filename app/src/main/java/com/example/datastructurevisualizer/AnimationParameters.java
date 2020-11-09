@@ -24,9 +24,9 @@ public class AnimationParameters {
     static final int VEC_B = 0;
 
     // Default colour of text.
-    static final int TEXT_R = 0;
-    static final int TEXT_G = 0;
-    static final int TEXT_B = 0;
+    static final int TEXT_R = 255;
+    static final int TEXT_G = 255;
+    static final int TEXT_B = 255;
 
     // Default colour of background.
     static final int BACK_R = 255;
@@ -45,8 +45,13 @@ public class AnimationParameters {
 
     // Default colour of a highlighted Node.
     static final int HIL_NODE_R = 0;
-    static final int HIL_NODE_G = 80;
+    static final int HIL_NODE_G = 120;
     static final int HIL_NODE_B = 0;
+
+    // Default colour of an explored Node.
+    static final int EXP_NODE_R = 0;
+    static final int EXP_NODE_G = 40;
+    static final int EXP_NODE_B = 0;
 
     // Current position in the Canvas.
     // TODO remove
@@ -66,13 +71,14 @@ public class AnimationParameters {
     static float animSpeed = 1;
 
     // Mutex that prevents animations from occurring concurrently.
-    private static Semaphore mutex = new Semaphore(1);
+    private static final Semaphore mutex = new Semaphore(1);
 
     /**
      * Locks the animation mutex to stop concurrent animation.
      */
     public static void beginAnimation() {
         try {
+            pause();
             mutex.acquire();
             Visualizer.displayMessage("");
         } catch (InterruptedException e) {
@@ -82,11 +88,50 @@ public class AnimationParameters {
     }
 
     /**
+     * Attempts to begin an animation.
+     *
+     * @return true if the mutex is acquired, otherwise false.
+     */
+    public static boolean tryBeginAnimation() {
+        return mutex.tryAcquire();
+
+    }
+
+    /**
      * Unlocks the animation mutex to allow another animation to occur.
      */
     public static void stopAnimation() {
         Visualizer.displayMessage("");
         mutex.release();
+
+    }
+
+    // Pause variable.
+    static boolean paused = false;
+
+    /**
+     * Pauses the animation.
+     */
+    public static void pause() {
+        paused = true;
+
+    }
+
+    /**
+     * Unpauses the animation.
+     */
+    public static void unpause() {
+        paused = false;
+
+    }
+
+    /**
+     * Tells the user whether or not the Animation is paused.
+     *
+     * @return true if paused, otherwise false.
+     */
+    public static boolean isPaused() {
+       return paused;
 
     }
 }

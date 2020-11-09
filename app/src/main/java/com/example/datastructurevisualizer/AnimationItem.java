@@ -2,6 +2,8 @@ package com.example.datastructurevisualizer;
 
 import com.example.datastructurevisualizer.ui.Visualizer;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Class representing an individual animation. Should be inherited and used
  * within DataStructureVisualizer and its child classes.
@@ -37,5 +39,16 @@ public class AnimationItem {
     public void reverse() {
         Visualizer.displayMessage(message);
 
+    }
+
+    /**
+     * Sleeps for a certain number of milliseconds.
+     */
+    protected void sleep(int time) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

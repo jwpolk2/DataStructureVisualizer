@@ -74,12 +74,21 @@ public class LinkedList extends TreeVisualizer {
         Node node = new Node(key, getNumChildren());
 
         // Places the Node at the root if the LinkedList is empty.
-        if (root == null) root = node;
+        if (root == null) {
+            root = node;
 
-        // Places the Node at the tail.
-        Node currNode = root;
-        while (currNode.children[0] != null) currNode = currNode.children[0];
-        currNode.children[0] = node;
+        }
+        // Places the Node at the tail if the LinkedList is non-empty.
+        else {
+            Node currNode = root;
+            while (currNode.children[0] != null) currNode = currNode.children[0];
+            currNode.children[0] = node;
+
+        }
+
+        // Places the Nodes at their desired positions.
+        placeTreeNodes(xPos, yPos);
+        placeNodesAtDestination();
 
     }
 
