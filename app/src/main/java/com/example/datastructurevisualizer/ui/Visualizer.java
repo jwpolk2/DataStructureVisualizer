@@ -250,6 +250,7 @@ public class Visualizer extends Fragment {
         traversals.add("In-Order");
         traversals.add("Post-Order");
         traversals.add("Pre-Order");
+        traversals.add("Breadth-First");
         traversals.add("Value Search");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
@@ -278,6 +279,10 @@ public class Visualizer extends Fragment {
                     case "Value Search":
                         checkCanvas();
                         tree.search(10);
+                        break;
+                    case "Breadth-First Search":
+                        checkCanvas();
+                        tree.breadthFirstTraversal();
                         break;
                     case "Select Traversal":
                         break;
@@ -346,8 +351,8 @@ public class Visualizer extends Fragment {
 
     public void checkCanvas() {
         if (visualizerCanvas.canvas == null) {
-            int vHeight = 0;
-            int vWidth = 0;
+            int vHeight = visualizerCanvas.getHeight();
+            int vWidth = visualizerCanvas.getWidth();
             visualizerCanvas.setDimensions(vHeight, vWidth);
         }
     }
