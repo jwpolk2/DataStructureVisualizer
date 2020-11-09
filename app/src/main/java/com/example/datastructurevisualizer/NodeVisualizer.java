@@ -18,6 +18,8 @@ import java.util.ArrayList;
  * methods for these items.
  * Contains getAllNodes and getNode, to be overridden by individual
  * implementations of NodeVisualizers.
+ * Contains a getClickedNode method, which returns the key of a Node after it
+ * is clicked.
  */
 public class NodeVisualizer extends DataStructureVisualizer {
 
@@ -335,6 +337,43 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * @return the Node containing the given key or null.
      */
     public Node getNode(int key) { return null; }
+
+    /**
+     * Helper function for getClickedNode, returns true if the inputed x and y
+     * are over the inputed Node.
+     *
+     * @param x the x coordinate of click.
+     * @param y the y coordinate of click.
+     * @param node the Node being evaluated.
+     */
+    private static boolean withinBounds(int x, int y, Node node) {
+        double distance = Math.sqrt(Math.pow(x - node.position[0], 2) +
+                Math.pow(y - node.position[1], 2));
+        return distance < AnimationParameters.NODE_RADIUS * 1.04;
+
+    }
+
+    /**
+     * Returns the key of a clicked Node, or -1 if no Node has been clicked.
+     *
+     * @param xPos the x position of the click.
+     * @param yPos the y position of the click.
+     * @return the key of the clicked Node or -1 if no Node is clicked.
+     */
+    public int getClickedNode(int xPos, int yPos) {
+
+        // Gets all Nodes.
+        ArrayList<Node> nodes = getAllNodes();
+
+        // Parses through Nodes until a clicked Node is found.
+        for (Node node : nodes)
+            if (withinBounds(xPos, yPos, node))
+                return node.key;
+
+        // Returns -1 if no Node has been clicked.
+        return -1;
+
+    }
 
     /**
      * Animation item for selecting a Node.

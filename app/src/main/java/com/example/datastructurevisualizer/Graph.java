@@ -1,5 +1,7 @@
 package com.example.datastructurevisualizer;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 
 /**
@@ -13,6 +15,7 @@ import java.util.ArrayList;
  * placed, insertGraphNode accepts integer coordinates. This method should be
  * used instead of insert/insertAnim/insertNoAnim.
  * Overriddes getNode and getAllNodes to work for a graph.
+ * Overrides render to work for a graph.
  */
 public class Graph extends NodeVisualizer {
     private ArrayList<Node> nodes = new ArrayList<>();
@@ -135,6 +138,30 @@ public class Graph extends NodeVisualizer {
         for (Node node : nodes)
             if (node.key == key) return node;
         return null;
+
+    }
+
+    /**
+     * Renders the tree to the inputed canvas, starting at the root.
+     * Will also render the nodeList.
+     *
+     * @param canvas the Canvas to draw in.
+     */
+    @Override
+    public void render(Canvas canvas) {
+
+        // Makes the entire Canvas White.
+        canvas.drawRGB(AnimationParameters.BACK_R,
+                AnimationParameters.BACK_G, AnimationParameters.BACK_B);
+
+        // Renders each Node.
+        for (Node node : nodes) drawNode(node, canvas);
+
+        // Draws the nodeList over the Canvas.
+        nodeList.render(canvas);
+
+        // Renders this frame to the Canvas.
+        super.render(canvas);
 
     }
 }
