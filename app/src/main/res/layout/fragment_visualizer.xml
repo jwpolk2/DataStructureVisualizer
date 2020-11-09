@@ -134,16 +134,15 @@
 
     <com.example.datastructurevisualizer.VisualizerCanvas
         android:id="@+id/view_visualizer"
-        android:layout_width="350dp"
-        android:layout_height="0dp"
+        android:layout_width="337dp"
+        android:layout_height="400dp"
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:layout_weight="1"
         android:background="#FFFFFF"
         android:contentDescription=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-    </com.example.datastructurevisualizer.VisualizerCanvas>
+        app:layout_constraintStart_toStartOf="parent"></com.example.datastructurevisualizer.VisualizerCanvas>
 
     <ScrollView
         android:layout_width="match_parent"

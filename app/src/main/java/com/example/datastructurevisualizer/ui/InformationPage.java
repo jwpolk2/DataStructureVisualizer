@@ -52,29 +52,29 @@ public class InformationPage extends Fragment {
 
         switch (dataStructureType){
             case "Binary Search Tree":
-                view = inflater.inflate(R.layout.fragment_information_bst, container, false);
-                MainActivity.actionBar.setTitle("Data Structure Information");
+                view = inflater.inflate(R.layout.fragment_information_page, container, false);
+                MainActivity.actionBar.setTitle("Binary Search Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                treeInit(view);
-                bstInit(view);
+                //treeInit(view);
+                //bstInit(view);
                 break;
             case "Red Black Tree":
                 view = inflater.inflate(R.layout.fragment_information_rbt, container, false);
-                MainActivity.actionBar.setTitle("Data Structure Information");
+                MainActivity.actionBar.setTitle("Red Black Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 treeInit(view);
                 rbtInit(view);
                 break;
             case "Balanced Search Tree":
                 view = inflater.inflate(R.layout.fragment_information_avl, container, false);
-                MainActivity.actionBar.setTitle("Data Structure Information");
+                MainActivity.actionBar.setTitle("Balanced Search Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 treeInit(view);
                 avlInit(view);
                 break;
             case "Graph":
                 view = inflater.inflate(R.layout.fragment_information_graph, container, false);
-                MainActivity.actionBar.setTitle("Data Structure Information");
+                MainActivity.actionBar.setTitle("Graph");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 graphInit(view);
                 break;

@@ -158,7 +158,9 @@ public class Visualizer extends Fragment {
                     ft.remove(prev);
                 } ft.addToBackStack(null);
 
-                DialogFragment saveDialog = new DialogSave();
+                DialogSave saveDialog = new DialogSave();
+                saveDialog.setTree(tree);
+                saveDialog.setDataStructureType(dataStructureType);
                 saveDialog.show(ft, "save");
 //                saveDialogSave.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -171,13 +173,13 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                load();
+                load();
 //                Fragment filesFrag = new Files();
 //                FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                ft.replace(R.id.visualizer_fragment, filesFrag);
 //                ft.addToBackStack(null);
 //                ft.commit();
-                MainActivity.openFragment(new Files(), false);
+  //              MainActivity.openFragment(new Files(), false);
 
             }
         });
@@ -250,6 +252,7 @@ public class Visualizer extends Fragment {
         traversals.add("In-Order");
         traversals.add("Post-Order");
         traversals.add("Pre-Order");
+        traversals.add("Breadth-First");
         traversals.add("Value Search");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
@@ -261,23 +264,27 @@ public class Visualizer extends Fragment {
         traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (visualizerCanvas.canvas == null) {
-                    int vHeight = visualizerCanvas.getHeight();
-                    int vWidth = visualizerCanvas.getWidth();
-                    visualizerCanvas.setDimensions(vHeight, vWidth);
-                }
+
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
+                        checkCanvas();
                         tree.inOrderTraversal();
                         break;
                     case "Post-Order":
+                        checkCanvas();
                         tree.postOrderTraversal();
                         break;
                     case "Pre-Order":
+                        checkCanvas();
                         tree.preOrderTraversal();
                         break;
                     case "Value Search":
+                        checkCanvas();
                         tree.search(10);
+                        break;
+                    case "Breadth-First Search":
+                        checkCanvas();
+                        tree.breadthFirstTraversal();
                         break;
                     case "Select Traversal":
                         break;
@@ -291,125 +298,6 @@ public class Visualizer extends Fragment {
         });
     }
 
-//    private void initPostOrder() {
-//        play.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.postOrderTraversal();
-//            }
-//        });
-//        pause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPause();
-//            }
-//        });
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationNext();
-//            }
-//        });
-//        previous.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPrev();
-//            }
-//        });
-//    }
-//
-//    private void initPreOrder() {
-//        play.setVisibility(View.VISIBLE);
-//        pause.setVisibility(View.VISIBLE);
-//        next.setVisibility(View.VISIBLE);
-//        previous.setVisibility(View.VISIBLE);
-//        play.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.preOrderTraversal();
-//            }
-//        });
-//        pause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPause();
-//            }
-//        });
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationNext();
-//            }
-//        });
-//        previous.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPrev();
-//            }
-//        });
-//    }
-//    private void initValueSearch() {
-//        play.setVisibility(View.VISIBLE);
-//        pause.setVisibility(View.VISIBLE);
-//        next.setVisibility(View.VISIBLE);
-//        previous.setVisibility(View.VISIBLE);
-//        play.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //TODO get key somehow
-//                tree.search(10);
-//            }
-//        });
-//        pause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPause();
-//            }
-//        });
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationNext();
-//            }
-//        });
-//        previous.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPrev();
-//            }
-//        });
-//    }
-//
-//    private void initInOrder() {
-//        play.setVisibility(View.VISIBLE);
-//        pause.setVisibility(View.VISIBLE);
-//        next.setVisibility(View.VISIBLE);
-//        previous.setVisibility(View.VISIBLE);
-//        play.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.inOrderTraversal();
-//            }
-//        });
-//        pause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPause();
-//            }
-//        });
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationNext();
-//            }
-//        });
-//        previous.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                tree.animationPrev();
-//            }
-//        });
-//    }
 
     private void undo() {
         tree.undo();
@@ -441,11 +329,7 @@ public class Visualizer extends Fragment {
     }
 
     private void insert() {
-        if (visualizerCanvas.canvas == null) {
-            int vHeight = visualizerCanvas.getHeight();
-            int vWidth = visualizerCanvas.getWidth();
-            visualizerCanvas.setDimensions(vHeight, vWidth);
-        }
+        checkCanvas();
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
     }
@@ -460,13 +344,21 @@ public class Visualizer extends Fragment {
         ArrayList<Integer> arr = new ArrayList<Integer>();
         for (int i = 0; i< array.length; i++) arr.add(array[i]);
         tree.insert(arr);
-
     }
 
 
     public void setCanvas(Bitmap bitmap) {
         visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
     }
+
+    public void checkCanvas() {
+        if (visualizerCanvas.canvas == null) {
+            int vHeight = visualizerCanvas.getHeight();
+            int vWidth = visualizerCanvas.getWidth();
+            visualizerCanvas.setDimensions(vHeight, vWidth);
+        }
+    }
+
 
     public void save() {
         Context context = getContext();
@@ -510,51 +402,52 @@ public class Visualizer extends Fragment {
     }
 
     private void load() {
-        Context context = getContext();
-        try {
-            //read from file into a JSON format string
-            Log.i("Read from", context.getFilesDir().toString());
-            File file = new File(context.getFilesDir(), "fileExample");
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-            // This response will have Json Format String
-            String response = stringBuilder.toString();
-
-            //parse string to JSONObject
-            JSONObject obj = new JSONObject(response);
-
-            //get json array of values from the object
-            JSONArray array = obj.optJSONArray("Values");
-
-            // Deal with the case of a non-array value.
-            if (array == null) {
-                return;
-            }
-
-            //remove all the nodes from the tree if there are any so the new ones can be loaded in
-            tree.clear();
-            if (visualizerCanvas.canvas == null) {
-                int vHeight = visualizerCanvas.getHeight();
-                int vWidth = visualizerCanvas.getWidth();
-                visualizerCanvas.setDimensions(vHeight, vWidth);
-            }
-
-            // Insert numbers from JSONArray into the tree.
-            ArrayList<Integer> arr = new ArrayList<Integer>();
-            for (int i = 0; i < array.length(); ++i) arr.add(array.optInt(i));
-            tree.insert(arr);
-
-        }
-        catch(IOException | JSONException e){
-            Log.e("Exception", "File read failed: " + e.toString());
-        }
+        MainActivity.openFragment(new Files(), true);
+//        Context context = getContext();
+//        try {
+//            //read from file into a JSON format string
+//            Log.i("Read from", context.getFilesDir().toString());
+//            File file = new File(context.getFilesDir(), "fileExample");
+//            FileReader fileReader = new FileReader(file);
+//            BufferedReader bufferedReader = new BufferedReader(fileReader);
+//            StringBuilder stringBuilder = new StringBuilder();
+//            String line = bufferedReader.readLine();
+//            while (line != null) {
+//                stringBuilder.append(line).append("\n");
+//                line = bufferedReader.readLine();
+//            }
+//            bufferedReader.close();
+//            // This response will have Json Format String
+//            String response = stringBuilder.toString();
+//
+//            //parse string to JSONObject
+//            JSONObject obj = new JSONObject(response);
+//
+//            //get json array of values from the object
+//            JSONArray array = obj.optJSONArray("Values");
+//
+//            // Deal with the case of a non-array value.
+//            if (array == null) {
+//                return;
+//            }
+//
+//            //remove all the nodes from the tree if there are any so the new ones can be loaded in
+//            tree.clear();
+//            if (visualizerCanvas.canvas == null) {
+//                int vHeight = visualizerCanvas.getHeight();
+//                int vWidth = visualizerCanvas.getWidth();
+//                visualizerCanvas.setDimensions(vHeight, vWidth);
+//            }
+//
+//            // Insert numbers from JSONArray into the tree.
+//            ArrayList<Integer> arr = new ArrayList<Integer>();
+//            for (int i = 0; i < array.length(); ++i) arr.add(array.optInt(i));
+//            tree.insert(arr);
+//
+//        }
+//        catch(IOException | JSONException e){
+//            Log.e("Exception", "File read failed: " + e.toString());
+//        }
     }
 
     /**

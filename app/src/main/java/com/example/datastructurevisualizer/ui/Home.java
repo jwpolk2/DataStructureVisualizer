@@ -40,6 +40,7 @@ public class Home extends Fragment {
 
     @Override
     public void onResume() {
+        MainActivity.actionBar.hide();
         super.onResume();
 
 
@@ -50,6 +51,7 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        MainActivity.actionBar.hide();
         binarySearchTree = view.findViewById(R.id.bstButton);
         redBlackTree = view.findViewById(R.id.rbtButton);
         balancedSearchTree = view.findViewById(R.id.avlButton);
@@ -88,7 +90,7 @@ public class Home extends Fragment {
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Files(), false);
+                MainActivity.openFragment(new Files(), true);
             }
         });
 //        about.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +123,6 @@ public class Home extends Fragment {
                 MainActivity.openFragment(new InformationPage("Graph"), true);
             }
         });
-
-
-
         return view;
     }
 
