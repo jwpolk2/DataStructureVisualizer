@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -475,13 +477,21 @@ public class Visualizer extends Fragment {
 //        }
     }
 
+
+
     /**
      * Displays a message in the displayExec text.
      *
      * @param message the message to be displayed.
      */
     public static void displayMessage(String message) {
-        displayExec.setText(message);
-
+        final String message2 = message;
+        displayExec.post(new Runnable() {
+            @Override
+            public void run() {
+                String hMessage = displayExec.getText().toString();
+                displayExec.setText(String.format("%s\n%s", hMessage, message2));
+            }
+        });
     }
 }
