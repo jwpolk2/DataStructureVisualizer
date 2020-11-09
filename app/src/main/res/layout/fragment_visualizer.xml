@@ -15,29 +15,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="6">
 
         <EditText
             android:id="@+id/input_nodes"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="7dp"
             android:ems="10"
             android:gravity="center"
             android:hint="0 - 100"
             android:inputType="number"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <ImageButton
             android:id="@+id/button_insert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:layout_margin="7dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/visulizer_button"
             android:scaleType="fitXY"
             android:src="@android:drawable/ic_menu_add" />
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:layout_margin="7dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/visulizer_button"
             android:scaleType="fitXY"
             android:src="@android:drawable/ic_menu_revert" />
@@ -57,7 +57,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:layout_margin="7dp"
             android:background="@drawable/visulizer_button"
             android:scaleType="fitXY"
             android:scaleX="-1"
@@ -74,6 +73,7 @@
             android:text="Auto"
             android:layout_gravity="center"
             android:textAllCaps="false"
+            android:textColor="@color/backgroundWhite"
             android:textSize="20sp" />
 
 
@@ -89,14 +89,11 @@
         <Spinner
             android:id="@+id/spinner_traversal"
             android:layout_width="175dp"
-            android:layout_height="37dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:background="@drawable/visulizer_button"
-            android:dropDownSelector="@color/button_blue"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
             android:padding="10dp"
             android:textAllCaps="false"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageButton
             android:id="@+id/button_previous"
@@ -189,8 +186,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/visulizer_button"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
+
             android:text="Save"
             android:textAllCaps="false"
             android:textSize="20sp"
@@ -205,8 +201,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/visulizer_button"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
+
             android:text="Load"
             android:textAllCaps="false"
             android:textSize="20sp"
@@ -219,8 +214,6 @@
             android:layout_height="37dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
             android:background="@drawable/visulizer_button"
             android:text="Clear"
             android:textAllCaps="false"
