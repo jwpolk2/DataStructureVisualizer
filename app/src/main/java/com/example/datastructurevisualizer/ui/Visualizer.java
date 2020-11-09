@@ -56,6 +56,7 @@ public class Visualizer extends Fragment {
     private ImageButton insertButton;
     private Button saveButton;
     private Button loadButton;
+    private Button clearButton;
     private ImageButton undoButton;
     private ImageButton redoButton;
     private Button autopopulateButton;
@@ -105,6 +106,7 @@ public class Visualizer extends Fragment {
         loadButton = view.findViewById(R.id.button_load);
         saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
+        clearButton = view.findViewById(R.id.button_clear);
 
         insertButton = view.findViewById(R.id.button_insert);
         undoButton = view.findViewById(R.id.button_undo);
@@ -190,6 +192,12 @@ public class Visualizer extends Fragment {
 
             }
         });
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear();
+            }
+        });
         autopopulateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,6 +258,16 @@ public class Visualizer extends Fragment {
         initDataStructure();
         initSpinner();
         return view;
+    }
+
+    private void clear() {
+        tree.clear();
+        clearCanvas();
+    }
+
+    private void clearCanvas() {
+        visualizerCanvas.clearCanvas();
+        checkCanvas();
     }
 
     private void initSpinner() {
