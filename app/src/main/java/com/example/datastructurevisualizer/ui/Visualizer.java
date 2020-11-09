@@ -337,7 +337,6 @@ public class Visualizer extends Fragment {
         ArrayList<Integer> arr = new ArrayList<Integer>();
         for (int i = 0; i< array.length; i++) arr.add(array[i]);
         tree.insert(arr);
-
     }
 
 

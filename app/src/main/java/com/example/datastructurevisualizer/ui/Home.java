@@ -123,9 +123,6 @@ public class Home extends Fragment {
                 MainActivity.openFragment(new InformationPage("Graph"), true);
             }
         });
-
-
-
         return view;
     }
 

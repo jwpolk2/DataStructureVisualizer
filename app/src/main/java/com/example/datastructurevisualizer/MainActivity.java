@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.hide();
         setContentView(R.layout.activity_main);
         openFragment(new Home(), false);
-
     }
 
     public static void openFragment(Fragment fragment, boolean actionBar) {

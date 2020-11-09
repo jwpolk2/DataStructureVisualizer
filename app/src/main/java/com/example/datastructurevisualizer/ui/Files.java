@@ -32,41 +32,9 @@ public class Files extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Files newInstance(String param1, String param2) {
-        Files fragment = new Files();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_files, null);
-        testButton = view.findViewById(R.id.fileDialogTestBtn);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment dialogFileAction = new DialogFileAction();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                MainActivity.openDialog(dialogFileAction, "file_action", ft);
-//                openDialog();
-
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                Fragment prev = getFragmentManager().findFragmentByTag("file_action");
-//                if (prev != null) {
-//                    ft.remove(prev);
-//                } ft.addToBackStack(null);
-//
-//                DialogFileAction dialogFileAction = new DialogFileAction();
-//                dialogFileAction.show(ft, "file_action");
-            }
-        });
     }
 
     public void openDialog() {
@@ -80,9 +48,19 @@ public class Files extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_files, container, false);
+        testButton = view.findViewById(R.id.fileDialogTestBtn);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Was shutting down my application
+//                DialogFragment dialogFileAction = new DialogFileAction();
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                MainActivity.openDialog(dialogFileAction, "file_action", ft);
+            }
+        });
         MainActivity.actionBar.setTitle("Files");
         MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+        MainActivity.actionBar.show();
         return view;
-
     }
 }
