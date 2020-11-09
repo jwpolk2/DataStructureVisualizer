@@ -1,15 +1,20 @@
 package com.example.datastructurevisualizer.ui;
+import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.ui.Visualizer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -19,11 +24,30 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.datastructurevisualizer.R;
 
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class DialogSave extends DialogFragment {
     private EditText fileName;
     private Button saveBtn;
     private Button cancelBtn;
     private Visualizer visualizer;
+
+    public static void setDataStructureType(String dataStructureType) {
+        DialogSave.dataStructureType = dataStructureType;
+    }
+
+    private static String dataStructureType;
+
+    public void setTree(TreeVisualizer tree) {
+        this.tree = tree;
+    }
+
+    private TreeVisualizer tree;
 
     public DialogSave() {
 
@@ -44,12 +68,32 @@ public class DialogSave extends DialogFragment {
         saveBtn = view.findViewById(R.id.saveDialog_saveBtn);
         cancelBtn = view.findViewById(R.id.saveDialog_cancelBtn);
 
-//        saveBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                visualizer.save();
-//            }
-//        });
+       saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fileName.getText().length() == 0) {
+                    Toast toast = Toast.makeText(getActivity(), "Please enter a valid file name", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                }
+                else {
+                    String saveResult = save();
+                    if(saveResult!= null && saveResult.equals("Saved Successfully")){
+                        Toast toast = Toast.makeText(getActivity(), "File Saved Successfully", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
+                        dismiss();
+                    }
+                    else{
+                        Toast toast = Toast.makeText(getActivity(), "Error: " + saveResult, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
+                    }
+
+                }
+
+           }
+      });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,5 +102,49 @@ public class DialogSave extends DialogFragment {
             }
         });
         return view;
+    }
+
+    public String save() {
+        String saveMessage = "Saved Successfully";
+        Context context = getContext();
+        JSONObject treeObj = new JSONObject();
+
+        switch (dataStructureType) {
+
+            case "Binary Search Tree":
+                treeObj = tree.createJSON("file 1", "Binary Search Tree");
+                break;
+            case "Red Black Tree":
+                treeObj = tree.createJSON("file 1", "Red Black Tree");
+                //TODO
+                break;
+            case "Balanced Search Tree":
+                treeObj = tree.createJSON("file 1", "Balanced Search Tree");
+                //TODO
+                break;
+        }
+        if(treeObj == null || treeObj.equals(null)){
+            Log.i("Message", "Tried to save empty JSONObject");
+            return "Cannot save empty tree";
+        }
+        // Convert JsonObject to String Format
+        String userString = treeObj.toString();
+        // Define the File Path and its Name
+        try {
+            //Write JSON format string into a file
+            File file = new File(context.getFilesDir(), fileName.getText().toString());
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(userString);
+            bufferedWriter.close();
+            Log.i("Saved", userString);
+            Log.i("Save Location", context.getFilesDir().toString());
+            Log.i("FileName", fileName.getText().toString());
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+            return "File IO Exception";
+        }
+        return saveMessage;
     }
 }
