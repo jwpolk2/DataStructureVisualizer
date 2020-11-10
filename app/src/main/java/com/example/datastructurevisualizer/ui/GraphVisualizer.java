@@ -36,6 +36,12 @@ public class GraphVisualizer extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity.setVisualizerCanvas(visualizerCanvas);
+        MainActivity.actionBar.show();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
