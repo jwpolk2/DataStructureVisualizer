@@ -7,13 +7,14 @@ import java.util.ArrayList;
 /**
  * TODO comment
  *
- * TODO implement special graph functionality (pathfinding?)
+ * Node.extraData[0] stores an ArrayList of Edges to other Nodes.
  *
  * Graphs do not have insertion or removal animations, so insertAnim and
  * removeAnim call insertNoAnim and removeNoAnim respectively.
  * Since there is no algorithm for determining where a Graph Node should be
  * placed, insertGraphNode accepts integer coordinates. This method should be
  * used instead of insert/insertAnim/insertNoAnim.
+ * Includes breadth first and dijkstra pathfinds, // TODO more algorithms
  * Overriddes getNode and getAllNodes to work for a graph.
  * Overrides render to work for a graph.
  */
@@ -120,6 +121,138 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
+     * Animates a breadth-first pathfind. Breadth first traversals run as follows:
+     *
+     * Add the inputed start to a queue of Nodes to explore
+     * Pop a Node from the queue:
+     *  if the Node has dest as its key, return
+     *  if the Node is not dest, add all of its child Nodes to the queue
+     * continue until the queue is empty
+     *
+     * TODO this has not been debugged
+     *
+     * @param startKey the Node to begin the traversal at.
+     * @param endKey the Node to end the traversal at.
+     */
+    public void breadthFirstPathfind(int startKey, int endKey) {
+        java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
+        java.util.LinkedList<Node> explored = new java.util.LinkedList<Node>();
+        Node start = getNode(startKey);
+        Node dest = getNode(endKey);
+
+        // Returns if the either the start or end are invalid.
+        if (start == null || dest == null) return;
+
+        // Adds the start to the queue of Nodes to explore.
+        queue.add(start);
+        explored.add(start);
+        queueQueueAddAnimation(start, "Begin exploring at start");
+
+        // Parses through the queue of Nodes until the destination Node is found
+        // or the queue is empty.
+        Node currNode;
+        while (!queue.isEmpty()) {
+
+            // Explores the first Node in the queue.
+            currNode = queue.pop();
+            queueListPopAnimation("Pop the first Node from the queue");
+            queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+
+            // Returns if the destination Node is found.
+            if (currNode == dest) {
+                queueNodeSelectAnimation(currNode,
+                        currNode.key + " is the destination Node");
+                return;
+
+            }
+            // Continues traversal if the destination Node is not found.
+            else queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+
+            // Adds each unexplored Node to the queue.
+            for (Edge edge : (ArrayList<Edge>)currNode.extraData[0]) {
+                if (!explored.contains(edge.dest)) {
+                    queue.add(edge.dest);
+                    explored.add(edge.dest);
+                    queueQueueAddAnimation(currNode, "Add " + edge.dest.value + " to queue");
+
+                }
+            }
+
+            // Marks the Node as explored.
+            queueNodeExploreAnimation(currNode, currNode.key + " has been explored");
+
+        }
+
+        // If the destination Node is not found, prints a message saying so.
+        queueNodeSelectAnimation(null, "Destination not found");
+
+    }
+
+    /**
+     * Animates a dijkstra style pathfind.
+     *
+     * TODO comment
+     * TODO debug
+     * TODO make Node comparable again
+     *
+     * @param startKey the Node to begin the traversal at.
+     * @param endKey the Node to end the traversal at.
+     */
+    public void dijkstraPathfind(int startKey, int endKey) {
+        java.util.PriorityQueue<Node> queue = new java.util.PriorityQueue<Node>();
+        java.util.LinkedList<Node> explored = new java.util.LinkedList<Node>();
+        Node start = getNode(startKey);
+        Node dest = getNode(endKey);
+
+        // Returns if the either the start or end are invalid.
+        if (start == null || dest == null) return;
+
+        // Adds the start to the queue of Nodes to explore.
+        queue.add(start);
+        explored.add(start);
+        queuePriorityQueueAddAnimation(start, "Begin exploring at start");
+
+        // Parses through the queue of Nodes until the destination Node is found
+        // or the queue is empty.
+        Node currNode;
+        while (!queue.isEmpty()) {
+
+            // Explores the first Node in the queue.
+            currNode = queue.poll();
+            queueListPopAnimation("Pop the first Node from the queue");
+            queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+
+            // Returns if the destination Node is found.
+            if (currNode == dest) {
+                queueNodeSelectAnimation(currNode,
+                        currNode.key + " is the destination Node");
+                return;
+
+            }
+            // Continues traversal if the destination Node is not found.
+            else queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+
+            // Adds each unexplored Node to the queue.
+            for (Edge edge : (ArrayList<Edge>)currNode.extraData[0]) {
+                if (!explored.contains(edge.dest)) {
+                    queue.add(edge.dest);
+                    explored.add(edge.dest);
+                    queuePriorityQueueAddAnimation(currNode, "Add " + edge.dest.value + " to queue");
+
+                }
+            }
+
+            // Marks the Node as explored.
+            queueNodeExploreAnimation(currNode, currNode.key + " has been explored");
+
+        }
+
+        // If the destination Node is not found, prints a message saying so.
+        queueNodeSelectAnimation(null, "Destination not found");
+
+    }
+
+    /**
      * Returns the ArrayList containing all Nodes in this data structure.
      * The ArrayList should not be modified.
      *
@@ -135,8 +268,7 @@ public class Graph extends NodeVisualizer {
      */
     @Override
     public Node getNode(int key) {
-        for (Node node : nodes)
-            if (node.key == key) return node;
+        for (Node node : nodes) if (node.key == key) return node;
         return null;
 
     }

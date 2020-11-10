@@ -66,6 +66,37 @@ public class LinkedList extends TreeVisualizer {
     }
 
     /**
+     * Inserts a key into the LinkedList in the fashion of a priority queue.
+     * Smaller Nodes will be placed at the head.
+     *
+     * @param key the key to be inserted.
+     * @param value the value of the Node.
+     */
+    public void priorityQueueInsert(int key, int value) {
+        Node node = new Node(key, getNumChildren());
+        node.value = value;
+
+        // Places the new Node at the root if the queue is empty or if it is
+        // the least Node in the queue.
+        if (root == null || root.value > node.value) {
+            node.children[0] = root;
+            root = node;
+
+        }
+
+        // Finds the appropriate place for the Node in the queue.
+        Node currNode = root;
+        while (currNode.children[0] != null &&
+                currNode.children[0].value < node.value)
+            currNode = currNode.children[0];
+
+        // Places the Node.
+        node.children[0] = currNode.children[0];
+        currNode.children[0] = node;
+
+    }
+
+    /**
      * Inserts the key into the LinekdList at the tail.
      *
      * @param key the key to be inserted.

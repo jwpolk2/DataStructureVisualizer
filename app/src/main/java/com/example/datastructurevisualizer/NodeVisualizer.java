@@ -218,7 +218,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * Animates the addition of a node to the queue. The node will be highlighted.
      *
-     * @param node the Node to add to the stack.
+     * @param node the Node to add to the queue.
      * @param canvas the Canvas to render in.
      */
     private void queueAddAnimation(Node node, Canvas canvas) {
@@ -231,14 +231,42 @@ public class NodeVisualizer extends DataStructureVisualizer {
     }
 
     /**
-     * Queues an animation to add the selected Node to the stack. The Node will be
+     * Queues an animation to add the selected Node to the queue. The Node will be
      * highlighted.
      *
-     * @param node the Node to add to the stack.
+     * @param node the Node to add to the queue.
      * @param message the message to animate with.
      */
     protected void queueQueueAddAnimation(Node node, String message) {
         animationLog.add(new QueueAddNode(node, message));
+
+    }
+
+    /**
+     * Animates the addition of a node to the priority queue. The node will be
+     * highlighted.
+     *
+     * @param node the Node to add to the priority queue.
+     * @param canvas the Canvas to render in.
+     */
+    private void priorityQueueAddAnimation(Node node, Canvas canvas) {
+
+        // Highlights node and adds it to the queue.
+        highlightNode(node);
+        nodeList.priorityQueueInsert(node.key, node.value);;
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to add the selected Node to the prioirty queue. The
+     * node will be highlighted.
+     *
+     * @param node the Node to add to the priority queue.
+     * @param message the message to animate with.
+     */
+    protected void queuePriorityQueueAddAnimation(Node node, String message) {
+        animationLog.add(new PriorityQueueAddNode(node, message));
 
     }
 
@@ -261,6 +289,31 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     protected void queueListPopAnimation(String message) {
         animationLog.add(new ListPopNode(message));
+
+    }
+
+    /**
+     * Animates adding a Node to explored.
+     *
+     * @param node the Node to add to explored.
+     * @param canvas the canvas to render in.
+     */
+    private void nodeExploreAnimation(Node node, Canvas canvas) {
+
+        // Adds the Node to explored and renders.
+        exploreNode(node);
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to add the inputed Node to explored.
+     *
+     * @param node the Node to add to the priority queue.
+     * @param message the message to animate with.
+     */
+    protected void queueNodeExploreAnimation(Node node, String message) {
+        animationLog.add(new ExploreNode(node, message));
 
     }
 
@@ -501,6 +554,107 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         /**
          * Displays the frame wherein the the inputed Node is added to the queue.
+         */
+        @Override
+        public void run() {
+            super.run();
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for adding a Node to nodeList as a priority queue.
+     */
+    private class PriorityQueueAddNode extends AnimationItem {
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the inputed Node is added
+         * to a priority queue.
+         *
+         * @param node the Node to add to the priority queue.
+         * @param message the message to animate with.
+         */
+        PriorityQueueAddNode(Node node, String message) {
+            super(message);
+            canvas = new Canvas(bmp);
+            priorityQueueAddAnimation(node, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the inputed Node is added to the
+         * priority queue.
+         */
+        @Override
+        public void run() {
+            super.run();
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for adding a Node to the list of explored Nodes.
+     */
+    private class ExploreNode extends AnimationItem {
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the inputed Node is added
+         * to explored.
+         *
+         * @param node the Node to add to the priority queue.
+         * @param message the message to animate with.
+         */
+        ExploreNode(Node node, String message) {
+            super(message);
+            canvas = new Canvas(bmp);
+            nodeExploreAnimation(node, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the inputed Node is added to explored.
          */
         @Override
         public void run() {
