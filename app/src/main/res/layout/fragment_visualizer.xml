@@ -167,7 +167,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text"
-            android:textSize="12sp"/>
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="top"
+            android:layout_marginRight="15dp"
+            android:textSize="15sp"/>
     </ScrollView>
 
     <LinearLayout
@@ -183,10 +186,10 @@
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:background="@drawable/visulizer_button"
-
+            android:textColor="@color/backgroundWhite"
             android:text="Save"
             android:textAllCaps="false"
             android:textSize="20sp"
@@ -198,10 +201,10 @@
             android:id="@+id/button_load"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:background="@drawable/visulizer_button"
-
+            android:textColor="@color/backgroundWhite"
             android:text="Load"
             android:textAllCaps="false"
             android:textSize="20sp"
@@ -212,13 +215,24 @@
             android:id="@+id/button_clear"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:background="@drawable/visulizer_button"
             android:text="Clear"
             android:textAllCaps="false"
             android:textStyle="bold"
+            android:textColor="@color/backgroundWhite"
             android:textSize="20sp" />
+        <ImageButton
+            android:id="@+id/button_info"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:padding="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/visulizer_button"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_information2" />
 
 
     </LinearLayout>

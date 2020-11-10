@@ -51,9 +51,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Fragment class for the data structure visualization.
+ */
 public class Visualizer extends Fragment {
 
+    //View object variables
     private EditText insertNumber;
     private ImageButton insertButton;
     private Button saveButton;
@@ -63,36 +66,37 @@ public class Visualizer extends Fragment {
     private ImageButton redoButton;
     private Button autopopulateButton;
     private ImageButton infoButton;
-    private ImageButton homeButton;
-    private static String dataStructureType;
-    private TextView dataStructureHeader;
     private static TextView displayExec;
     private VisualizerCanvas visualizerCanvas;
-    private TreeVisualizer tree;
-    private ArrayList<String> traversals;
-    private Spinner traversalsSpinner;
     private ImageButton play;
     private ImageButton pause;
     private ImageButton previous;
     private ImageButton next;
-
     private Button saveDialogSave;
+
+    //Class variables
+    private static String dataStructureType;
+    private TreeVisualizer tree;
+    private ArrayList<String> traversals;
+    private Spinner traversalsSpinner;
 
     public Visualizer() {
         // Required empty public constructor
     }
 
+    /**
+     * Constucuter, sets the data structure type for the class.
+     * @param dataStructureType
+     */
     public Visualizer(String dataStructureType){
         this.dataStructureType = dataStructureType;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
+    /**
+     * When onResume is called in the fragments lifecycle we want to make sure the canvas gets set
+     * and the action bar is visible.
+     */
     public void onResume() {
         super.onResume();
         MainActivity.setVisualizerCanvas(visualizerCanvas);
@@ -100,53 +104,44 @@ public class Visualizer extends Fragment {
     }
 
     @Override
+    /**
+     * When the view is created this method attaches the view object variable with those defined
+     * in the XML. Additionally the onClick events for buttons are defined and remaining class
+     * variables initialized. Returns the view created.
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
 
+        //Connect variables to XML
         loadButton = view.findViewById(R.id.button_load);
         saveButton = view.findViewById(R.id.button_save);
         insertNumber = view.findViewById(R.id.input_nodes);
         clearButton = view.findViewById(R.id.button_clear);
-
         insertButton = view.findViewById(R.id.button_insert);
         undoButton = view.findViewById(R.id.button_undo);
         redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
-        //TRAVERSAL
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
         play = view.findViewById(R.id.button_play);
         pause = view.findViewById(R.id.button_pause);
         next = view.findViewById(R.id.button_next);
         previous = view.findViewById(R.id.button_previous);
-
         saveDialogSave = view.findViewById(R.id.saveDialog_saveBtn);
-        //infoButton = (ImageButton) view.findViewById(R.id.button_info);
-       // homeButton = (ImageButton) view.findViewById(R.id.button_home);
-
-//        infoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AboutPage aboutFragment = new AboutPage();
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, aboutFragment);
-//                transaction.commit();
-//            }
-//        });
+        infoButton = (ImageButton) view.findViewById(R.id.button_info);
+        visualizerCanvas = view.findViewById(R.id.view_visualizer);
+        visualizerCanvas.setParent(this);
 
 
-//        homeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Home homeFragment = new Home();
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, homeFragment);
-//                transaction.commit();
-//            }
-//        });
-
+        //BUTTON ON CLICK
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.openFragment(new InformationPage(dataStructureType),true);
+            }
+        });
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,12 +213,6 @@ public class Visualizer extends Fragment {
                 redo();
             }
         });
-
-
-       // dataStructureHeader = view.findViewById(R.id.visualizerHeader);
-        visualizerCanvas = view.findViewById(R.id.view_visualizer);
-        visualizerCanvas.setParent(this);
-
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,24 +245,28 @@ public class Visualizer extends Fragment {
             }
         });
 
-
+        //Initialize dataStructureType variable
         initDataStructure();
+        //Initialize drop-down menu for traversal selection
         initSpinner();
         return view;
     }
 
+    /**
+     * Clears the canvas and resets the class tree object.
+     */
     private void clear() {
         tree.clear();
-        clearCanvas();
-        displayExec.setText("");
-    }
-
-    private void clearCanvas() {
         visualizerCanvas.clearCanvas();
         checkCanvas();
     }
 
+
+    /**
+     * Initializes the drop-down menu used for the tree-traversals
+     */
     private void initSpinner() {
+        //Array List of the drop-down items
         traversals = new ArrayList<>();
         traversals.add("Select Traversal");
         traversals.add("In-Order");
@@ -282,12 +275,12 @@ public class Visualizer extends Fragment {
         traversals.add("Breadth-First");
         traversals.add("Value Search");
 
+        //Attaches an adapter to the array list and then to the spinner object
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
-
         traversalsSpinner.setAdapter(adapter);
 
+        //Sets up what happens when the different options are selected
         traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -325,16 +318,25 @@ public class Visualizer extends Fragment {
         });
     }
 
-
+    /**
+     * Undoes the previous action and resets the canvas to it's previous state.
+     */
     private void undo() {
         tree.undo();
     }
 
+    /**
+     * Redoes an action previously undone. This resets the canvas to the previously state which
+     * was undone.
+     */
     private void redo() {
         tree.redo();
     }
 
 
+    /**
+     * Initializes the data structure that is going to be animated.
+     */
     private void initDataStructure() {
         switch (dataStructureType) {
             case "Binary Search Tree":
@@ -355,6 +357,10 @@ public class Visualizer extends Fragment {
         }
     }
 
+    /**
+     * This method is called when the insert button is pressed. It adds the value to the tree
+     * and resets the text on the insert line.
+     */
     private void insert() {
         checkCanvas();
         initSpinner();
@@ -362,12 +368,11 @@ public class Visualizer extends Fragment {
         insertNumber.setText("");
     }
 
+    /**
+     * This method is called when the auto button is pressed. It auto-populates the data structure.
+     */
     private void autoPopulate(){
-        if (visualizerCanvas.canvas == null) {
-            int vHeight = visualizerCanvas.getHeight();
-            int vWidth = visualizerCanvas.getWidth();
-            visualizerCanvas.setDimensions(vHeight, vWidth);
-        }
+        checkCanvas();
         int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
         ArrayList<Integer> arr = new ArrayList<Integer>();
         for (int i = 0; i< array.length; i++) arr.add(array[i]);
@@ -375,10 +380,17 @@ public class Visualizer extends Fragment {
     }
 
 
+    /**
+     * This method sets the canvas bitmap.
+     * @param bitmap
+     */
     public void setCanvas(Bitmap bitmap) {
         visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
     }
 
+    /**
+     * This method is used to check if the canvas has been initialized. If not it creates a canvas.
+     */
     public void checkCanvas() {
         if (visualizerCanvas.canvas == null) {
             int vHeight = visualizerCanvas.getHeight();
@@ -388,6 +400,10 @@ public class Visualizer extends Fragment {
     }
 
 
+    /**
+     * This method is called when save is pressed, it opens up the save dialog which handles
+     * how the file is named and saved.
+     */
     public void save() {
         Context context = getContext();
         JSONObject treeObj = new JSONObject();
@@ -429,6 +445,9 @@ public class Visualizer extends Fragment {
 
     }
 
+    /**
+     * This method is called when the load button is pressed.
+     */
     private void load() {
         MainActivity.openFragment(new Files(), true);
 //        Context context = getContext();
