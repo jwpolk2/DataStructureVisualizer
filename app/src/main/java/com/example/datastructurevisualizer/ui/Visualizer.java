@@ -265,6 +265,7 @@ public class Visualizer extends Fragment {
     private void clear() {
         tree.clear();
         clearCanvas();
+        displayExec.setText("");
     }
 
     private void clearCanvas() {
