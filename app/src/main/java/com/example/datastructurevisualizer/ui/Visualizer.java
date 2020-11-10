@@ -259,6 +259,7 @@ public class Visualizer extends Fragment {
         tree.clear();
         visualizerCanvas.clearCanvas();
         checkCanvas();
+        displayExec.setText("");
     }
 
 
