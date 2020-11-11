@@ -1,62 +1,108 @@
 package com.example.datastructurevisualizer;
 
 import junit.framework.TestCase;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import java.util.ArrayList;
 
+
 public class BinarySearchTreeTest extends TestCase {
+    BinarySearchTree bst = new BinarySearchTree();
+
+//    @BeforeEach
+//    public void setUp() throws Exception {
+//    }
+//
+//    @AfterEach
+//    public void tearDown() throws Exception {
+//    }
+
 
     //Test that the number of children per node is 2
     public void testGetNumChildren() {
-        BinarySearchTree tree1 = new BinarySearchTree();
-        assertEquals(2, tree1.getNumChildren());
+        bst.insertNoAnim(5);
+        bst.insertNoAnim(10);
+        bst.insertNoAnim(15);
+        assertEquals(2, bst.getNumChildren());
     }
 
 
-    public void testGetTreeData() {
+//    public void testGetTreeData() {
+//        bst.insertNoAnim(5);
+//        bst.insertNoAnim(10);
+//        bst.insertNoAnim(15);
+//
+//        ArrayList<Integer> keyArrl = bst.getAllKeys();
+//        assertEquals(keyArrl, bst.getTreeData());
+//    }
+
+//    Unused
+//    public void testSetTreeData() {
+//    }
+
+    public void testGetRoot_empty() {
+        assertEquals(null, bst.getRoot());
     }
 
-    public void testSetTreeData() {
+    public void testGetRoot_singleNode() {
+        bst.insertNoAnim(1);
+        System.out.print(bst.getRoot());
+//        assertEquals(1, bst.getRoot().key);
+//
+    }
+    public void testGetRoot_threeNodes() {
+        bst.insertNoAnim(1);
+        bst.insertNoAnim(2);
+        bst.insertNoAnim(3);
+        assertEquals(1, bst.getRoot().key);
     }
 
-    public void testGetRoot() {
-    }
-
-    public void testSetRoot() {
-    }
+//    Unused
+//    public void testSetRoot() {
+//    }
 
     public void testTreeHeight() {
+        Node root = new Node(1, 2);
+        assertEquals(1, bst.treeHeight(root));
     }
 
     public void testIsBalancedNaive() {
+        Node root = new Node(1, 2);
+        assertTrue(bst.isBalancedNaive(root));
     }
 
-    public void testGetNodeHeight() {
+    public void testGetNodeHeight_Empty() {
+        Node root = null;
+        assertEquals(0, bst.getNodeHeight(root, root));
     }
 
-    public void testIsIsomorphic() {
+    public void testGetNodeHeight_Filled() {
+       // TODO
     }
 
-    public void testTestIsIsomorphic() {
-    }
+//    Unused
+//    public void testIsIsomorphic() {
+//    }
 
-    public void testIsSymmetric() {
-    }
+//    Unused
+//    public void testIsSymmetric() {
+//    }
 
-    public void testTestIsSymmetric() {
-    }
+//    Unused
+//    public void testIsEqual() {
+//    }
 
-    public void testIsEqual() {
-    }
+//    Unused
+//    public void testReverse() {
+//    }
 
-    public void testReverse() {
-    }
+//    Unused
+//    public void testGetMaxWidth() {
+//    }
 
-    public void testGetMaxWidth() {
-    }
-
-    public void testSetMaxWidth() {
-    }
+//    Unused
+//    public void testSetMaxWidth() {
+//    }
 
     //try finding something from an empty tree
     public void testFindEmpty() {
@@ -93,20 +139,42 @@ public class BinarySearchTreeTest extends TestCase {
     //test remove on empty tree to ensure no null pointer error
     //not realistic case because nodes must be in canvas for the option to delete
     public void testRemoveNoAnimEmpty() {
-        TreeVisualizer tree1 = new BinarySearchTree();
+        TreeVisualizer bst = new BinarySearchTree();
+        bst.removeNoAnim(5);
 
-        tree1.removeNoAnim(5);
-
-        ArrayList<Integer> keyArrl = tree1.getAllKeys();
+        ArrayList<Integer> keyArrl = bst.getAllKeys();
         assertEquals(0, keyArrl.size());
     }
 
     public void testRemoveAnim() {
+        TreeVisualizer bst = new BinarySearchTree();
+        bst.insertNoAnim(5);
+        bst.removeAnim(5);
+
+        ArrayList<Integer> keyArrl = bst.getAllKeys();
+        assertEquals(0, keyArrl.size());
     }
 
     public void testInsertNoAnim() {
+        try {
+            bst.insertNoAnim(5);
+            bst.insertNoAnim(10);
+
+            ArrayList<Integer> keyArrl = bst.getAllKeys();
+            assertEquals(2, keyArrl.size());
+        }
+        catch(NullPointerException e) {
+            System.out.println("Error: nothing inserted");
+        }
     }
 
-    public void testInsertAnim() {
-    }
+//    TODO: animations need some sort of mocked canvas
+//    public void testInsertAnim() {
+//            bst.insertAnim(5);
+//            bst.insertAnim(10);
+//
+//            ArrayList<Integer> keyArrl = bst.getAllKeys();
+//            assertEquals(2, keyArrl.size());
+//
+//    }
 }
