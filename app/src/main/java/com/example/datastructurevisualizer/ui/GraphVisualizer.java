@@ -1,5 +1,7 @@
 package com.example.datastructurevisualizer.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -61,6 +63,7 @@ public class GraphVisualizer extends Fragment {
         display = view.findViewById(R.id.display_button);
         button2 = view.findViewById(R.id.button2_button);
         visualizerCanvas = view.findViewById(R.id.graph_visualizer);
+        visualizerCanvas.setParentGraph(this);
         infoButton = view.findViewById(R.id.button_info);
 
         infoButton.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +81,7 @@ public class GraphVisualizer extends Fragment {
                         .show();
 
                 // TODO temp graph render
-                graph.render();
+                //graph.render();
 
             }
         });
@@ -112,5 +115,13 @@ public class GraphVisualizer extends Fragment {
             int vWidth = visualizerCanvas.getWidth();
             visualizerCanvas.setDimensions(vHeight, vWidth);
         }
+    }
+
+    /**
+     * This method sets the canvas bitmap.
+     * @param bitmap
+     */
+    public void setCanvas(Bitmap bitmap) {
+        visualizerCanvas.setBackground(new BitmapDrawable(bitmap));
     }
 }

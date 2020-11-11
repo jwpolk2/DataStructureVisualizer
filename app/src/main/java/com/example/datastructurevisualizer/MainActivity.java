@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setVisualizerCanvas(VisualizerCanvas visualizerCanvas){
         drawImage = visualizerCanvas;
-//        vWidth = drawImage.getWidth();
-//        vHeight = drawImage.getHeight();
-//        drawImage.setDimensions(vHeight, vWidth);
     }
 
     public static VisualizerCanvas getVisualizer() {

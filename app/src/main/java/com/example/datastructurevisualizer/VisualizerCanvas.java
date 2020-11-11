@@ -14,9 +14,12 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import com.example.datastructurevisualizer.ui.GraphVisualizer;
 import com.example.datastructurevisualizer.ui.Visualizer;
 
 public class VisualizerCanvas extends SurfaceView {
@@ -26,7 +29,8 @@ public class VisualizerCanvas extends SurfaceView {
     private int vWidth;
     private int vHeight;
     AttributeSet attrs;
-    private Visualizer parent;
+    private Visualizer parentTrees;
+    private GraphVisualizer parentGraphs;
 
 
     public VisualizerCanvas(Context context) {
@@ -55,14 +59,30 @@ public class VisualizerCanvas extends SurfaceView {
 //    }
 
     public void render() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                parent.setCanvas(bitmap);
-            }
-        });
-        Log.d("Rendering", "Render Method Called" );
+        if (parentTrees != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    parentTrees.setCanvas(bitmap);
+                }
+            });
+            Log.d("Rendering", "Render Method Called");
+        }
+        else if (parentGraphs != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    parentGraphs.setCanvas(bitmap);
+                }
+            });
+            Log.d("Rendering", "Render Method Called");
+        }
+        else {
+            Toast.makeText(getContext(),"Nothing to render on -- VisualizerCanvas", Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -107,8 +127,13 @@ public class VisualizerCanvas extends SurfaceView {
     }
 
     public void setParent(Visualizer visualizer) {
-        parent = visualizer;
+        parentTrees = visualizer;
     }
+
+    public void setParentGraph(GraphVisualizer graphVisualizer){
+        parentGraphs = graphVisualizer;
+    }
+
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
