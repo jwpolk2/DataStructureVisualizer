@@ -3,33 +3,26 @@ package com.example.datastructurevisualizer.ui;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.example.datastructurevisualizer.Graph;
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.VisualizerCanvas;
-
 import java.util.Random;
-
 
 public class GraphVisualizer extends Fragment {
     private Button display;
     private Button button2;
     private ImageButton infoButton;
-    private VisualizerCanvas visualizerCanvas;
+    private static VisualizerCanvas visualizerCanvas;
     private String dataStructureType;
-
-    // TODO remove?
-    Graph graph;
+    private Graph graph;
 
 
     public GraphVisualizer() {
@@ -43,6 +36,7 @@ public class GraphVisualizer extends Fragment {
         super.onResume();
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();
+
     }
 
     @Override
@@ -81,7 +75,7 @@ public class GraphVisualizer extends Fragment {
                         .show();
 
                 // TODO temp graph render
-                //graph.render();
+                graph.render();
 
             }
         });
@@ -94,13 +88,25 @@ public class GraphVisualizer extends Fragment {
                         .show();
                 java.util.Random rand = new java.util.Random();
 
-                // TODO temp graph insert
-//                graph.insertGraphNode(Math.abs(rand.nextInt()) % 100,
-//                        Math.abs(rand.nextInt()) % 100,Math.abs(rand.nextInt()) % 100);
-                graph.insertGraphNode(60, 60, 60);
+                // TODO some functionality
 
             }
         });
+
+        // TODO remove
+        // Inserts some Nodes and edges if the graph is empty.
+        int k = 0;
+        if (graph.getAllNodes().isEmpty()) {
+            for (int i = 0; i < 6; ++i) {
+                for (int j = 0; j < 5; ++j) {
+                    graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
+                    if (k != 0) graph.insertDirectedEdge(k - 1, k, 10);
+                    ++k;
+
+                }
+            }
+        }
+        graph.render();
 
 
         return view;

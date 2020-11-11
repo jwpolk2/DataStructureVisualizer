@@ -1,7 +1,11 @@
 package com.example.datastructurevisualizer;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -14,12 +18,21 @@ import java.util.ArrayList;
  * Since there is no algorithm for determining where a Graph Node should be
  * placed, insertGraphNode accepts integer coordinates. This method should be
  * used instead of insert/insertAnim/insertNoAnim.
- * Includes breadth first and dijkstra pathfinds, // TODO more algorithms
+ * TODO edge highlighting
+ * Includes breadth first and dijkstra pathfinds, as well as Prim's and Kruskal's
+ * minimum spanning tree algorithms.
  * Overriddes getNode and getAllNodes to work for a graph.
  * Overrides render to work for a graph.
  */
 public class Graph extends NodeVisualizer {
+
+    // ArrayList containing all nodes in the graph.
     private ArrayList<Node> nodes = new ArrayList<>();
+
+    // ArrayList of highlighted Edges in the graph. Used for Prims and Kruskal's.
+    // algorithms.
+    // Colour is TODO
+    ArrayList<Edge> highlightedEdges = new ArrayList<Edge>();
 
     /**
      * Inserts a Node into the graph at the specified position.
@@ -53,7 +66,7 @@ public class Graph extends NodeVisualizer {
         if (start == null || dest == null) return;
 
         // Creates the directed Edge.
-        ((ArrayList<Edge>)start.extraData[0]).add(new Edge(dest, weight));
+        ((ArrayList<Edge>)start.extraData[0]).add(new Edge(start, dest, weight));
 
     }
 
@@ -104,8 +117,7 @@ public class Graph extends NodeVisualizer {
         }
 
         // Removes this Node.
-        for (int i = 0; i < nodes.size(); ++i)
-            if (nodes.get(i).key == key) nodes.remove(i);
+        nodes.remove(getNode(key));
 
     }
 
@@ -173,7 +185,7 @@ public class Graph extends NodeVisualizer {
                 if (!explored.contains(edge.dest)) {
                     queue.add(edge.dest);
                     explored.add(edge.dest);
-                    queueQueueAddAnimation(currNode, "Add " + edge.dest.value + " to queue");
+                    queueQueueAddAnimation(currNode, "Add " + edge.dest.key + " to queue");
 
                 }
             }
@@ -189,7 +201,7 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
-     * Animates a dijkstra style pathfind.
+     * Animates a Dijkstra pathfind.
      *
      * TODO comment
      * TODO debug
@@ -210,6 +222,7 @@ public class Graph extends NodeVisualizer {
         // Adds the start to the queue of Nodes to explore.
         queue.add(start);
         explored.add(start);
+        start.value = 0;
         queuePriorityQueueAddAnimation(start, "Begin exploring at start");
 
         // Parses through the queue of Nodes until the destination Node is found
@@ -237,7 +250,8 @@ public class Graph extends NodeVisualizer {
                 if (!explored.contains(edge.dest)) {
                     queue.add(edge.dest);
                     explored.add(edge.dest);
-                    queuePriorityQueueAddAnimation(currNode, "Add " + edge.dest.value + " to queue");
+                    edge.dest.value = currNode.value + edge.weight;
+                    queuePriorityQueueAddAnimation(currNode, "Add " + edge.dest.key + " to queue");
 
                 }
             }
@@ -249,6 +263,56 @@ public class Graph extends NodeVisualizer {
 
         // If the destination Node is not found, prints a message saying so.
         queueNodeSelectAnimation(null, "Destination not found");
+
+    }
+
+    /**
+     * Greedy traversal that finds the minimum spanning tree of the graph,
+     * starting from the given key.
+     *
+     * @param startKey the starting key of the tree.
+     */
+    public void primsAlgorithm(int startKey) {
+        Edge currEdge;
+        ArrayList<Node> explored = new ArrayList<Node>();
+
+        // Returns if the start is invalid.
+        Node start = getNode(startKey);
+        if (start == null) return;
+
+        // Starts at the start Node.
+        explored.add(start);
+        queueNodeExploreAnimation(start, "Start exploring at " + start.key);
+
+        // Adds the least edge to the list of explored edges until there
+        // are no more available edges.
+        while (true) {
+
+            // Explores the least edge from the list of explored Nodes.
+            currEdge = new Edge(null, null, -1);
+            for (Node node : explored) {
+                for (Edge edge : (ArrayList<Edge>)node.extraData[0]) {
+                    if (!explored.contains(edge.dest)) {
+                        currEdge = currEdge.weight < edge.weight ? currEdge : edge;
+
+                    }
+                }
+            }
+
+            // If no least edge is found, exits the loop.
+            if (currEdge.weight < 0) break;
+
+            // If a least edge is found, highlights it.
+            // TODO highlight weight animation
+            // queueEdgeHighlightAnimation(edge)
+
+        }
+
+        // TODO finish
+
+    }
+
+    public void kruskalsAlgorithm() {
 
     }
 
@@ -274,7 +338,158 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
-     * Renders the tree to the inputed canvas, starting at the root.
+     * Highlights an Edge.
+     *
+     * @param edge the Edge to highlight.
+     */
+    private void highlightEdge(Edge edge) {
+        highlightedEdges.add(edge);
+
+    }
+
+    /**
+     * UnHighlights an Edge.
+     *
+     * @param edge the Edge to unhighlight.
+     */
+    private void unHighlightEdge(Edge edge) {
+        highlightedEdges.remove(edge);
+
+    }
+
+    /**
+     * UnHighlights all Edges.
+     */
+    private void unHighlightAllEdges() {
+        highlightedEdges.clear();
+
+    }
+
+    /**
+     * Animates the highlighting of an Edge.
+     *
+     * @param edge the Edge to highlight.
+     * @param canvas the Canvas to render in.
+     */
+    private void edgeHighlightAnimation(Edge edge, Canvas canvas) {
+
+        // Highlights the edge.
+        highlightEdge(edge);
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to highlight the inputed Edge and wait for a small time.
+     *
+     * @param edge the edge to highlight.
+     * @param message the message to animate with.
+     */
+    private void queueEdgeHighlightAnimation(Edge edge, String message) {
+        animationLog.add(new HighlightEdge(edge, message));
+
+    }
+
+    /**
+     * Calculates the unit 'normal' of the vector between two Nodes.
+     * If said unit normal points downwards in the y direction, it will be inverted.
+     * Used to place text describing edge weights.
+     *
+     * @param x the x magnitude of the vector.
+     * @param y the y magnitude of the vector.
+     * @return an array of two ints representing the normal vector <x,y>.
+     */
+    private float[] calcUnitNormal(float x, float y) {
+        float tot = Math.abs(x) + Math.abs(y);
+        float[] vec = new float[2];
+
+        // Inverts the vector if it points downwards.
+        if (x <= 0) {
+            vec[0] = y;
+            vec[1] = x;
+
+        }
+        // Keeps the normal vector if it does not point downwards.
+        else {
+            vec[0] = -y;
+            vec[1] = -x;
+
+        }
+
+        // Normalizes the vector.
+        vec[0] /= tot;
+        vec[1] /= tot;
+
+        // Returns the upward-facing perpendicular vector.
+        return vec;
+
+    }
+
+    /**
+     * Draws a particular edge of the Graph.
+     *
+     * highlightedEdges are coloured green.
+     *
+     * @param edge the edge to draw.
+     * @param canvas the Canvas to draw in.
+     */
+    private void drawEdge(Edge edge, Canvas canvas) {
+        float[] vec;
+        Paint colour = new Paint();
+
+        // Sets the Edge's colour based its highlight status.
+        if (highlightedEdges.contains(edge)) colour.setARGB(255, AnimationParameters.HIL_VEC_R,
+                    AnimationParameters.HIL_VEC_G, AnimationParameters.HIL_VEC_B);
+        else colour.setARGB(255, AnimationParameters.VEC_R,
+                    AnimationParameters.VEC_G, AnimationParameters.VEC_B);
+
+        // Draws the Edge.
+        canvas.drawLine(edge.start.position[0], edge.start.position[1],
+                edge.dest.position[0], edge.dest.position[1], colour);
+
+        // Finds an upwards facing unit vector perpendicular to the vector
+        // between the edge's Nodes.
+        vec = calcUnitNormal(edge.dest.position[0] - edge.start.position[0],
+                edge.dest.position[1] - edge.start.position[1]);
+
+        // Enlarges the perpendicular vector.
+        vec[0] *= AnimationParameters.NODE_RADIUS;
+        vec[1] *= AnimationParameters.NODE_RADIUS;
+
+        // Calculates the position of the weight. It will be placed above the
+        // center of the edge.
+        vec[0] += (float) (edge.start.position[0] +
+                (edge.dest.position[0] - edge.start.position[0]) / 2.0);
+        vec[1] += (float) (edge.start.position[1] +
+                (edge.dest.position[1] - edge.start.position[1]) / 2.0);
+
+        // Draws the weight.
+        colour.setTextAlign(Paint.Align.CENTER);
+        colour.setTextSize(AnimationParameters.NODE_RADIUS);
+        canvas.drawText(String.valueOf(edge.weight), vec[0], vec[1], colour);
+
+        Log.e("vec", "vec = {" + vec[0] + ", " + vec[1] + "}");
+
+    }
+
+    /**
+     * Draws each edge of the Graph.
+     *
+     * @param canvas the Canvas to draw in.
+     */
+    private void drawEdges(Canvas canvas) {
+
+        // Draws each edge for each Node.
+        for (Node node : nodes) {
+            for (Edge edge : (ArrayList<Edge>)node.extraData[0]) {
+                drawEdge(edge, canvas);
+
+            }
+        }
+    }
+
+    /**
+     * Renders the Graph to the inputed canvas, starting at the root.
      * Will also render the nodeList.
      *
      * @param canvas the Canvas to draw in.
@@ -286,6 +501,9 @@ public class Graph extends NodeVisualizer {
         canvas.drawRGB(AnimationParameters.BACK_R,
                 AnimationParameters.BACK_G, AnimationParameters.BACK_B);
 
+        // Renders each edge.
+        drawEdges(canvas);
+
         // Renders each Node.
         for (Node node : nodes) drawNode(node, canvas);
 
@@ -294,6 +512,56 @@ public class Graph extends NodeVisualizer {
 
         // Renders this frame to the Canvas.
         super.render(canvas);
+
+    }
+
+    /**
+     * Animation item for highlighting an Edge.
+     */
+    private class HighlightEdge extends AnimationItem {
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the inputed edge is
+         * highlighted.
+         *
+         * @param edge the Edge to highlight.
+         * @param message the message to animate with.
+         */
+        HighlightEdge(Edge edge, String message) {
+            super(message);
+            canvas = new Canvas(bmp);
+            edgeHighlightAnimation(edge, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the inputed edge is highlighted.
+         */
+        @Override
+        public void run() {
+            super.run();
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
 
     }
 }

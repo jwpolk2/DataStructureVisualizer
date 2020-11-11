@@ -50,7 +50,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     protected void drawNode(Node node, Canvas canvas) {
         Paint colour = new Paint();
 
-        // The Node will be coloured depending upon its highlight status.
+        // Sets the Node's colour based on its highlight status.
         if (node == selectedNode) colour.setARGB(255, AnimationParameters.SEL_NODE_R,
                 AnimationParameters.SEL_NODE_G, AnimationParameters.SEL_NODE_B);
         else if (highlightedNodes.contains(node)) colour.setARGB(255, AnimationParameters.HIL_NODE_R,
@@ -182,6 +182,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * Queues an animation to change the selected Node and wait for a small time.
      *
      * @param node the Node to select.
+     * @param message the message to animate with.
      */
     protected void queueNodeSelectAnimation(Node node, String message) {
         animationLog.add(new SelectNode(node, message));

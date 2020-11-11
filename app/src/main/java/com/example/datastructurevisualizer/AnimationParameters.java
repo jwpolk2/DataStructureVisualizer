@@ -23,6 +23,11 @@ public class AnimationParameters {
     static final int VEC_G = 0;
     static final int VEC_B = 0;
 
+    // Default colour of a highlighted vector.
+    static final int HIL_VEC_R = 0;
+    static final int HIL_VEC_G = 120;
+    static final int HIL_VEC_B = 0;
+
     // Default colour of text.
     static final int TEXT_R = 255;
     static final int TEXT_G = 255;
