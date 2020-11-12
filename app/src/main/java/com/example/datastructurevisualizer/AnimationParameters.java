@@ -23,6 +23,11 @@ public class AnimationParameters {
     static final int VEC_G = 0;
     static final int VEC_B = 0;
 
+    // DEfault colour of a selected vector.s
+    static final int SEL_VEC_R = 0;
+    static final int SEL_VEC_G = 0;
+    static final int SEL_VEC_B = 120;
+
     // Default colour of a highlighted vector.
     static final int HIL_VEC_R = 0;
     static final int HIL_VEC_G = 120;
@@ -57,11 +62,6 @@ public class AnimationParameters {
     static final int EXP_NODE_R = 0;
     static final int EXP_NODE_G = 40;
     static final int EXP_NODE_B = 0;
-
-    // Current position in the Canvas.
-    // TODO remove
-    static float xPos = 0;
-    static float yPos = 0;
 
     // Width of a Node.
     static final float NODE_RADIUS = 20f;

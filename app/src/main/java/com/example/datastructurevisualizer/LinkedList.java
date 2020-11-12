@@ -17,7 +17,8 @@ public class LinkedList extends TreeVisualizer {
     static final int numChildren = 1;
 
     // Position of this LinkedList on the Canvas.
-    int xPos = 30, yPos = 30;
+    int xPos = (int)(AnimationParameters.NODE_RADIUS * 1.5);
+    int yPos = (int)(AnimationParameters.NODE_RADIUS * 1.5);
 
     /**
      * Return numChildren per node, which is 1. Used in TreeVisualize.
@@ -78,9 +79,12 @@ public class LinkedList extends TreeVisualizer {
 
         // Places the new Node at the root if the queue is empty or if it is
         // the least Node in the queue.
-        if (root == null || root.value > node.value) {
+        if (root == null || node.value < root.value) {
             node.children[0] = root;
             root = node;
+            placeTreeNodes(xPos, yPos);
+            placeNodesAtDestination();
+            return;
 
         }
 
@@ -93,6 +97,10 @@ public class LinkedList extends TreeVisualizer {
         // Places the Node.
         node.children[0] = currNode.children[0];
         currNode.children[0] = node;
+
+        // Places the Nodes at their desired positions.
+        placeTreeNodes(xPos, yPos);
+        placeNodesAtDestination();
 
     }
 
@@ -148,7 +156,8 @@ public class LinkedList extends TreeVisualizer {
 
         // Queues a movement animation.
         placeTreeNodes(xPos, yPos);
-        queueNodeMoveAnimation("Adding " + key + " to LinkedList");
+        queueNodeMoveAnimation("Adding " + key + " to LinkedList",
+                AnimationParameters.ANIM_TIME);
 
     }
 

@@ -388,12 +388,14 @@ public class BinarySearchTree extends TreeVisualizer {
         if (root == null) {
             root = newNode;
             placeTreeNodes();
-            queueNodeMoveAnimation("Creating root");
+            queueNodeMoveAnimation("Creating root",
+                    AnimationParameters.ANIM_TIME);
             return;
         }
 
         Node current = root;
-            queueNodeSelectAnimation(current, "Start at root " + current.key);
+            queueNodeSelectAnimation(current, "Start at root " + current.key,
+                    AnimationParameters.ANIM_TIME);
 
         Node parent;
         while (true) {
@@ -403,27 +405,29 @@ public class BinarySearchTree extends TreeVisualizer {
                 if (current == null) {
                     parent.children[ChildNames.LEFT.i] = newNode;
                     placeTreeNodes();
-                    queueNodeMoveAnimation(id + " < " + parent.key + ", placing " + id + " as left child");
+                    queueNodeMoveAnimation(id + " < " + parent.key + ", placing "
+                            + id + " as left child", AnimationParameters.ANIM_TIME);
                     return;
 
                 }
                 else {
                     queueNodeSelectAnimation(current, id + " < " + parent.key +
-                            ", exploring left subtree");
+                            ", exploring left subtree", AnimationParameters.ANIM_TIME);
                 }
             } else {
                 current = current.children[ChildNames.RIGHT.i];
                 if (current == null) {
                     parent.children[ChildNames.RIGHT.i] = newNode;
                     placeTreeNodes();
-                    queueNodeMoveAnimation(id + " > " + parent.key + ", placing " + id + " as right child");
+                    queueNodeMoveAnimation(id + " > " + parent.key + ", placing "
+                            + id + " as right child", AnimationParameters.ANIM_TIME);
                     return;
 
                 }
                 else {
 
                     queueNodeSelectAnimation(current, id + " > " + parent.key +
-                            ", exploring right subtree");
+                            ", exploring right subtree", AnimationParameters.ANIM_TIME);
                 }
             }
         }

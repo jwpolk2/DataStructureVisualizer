@@ -8,7 +8,7 @@ package com.example.datastructurevisualizer;
  * Contains Node[] children for children.
  * Contains Object[] extraData in case extra data is needed.
  */
-public class Node {
+public class Node implements Comparable {
     int key;
     int value;
     int r, g, b;
@@ -48,6 +48,21 @@ public class Node {
         this.r = colour * 200;
         this.g = 0;
         this.b = 0;
+
+    }
+
+    /**
+     * Compares two Nodes.
+     *
+     * @param input the Node to compare to.
+     * @return -1 if smaller than input, 1 if larger, else 0.
+     */
+    @Override
+    public int compareTo(Object input) {
+        Node comp = (Node)input;
+        if (value < comp.value) return -1;
+        else if (value > comp.value) return 1;
+        else return 0;
 
     }
 }

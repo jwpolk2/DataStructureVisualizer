@@ -192,22 +192,30 @@ public class Visualizer extends Fragment {
                 checkCanvas();
                 Toast.makeText(getContext(), "Button 2 Pressed", Toast.LENGTH_LONG)
                         .show();
-                java.util.Random rand = new java.util.Random();
 
                 // TODO some functionality
-                graph.breadthFirstPathfind(1, 20);
+                graph.dijkstraPathfind(1, 22);
+                new Thread(new Runnable () {
+                    @Override
+                    public void run() {
+                        AnimationParameters.beginAnimation();
+                        graph.animate();
+                        AnimationParameters.stopAnimation();
+                    }
+                }).start();
 
             }
         });
 
         // TODO remove
-        // Inserts some Nodes and edges if the graph is empty.
+        java.util.Random rand = new java.util.Random();
         int k = 0;
         if (graph.getAllNodes().isEmpty()) {
-            for (int i = 0; i < 6; ++i) {
+            for (int i = 0; i < 5; ++i) {
                 for (int j = 0; j < 5; ++j) {
                     graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
-                    if (k != 0) graph.insertDirectedEdge(k - 1, k, 10);
+                    if (k >= 5) graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
+                    if (k % 5 != 0) graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
                     ++k;
 
                 }
@@ -673,6 +681,7 @@ public class Visualizer extends Fragment {
      * @param message the message to be displayed.
      */
     public static void displayMessage(String message) {
+        if (message == null) return;
         final String message2 = message;
         displayExec.post(new Runnable() {
             @Override
