@@ -347,16 +347,18 @@ public class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Places Nodes in the tree. Starts at the center of the tree, depthlen pixels from the top.
+     * Places Nodes in the tree. Starts at the center of the tree, NODE_RADIUS * 3
+     * units from the top.
      */
     public void placeTreeNodes() {
-        if(MainActivity.getVisualizer() == null){
-            //This is usually the case while testing the trees. Do Nothing`
-        }
-        else {
-            placeTreeNodes(MainActivity.getVisualizer().getCanvas().getWidth() / 2,
-                    (int) AnimationParameters.depthLen / 5);
-        }
+
+        // Does nothing if there is no Canvas.
+        if(MainActivity.getVisualizer() == null) return;
+
+        // Places the Nodes.
+        placeTreeNodes(MainActivity.getVisualizer().getCanvas().getWidth() / 2,
+                    (int) AnimationParameters.NODE_RADIUS * 3);
+
     }
 
     /**
