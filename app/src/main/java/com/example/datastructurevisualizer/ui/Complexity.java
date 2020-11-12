@@ -15,6 +15,7 @@ import com.example.datastructurevisualizer.R;
 
 public class Complexity extends Fragment {
     private String dataStructureType;
+    private Button visualize;
 
     public Complexity(String dataStructureType) {
         this.dataStructureType = dataStructureType;
@@ -29,18 +30,46 @@ public class Complexity extends Fragment {
         switch (dataStructureType) {
             case "Binary Search Tree":
                 view = inflater.inflate(R.layout.complexity_bst, container, false);
+                visualize = view.findViewById(R.id.button_visualize);
+                visualize.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.openFragment(new Visualizer(dataStructureType), true);
+                    }
+                });
 
                 break;
             case "Red Black Tree":
                 view = inflater.inflate(R.layout.complexity_rbt, container, false);
+                visualize = view.findViewById(R.id.button_visualize);
+                visualize.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.openFragment(new Visualizer(dataStructureType), true);
+                    }
+                });
 
                 break;
             case "Balanced Search Tree":
                 view = inflater.inflate(R.layout.complexity_avl, container, false);
+                visualize = view.findViewById(R.id.button_visualize);
+                visualize.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.openFragment(new Visualizer(dataStructureType), true);
+                    }
+                });
 
                 break;
             case "Graph":
                 view = inflater.inflate(R.layout.complexity_graph, container, false);
+                visualize = view.findViewById(R.id.button_visualize);
+                visualize.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.openFragment(new Visualizer("Graph"), true);
+                    }
+                });
 
                 break;
             default:
