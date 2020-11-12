@@ -6,7 +6,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="save">Save</string>
     <string name="file_action">file_action</string>
-    <string name="bst_overview_tree_body"><![CDATA[Trees are non-linear data structures which store data in nodes. These structures allow for efficient insert, update, and search inquiries. These structures follow a particular ordering property wherein given a node n all the left descendants will be < n < all right descendants.]]></string>
+    <string name="bst_overview_tree_body"><![CDATA[Trees are non-linear data structures which store data in nodes, allowing for efficient insert, update, and search inquiries. These structures follow a particular ordering property wherein given a node n all the left descendants will be < n < all right descendants.]]></string>
     <string name="bst_overview_bst_body">In binary search trees, each node can have a maximum of two children, giving binary search trees their name. \nThe root node (node 1) is the first node of a tree, the parent of this node is null. \nThe root node of a tree is the parent of its left and right children (nodes 2 and 3). \nThe links that connect a parent to its children are called edges. \nThe nodes that have no children are leaf nodes (nodes 4, 5, and 6)</string>
     <string name="bst_overview_definitions_body">• Full: every node has either zero or two children.\n• Complete: every level in the tree is fully filled except for the last level, which should be filled from left to right.\n• Perfect: the tree is both full and complete, this tree will have 2^(n-1) nodes.</string>
 </resources>
