@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
@@ -84,6 +85,7 @@ public class Visualizer extends Fragment {
     private VisualizerCanvas visualizerCanvas;
     private ImageButton infoButton;
     private static TextView displayExec;
+    private static ScrollView displayExecScroll;
 
     //Class variables
     private static String dataStructureType;
@@ -230,6 +232,7 @@ public class Visualizer extends Fragment {
         redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
+        displayExecScroll = view.findViewById(R.id.printout_scroll);
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
         play = view.findViewById(R.id.button_play);
         pause = view.findViewById(R.id.button_pause);
@@ -624,6 +627,7 @@ public class Visualizer extends Fragment {
             public void run() {
                 String hMessage = displayExec.getText().toString();
                 displayExec.setText(String.format("%s\n%s", hMessage, message2));
+                displayExecScroll.scrollTo(0,displayExecScroll.getBottom());
             }
         });
     }
