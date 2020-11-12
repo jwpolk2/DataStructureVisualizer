@@ -185,7 +185,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * @param message the message to animate with.
      */
     protected void queueNodeSelectAnimation(Node node, String message) {
-        animationLog.add(new SelectNode(node, message));
+        if(MainActivity.getVisualizer()!= null){
+            animationLog.add(new SelectNode(node, message));
+        }
 
     }
 
@@ -746,9 +748,12 @@ public class NodeVisualizer extends DataStructureVisualizer {
         MoveNodes(String message) {
             super(message);
 
+
             // Renders each frame for the animation.
             for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
-
+                if(MainActivity.getVisualizer() == null){
+                    return;
+                }
                 // Initializes bmp and Canvas.
                 bmp[i] = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
                         MainActivity.getVisualizer().getCanvas().getHeight(),

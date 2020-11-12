@@ -27,14 +27,14 @@ public class BinarySearchTreeTest extends TestCase {
     }
 
 
-//    public void testGetTreeData() {
-//        bst.insertNoAnim(5);
-//        bst.insertNoAnim(10);
-//        bst.insertNoAnim(15);
-//
-//        ArrayList<Integer> keyArrl = bst.getAllKeys();
-//        assertEquals(keyArrl, bst.getTreeData());
-//    }
+    public void testGetTreeData() {
+        bst.insertAnim(5);
+        bst.insertAnim(10);
+        bst.insertAnim(15);
+
+        ArrayList<Integer> keyArrl = bst.getAllKeys();
+        assertEquals(keyArrl, bst.getTreeData());
+    }
 
 //    Unused
 //    public void testSetTreeData() {

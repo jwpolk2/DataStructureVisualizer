@@ -179,13 +179,15 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                load();
+
+
+                MainActivity.openFragment(new Files(), true);
 //                Fragment filesFrag = new Files();
 //                FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                ft.replace(R.id.visualizer_fragment, filesFrag);
 //                ft.addToBackStack(null);
 //                ft.commit();
-  //              MainActivity.openFragment(new Files(), false);
+
 
             }
         });

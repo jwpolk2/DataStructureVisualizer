@@ -65,7 +65,7 @@ public class DialogFileAction extends DialogFragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_save, container);
+        View view = inflater.inflate(R.layout.dialog_file_action, container);
         renameBtn = view.findViewById(R.id.fileDialog_renameBtn);
         loadBtn = view.findViewById(R.id.fileDialog_loadBtn);
         deleteBtn = view.findViewById(R.id.fileDialog_deleteBtn);

@@ -509,7 +509,8 @@ public class BinarySearchTree extends TreeVisualizer {
         }
 
         Node current = root;
-        queueNodeSelectAnimation(current, "Start at root " + current.key);
+            queueNodeSelectAnimation(current, "Start at root " + current.key);
+
         Node parent;
         while (true) {
             parent = current;
@@ -536,6 +537,7 @@ public class BinarySearchTree extends TreeVisualizer {
 
                 }
                 else {
+
                     queueNodeSelectAnimation(current, id + " > " + parent.key +
                             ", exploring right subtree");
                 }
