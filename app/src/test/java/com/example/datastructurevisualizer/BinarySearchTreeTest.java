@@ -28,49 +28,6 @@ public class BinarySearchTreeTest extends TestCase {
         assertEquals(2, bst.getNumChildren());
     }
 
-//    Unused
-//    public void testGetTreeData() {
-//        bst.insertNoAnim(5);
-//        bst.insertNoAnim(10);
-//        bst.insertNoAnim(15);
-//
-//        ArrayList<Integer> keyArrl = bst.getAllKeys();
-//        assertEquals(keyArrl, bst.getTreeData());
-//    }
-
-//    Unused
-//    public void testGetTreeData() {
-//        bst.insertAnim(5);
-//        bst.insertAnim(10);
-//        bst.insertAnim(15);
-//
-//        ArrayList<Integer> keyArrl = bst.getAllKeys();
-//        assertEquals(keyArrl, bst.getTreeData());
-//    }
-
-//    Unused
-//    public void testSetTreeData() {
-//    }
-
-    public void testGetRoot_empty() {
-        assertEquals(null, bst.getRoot());
-    }
-
-    public void testGetRoot_singleNode() {
-        bst.insertNoAnim(1);
-        assertEquals(1, bst.getRoot().key);
-    }
-    public void testGetRoot_threeNodes() {
-        bst.insertNoAnim(1);
-        bst.insertNoAnim(2);
-        bst.insertNoAnim(3);
-        assertEquals(1, bst.getRoot().key);
-    }
-
-//    Unused
-//    public void testSetRoot() {
-//    }
-
     public void testTreeHeight_filled() {
         Node root = new Node(1, 2);
         assertEquals(1, bst.treeHeight(root));
@@ -88,30 +45,6 @@ public class BinarySearchTreeTest extends TestCase {
 
 //    public void testGetNodeHeight_Filled() {
 //       // TODO
-//    }
-
-//    Unused
-//    public void testIsIsomorphic() {
-//    }
-
-//    Unused
-//    public void testIsSymmetric() {
-//    }
-
-//    Unused
-//    public void testIsEqual() {
-//    }
-
-//    Unused
-//    public void testReverse() {
-//    }
-
-//    Unused
-//    public void testGetMaxWidth() {
-//    }
-
-//    Unused
-//    public void testSetMaxWidth() {
 //    }
 
     //try finding something from an empty tree
@@ -136,10 +69,10 @@ public class BinarySearchTreeTest extends TestCase {
     public void testRemoveNoAnim_filled() {
         bst.insertNoAnim(5);
         bst.insertNoAnim(6);
-        //tree1.removeNoAnim(5);
+        bst.removeNoAnim(5);
 
         ArrayList<Integer> keyArrl = bst.getAllKeys();
-        assertEquals(2, keyArrl.size());
+        assertEquals(1, keyArrl.size());
     }
 
     //test remove on empty tree to ensure no null pointer error

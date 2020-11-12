@@ -21,14 +21,12 @@ import java.util.Queue;
  */
 public class BinarySearchTree extends TreeVisualizer {
     private int maxWidth = 0;
-    private List<Integer> treeData;
 
     // Number of children per node in this tree.
     static final int numChildren = 2;
 
     public BinarySearchTree() {
         root = null;
-        treeData = new LinkedList<>();
     }
 
     /**
@@ -36,22 +34,6 @@ public class BinarySearchTree extends TreeVisualizer {
      */
     @Override
     int getNumChildren() { return numChildren; }
-
-    List<Integer> getTreeData() {
-        return treeData;
-    }
-
-    public void setTreeData(List<Integer> treeData) {
-        this.treeData = treeData;
-    }
-
-    Node getRoot() {
-        return root;
-    }
-
-    void setRoot(Node root) {
-        this.root = root;
-    }
 
     /**
      * Height of tree	-	The height of a tree is the height of its root node.
@@ -142,104 +124,6 @@ public class BinarySearchTree extends TreeVisualizer {
                 q.add(n.children[ChildNames.RIGHT.i]);
             --levelNodes;
         }
-    }
-
-    /**
-     * Is the given tree isomorphic?
-     * <a href="http://www.geeksforgeeks.org/tree-isomorphism-problem/">Is given tree isomorphic</a>
-     * <a href="http://stackoverflow.com/a/742698/4541133">What is Isomorphic property of a tree?</a>
-     *
-     * @return true if isomorphic false otherwise
-     */
-    boolean isIsomorphic() {
-        return isIsomorphic(getRoot().children[ChildNames.LEFT.i], getRoot().children[ChildNames.RIGHT.i]);
-    }
-
-    /**
-     * Checks whether the key being inserted is a duplicate
-     *
-     * @param key the value being inserted
-     * @return true if key is not a duplicate, false if it is a duplicate
-     */
-
-
-    /**
-     * <a href="http://www.geeksforgeeks.org/tree-isomorphism-problem/">Is given tree isomorphic</a>
-     *
-     * @param n1 Left node of root or vice versa
-     * @param n2 Right node of root or vice versa
-     * @return true if isomorphic false otherwise
-     */
-    boolean isIsomorphic(Node n1, Node n2) {
-        // Both roots are NULL, trees isomorphic by definition
-        if (n1 == null && n2 == null)
-            return true;
-
-        // Exactly one of the n1 and n2 is NULL, trees not isomorphic
-        if (n1 == null || n2 == null)
-            return false;
-
-        if (n1.key != n2.key)
-            return false;
-
-        // There are two possible cases for n1 and n2 to be isomorphic
-        // Case 1: The subtrees rooted at these nodes have NOT been
-        // "Flipped".
-        // Both of these subtrees have to be isomorphic.
-        // Case 2: The subtrees rooted at these nodes have been "Flipped"
-        return (isIsomorphic(n1.children[ChildNames.LEFT.i], n2.children[ChildNames.LEFT.i]) &&
-                isIsomorphic(n1.children[ChildNames.RIGHT.i], n2.children[ChildNames.RIGHT.i]))
-                || (isIsomorphic(n1.children[ChildNames.LEFT.i], n2.children[ChildNames.RIGHT.i]) &&
-                isIsomorphic(n1.children[ChildNames.RIGHT.i], n2.children[ChildNames.LEFT.i]));
-    }
-
-    boolean isSymmetric(Node root) {
-        return isSymmetric(root.children[ChildNames.LEFT.i], root.children[ChildNames.RIGHT.i]);
-    }
-
-    boolean isSymmetric(Node left, Node right) {
-        if (left == null && right == null) return true;
-        if (left == null || right == null) return false;
-        return isSymmetric(left.children[ChildNames.LEFT.i], right.children[ChildNames.RIGHT.i]) &&
-                isSymmetric(left.children[ChildNames.RIGHT.i], right.children[ChildNames.LEFT.i]);
-    }
-
-    /**
-     * Checks if two Binary Trees are equal.
-     * Source: <a href="https://www.youtube.com/watch?v=A8oZEXtVB_Q">Check If Two Binary Trees Are Equal - Phyley CS</a>
-     *
-     * @param firstTree
-     * @param secondTree
-     * @return true if binary trees are equal else return false.
-     */
-    boolean isEqual(Node firstTree, Node secondTree) {
-        if (firstTree == null && secondTree == null) return true;
-        if (firstTree == null || secondTree == null) return false;
-        if (firstTree.key != secondTree.key) return false;
-        return isEqual(firstTree.children[ChildNames.LEFT.i], secondTree.children[ChildNames.LEFT.i]) &&
-                isEqual(firstTree.children[ChildNames.RIGHT.i], secondTree.children[ChildNames.RIGHT.i]);
-    }
-
-    /**
-     * <a href="https://stackoverflow.com/questions/9460255/reverse-a-binary-tree-left-to-right">Reverse a Binary Tree</a>
-     *
-     * @param root Reference to the root node of Binary Tree
-     */
-    void reverse(Node root) {
-        Node temp = root.children[ChildNames.RIGHT.i];
-        root.children[ChildNames.RIGHT.i] = root.children[ChildNames.LEFT.i];
-        root.children[ChildNames.LEFT.i] = temp;
-        if (root.children[ChildNames.LEFT.i] != null) reverse(root.children[ChildNames.LEFT.i]);
-        if (root.children[ChildNames.RIGHT.i] != null) reverse(root.children[ChildNames.RIGHT.i]);
-    }
-
-    int getMaxWidth() {
-        breadthFirstTraversal(root);
-        return maxWidth;
-    }
-
-    public void setMaxWidth(int maxWidth) {
-        this.maxWidth = maxWidth;
     }
 
     /**
