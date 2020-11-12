@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.datastructurevisualizer.ui.GraphVisualizer;
 import com.example.datastructurevisualizer.ui.Visualizer;
 
 public class VisualizerCanvas extends SurfaceView {
@@ -30,7 +29,7 @@ public class VisualizerCanvas extends SurfaceView {
     private int vHeight;
     AttributeSet attrs;
     private Visualizer parentTrees;
-    private GraphVisualizer parentGraphs;
+
 
 
     public VisualizerCanvas(Context context) {
@@ -64,15 +63,6 @@ public class VisualizerCanvas extends SurfaceView {
                 @Override
                 public void run() {
                     parentTrees.setCanvas(bitmap);
-                }
-            });
-            Log.d("Rendering", "Render Method Called");
-        }
-        else if (parentGraphs != null) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    parentGraphs.setCanvas(bitmap);
                 }
             });
             Log.d("Rendering", "Render Method Called");
@@ -128,10 +118,6 @@ public class VisualizerCanvas extends SurfaceView {
 
     public void setParent(Visualizer visualizer) {
         parentTrees = visualizer;
-    }
-
-    public void setParentGraph(GraphVisualizer graphVisualizer){
-        parentGraphs = graphVisualizer;
     }
 
 
