@@ -2,18 +2,10 @@ package com.example.datastructurevisualizer.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.example.datastructurevisualizer.AVLTree;
 import com.example.datastructurevisualizer.AnimationParameters;
 import com.example.datastructurevisualizer.BinarySearchTree;
@@ -37,21 +28,12 @@ import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.RedBlackTree;
 import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Fragment class for the data structure visualization.
@@ -67,7 +49,6 @@ public class Visualizer extends Fragment {
     private ImageButton undoButton;
     private ImageButton redoButton;
     private Button autopopulateButton;
-    private Button saveDialogSave;
 
     //Graph Visuaizer view object variables
     private Button display;
@@ -181,6 +162,7 @@ public class Visualizer extends Fragment {
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
         startNode = view.findViewById(R.id.start_value);
         endNode = view.findViewById(R.id.end_value);
+        displayExecScroll = view.findViewById(R.id.printout_scroll);
         //TODO remove when graph object is no longer needed in this method
         graph = new Graph();
 
@@ -251,7 +233,6 @@ public class Visualizer extends Fragment {
         pause = view.findViewById(R.id.button_pause);
         next = view.findViewById(R.id.button_next);
         previous = view.findViewById(R.id.button_previous);
-        saveDialogSave = view.findViewById(R.id.saveDialog_saveBtn);
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
         visualizerCanvas.setParent(this);
