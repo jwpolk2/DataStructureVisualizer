@@ -9,19 +9,108 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_weight="6">
+        <Spinner
+            android:id="@+id/spinner_traversal"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/button_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:padding="5dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:background="@drawable/visulizer_button"/>
+
+        <ImageButton
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:src="@android:drawable/ic_media_next"
+            android:background="@drawable/visulizer_button"/>
+
+        <ImageButton
+            android:id="@+id/button_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:src="@android:drawable/ic_media_play"
+            android:background="@drawable/visulizer_button"/>
+
+        <ImageButton
+            android:id="@+id/button_pause"
+            android:layout_width="wrap_content"
+            android:padding="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_media_pause"
+            android:background="@drawable/visulizer_button"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="6">
+
+        <EditText
+            android:id="@+id/start_value"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="7dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Start Node"
+            android:inputType="number"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/end_value"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="7dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="End Node"
+            android:inputType="number"
+            android:textSize="18sp" />
+    </LinearLayout>
+
     <com.example.datastructurevisualizer.VisualizerCanvas
         android:id="@+id/graph_visualizer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:layout_weight="3"
+        android:layout_weight="2.5"
         android:background="@color/backgroundWhite"
  />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="6">
+        android:layout_weight="5.5">
 
         <TextView
             android:id="@+id/printout_textview"
@@ -36,16 +125,17 @@
 
     <TableRow
         android:gravity="center"
-        android:layout_weight="7"
+        android:layout_weight="6"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <Button
             android:id="@+id/display_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:text="Display"
             android:layout_margin="10dp"
-            android:padding="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:textAllCaps="false"
             android:textSize="20sp"
             android:background="@drawable/visulizer_button"
@@ -53,18 +143,19 @@
         <Button
             android:id="@+id/button2_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:text="Button 2"
             android:textAllCaps="false"
             android:layout_margin="10dp"
-            android:padding="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:textSize="20sp"
             android:background="@drawable/visulizer_button"
             android:textColor="@color/textHomepageButtons"/>
         <ImageButton
             android:id="@+id/button_info"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:padding="5dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
