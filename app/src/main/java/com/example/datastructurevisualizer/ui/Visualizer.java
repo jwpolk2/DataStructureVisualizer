@@ -2,10 +2,16 @@ package com.example.datastructurevisualizer.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -16,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
@@ -31,13 +38,20 @@ import com.example.datastructurevisualizer.RedBlackTree;
 import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment class for the data structure visualization.
@@ -74,6 +88,7 @@ public class Visualizer extends Fragment {
     private ImageButton previous;
     private ImageButton next;
     private Spinner traversalsSpinner;
+    private static ScrollView displayExecScroll;
 
     //Class variables
     private static String dataStructureType;
@@ -230,6 +245,7 @@ public class Visualizer extends Fragment {
         redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
+        displayExecScroll = view.findViewById(R.id.printout_scroll);
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
         play = view.findViewById(R.id.button_play);
         pause = view.findViewById(R.id.button_pause);
@@ -682,6 +698,7 @@ public class Visualizer extends Fragment {
             public void run() {
                 String hMessage = displayExec.getText().toString();
                 displayExec.setText(String.format("%s\n%s", hMessage, message2));
+                displayExecScroll.scrollTo(0,displayExecScroll.getBottom());
             }
         });
     }
