@@ -89,6 +89,7 @@ public class GraphVisualizer extends Fragment {
                 java.util.Random rand = new java.util.Random();
 
                 // TODO some functionality
+                graph.breadthFirstPathfind(1, 20);
 
             }
         });

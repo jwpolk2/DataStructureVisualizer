@@ -353,7 +353,7 @@ public class Visualizer extends Fragment {
                 tree = new RedBlackTree();
                 break;
             case "Balanced Search Tree":
-                MainActivity.actionBar.setTitle("Balanced Search Tree");
+                MainActivity.actionBar.setTitle("AVL Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 tree = new AVLTree();
                 break;
@@ -420,8 +420,8 @@ public class Visualizer extends Fragment {
                 treeObj = tree.createJSON("file 1", "Red Black Tree");
                 //TODO
                 break;
-            case "Balanced Search Tree":
-                treeObj = tree.createJSON("file 1", "Balanced Search Tree");
+            case "Adelson-Velsky":
+                treeObj = tree.createJSON("file 1", "AVL Tree");
                //TODO
                 break;
         }
