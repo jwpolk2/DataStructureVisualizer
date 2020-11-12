@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.GraphVisualizer"
+    tools:context=".ui.Visualizer"
     android:clickable="true"
     android:background="@color/grayBlue"
     android:orientation="vertical"
@@ -14,12 +14,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:background="@color/backgroundWhite"
  />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6">
+
+        <TextView
+            android:id="@+id/printout_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="top"
+            android:layout_marginRight="15dp"
+            android:textSize="15sp"/>
+    </ScrollView>
+
     <TableRow
         android:gravity="center"
-        android:layout_weight="8"
+        android:layout_weight="7"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <Button

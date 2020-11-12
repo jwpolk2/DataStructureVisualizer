@@ -66,8 +66,6 @@ public class Visualizer extends Fragment {
     private ImageButton undoButton;
     private ImageButton redoButton;
     private Button autopopulateButton;
-    private static TextView displayExec;
-
     private ImageButton play;
     private ImageButton pause;
     private ImageButton previous;
@@ -85,6 +83,7 @@ public class Visualizer extends Fragment {
     //Shared Visualizer view object variables
     private VisualizerCanvas visualizerCanvas;
     private ImageButton infoButton;
+    private static TextView displayExec;
 
     //Class variables
     private static String dataStructureType;
@@ -163,6 +162,7 @@ public class Visualizer extends Fragment {
     private void initGraphVisualizer(View view) {
         display = view.findViewById(R.id.display_button);
         button2 = view.findViewById(R.id.button2_button);
+        displayExec = view.findViewById(R.id.printout_textview);
         visualizerCanvas = view.findViewById(R.id.graph_visualizer);
         visualizerCanvas.setParent(this);
         infoButton = view.findViewById(R.id.button_info);
@@ -465,7 +465,7 @@ public class Visualizer extends Fragment {
                 Log.d("ACTION BAR", "In Graph");
                 MainActivity.actionBar.setTitle("Graph");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                graph = new Graph();
+                //graph = new Graph(); TODO uncomment when graph no longer initizalized in graphVisualizer
                 break;
         }
     }
