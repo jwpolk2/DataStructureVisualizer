@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,4 +30,5 @@ public class DialogNodeAction extends AppCompatDialogFragment {
         });
         return super.onCreateDialog(savedInstanceState);
     }
+
 }

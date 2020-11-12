@@ -2,7 +2,10 @@ package com.example.datastructurevisualizer.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +25,8 @@ import com.example.datastructurevisualizer.R;
  */
 public class InformationPage extends Fragment {
     private String dataStructureType;
+    private ViewPager2 mPager;
+    private PagerAdapter pagerAdapter;
 
     public InformationPage() {
         // Required empty public constructor
@@ -55,28 +62,21 @@ public class InformationPage extends Fragment {
                 view = inflater.inflate(R.layout.fragment_information_page, container, false);
                 MainActivity.actionBar.setTitle("Binary Search Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                //treeInit(view);
-                //bstInit(view);
                 break;
             case "Red Black Tree":
-                view = inflater.inflate(R.layout.fragment_information_rbt, container, false);
+                view = inflater.inflate(R.layout.fragment_information_page, container, false);
                 MainActivity.actionBar.setTitle("Red Black Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                treeInit(view);
-                rbtInit(view);
                 break;
             case "Balanced Search Tree":
-                view = inflater.inflate(R.layout.fragment_information_avl, container, false);
-                MainActivity.actionBar.setTitle("Balanced Search Tree");
+                view = inflater.inflate(R.layout.fragment_information_page, container, false);
+                MainActivity.actionBar.setTitle("AVL Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                treeInit(view);
-                avlInit(view);
                 break;
             case "Graph":
-                view = inflater.inflate(R.layout.fragment_information_graph, container, false);
+                view = inflater.inflate(R.layout.fragment_information_page, container, false);
                 MainActivity.actionBar.setTitle("Graph");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                graphInit(view);
                 break;
             default:
                 view = inflater.inflate(R.layout.fragment_information_page, container, false);
@@ -89,40 +89,32 @@ public class InformationPage extends Fragment {
                 });
         }
 
+        mPager = (ViewPager2) view.findViewById(R.id.view_pager);
+        mPager.setAdapter(new InformationPagerAdapter(this, dataStructureType));
+
+
+        TabLayout tabLayout = view.findViewById(R.id.informationTabs);
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, mPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch(position) {
+                    case 0:
+                        tab.setText("Overview");
+                        break;
+                    case 1:
+                        tab.setText("Complexities");
+                        break;
+                    case 2:
+                        tab.setText("Code");
+                        break;
+                }
+            }
+        }
+        );
+        tabLayoutMediator.attach();
 
         return view;
 
     }
 
-
-    private void treeInit(View view) {
-        TextView header = view.findViewById(R.id.info_datastructure_header);
-        header.setText(dataStructureType);
-        Button visualize = view.findViewById(R.id.visualize_button);
-        visualize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.openFragment(new Visualizer(dataStructureType), true);
-            }
-        });
-    }
-
-    private void bstInit(View view) {
-    }
-    private void rbtInit(View view) {
-    }
-    private void avlInit(View view) {
-    }
-    private void graphInit(View view) {
-        Button visualize = view.findViewById(R.id.visualize_button);
-        visualize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.openFragment(new GraphVisualizer(), true);
-            }
-        });
-
-        TextView header = view.findViewById(R.id.info_datastructure_header);
-        header.setText("Graph");
-    }
 }
