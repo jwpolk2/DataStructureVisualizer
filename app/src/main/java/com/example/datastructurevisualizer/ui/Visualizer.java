@@ -1,5 +1,6 @@
 package com.example.datastructurevisualizer.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +37,7 @@ import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.RedBlackTree;
 import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
+import com.example.datastructurevisualizer.NodeVisualizer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,6 +77,8 @@ public class Visualizer extends Fragment {
     private ImageButton next;
     private Button saveDialogSave;
 
+    int x, y;
+
     //Class variables
     private static String dataStructureType;
     private TreeVisualizer tree;
@@ -103,6 +108,7 @@ public class Visualizer extends Fragment {
         MainActivity.actionBar.show();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     /**
      * When the view is created this method attaches the view object variable with those defined
@@ -113,7 +119,6 @@ public class Visualizer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
-
         //Connect variables to XML
         loadButton = view.findViewById(R.id.button_load);
         saveButton = view.findViewById(R.id.button_save);
@@ -133,6 +138,7 @@ public class Visualizer extends Fragment {
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
         visualizerCanvas.setParent(this);
+
 
 
         //BUTTON ON CLICK
@@ -246,7 +252,40 @@ public class Visualizer extends Fragment {
                 }).start();
             }
         });
+//        visualizerCanvas.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (node.getClickedNode(getXpos(MotionEvent.)) != -1) {
+//                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                    Fragment prev = getFragmentManager().findFragmentByTag("node_action");
+//                    if (prev != null) {
+//                        ft.remove(prev);
+//                    } ft.addToBackStack(null);
+//
+//                    DialogNodeAction nodeAction = new DialogNodeAction();
+//                    nodeAction.show(ft, "node_action");
+//                }
+//            }
+//        });
 
+        visualizerCanvas.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                x = (int) event.getX();
+                y = (int) event.getY();
+                if (tree.getClickedNode(x,y) != -1) {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("node_action");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    } ft.addToBackStack(null);
+
+                    DialogNodeAction nodeAction = new DialogNodeAction();
+                    nodeAction.show(ft, "node_action");
+                }
+                return false;
+            }
+        });
         //Initialize dataStructureType variable
         initDataStructure();
         //Initialize drop-down menu for traversal selection
