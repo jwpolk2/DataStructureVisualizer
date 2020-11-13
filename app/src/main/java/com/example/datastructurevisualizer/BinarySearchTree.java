@@ -120,8 +120,6 @@ public class BinarySearchTree extends TreeVisualizer {
      * Removes a Node from the tree. Will animate the traversal that finds the
      * Node to remove, as well as the removal of said Node.
      *
-     * TODO animate
-     *
      * @param id the key to be removed.
      */
     @Override
@@ -139,53 +137,92 @@ public class BinarySearchTree extends TreeVisualizer {
             return;
         }
 
+        // Begins the traversal at the root.
+        queueNodeSelectAnimation(current, "Start at root " + current.key,
+                AnimationParameters.ANIM_TIME);
+
         boolean isLeftChild = false;
         while (current.key != id) {
             parent = current;
             if (current.key > id) {
                 isLeftChild = true;
                 current = current.children[ChildNames.LEFT.i];
+                queueNodeSelectAnimation(current, id + " < " + parent.key +
+                        ", exploring left subtree", AnimationParameters.ANIM_TIME);
             } else {
                 isLeftChild = false;
                 current = current.children[ChildNames.RIGHT.i];
+                queueNodeSelectAnimation(current, id + " > " + parent.key +
+                        ", exploring right subtree", AnimationParameters.ANIM_TIME);
             }
             if (current == null) {
+                queueNodeSelectAnimation(null, "Current Node null, desired Node not found",
+                        AnimationParameters.ANIM_TIME);
                 return;
             }
         }
+
+        // Desired Node has been found.
+        queueNodeSelectAnimation(current, id + " == " + current.key +
+                ", desired Node found", AnimationParameters.ANIM_TIME);
+
         //if i am here that means we have found the node
         //Case 1: if node to be deleted has no children
         if (current.children[ChildNames.LEFT.i] == null && current.children[ChildNames.RIGHT.i] == null) {
             if (current == root) {
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete childless root", 0);
                 root = null;
             }
             if (isLeftChild) {
                 parent.children[ChildNames.LEFT.i] = null;
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete childless Node", 0);
             } else {
                 parent.children[ChildNames.RIGHT.i] = null;
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete childless Node", 0);
             }
         }
         //Case 2 : if node to be deleted has only one child
         else if (current.children[ChildNames.RIGHT.i] == null) {
             if (current == root) {
                 root = current.children[ChildNames.LEFT.i];
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete root with only left child",
+                        AnimationParameters.ANIM_TIME);
             } else if (isLeftChild) {
                 parent.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete Node with only left child",
+                        AnimationParameters.ANIM_TIME);
             } else {
                 parent.children[ChildNames.RIGHT.i] = current.children[ChildNames.LEFT.i];
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete Node with only left child",
+                        AnimationParameters.ANIM_TIME);
             }
         } else if (current.children[ChildNames.LEFT.i] == null) {
             if (current == root) {
                 root = current.children[ChildNames.RIGHT.i];
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete root with only right child",
+                        AnimationParameters.ANIM_TIME);
             } else if (isLeftChild) {
                 parent.children[ChildNames.LEFT.i] = current.children[ChildNames.RIGHT.i];
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete Node with only right child",
+                        AnimationParameters.ANIM_TIME);
             } else {
                 parent.children[ChildNames.RIGHT.i] = current.children[ChildNames.RIGHT.i];
+                placeTreeNodes();
+                queueNodeMoveAnimation("Delete Node with only right child",
+                        AnimationParameters.ANIM_TIME);
             }
         } else {
 
             //now we have found the minimum element in the right sub tree
-            Node successor = getSuccessor(current);
+            Node successor = getSuccessorAnim(current);
             if (current == root) {
                 root = successor;
             } else if (isLeftChild) {
@@ -194,6 +231,10 @@ public class BinarySearchTree extends TreeVisualizer {
                 parent.children[ChildNames.RIGHT.i] = successor;
             }
             successor.children[ChildNames.LEFT.i] = current.children[ChildNames.LEFT.i];
+            placeTreeNodes();
+            queueNodeMoveAnimation("Replace Node with successor",
+                    AnimationParameters.ANIM_TIME);
+
         }
         return;
     }
@@ -213,6 +254,38 @@ public class BinarySearchTree extends TreeVisualizer {
         if (successor != deleteNode.children[ChildNames.RIGHT.i]) {
             successorParent.children[ChildNames.LEFT.i] = successor.children[ChildNames.RIGHT.i];
             successor.children[ChildNames.RIGHT.i] = deleteNode.children[ChildNames.RIGHT.i];
+        }
+        return successor;
+    }
+
+    /**
+     * Animates the traversal to find a successor.
+     *
+     * @param deleteNode the Node to delete.
+     * @return the successor of deleteNode.
+     */
+    private Node getSuccessorAnim(Node deleteNode) {
+        Node successor = null;
+        Node successorParent = null;
+        Node current = deleteNode.children[ChildNames.RIGHT.i];
+        if (current != null) queueNodeSelectAnimation(current,
+                "Finding successor from " + current.key,
+                AnimationParameters.ANIM_TIME);
+        while (current != null) {
+            successorParent = successor;
+            successor = current;
+            current = current.children[ChildNames.LEFT.i];
+            if (current != null) queueNodeSelectAnimation(current,
+                    "Searching left child " + current.key,
+                    AnimationParameters.ANIM_TIME);
+        }
+        //check if successor has the right child, it cannot have left child for sure
+        // if it does have the right child, add it to the left of successorParent.
+        // successorParent
+        if (successor != deleteNode.children[ChildNames.RIGHT.i]) {
+            successorParent.children[ChildNames.LEFT.i] = successor.children[ChildNames.RIGHT.i];
+            successor.children[ChildNames.RIGHT.i] = deleteNode.children[ChildNames.RIGHT.i];
+
         }
         return successor;
     }
