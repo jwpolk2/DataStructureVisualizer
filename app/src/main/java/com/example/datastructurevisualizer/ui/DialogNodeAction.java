@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IdRes;
 import androidx.fragment.app.DialogFragment;
 
 import androidx.annotation.NonNull;
@@ -36,9 +37,22 @@ public class DialogNodeAction extends DialogFragment {
 
     }
 
+    public static DialogNodeAction newInstance(int key) {
+        DialogNodeAction nodeAction = new DialogNodeAction();
+        Bundle args = new Bundle();
+        args.putInt("key", key);
+        nodeAction.setArguments(args);
+
+        return nodeAction;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int mKey = getArguments().getInt("key");
         View view = inflater.inflate(R.layout.dialog_node_action, container);
         nodeValue = view.findViewById(R.id.nodeActionLabelValue);
+        nodeValue.setText("Node value: "+mKey);
         nodeParent = view.findViewById(R.id.nodeActionLabelParent);
         nodeLChild = view.findViewById(R.id.nodeActionLabelLeft);
         nodeRChild = view.findViewById(R.id.nodeActionLabelRight);

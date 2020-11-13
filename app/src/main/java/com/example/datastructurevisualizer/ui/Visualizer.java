@@ -51,7 +51,7 @@ public class Visualizer extends Fragment {
     private ImageButton redoButton;
     private Button autopopulateButton;
 
-    //Graph Visuaizer view object variables
+    //Graph Visualizer view object variables
     private Button display;
     private Button button2;
     private EditText startNode;
@@ -364,14 +364,15 @@ public class Visualizer extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
-                if (tree.getClickedNode(x,y) != -1) {
+                int node = tree.getClickedNode(x,y);
+                if (node != -1) {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     Fragment prev = getFragmentManager().findFragmentByTag("node_action");
                     if (prev != null) {
                         ft.remove(prev);
                     } ft.addToBackStack(null);
 
-                    DialogNodeAction nodeAction = new DialogNodeAction();
+                    DialogNodeAction nodeAction = DialogNodeAction.newInstance(node);
                     nodeAction.show(ft, "node_action");
                 }
                 return false;
