@@ -62,7 +62,7 @@ public class DataStructureVisualizer {
     protected void insertAnim(int key) {}
 
     /**
-     * Removes a Node from the tree abd plays no animation. Should be overridden.
+     * Removes a Node from the tree and plays no animation. Should be overridden.
      *
      * @param key the key to be removed.
      */

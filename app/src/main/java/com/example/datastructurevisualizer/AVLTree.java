@@ -29,25 +29,6 @@ public class AVLTree extends TreeVisualizer {
     @Override
     int getNumChildren() { return numChildren; }
 
-    // The height of a rooted tree is the number of edges between the tree's
-    // root and its furthest leaf. This means that a tree containing a single
-    // node has a height of 0.
-    public int height() {
-        if (root == null) return 0;
-        return (Integer)root.extraData[0];
-
-    }
-
-    // Returns the number of nodes in the tree.
-    public int size() {
-        return nodeCount;
-    }
-
-    // Returns whether or not the tree is empty.
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
     // Return true/false depending on whether a key exists in the tree.
     public boolean contains(int key) {
         return contains(root, key);
@@ -80,10 +61,10 @@ public class AVLTree extends TreeVisualizer {
         // If there is no duplicate, logs the insertion.
         else logAdd(key);
 
-        if (!contains(root, key)) {
-            root = insertNoAnim(root, key);
-            nodeCount++;
-        }
+        // Inserts the Node.
+        root = insertNoAnim(root, key);
+        nodeCount++;
+
     }
 
     /**

@@ -3,9 +3,9 @@ package com.example.datastructurevisualizer;
 import android.graphics.Canvas;
 
 /**
- * LinkedList implementation to be used by the HashTable.
- * Includes the bare minimum insertion and deletion methods.
+ * LinkedList implementation to be used by other Data Structures.
  *
+ * Not that insertAnim and insertNoAnim are not defined, TODO comment
  * Since LinkedList is only used as a smaller part of larger data structures,
  * it includes some special functionality. For example, it stores xPos and
  * yPos in order to guarantee correct placement. It also overrides render so as
@@ -27,8 +27,7 @@ public class LinkedList extends TreeVisualizer {
     int getNumChildren() { return numChildren; }
 
     /**
-     * Checks whether this LinkedList is empty. Used when this LinkedList is treated
-     * as a queue.
+     * Checks whether this LinkedList is empty.
      *
      * @return true if the LinkedList is empty, otherwise false.
      */
@@ -128,56 +127,6 @@ public class LinkedList extends TreeVisualizer {
         // Places the Nodes at their desired positions.
         placeTreeNodes(xPos, yPos);
         placeNodesAtDestination();
-
-    }
-
-    /**
-     * Inserts the key into the LinkedList at the root.
-     *
-     * @param key the key to be inserted.
-     */
-    @Override
-    public void insertNoAnim(int key) {
-        stackInsert(key);
-
-    }
-
-    /**
-     * Inserts the key into the LinkedList at the root. Animates the movement
-     * of the node into the tree.
-     *
-     * @param key the key to be inserted.
-     */
-    @Override
-    protected void insertAnim(int key) {
-        Node node = new Node(key, getNumChildren());
-        node.children[0] = root;
-        root = node;
-
-        // Queues a movement animation.
-        placeTreeNodes(xPos, yPos);
-        queueNodeMoveAnimation("Adding " + key + " to LinkedList",
-                AnimationParameters.ANIM_TIME);
-
-    }
-
-    /**
-     * TODO implement remove.
-     *
-     * @param key the key to be removed.
-     */
-    @Override
-    public void removeNoAnim(int key) {
-
-    }
-
-    /**
-     * TODO implement remove.
-     *
-     * @param key the key to be removed.
-     */
-    @Override
-    protected void removeAnim(int key) {
 
     }
 

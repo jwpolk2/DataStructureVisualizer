@@ -37,35 +37,6 @@ public class RedBlackTree extends TreeVisualizer {
     @Override
     int getNumChildren() { return numChildren; }
 
-    // Returns the number of nodes in the tree.
-    public int size() {
-        return nodeCount;
-    }
-
-    // Returns whether or not the tree is empty.
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
-    public boolean contains(int key) {
-        Node node = root;
-
-        if (node == null) return false;
-
-        while (node != null) {
-
-            // Dig into left subtree.
-            if (key < node.key) node = node.children[ChildNames.LEFT.i];
-            // Dig into right subtree.
-            else if (key > node.key) node = node.children[ChildNames.RIGHT.i];
-            // Found value in tree.
-            else return true;
-
-        }
-
-        return false;
-    }
-
     /**
      * Inserts a key into this Red Black Tree. Performs no animation.
      *
@@ -515,17 +486,5 @@ public class RedBlackTree extends TreeVisualizer {
                 parent.children[ChildNames.RIGHT.i] = newChild;
             }
         }
-    }
-
-    // Helper method to find the leftmost node (which has the smallest value)
-    private Node findMin(Node node) {
-        while (node.children[ChildNames.LEFT.i] != null) node = node.children[ChildNames.LEFT.i];
-        return node;
-    }
-
-    // Helper method to find the rightmost node (which has the largest value)
-    private Node findMax(Node node) {
-        while (node.children[ChildNames.RIGHT.i] != null) node = node.children[ChildNames.RIGHT.i];
-        return node;
     }
 }

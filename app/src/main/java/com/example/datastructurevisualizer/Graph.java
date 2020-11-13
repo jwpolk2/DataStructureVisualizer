@@ -12,11 +12,8 @@ import java.util.ArrayList;
  * stores the previous Node in the current pathfind, and value is used for
  * algorithms.
  *
- * Graphs do not have insertion or removal animations, so insertAnim and
- * removeAnim call insertNoAnim and removeNoAnim respectively.
- * Since there is no algorithm for determining where a Graph Node should be
- * placed, insertGraphNode accepts integer coordinates. This method should be
- * used instead of insert/insertAnim/insertNoAnim.
+ * Graphs have special insertions, so insertAnim and insertNoAnim are not defined.
+ * Use insertGraphNode instead.
  * Contains methods and AnimationItems to select and highlight Edges.
  * Includes breadth first and dijkstra pathfinds, as well as Prim's and Kruskal's
  * minimum spanning tree algorithms.
@@ -69,33 +66,6 @@ public class Graph extends NodeVisualizer {
 
         // Creates the directed Edge.
         ((ArrayList<Edge>)start.extraData[0]).add(new Edge(start, dest, weight));
-
-    }
-
-    /**
-     * Inserts a Node into the graph at (0, 0). insertGraphNode should be used
-     * instead of this method.
-     *
-     * @param key the key to be inserted.
-     */
-    @Override
-    public void insertNoAnim(int key) {
-        Node node = new Node(key, 0);
-        node.extraData = new Object[1];
-        node.extraData[0] = new ArrayList<Edge>();
-        nodes.add(node);
-
-    }
-
-    /**
-     * There are no graph insert animations. insertGraphNode should be used
-     * instead of this method.
-     *
-     * @param key the key to be inserted.
-     */
-    @Override
-    protected void insertAnim(int key) {
-        insertNoAnim(key);
 
     }
 
