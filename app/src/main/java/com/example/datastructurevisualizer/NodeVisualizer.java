@@ -258,7 +258,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Highlights node and adds it to the queue.
         highlightNode(node);
-        nodeList.priorityQueueInsert(node.key, node.value);;
+        nodeList.priorityQueueInsert(node.key, node.value);
         render(canvas);
 
     }

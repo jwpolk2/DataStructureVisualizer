@@ -23,10 +23,10 @@ public class AnimationParameters {
     static final int VEC_G = 0;
     static final int VEC_B = 0;
 
-    // DEfault colour of a selected vector.s
+    // DEfault colour of a selected vector.
     static final int SEL_VEC_R = 0;
     static final int SEL_VEC_G = 0;
-    static final int SEL_VEC_B = 120;
+    static final int SEL_VEC_B = 200;
 
     // Default colour of a highlighted vector.
     static final int HIL_VEC_R = 0;

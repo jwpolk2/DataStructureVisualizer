@@ -78,7 +78,7 @@ public class LinkedList extends TreeVisualizer {
 
         // Places the new Node at the root if the queue is empty or if it is
         // the least Node in the queue.
-        if (root == null || node.value < root.value) {
+        if (root == null || node.value <= root.value) {
             node.children[0] = root;
             root = node;
             placeTreeNodes(xPos, yPos);
@@ -90,7 +90,7 @@ public class LinkedList extends TreeVisualizer {
         // Finds the appropriate place for the Node in the queue.
         Node currNode = root;
         while (currNode.children[0] != null &&
-                currNode.children[0].value < node.value)
+                currNode.children[0].value <= node.value)
             currNode = currNode.children[0];
 
         // Places the Node.
