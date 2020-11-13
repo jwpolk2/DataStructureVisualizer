@@ -4,7 +4,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
         android:orientation="vertical"
         android:padding="20dp">
         <TextView
@@ -14,31 +14,31 @@
             android:textSize="20sp"
             android:text="Node #"
             />
-        <TextView
-            android:id="@+id/nodeActionLabelParent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Parent"
-            />
-        <TextView
-            android:id="@+id/nodeActionLabelLeft"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Left child" />
-        <TextView
-            android:id="@+id/nodeActionLabelRight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Right child" />
-        <TextView
-            android:id="@+id/nodeActionLabelHeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Height"/>
+<!--        <TextView-->
+<!--            android:id="@+id/nodeActionLabelParent"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:text="Parent"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:id="@+id/nodeActionLabelLeft"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:text="Left child" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/nodeActionLabelRight"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:text="Right child" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/nodeActionLabelHeight"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="16sp"-->
+<!--            android:text="Height"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
