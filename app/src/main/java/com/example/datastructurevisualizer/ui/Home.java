@@ -84,7 +84,7 @@ public class Home extends Fragment {
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new GraphVisualizer(), true);
+                MainActivity.openFragment(new Visualizer("Graph"), true);
             }
         });
         files.setOnClickListener(new View.OnClickListener() {

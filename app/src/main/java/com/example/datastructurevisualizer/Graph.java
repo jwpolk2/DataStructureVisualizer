@@ -3,22 +3,18 @@ package com.example.datastructurevisualizer;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * TODO comment
  *
- * Node.extraData[0] stores an ArrayList of Edges to other Nodes.
+ * Node.extraData[0] stores an ArrayList of Edges to other Nodes, children[0]
+ * stores the previous Node in the current pathfind, and value is used for
+ * algorithms.
  *
- * Graphs do not have insertion or removal animations, so insertAnim and
- * removeAnim call insertNoAnim and removeNoAnim respectively.
- * Since there is no algorithm for determining where a Graph Node should be
- * placed, insertGraphNode accepts integer coordinates. This method should be
- * used instead of insert/insertAnim/insertNoAnim.
- * TODO edge highlighting
+ * Graphs have special insertions, so insertAnim and insertNoAnim are not defined.
+ * Use insertGraphNode instead.
+ * Contains methods and AnimationItems to select and highlight Edges.
  * Includes breadth first and dijkstra pathfinds, as well as Prim's and Kruskal's
  * minimum spanning tree algorithms.
  * Overriddes getNode and getAllNodes to work for a graph.
@@ -29,10 +25,13 @@ public class Graph extends NodeVisualizer {
     // ArrayList containing all nodes in the graph.
     private ArrayList<Node> nodes = new ArrayList<>();
 
-    // ArrayList of highlighted Edges in the graph. Used for Prims and Kruskal's.
-    // algorithms.
-    // Colour is TODO
-    ArrayList<Edge> highlightedEdges = new ArrayList<Edge>();
+    // Current selected Node. Head of a spanning tree algorithm.
+    // Colour is blue.
+    private Edge selectedEdge;
+
+    // ArrayList of highlighted Edges in the graph. Used for spanning tree algorithms.
+    // Colour is green.
+    private ArrayList<Edge> highlightedEdges = new ArrayList<Edge>();
 
     /**
      * Inserts a Node into the graph at the specified position.
@@ -42,7 +41,7 @@ public class Graph extends NodeVisualizer {
      * @param yPos the yPos of the Node to be inserted.
      */
     public void insertGraphNode(int key, int xPos, int yPos) {
-        Node node = new Node(key, 0);
+        Node node = new Node(key, 1);
         node.position[0] = xPos;
         node.position[1] = yPos;
         node.extraData = new Object[1];
@@ -67,33 +66,6 @@ public class Graph extends NodeVisualizer {
 
         // Creates the directed Edge.
         ((ArrayList<Edge>)start.extraData[0]).add(new Edge(start, dest, weight));
-
-    }
-
-    /**
-     * Inserts a Node into the graph at (0, 0). insertGraphNode should be used
-     * instead of this method.
-     *
-     * @param key the key to be inserted.
-     */
-    @Override
-    public void insertNoAnim(int key) {
-        Node node = new Node(key, 0);
-        node.extraData = new Object[1];
-        node.extraData[0] = new ArrayList<Edge>();
-        nodes.add(node);
-
-    }
-
-    /**
-     * There are no graph insert animations. insertGraphNode should be used
-     * instead of this method.
-     *
-     * @param key the key to be inserted.
-     */
-    @Override
-    protected void insertAnim(int key) {
-        insertNoAnim(key);
 
     }
 
@@ -143,10 +115,10 @@ public class Graph extends NodeVisualizer {
      *
      * TODO this has not been debugged
      *
-     * @param startKey the Node to begin the traversal at.
-     * @param endKey the Node to end the traversal at.
+     * @param startKey the Node to begin the pathfind at.
+     * @param endKey the Node to end the pathfind at.
      */
-    public void breadthFirstPathfind(int startKey, int endKey) {
+    private void breadthFirstPathfindAnim(int startKey, int endKey) {
         java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
         java.util.LinkedList<Node> explored = new java.util.LinkedList<Node>();
         Node start = getNode(startKey);
@@ -158,7 +130,9 @@ public class Graph extends NodeVisualizer {
         // Adds the start to the queue of Nodes to explore.
         queue.add(start);
         explored.add(start);
-        queueQueueAddAnimation(start, "Begin exploring at start");
+        start.children[0] = null;
+        queueQueueAddAnimation(start, "Begin exploring at start",
+                AnimationParameters.ANIM_TIME);
 
         // Parses through the queue of Nodes until the destination Node is found
         // or the queue is empty.
@@ -167,36 +141,54 @@ public class Graph extends NodeVisualizer {
 
             // Explores the first Node in the queue.
             currNode = queue.pop();
-            queueListPopAnimation("Pop the first Node from the queue");
-            queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+            queueListPopAnimation("Pop the first Node from the queue",
+                    AnimationParameters.ANIM_TIME);
 
             // Returns if the destination Node is found.
             if (currNode == dest) {
-                queueNodeSelectAnimation(currNode,
-                        currNode.key + " is the destination Node");
+                queueNodeSelectAnimation(currNode,currNode.key + " is the destination Node",
+                        AnimationParameters.ANIM_TIME);
                 return;
 
             }
             // Continues traversal if the destination Node is not found.
-            else queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+            else queueNodeSelectAnimation(currNode, "Explore " + currNode.key,
+                    AnimationParameters.ANIM_TIME);
 
             // Adds each unexplored Node to the queue.
             for (Edge edge : (ArrayList<Edge>)currNode.extraData[0]) {
                 if (!explored.contains(edge.dest)) {
                     queue.add(edge.dest);
                     explored.add(edge.dest);
-                    queueQueueAddAnimation(currNode, "Add " + edge.dest.key + " to queue");
+                    edge.dest.children[0] = currNode;
+                    queueQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
+                            AnimationParameters.ANIM_TIME);
 
                 }
             }
 
             // Marks the Node as explored.
-            queueNodeExploreAnimation(currNode, currNode.key + " has been explored");
+            queueNodeExploreAnimation(currNode, currNode.key + " has been explored",
+                    AnimationParameters.ANIM_TIME);
 
         }
 
         // If the destination Node is not found, prints a message saying so.
-        queueNodeSelectAnimation(null, "Destination not found");
+        queueNodeSelectAnimation(null, "Destination not found",
+                AnimationParameters.ANIM_TIME);
+
+    }
+
+    /**
+     * Begins a breadth first pathfind.
+     *
+     * @param startKey the Node to begin the pathfind at.
+     * @param endKey the Node to end the pathfind at.
+     */
+    public void breadthFirstPathfind(int startKey, int endKey) {
+        beginAnimation();
+        breadthFirstPathfindAnim(startKey, endKey);
+        stopAnimation();
 
     }
 
@@ -207,10 +199,10 @@ public class Graph extends NodeVisualizer {
      * TODO debug
      * TODO make Node comparable again
      *
-     * @param startKey the Node to begin the traversal at.
-     * @param endKey the Node to end the traversal at.
+     * @param startKey the Node to begin the pathfind at.
+     * @param endKey the Node to end the pathfind at.
      */
-    public void dijkstraPathfind(int startKey, int endKey) {
+    private void dijkstraPathfindAnim(int startKey, int endKey) {
         java.util.PriorityQueue<Node> queue = new java.util.PriorityQueue<Node>();
         java.util.LinkedList<Node> explored = new java.util.LinkedList<Node>();
         Node start = getNode(startKey);
@@ -223,7 +215,8 @@ public class Graph extends NodeVisualizer {
         queue.add(start);
         explored.add(start);
         start.value = 0;
-        queuePriorityQueueAddAnimation(start, "Begin exploring at start");
+        queuePriorityQueueAddAnimation(start, "Begin exploring at start",
+                AnimationParameters.ANIM_TIME);
 
         // Parses through the queue of Nodes until the destination Node is found
         // or the queue is empty.
@@ -232,18 +225,19 @@ public class Graph extends NodeVisualizer {
 
             // Explores the first Node in the queue.
             currNode = queue.poll();
-            queueListPopAnimation("Pop the first Node from the queue");
-            queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+            queueListPopAnimation("Pop the first Node from the queue",
+                    AnimationParameters.ANIM_TIME);
 
             // Returns if the destination Node is found.
             if (currNode == dest) {
-                queueNodeSelectAnimation(currNode,
-                        currNode.key + " is the destination Node");
+                queueNodeSelectAnimation(currNode,currNode.key + " is the destination Node",
+                        AnimationParameters.ANIM_TIME);
                 return;
 
             }
             // Continues traversal if the destination Node is not found.
-            else queueNodeSelectAnimation(currNode, "Explore " + currNode.key);
+            else queueNodeSelectAnimation(currNode, "Explore " + currNode.key,
+                    AnimationParameters.ANIM_TIME);
 
             // Adds each unexplored Node to the queue.
             for (Edge edge : (ArrayList<Edge>)currNode.extraData[0]) {
@@ -251,28 +245,44 @@ public class Graph extends NodeVisualizer {
                     queue.add(edge.dest);
                     explored.add(edge.dest);
                     edge.dest.value = currNode.value + edge.weight;
-                    queuePriorityQueueAddAnimation(currNode, "Add " + edge.dest.key + " to queue");
+                    queuePriorityQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
+                            AnimationParameters.ANIM_TIME);
 
                 }
             }
 
             // Marks the Node as explored.
-            queueNodeExploreAnimation(currNode, currNode.key + " has been explored");
+            queueNodeExploreAnimation(currNode, currNode.key + " has been explored",
+                    AnimationParameters.ANIM_TIME);
 
         }
 
         // If the destination Node is not found, prints a message saying so.
-        queueNodeSelectAnimation(null, "Destination not found");
+        queueNodeSelectAnimation(null, "Destination not found",
+                AnimationParameters.ANIM_TIME);
 
     }
 
     /**
-     * Greedy traversal that finds the minimum spanning tree of the graph,
+     * Begins a Dijkstra pathfind.
+     *
+     * @param startKey the Node to begin the pathfind at.
+     * @param endKey the Node to end the pathfind at.
+     */
+    public void dijkstraPathfind(int startKey, int endKey) {
+        beginAnimation();
+        dijkstraPathfindAnim(startKey, endKey);
+        stopAnimation();
+
+    }
+
+    /**
+     * Greedy minimum spanning tree algorithm that starts from an inputed key
      * starting from the given key.
      *
      * @param startKey the starting key of the tree.
      */
-    public void primsAlgorithm(int startKey) {
+    private void primsAlgorithmAnim(int startKey) {
         Edge currEdge;
         ArrayList<Node> explored = new ArrayList<Node>();
 
@@ -282,7 +292,8 @@ public class Graph extends NodeVisualizer {
 
         // Starts at the start Node.
         explored.add(start);
-        queueNodeExploreAnimation(start, "Start exploring at " + start.key);
+        queueNodeExploreAnimation(start, "Start exploring at " + start.key,
+                AnimationParameters.ANIM_TIME);
 
         // Adds the least edge to the list of explored edges until there
         // are no more available edges.
@@ -303,16 +314,69 @@ public class Graph extends NodeVisualizer {
             if (currEdge.weight < 0) break;
 
             // If a least edge is found, highlights it.
-            // TODO highlight weight animation
-            // queueEdgeHighlightAnimation(edge)
+            queueEdgeHighlightAnimation(currEdge, "TODO message?", AnimationParameters.ANIM_TIME);
 
         }
 
-        // TODO finish
+        // TODO finishing message
 
     }
 
+    /**
+     * Begins Prim's algorithm.
+     *
+     * @param startKey the Node to begin the algorithm at.
+     */
+    public void primsAlgorithm(int startKey) {
+        beginAnimation();
+        primsAlgorithmAnim(startKey);
+        stopAnimation();
+
+    }
+
+    /**
+     * TODO
+     */
+    private void kruskalsAlgorithmAnim() {
+        ArrayList<Edge> chosen = new ArrayList<Edge>();
+        Edge edge;
+        int currTree = 0;
+        int tree, replace;
+
+        // Creates a sorted list of all edges for convenience.
+        java.util.LinkedList<Edge> edges = new java.util.LinkedList<Edge>();
+        for (Node node : nodes) edges.addAll((ArrayList<Edge>)node.extraData[0]);
+        java.util.Collections.sort(edges);
+
+        // Sets the value of all Nodes to -1, connoting that none are part of a tree.
+        for (Node node : nodes) node.value = -1;
+
+        // TODO
+        while (!edges.isEmpty()) {
+
+            // Attempts to add the smallest Edge to the tree.
+            edge = edges.pop();
+            queueEdgeSelectAnimation(edge, "Explore TODO", AnimationParameters.ANIM_TIME);
+
+            // Will not add the edge if it connects two Nodes of the same tree.
+            // TODO reject message
+            if (edge.start.value == edge.dest.value) continue;
+
+            // Adds the two Nodes to the same tree.
+            tree = edge.start.value < 0 ? ++currTree : edge.start.value;
+            replace = edge.dest.value;
+            for (Node node : nodes) if (node.value == replace) node.value = tree;
+
+        }
+    }
+
+    /**
+     * Begins Kruskal's algorithm.
+     */
     public void kruskalsAlgorithm() {
+        beginAnimation();
+        kruskalsAlgorithmAnim();
+        stopAnimation();
 
     }
 
@@ -366,6 +430,97 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
+     * Selects an Edge.
+     *
+     * @param edge the Edge to select.
+     */
+    private void select(Edge edge) {
+        selectedEdge = edge;
+
+    }
+
+    /**
+     * Un-Selects an Edge.
+     */
+    private void unSelect() {
+        selectedEdge = null;
+
+    }
+
+    /**
+     * Sets the selected Edge. Selection could be made more complicated so this
+     * is kept even though it is superfluous.
+     *
+     * @param edge the Edge to select.
+     */
+    protected void setSelectedEdge(Edge edge) {
+
+        // UnSelects the previous Edge.
+        if (selectedEdge != null) unSelect();
+
+        // Selects the new Edge.
+        select(edge);
+
+    }
+
+    /**
+     * Animates the selection of an Edge.
+     *
+     * @param edge the Edge to highlight.
+     * @param canvas the Canvas to render in.
+     */
+    private void edgeSelectAnimation(Edge edge, Canvas canvas) {
+
+        // Selects the Edge.
+        setSelectedEdge(edge);
+        render(canvas);
+
+    }
+
+    /**
+     * Queues an animation to select the inputed Edge and wait for a small time.
+     *
+     * @param edge the edge to select.
+     * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
+     */
+    private void queueEdgeSelectAnimation(Edge edge, String message, int time) {
+        animationLog.add(new SelectEdge(edge, message, time));
+
+    }
+
+    /**
+     * Highlights this Node's path.
+     *
+     * @param node the Node to highlight the path for.
+     * @param canvas the Canvas to render in.
+     */
+    private void highlightPathAnimation(Node node, Canvas canvas) {
+
+        // Highlights the path.
+        for (Node currNode = node; currNode != null; currNode = currNode.children[0])
+            highlightNode(node);
+        render(canvas);
+
+        // UnHighlights the path.
+        for (Node currNode = node; currNode != null; currNode = currNode.children[0])
+            unHighlightNode(node);
+
+    }
+
+    /**
+     * Queues an animation to highlight a Node's path.
+     *
+     * @param node the Node to highlight the path for.
+     * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
+     */
+    private void queueHighlightPathAnimation(Node node, String message, int time) {
+        animationLog.add(new HighlightPath(node, message, time));
+
+    }
+
+    /**
      * Animates the highlighting of an Edge.
      *
      * @param edge the Edge to highlight.
@@ -384,9 +539,10 @@ public class Graph extends NodeVisualizer {
      *
      * @param edge the edge to highlight.
      * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    private void queueEdgeHighlightAnimation(Edge edge, String message) {
-        animationLog.add(new HighlightEdge(edge, message));
+    private void queueEdgeHighlightAnimation(Edge edge, String message, int time) {
+        animationLog.add(new HighlightEdge(edge, message, time));
 
     }
 
@@ -404,7 +560,7 @@ public class Graph extends NodeVisualizer {
         float[] vec = new float[2];
 
         // Inverts the vector if it points downwards.
-        if (x <= 0) {
+        if (x < 0) {
             vec[0] = y;
             vec[1] = x;
 
@@ -468,8 +624,6 @@ public class Graph extends NodeVisualizer {
         colour.setTextSize(AnimationParameters.NODE_RADIUS);
         canvas.drawText(String.valueOf(edge.weight), vec[0], vec[1], colour);
 
-        Log.e("vec", "vec = {" + vec[0] + ", " + vec[1] + "}");
-
     }
 
     /**
@@ -486,6 +640,19 @@ public class Graph extends NodeVisualizer {
 
             }
         }
+    }
+
+    /**
+     * Quickly places all nodes and renders the tree.
+     * To be used at the end of pathfinds and spanning tree algorithms.
+     */
+    @Override
+    protected void finalRender() {
+        finishTraversalAnimation();
+        unSelect();
+        unHighlightAllEdges();
+        render();
+
     }
 
     /**
@@ -516,9 +683,122 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
+     * Animation item for highlighting a path.
+     */
+    private class HighlightPath extends AnimationItem {
+
+        // Animation time.
+        int time;
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the Node's path is
+         * highlighted.
+         *
+         * @param node the Node to start at.
+         * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
+         */
+        HighlightPath(Node node, String message, int time) {
+            super(message);
+            this.time = time;
+            canvas = new Canvas(bmp);
+            highlightPathAnimation(node, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the path is highlighted.
+         */
+        @Override
+        public void run() {
+            super.run();
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            sleep(time);
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
+     * Animation item for selecting an Edge.
+     */
+    private class SelectEdge extends AnimationItem {
+
+        // Animation time.
+        int time;
+
+        // Canvas and bitmap to store the frame.
+        Canvas canvas;
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
+                MainActivity.getVisualizer().getCanvas().getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        /**
+         * Constructor for this item. Stores a frame wherein the inputed edge is
+         * selected.
+         *
+         * @param edge the Edge to select.
+         * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
+         */
+        SelectEdge(Edge edge, String message, int time) {
+            super(message);
+            this.time = time;
+            canvas = new Canvas(bmp);
+            edgeSelectAnimation(edge, canvas);
+
+        }
+
+        /**
+         * Displays the frame wherein the the inputed edge is selected.
+         */
+        @Override
+        public void run() {
+            super.run();
+
+            // Draws the frame.
+            MainActivity.getVisualizer().getCanvas().drawBitmap(
+                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                    canvas.getClipBounds(), new Paint());
+
+            // Sleeps for a little while.
+            sleep(time);
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
+
+    }
+
+    /**
      * Animation item for highlighting an Edge.
      */
     private class HighlightEdge extends AnimationItem {
+
+        // Animation time.
+        int time;
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
@@ -532,9 +812,11 @@ public class Graph extends NodeVisualizer {
          *
          * @param edge the Edge to highlight.
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        HighlightEdge(Edge edge, String message) {
+        HighlightEdge(Edge edge, String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
             edgeHighlightAnimation(edge, canvas);
 
@@ -553,7 +835,7 @@ public class Graph extends NodeVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 

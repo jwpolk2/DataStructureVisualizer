@@ -37,35 +37,6 @@ public class RedBlackTree extends TreeVisualizer {
     @Override
     int getNumChildren() { return numChildren; }
 
-    // Returns the number of nodes in the tree.
-    public int size() {
-        return nodeCount;
-    }
-
-    // Returns whether or not the tree is empty.
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
-    public boolean contains(int key) {
-        Node node = root;
-
-        if (node == null) return false;
-
-        while (node != null) {
-
-            // Dig into left subtree.
-            if (key < node.key) node = node.children[ChildNames.LEFT.i];
-            // Dig into right subtree.
-            else if (key > node.key) node = node.children[ChildNames.RIGHT.i];
-            // Found value in tree.
-            else return true;
-
-        }
-
-        return false;
-    }
-
     /**
      * Inserts a key into this Red Black Tree. Performs no animation.
      *
@@ -154,13 +125,15 @@ public class RedBlackTree extends TreeVisualizer {
 
             // Animates root insertion.
             placeTreeNodes();
-            queueNodeMoveAnimation("Creating root");
+            queueNodeMoveAnimation("Creating root",
+                    AnimationParameters.ANIM_TIME);
             return;
 
         }
 
         // Selects root Node.
-        queueNodeSelectAnimation(root, "Starting at root " + root.key);
+        queueNodeSelectAnimation(root, "Starting at root " + root.key,
+                AnimationParameters.ANIM_TIME);
 
         for (Node node = root; ; ) {
 
@@ -179,7 +152,8 @@ public class RedBlackTree extends TreeVisualizer {
                     // Animates the Node's placement.
                     placeTreeNodes();
                     queueNodeMoveAnimation(key + " < " + node.key +
-                            ", placing " + key + " as left child");
+                            ", placing " + key + " as left child",
+                            AnimationParameters.ANIM_TIME);
 
                     // Performs rotations.
                     insertionRelabelAnim(node.children[ChildNames.LEFT.i]);
@@ -190,7 +164,7 @@ public class RedBlackTree extends TreeVisualizer {
 
                 // Continues traversal if left child is non-null.
                 queueNodeSelectAnimation(node.children[ChildNames.LEFT.i], key + " < " + node.key +
-                        ", exploring left subtree");
+                        ", exploring left subtree", AnimationParameters.ANIM_TIME);
                 node = node.children[ChildNames.LEFT.i];
 
 
@@ -210,7 +184,8 @@ public class RedBlackTree extends TreeVisualizer {
                     // Animates the Node's placement.
                     placeTreeNodes();
                     queueNodeMoveAnimation(key + " > " + node.key +
-                            ", placing " + key + " as right child");
+                            ", placing " + key + " as right child",
+                            AnimationParameters.ANIM_TIME);
 
                     // Performs rotations.
                     insertionRelabelAnim(node.children[ChildNames.RIGHT.i]);
@@ -221,7 +196,7 @@ public class RedBlackTree extends TreeVisualizer {
 
                 // Continues traversal if right child is non-null.
                 queueNodeSelectAnimation(node.children[ChildNames.RIGHT.i], key + " > " + node.key +
-                        ", exploring right subtree");
+                        ", exploring right subtree", AnimationParameters.ANIM_TIME);
                 node = node.children[ChildNames.RIGHT.i];
 
             }
@@ -282,7 +257,8 @@ public class RedBlackTree extends TreeVisualizer {
                     swapColors(grandParent, grandParent.children[ChildNames.RIGHT.i]);
                     if (grandParent.extraData[0] == null) root = grandParent;
                     placeTreeNodes();
-                    queueNodeMoveAnimation("LL Right rotation");
+                    queueNodeMoveAnimation("LL Right rotation",
+                            AnimationParameters.ANIM_TIME);
 
                 }
                 // Left-right case.
@@ -292,14 +268,16 @@ public class RedBlackTree extends TreeVisualizer {
                     grandParent.children[ChildNames.LEFT.i] = leftRotate(grandParent.children[ChildNames.LEFT.i]);
                     if (grandParent.extraData[0] == null) root = grandParent;
                     placeTreeNodes();
-                    queueNodeMoveAnimation("LR Left rotation");
+                    queueNodeMoveAnimation("LR Left rotation",
+                            AnimationParameters.ANIM_TIME);
 
                     // Right rotation.
                     grandParent = rightRotate(grandParent);
                     swapColors(grandParent, grandParent.children[ChildNames.RIGHT.i]);
                     if (grandParent.extraData[0] == null) root = grandParent;
                     placeTreeNodes();
-                    queueNodeMoveAnimation("LR Right rotation");
+                    queueNodeMoveAnimation("LR Right rotation",
+                            AnimationParameters.ANIM_TIME);
 
                 }
             }
@@ -313,14 +291,16 @@ public class RedBlackTree extends TreeVisualizer {
                     grandParent.children[ChildNames.RIGHT.i] = rightRotate(grandParent.children[ChildNames.RIGHT.i]);
                     if (grandParent.extraData[0] == null) root = grandParent;
                     placeTreeNodes();
-                    queueNodeMoveAnimation("RL Right rotation");
+                    queueNodeMoveAnimation("RL Right rotation",
+                            AnimationParameters.ANIM_TIME);
 
                     // Left rotation.
                     grandParent = leftRotate(grandParent);
                     swapColors(grandParent, grandParent.children[ChildNames.LEFT.i]);
                     if (grandParent.extraData[0] == null) root = grandParent;
                     placeTreeNodes();
-                    queueNodeMoveAnimation("RL Left rotation");
+                    queueNodeMoveAnimation("RL Left rotation",
+                            AnimationParameters.ANIM_TIME);
 
                 }
                 // Right-right case.
@@ -331,7 +311,8 @@ public class RedBlackTree extends TreeVisualizer {
                     swapColors(grandParent, grandParent.children[ChildNames.LEFT.i]);
                     if (grandParent.extraData[0] == null) root = grandParent;
                     placeTreeNodes();
-                    queueNodeMoveAnimation("RR Left rotation");
+                    queueNodeMoveAnimation("RR Left rotation",
+                            AnimationParameters.ANIM_TIME);
 
                 }
             }
@@ -505,17 +486,5 @@ public class RedBlackTree extends TreeVisualizer {
                 parent.children[ChildNames.RIGHT.i] = newChild;
             }
         }
-    }
-
-    // Helper method to find the leftmost node (which has the smallest value)
-    private Node findMin(Node node) {
-        while (node.children[ChildNames.LEFT.i] != null) node = node.children[ChildNames.LEFT.i];
-        return node;
-    }
-
-    // Helper method to find the rightmost node (which has the largest value)
-    private Node findMax(Node node) {
-        while (node.children[ChildNames.RIGHT.i] != null) node = node.children[ChildNames.RIGHT.i];
-        return node;
     }
 }

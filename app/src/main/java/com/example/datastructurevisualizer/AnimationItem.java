@@ -46,7 +46,7 @@ public class AnimationItem {
      */
     protected void sleep(int time) {
         try {
-            TimeUnit.MILLISECONDS.sleep(time);
+            TimeUnit.MILLISECONDS.sleep((int)(time / AnimationParameters.animSpeed));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

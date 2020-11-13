@@ -29,25 +29,6 @@ public class AVLTree extends TreeVisualizer {
     @Override
     int getNumChildren() { return numChildren; }
 
-    // The height of a rooted tree is the number of edges between the tree's
-    // root and its furthest leaf. This means that a tree containing a single
-    // node has a height of 0.
-    public int height() {
-        if (root == null) return 0;
-        return (Integer)root.extraData[0];
-
-    }
-
-    // Returns the number of nodes in the tree.
-    public int size() {
-        return nodeCount;
-    }
-
-    // Returns whether or not the tree is empty.
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
     // Return true/false depending on whether a key exists in the tree.
     public boolean contains(int key) {
         return contains(root, key);
@@ -80,10 +61,10 @@ public class AVLTree extends TreeVisualizer {
         // If there is no duplicate, logs the insertion.
         else logAdd(key);
 
-        if (!contains(root, key)) {
-            root = insertNoAnim(root, key);
-            nodeCount++;
-        }
+        // Inserts the Node.
+        root = insertNoAnim(root, key);
+        nodeCount++;
+
     }
 
     /**
@@ -142,12 +123,14 @@ public class AVLTree extends TreeVisualizer {
             root.extraData = new Integer[1];
             root.extraData[0] = new Integer(-1);
             placeTreeNodes();
-            queueNodeMoveAnimation("Creating root");
+            queueNodeMoveAnimation("Creating root",
+                    AnimationParameters.ANIM_TIME);
 
         }
         // Places the Node.
         else {
-            queueNodeSelectAnimation(root, "Start at root " + root.key);
+            queueNodeSelectAnimation(root, "Start at root " + root.key,
+                    AnimationParameters.ANIM_TIME);
             root = insertAnim(root, null, 0, key);
             nodeCount++;
 
@@ -179,13 +162,14 @@ public class AVLTree extends TreeVisualizer {
                 newNode.extraData[0] = new Integer(-1);
                 node.children[ChildNames.LEFT.i] = newNode;
                 placeTreeNodes();
-                queueNodeMoveAnimation(key + " < " + node.key + ", placing " + key + " as left child");
+                queueNodeMoveAnimation(key + " < " + node.key + ", placing " + key + " as left child",
+                        AnimationParameters.ANIM_TIME);
 
             }
             // Continues parsing if the left child is non-null.
             else {
                 queueNodeSelectAnimation(node.children[ChildNames.LEFT.i], key + " < " + node.key +
-                        ", exploring left subtree");
+                        ", exploring left subtree", AnimationParameters.ANIM_TIME);
                 node.children[ChildNames.LEFT.i] = insertAnim(node.children[ChildNames.LEFT.i], node, ChildNames.LEFT.i, key);
 
             }
@@ -200,13 +184,14 @@ public class AVLTree extends TreeVisualizer {
                 newNode.extraData[0] = new Integer(-1);
                 node.children[ChildNames.RIGHT.i] = newNode;
                 placeTreeNodes();
-                queueNodeMoveAnimation(key + " > " + node.key + ", placing " + key + " as right child");
+                queueNodeMoveAnimation(key + " > " + node.key + ", placing " + key + " as right child",
+                        AnimationParameters.ANIM_TIME);
 
             }
             // Continues parsing if the right child is non-null.
             else {
                 queueNodeSelectAnimation(node.children[ChildNames.RIGHT.i], key + " > " + node.key +
-                        ", exploring right subtree");
+                        ", exploring right subtree", AnimationParameters.ANIM_TIME);
                 node.children[ChildNames.RIGHT.i] = insertAnim(node.children[ChildNames.RIGHT.i], node, ChildNames.RIGHT.i, key);
 
             }
@@ -293,7 +278,8 @@ public class AVLTree extends TreeVisualizer {
 
                 // Moves the Nodes to their destinations and returns.
                 placeTreeNodes();
-                queueNodeMoveAnimation("LL Right rotation");
+                queueNodeMoveAnimation("LL Right rotation",
+                        AnimationParameters.ANIM_TIME);
 
             }
             // Left-Right case.
@@ -304,7 +290,8 @@ public class AVLTree extends TreeVisualizer {
 
                 // Animates rotation.
                 placeTreeNodes();
-                queueNodeMoveAnimation("LR Left rotation");
+                queueNodeMoveAnimation("LR Left rotation",
+                        AnimationParameters.ANIM_TIME);
 
                 // Performs right rotation.
                 ret =  rightRotation(node);
@@ -313,7 +300,8 @@ public class AVLTree extends TreeVisualizer {
 
                 // Animates rotation.
                 placeTreeNodes();
-                queueNodeMoveAnimation("LR Right rotation");
+                queueNodeMoveAnimation("LR Right rotation",
+                        AnimationParameters.ANIM_TIME);
 
             }
         }
@@ -330,7 +318,8 @@ public class AVLTree extends TreeVisualizer {
 
                 // Animates rotation.
                 placeTreeNodes();
-                queueNodeMoveAnimation("RR Left rotation ");
+                queueNodeMoveAnimation("RR Left rotation ",
+                        AnimationParameters.ANIM_TIME);
 
             }
             // Right-Left case.
@@ -341,7 +330,8 @@ public class AVLTree extends TreeVisualizer {
 
                 // Animates rotation.
                 placeTreeNodes();
-                queueNodeMoveAnimation("RL Right rotation");
+                queueNodeMoveAnimation("RL Right rotation",
+                        AnimationParameters.ANIM_TIME);
 
                 // Performs left rotation.
                 ret = leftRotation(node);
@@ -350,7 +340,8 @@ public class AVLTree extends TreeVisualizer {
 
                 // Animates rotation.
                 placeTreeNodes();
-                queueNodeMoveAnimation("RL Left rotation");
+                queueNodeMoveAnimation("RL Left rotation",
+                        AnimationParameters.ANIM_TIME);
 
             }
         }
@@ -528,7 +519,8 @@ public class AVLTree extends TreeVisualizer {
         if (elem < node.key) {
 
             // Animates traversal.
-            queueNodeSelectAnimation(node, "Exploring " + node.key);
+            queueNodeSelectAnimation(node, "Exploring " + node.key,
+                    AnimationParameters.ANIM_TIME);
 
             node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], parent, ChildNames.LEFT.i, elem);
 
@@ -537,7 +529,8 @@ public class AVLTree extends TreeVisualizer {
         } else if (elem > node.key) {
 
             // Animates traversal.
-            queueNodeSelectAnimation(node, "Exploring " + node.key);
+            queueNodeSelectAnimation(node, "Exploring " + node.key,
+                    AnimationParameters.ANIM_TIME);
 
             node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], parent, ChildNames.RIGHT.i, elem);
 

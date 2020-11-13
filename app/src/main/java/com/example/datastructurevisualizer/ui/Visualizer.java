@@ -1,65 +1,46 @@
 package com.example.datastructurevisualizer.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.example.datastructurevisualizer.AVLTree;
 import com.example.datastructurevisualizer.AnimationParameters;
 import com.example.datastructurevisualizer.BinarySearchTree;
+import com.example.datastructurevisualizer.Graph;
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.RedBlackTree;
 import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
-import com.example.datastructurevisualizer.NodeVisualizer;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Fragment class for the data structure visualization.
  */
 public class Visualizer extends Fragment {
 
-    //View object variables
+    //Tree Visualizer view object variables
     private EditText insertNumber;
     private ImageButton insertButton;
     private Button saveButton;
@@ -68,22 +49,33 @@ public class Visualizer extends Fragment {
     private ImageButton undoButton;
     private ImageButton redoButton;
     private Button autopopulateButton;
+
+    //Graph Visuaizer view object variables
+    private Button display;
+    private Button button2;
+    private EditText startNode;
+    private EditText endNode;
+
+    //Error Page view object variables
+    private Button home;
+
+
+    //Shared Visualizer view object variables
+    private VisualizerCanvas visualizerCanvas;
     private ImageButton infoButton;
     private static TextView displayExec;
-    private VisualizerCanvas visualizerCanvas;
     private ImageButton play;
     private ImageButton pause;
     private ImageButton previous;
     private ImageButton next;
-    private Button saveDialogSave;
-
-    int x, y;
+    private Spinner traversalsSpinner;
+    private static ScrollView displayExecScroll;
 
     //Class variables
     private static String dataStructureType;
     private TreeVisualizer tree;
+    private Graph graph;
     private ArrayList<String> traversals;
-    private Spinner traversalsSpinner;
 
     public Visualizer() {
         // Required empty public constructor
@@ -94,6 +86,7 @@ public class Visualizer extends Fragment {
      * @param dataStructureType
      */
     public Visualizer(String dataStructureType){
+
         this.dataStructureType = dataStructureType;
     }
 
@@ -108,7 +101,6 @@ public class Visualizer extends Fragment {
         MainActivity.actionBar.show();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     /**
      * When the view is created this method attaches the view object variable with those defined
@@ -117,8 +109,122 @@ public class Visualizer extends Fragment {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view;
+        
+        switch(dataStructureType) {
+            case "Binary Search Tree":
+            case "Red Black Tree":
+            case "Balanced Search Tree":
+                view = inflater.inflate(R.layout.fragment_visualizer, container, false);
+                initTreeVisualizer(view);
+                //Initialize dataStructureType variable
+                initDataStructure();
+                //Initialize drop-down menu for traversal selection
+                initTreeSpinner();
+                break;
+            case "Graph":
+                view = inflater.inflate(R.layout.fragment_graph_visualizer, container, false);
+                initGraphVisualizer(view);
+                //Initialize dataStructureType variable
+                initDataStructure();
+                //Initialize drop-down menu for traversal selection
+                initGraphSpinner();
+                break;
+            default:
+                view = inflater.inflate(R.layout.error_page, container, false);
+                home = view.findViewById(R.id.home_button);
+                home.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.openFragment(new Home(), false);
+                    }
+                });
+
+        }
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_visualizer, container, false);
+
+
+        return view;
+    }
+
+    private void initGraphVisualizer(View view) {
+        display = view.findViewById(R.id.display_button);
+        button2 = view.findViewById(R.id.button2_button);
+        displayExec = view.findViewById(R.id.printout_textview);
+        visualizerCanvas = view.findViewById(R.id.graph_visualizer);
+        visualizerCanvas.setParent(this);
+        infoButton = view.findViewById(R.id.button_info);
+        play = view.findViewById(R.id.button_play);
+        pause = view.findViewById(R.id.button_pause);
+        next = view.findViewById(R.id.button_next);
+        previous = view.findViewById(R.id.button_previous);
+        traversalsSpinner = view.findViewById(R.id.spinner_traversal);
+        startNode = view.findViewById(R.id.start_value);
+        endNode = view.findViewById(R.id.end_value);
+        displayExecScroll = view.findViewById(R.id.printout_scroll);
+        //TODO remove when graph object is no longer needed in this method
+        graph = new Graph();
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.openFragment(new InformationPage(dataStructureType), true);
+            }
+        });
+
+        display.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCanvas();
+                Toast.makeText(getContext(),"Display Button Pressed", Toast.LENGTH_LONG)
+                        .show();
+
+                // TODO temp graph render
+                graph.render();
+
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCanvas();
+                Toast.makeText(getContext(), "Button 2 Pressed", Toast.LENGTH_LONG)
+                        .show();
+
+                // TODO some functionality
+                graph.dijkstraPathfind(1, 22);
+                new Thread(new Runnable () {
+                    @Override
+                    public void run() {
+                        AnimationParameters.beginAnimation();
+                        graph.animate();
+                        AnimationParameters.stopAnimation();
+                    }
+                }).start();
+
+            }
+        });
+
+        // TODO remove
+        java.util.Random rand = new java.util.Random();
+        int k = 0;
+        if (graph.getAllNodes().isEmpty()) {
+            for (int i = 0; i < 5; ++i) {
+                for (int j = 0; j < 5; ++j) {
+                    graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
+                    if (k >= 5) graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
+                    if (k % 5 != 0) graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
+                    ++k;
+
+                }
+            }
+        }
+        graph.render();
+    }
+
+    private void initTreeVisualizer(View view) {
         //Connect variables to XML
         loadButton = view.findViewById(R.id.button_load);
         saveButton = view.findViewById(R.id.button_save);
@@ -129,16 +235,15 @@ public class Visualizer extends Fragment {
         redoButton = view.findViewById(R.id.button_redo);
         autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
+        displayExecScroll = view.findViewById(R.id.printout_scroll);
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
         play = view.findViewById(R.id.button_play);
         pause = view.findViewById(R.id.button_pause);
         next = view.findViewById(R.id.button_next);
         previous = view.findViewById(R.id.button_previous);
-        saveDialogSave = view.findViewById(R.id.saveDialog_saveBtn);
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
         visualizerCanvas.setParent(this);
-
 
 
         //BUTTON ON CLICK
@@ -252,45 +357,6 @@ public class Visualizer extends Fragment {
                 }).start();
             }
         });
-//        visualizerCanvas.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (node.getClickedNode(getXpos(MotionEvent.)) != -1) {
-//                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                    Fragment prev = getFragmentManager().findFragmentByTag("node_action");
-//                    if (prev != null) {
-//                        ft.remove(prev);
-//                    } ft.addToBackStack(null);
-//
-//                    DialogNodeAction nodeAction = new DialogNodeAction();
-//                    nodeAction.show(ft, "node_action");
-//                }
-//            }
-//        });
-
-        visualizerCanvas.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                x = (int) event.getX();
-                y = (int) event.getY();
-                if (tree.getClickedNode(x,y) != -1) {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    Fragment prev = getFragmentManager().findFragmentByTag("node_action");
-                    if (prev != null) {
-                        ft.remove(prev);
-                    } ft.addToBackStack(null);
-
-                    DialogNodeAction nodeAction = new DialogNodeAction();
-                    nodeAction.show(ft, "node_action");
-                }
-                return false;
-            }
-        });
-        //Initialize dataStructureType variable
-        initDataStructure();
-        //Initialize drop-down menu for traversal selection
-        initSpinner();
-        return view;
     }
 
     /**
@@ -307,7 +373,7 @@ public class Visualizer extends Fragment {
     /**
      * Initializes the drop-down menu used for the tree-traversals
      */
-    private void initSpinner() {
+    private void initTreeSpinner() {
         //Array List of the drop-down items
         traversals = new ArrayList<>();
         traversals.add("Select Traversal");
@@ -361,6 +427,67 @@ public class Visualizer extends Fragment {
     }
 
     /**
+     * Initializes the drop-down menu used for the graph-traversals
+     */
+    private void initGraphSpinner() {
+        //Array List of the drop-down items
+        traversals = new ArrayList<>();
+        traversals.add("Select Traversal");
+        traversals.add("Prim's MST");
+        traversals.add("Dijkstra's Shortest Path");
+        traversals.add("Kruskal's MST");
+        traversals.add("Breadth-First Path");
+
+        //Attaches an adapter to the array list and then to the spinner object
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
+        traversalsSpinner.setAdapter(adapter);
+
+        //Sets up what happens when the different options are selected
+        traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                switch(parent.getItemAtPosition(position).toString()) {
+                    case "Prim's MST":
+                        displayMessage("Prim's Minimum Spanning Tree selected.");
+                        displayMessage("Please enter a start node.");
+                        startNode.setVisibility(View.VISIBLE);
+                        endNode.setVisibility(View.INVISIBLE);
+                        break;
+                    case "Dijkstra's Shortest Path":
+                        displayMessage("Dijkstra's Shortest Path selected.");
+                        displayMessage("Please enter a start node and end node");
+                        startNode.setVisibility(View.VISIBLE);
+                        endNode.setVisibility(View.VISIBLE);
+                        break;
+                    case "Kruskal's MST":
+                        displayMessage("Kruskal's Minimum Spanning Tree selected.");
+                        startNode.setVisibility(View.INVISIBLE);
+                        endNode.setVisibility(View.INVISIBLE);
+                        break;
+                    case "Breadth-First Path":
+                        displayMessage("Breadth-First Path selected.");
+                        displayMessage("Please enter a start node.");
+                        startNode.setVisibility(View.VISIBLE);
+                        endNode.setVisibility(View.INVISIBLE);
+                        break;
+
+                    case "Select Traversal":
+                        startNode.setVisibility(View.INVISIBLE);
+                        endNode.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    /**
      * Undoes the previous action and resets the canvas to it's previous state.
      */
     private void undo() {
@@ -392,9 +519,16 @@ public class Visualizer extends Fragment {
                 tree = new RedBlackTree();
                 break;
             case "Balanced Search Tree":
+                Log.d("ACTION BAR", "In Balanced Search Tree");
                 MainActivity.actionBar.setTitle("AVL Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 tree = new AVLTree();
+                break;
+            case "Graph":
+                Log.d("ACTION BAR", "In Graph");
+                MainActivity.actionBar.setTitle("Graph");
+                MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
+                //graph = new Graph(); TODO uncomment when graph no longer initizalized in graphVisualizer
                 break;
         }
     }
@@ -405,7 +539,7 @@ public class Visualizer extends Fragment {
      */
     private void insert() {
         checkCanvas();
-        initSpinner();
+        initTreeSpinner();
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
     }
@@ -459,7 +593,7 @@ public class Visualizer extends Fragment {
                 treeObj = tree.createJSON("file 1", "Red Black Tree");
                 //TODO
                 break;
-            case "Adelson-Velsky":
+            case "Balanced Search Tree":
                 treeObj = tree.createJSON("file 1", "AVL Tree");
                //TODO
                 break;
@@ -547,12 +681,14 @@ public class Visualizer extends Fragment {
      * @param message the message to be displayed.
      */
     public static void displayMessage(String message) {
+        if (message == null) return;
         final String message2 = message;
         displayExec.post(new Runnable() {
             @Override
             public void run() {
                 String hMessage = displayExec.getText().toString();
                 displayExec.setText(String.format("%s\n%s", hMessage, message2));
+                displayExecScroll.scrollTo(0,displayExecScroll.getBottom());
             }
         });
     }

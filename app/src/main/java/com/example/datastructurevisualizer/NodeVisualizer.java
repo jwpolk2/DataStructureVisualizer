@@ -113,7 +113,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to highlight.
      */
-    private void highlightNode(Node node) {
+    protected void highlightNode(Node node) {
         highlightedNodes.add(node);
 
     }
@@ -123,7 +123,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to unhighlight.
      */
-    private void unHighlightNode(Node node) {
+    protected void unHighlightNode(Node node) {
         highlightedNodes.remove(node);
 
     }
@@ -131,7 +131,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * UnHighlights all Nodes.
      */
-    private void unHighlightAllNodes() {
+    protected void unHighlightAllNodes() {
         highlightedNodes.clear();
 
     }
@@ -183,12 +183,12 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to select.
      * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queueNodeSelectAnimation(Node node, String message) {
+    protected void queueNodeSelectAnimation(Node node, String message, int time) {
         if(MainActivity.getVisualizer()!= null){
-            animationLog.add(new SelectNode(node, message));
+            animationLog.add(new SelectNode(node, message, time));
         }
-
     }
 
     /**
@@ -212,9 +212,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to add to the stack.
      * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queueStackAddAnimation(Node node, String message) {
-        animationLog.add(new StackAddNode(node, message));
+    protected void queueStackAddAnimation(Node node, String message, int time) {
+        animationLog.add(new StackAddNode(node, message, time));
 
     }
 
@@ -239,9 +240,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to add to the queue.
      * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queueQueueAddAnimation(Node node, String message) {
-        animationLog.add(new QueueAddNode(node, message));
+    protected void queueQueueAddAnimation(Node node, String message, int time) {
+        animationLog.add(new QueueAddNode(node, message, time));
 
     }
 
@@ -267,9 +269,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to add to the priority queue.
      * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queuePriorityQueueAddAnimation(Node node, String message) {
-        animationLog.add(new PriorityQueueAddNode(node, message));
+    protected void queuePriorityQueueAddAnimation(Node node, String message, int time) {
+        animationLog.add(new PriorityQueueAddNode(node, message, time));
 
     }
 
@@ -279,7 +282,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param canvas the Canvas to render in.
      */
-    private void listPopAnimaton(Canvas canvas) {
+    private void listPopAnimation(Canvas canvas) {
 
         // UnHighlights the first node in the list and pops it.
         unHighlightNode(getNode(nodeList.pop()));
@@ -289,9 +292,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
     /**
      * Queues an animation to remove the first Node from nodeList.
+     *
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queueListPopAnimation(String message) {
-        animationLog.add(new ListPopNode(message));
+    protected void queueListPopAnimation(String message, int time) {
+        animationLog.add(new ListPopNode(message, time));
 
     }
 
@@ -314,9 +319,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @param node the Node to add to the priority queue.
      * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queueNodeExploreAnimation(Node node, String message) {
-        animationLog.add(new ExploreNode(node, message));
+    protected void queueNodeExploreAnimation(Node node, String message, int time) {
+        animationLog.add(new ExploreNode(node, message, time));
 
     }
 
@@ -347,9 +353,12 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
     /**
      * Animates movement of Nodes to their destination positions.
+     *
+     * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
      */
-    protected void queueNodeMoveAnimation(String message) {
-        animationLog.add(new MoveNodes(message));
+    protected void queueNodeMoveAnimation(String message, int time) {
+        animationLog.add(new MoveNodes(message, time));
 
     }
 
@@ -360,6 +369,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     public void finishTraversalAnimation() {
         if (selectedNode != null) unSelect();
         unHighlightAllNodes();
+        unExploreAllNodes();
         nodeList.clear();
 
     }
@@ -436,6 +446,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class SelectNode extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas canvas;
         Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
@@ -447,9 +460,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
          *
          * @param node the Node to select.
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        SelectNode(Node node, String message) {
+        SelectNode(Node node, String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
             nodeSelectAnimation(node, canvas);
 
@@ -468,7 +483,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 
@@ -485,6 +500,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class StackAddNode extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas canvas;
         Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
@@ -497,9 +515,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
          *
          * @param node the Node to add to the stack.
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        StackAddNode(Node node, String message) {
+        StackAddNode(Node node, String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
             stackAddAnimation(node, canvas);
 
@@ -518,7 +538,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 
@@ -535,6 +555,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class QueueAddNode extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas canvas;
         Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
@@ -547,9 +570,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
          *
          * @param node the Node to add to the queue.
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        QueueAddNode(Node node, String message) {
+        QueueAddNode(Node node, String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
             queueAddAnimation(node, canvas);
 
@@ -568,7 +593,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 
@@ -585,6 +610,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class PriorityQueueAddNode extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas canvas;
         Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
@@ -597,9 +625,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
          *
          * @param node the Node to add to the priority queue.
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        PriorityQueueAddNode(Node node, String message) {
+        PriorityQueueAddNode(Node node, String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
             priorityQueueAddAnimation(node, canvas);
 
@@ -619,7 +649,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 
@@ -636,6 +666,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class ExploreNode extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas canvas;
         Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
@@ -648,9 +681,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
          *
          * @param node the Node to add to the priority queue.
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        ExploreNode(Node node, String message) {
+        ExploreNode(Node node, String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
             nodeExploreAnimation(node, canvas);
 
@@ -669,7 +704,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 
@@ -687,6 +722,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class ListPopNode extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas canvas;
         Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
@@ -697,11 +735,13 @@ public class NodeVisualizer extends DataStructureVisualizer {
          * Constructor for this item. Stores a frame wherein the Node is popped.
          *
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        ListPopNode(String message) {
+        ListPopNode(String message, int time) {
             super(message);
+            this.time = time;
             canvas = new Canvas(bmp);
-            listPopAnimaton(canvas);
+            listPopAnimation(canvas);
 
         }
 
@@ -718,7 +758,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
-            sleep((int) (AnimationParameters.ANIM_TIME / AnimationParameters.animSpeed));
+            sleep(time);
 
         }
 
@@ -735,6 +775,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
      */
     private class MoveNodes extends AnimationItem {
 
+        // Animation time.
+        int time;
+
         // Canvas and bitmap to store the frame.
         Canvas[] canvas = new Canvas[AnimationParameters.MOVEMENT_FRAMES];
         Bitmap[] bmp = new Bitmap[AnimationParameters.MOVEMENT_FRAMES];
@@ -744,10 +787,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
          * positions.
          *
          * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
          */
-        MoveNodes(String message) {
+        MoveNodes(String message, int time) {
             super(message);
-
+            this.time = time;
 
             // Renders each frame for the animation.
             for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
@@ -783,8 +827,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                 MainActivity.getVisualizer().render();
 
                 // Sleeps a while.
-                sleep((int) (AnimationParameters.ANIM_TIME /
-                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+                sleep(time / AnimationParameters.MOVEMENT_FRAMES);
 
             }
         }
@@ -805,8 +848,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
                         canvas[i].getClipBounds(), new Paint());
 
                 // Sleeps a while.
-                sleep((int) (AnimationParameters.ANIM_TIME /
-                        (AnimationParameters.animSpeed * AnimationParameters.MOVEMENT_FRAMES)));
+                sleep(time / AnimationParameters.MOVEMENT_FRAMES);
 
             }
         }

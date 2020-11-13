@@ -4,7 +4,7 @@ package com.example.datastructurevisualizer;
  * Represents an Edge between two Nodes.
  * An ArrayList of edges is stored in extraData[0] in Graph Nodes.
  */
-public class Edge {
+public class Edge implements Comparable {
     Node dest;
     Node start;
     int weight;
@@ -21,6 +21,21 @@ public class Edge {
         this.start = start;
         this.dest = dest;
         this.weight = weight;
+
+    }
+
+    /**
+     * Compares two Edges.
+     *
+     * @param input the Edge to compare to.
+     * @return -1 if smaller than input, 1 if larger, else 0.
+     */
+    @Override
+    public int compareTo(Object input) {
+        Edge comp = (Edge)input;
+        if (weight < comp.weight) return -1;
+        else if (weight > comp.weight) return 1;
+        else return 0;
 
     }
 }
