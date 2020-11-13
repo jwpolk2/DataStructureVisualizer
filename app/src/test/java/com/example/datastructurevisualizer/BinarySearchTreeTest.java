@@ -28,43 +28,19 @@ public class BinarySearchTreeTest extends TestCase {
         assertEquals(2, bst.getNumChildren());
     }
 
-    public void testTreeHeight_filled() {
-        Node root = new Node(1, 2);
-        assertEquals(1, bst.treeHeight(root));
-    }
 
-    public void testIsBalancedNaive() {
-        Node root = new Node(1, 2);
-        assertTrue(bst.isBalancedNaive(root));
-    }
 
-    public void testGetNodeHeight_Empty() {
-        Node root = null;
-        assertEquals(0, bst.getNodeHeight(root, root));
-    }
+
+
+
 
 //    public void testGetNodeHeight_Filled() {
 //       // TODO
 //    }
 
-    //try finding something from an empty tree
-    public void testFindEmpty() {
-        assertFalse(bst.find(1));
-    }
 
-    //try calling find function with on a value that hasn't been inserted
-    public void testFindinserted_no() {
-        bst.insertNoAnim(5);
-        bst.insertNoAnim(6);
-        assertFalse(bst.find(4));
-    }
 
-    //try calling find function on a value that hasn't been inserted
-    public void testFindinserted_yes() {
-        bst.insertNoAnim(5);
-        bst.insertNoAnim(6);
-        assertTrue(bst.find(5));
-    }
+
 
     public void testRemoveNoAnim_filled() {
         bst.insertNoAnim(5);

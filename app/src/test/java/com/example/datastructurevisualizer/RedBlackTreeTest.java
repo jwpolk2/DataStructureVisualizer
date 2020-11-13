@@ -33,38 +33,7 @@ public class RedBlackTreeTest extends TestCase {
         assertEquals(2, rbt.getNumChildren());
     }
 
-    public void testSize_empty() {
-        assertEquals(0, rbt.size());
-    }
 
-    public void testSize_filled() {
-        rbt.insertNoAnim(1);
-        rbt.insertNoAnim(2);
-        rbt.insertNoAnim(3);
-
-        assertEquals(3, rbt.size());
-    }
-
-    public void testIsEmpty_empty() {
-        assertTrue(rbt.isEmpty());
-    }
-
-    public void testIsEmpty_filled() {
-        rbt.insertNoAnim(1);
-
-        assertFalse(rbt.isEmpty());
-    }
-
-    public void testContains_empty() {
-        assertFalse(rbt.contains(1));
-    }
-
-    public void testContains_filled() {
-        rbt.insertNoAnim(1);
-        rbt.insertNoAnim(2);
-
-        assertTrue(rbt.contains(1) && rbt.contains(2));
-    }
 
     public void testInsertNoAnim() {
         rbt.insertNoAnim(1);
