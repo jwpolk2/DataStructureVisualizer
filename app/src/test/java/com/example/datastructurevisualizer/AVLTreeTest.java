@@ -24,12 +24,6 @@ public class AVLTreeTest extends TestCase {
 
 
 
-
-
-
-
-
-
     public void testContains_yes() {
         avl.insertNoAnim(1);
         avl.insertNoAnim(2);

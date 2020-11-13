@@ -29,17 +29,9 @@ public class BinarySearchTreeTest extends TestCase {
     }
 
 
-
-
-
-
-
 //    public void testGetNodeHeight_Filled() {
 //       // TODO
 //    }
-
-
-
 
 
     public void testRemoveNoAnim_filled() {
