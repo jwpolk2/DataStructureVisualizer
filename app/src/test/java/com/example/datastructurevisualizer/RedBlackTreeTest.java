@@ -161,6 +161,4 @@ public class RedBlackTreeTest extends TestCase {
 
         assertEquals(1, testNode1.value);
     }
-
-
 }
