@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -355,6 +356,25 @@ public class Visualizer extends Fragment {
                         AnimationParameters.stopAnimation();
                     }
                 }).start();
+            }
+        });
+
+        visualizerCanvas.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                if (tree.getClickedNode(x,y) != -1) {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("node_action");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    } ft.addToBackStack(null);
+
+                    DialogNodeAction nodeAction = new DialogNodeAction();
+                    nodeAction.show(ft, "node_action");
+                }
+                return false;
             }
         });
     }
