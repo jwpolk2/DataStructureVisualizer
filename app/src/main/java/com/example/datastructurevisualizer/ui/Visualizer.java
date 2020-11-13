@@ -372,7 +372,7 @@ public class Visualizer extends Fragment {
                         ft.remove(prev);
                     } ft.addToBackStack(null);
 
-                    DialogNodeAction nodeAction = DialogNodeAction.newInstance(node);
+                    DialogNodeAction nodeAction = DialogNodeAction.newInstance(tree, node);
                     nodeAction.show(ft, "node_action");
                 }
                 return false;
