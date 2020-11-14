@@ -31,10 +31,10 @@ public class LinkedList extends TreeVisualizer {
      *
      * @return true if the LinkedList is empty, otherwise false.
      */
-    protected boolean isEmpty() {
-        return root == null;
-
-    }
+//    protected boolean isEmpty() {
+//        return root == null;
+//
+//    }
 
     /**
      * Sets the desired position of the root Node of this LinkedList.
@@ -43,11 +43,11 @@ public class LinkedList extends TreeVisualizer {
      * @param xPos x position of root Node.
      * @param yPos y position of root Node
      */
-    public void setPosition(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-
-    }
+//    public void setPosition(int xPos, int yPos) {
+//        this.xPos = xPos;
+//        this.yPos = yPos;
+//
+//    }
 
     /**
      * Inserts the key into the LinkedList at the root.
@@ -78,7 +78,7 @@ public class LinkedList extends TreeVisualizer {
 
         // Places the new Node at the root if the queue is empty or if it is
         // the least Node in the queue.
-        if (root == null || node.value < root.value) {
+        if (root == null || node.value <= root.value) {
             node.children[0] = root;
             root = node;
             placeTreeNodes(xPos, yPos);
@@ -90,7 +90,7 @@ public class LinkedList extends TreeVisualizer {
         // Finds the appropriate place for the Node in the queue.
         Node currNode = root;
         while (currNode.children[0] != null &&
-                currNode.children[0].value < node.value)
+                currNode.children[0].value <= node.value)
             currNode = currNode.children[0];
 
         // Places the Node.
@@ -154,15 +154,15 @@ public class LinkedList extends TreeVisualizer {
      *
      * @return the key of the root or -1.
      */
-    public int peek() {
-
-        // Returns -1 if the root is null.
-        if (root == null) return -1;
-
-        // If the root is not null, returns its key.
-        return root.key;
-
-    }
+//    public int peek() {
+//
+//        // Returns -1 if the root is null.
+//        if (root == null) return -1;
+//
+//        // If the root is not null, returns its key.
+//        return root.key;
+//
+//    }
 
     /**
      * Renders the LinkedList. Unlike other renderers, this will not clear the canvas.

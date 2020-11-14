@@ -393,6 +393,7 @@ public class TreeVisualizer extends NodeVisualizer {
 
         // Draws vectors between this Node and all child Nodes.
         Paint colour = new Paint();
+        colour.setStrokeWidth(6);
         colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G, AnimationParameters.VEC_B);
         for (int i = 0; i < getNumChildren(); ++i) {
             if (currNode.children[i] != null) {

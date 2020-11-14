@@ -195,7 +195,7 @@ public class Visualizer extends Fragment {
                         .show();
 
                 // TODO some functionality
-                graph.dijkstraPathfind(1, 22);
+                graph.kruskalsAlgorithm();
                 new Thread(new Runnable () {
                     @Override
                     public void run() {
