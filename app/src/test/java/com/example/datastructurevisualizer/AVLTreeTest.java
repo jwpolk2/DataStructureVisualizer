@@ -99,14 +99,14 @@ public class AVLTreeTest extends TestCase {
         assertEquals(2, keyArrl.size());
     }
 
-    public void testRemoveAnim_exists() {
-        avl.insertNoAnim(1);
-        avl.insertNoAnim(2);
-        avl.removeAnim(1);
-
-        ArrayList<Integer> keyArrl = avl.getAllKeys();
-        assertEquals(1, keyArrl.size());
-    }
+//    public void testRemoveAnim_exists() {
+//        avl.insertNoAnim(1);
+//        avl.insertNoAnim(2);
+//        avl.removeAnim(1);
+//
+//        ArrayList<Integer> keyArrl = avl.getAllKeys();
+//        assertEquals(1, keyArrl.size());
+//    }
 
     public void testRemoveAnim_nonExistant() {
         avl.insertAnim(1);
