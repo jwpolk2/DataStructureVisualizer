@@ -8,64 +8,32 @@ import java.util.ArrayList;
 
 public class BinarySearchTreeTest extends TestCase {
     private BinarySearchTree bst = new BinarySearchTree();
-//
-////    @BeforeEach
-////        create canvas? could help with insertAnim()
-////    }
-////
-////    @AfterEach {
-////    }
-//
-//    public void testGetNumChildren_empty() {
-//        // should always be two, even if null
-//        assertEquals(2, bst.getNumChildren());
+
+//    @BeforeEach
+//        create canvas? could help with insertAnim()
 //    }
 //
-//    public void testGetNumChildren_filled() {
-//        bst.insertNoAnim(5);
-//        bst.insertNoAnim(10);
-//        bst.insertNoAnim(15);
-//        assertEquals(2, bst.getNumChildren());
+//    @AfterEach {
 //    }
-//
-//    public void testTreeHeight_filled() {
-//        Node root = new Node(1, 2);
-//        assertEquals(1, bst.treeHeight(root));
+
+    public void testGetNumChildren_empty() {
+        // should always be two, even if null
+        assertEquals(2, bst.getNumChildren());
+    }
+
+    public void testGetNumChildren_filled() {
+        bst.insertNoAnim(5);
+        bst.insertNoAnim(10);
+        bst.insertNoAnim(15);
+        assertEquals(2, bst.getNumChildren());
+    }
+
+
+//    public void testGetNodeHeight_Filled() {
+//       // TODO
 //    }
-//
-//    public void testIsBalancedNaive() {
-//        Node root = new Node(1, 2);
-//        assertTrue(bst.isBalancedNaive(root));
-//    }
-//
-//    public void testGetNodeHeight_Empty() {
-//        Node root = null;
-//        assertEquals(0, bst.getNodeHeight(root, root));
-//    }
-//
-////    public void testGetNodeHeight_Filled() {
-////       // TODO
-////    }
-//
-//    //try finding something from an empty tree
-//    public void testFindEmpty() {
-//        assertFalse(bst.find(1));
-//    }
-//
-//    //try calling find function with on a value that hasn't been inserted
-//    public void testFindinserted_no() {
-//        bst.insertNoAnim(5);
-//        bst.insertNoAnim(6);
-//        assertFalse(bst.find(4));
-//    }
-//
-//    //try calling find function on a value that hasn't been inserted
-//    public void testFindinserted_yes() {
-//        bst.insertNoAnim(5);
-//        bst.insertNoAnim(6);
-//        assertTrue(bst.find(5));
-//    }
-//
+
+
     public void testRemoveNoAnim_filled() {
         bst.insertNoAnim(5);
         bst.insertNoAnim(6);

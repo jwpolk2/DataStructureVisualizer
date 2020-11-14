@@ -19,44 +19,11 @@ public class AVLTreeTest extends TestCase {
 
         assertEquals(2, avl.getNumChildren());
     }
-//
-//    public void testHeight_empty() {
-//        assertEquals(0, avl.height());
-//    }
-//
-//    public void testHeight_filled() {
-//        avl.insertNoAnim(1);
-//        avl.insertNoAnim(2);
-//        avl.insertNoAnim(3);
-//        avl.insertNoAnim(4);
-//        avl.insertNoAnim(5);
-//
-//        assertEquals(2, avl.height());
-//    }
-//
-//    public void testSize_empty() {
-//        assertEquals(0, avl.size());
-//    }
-//
-//    public void testSize_filled() {
-//        avl.insertNoAnim(1);
-//        avl.insertNoAnim(2);
-//        avl.insertNoAnim(3);
-//
-//        assertEquals(3, avl.size());
-//    }
-//
-//    public void testIsEmpty_empty() {
-//        assertTrue(avl.isEmpty());
-//    }
-//
-//    public void testIsEmpty_filled() {
-//        avl.insertNoAnim(1);
-//        avl.insertNoAnim(2);
-//
-//        assertFalse(avl.isEmpty());
-//    }
-//
+
+
+
+
+
     public void testContains_yes() {
         avl.insertNoAnim(1);
         avl.insertNoAnim(2);
@@ -70,7 +37,7 @@ public class AVLTreeTest extends TestCase {
 
         assertFalse(avl.contains(3));
     }
-//
+
     public void testInsertNoAnim() {
         avl.insertNoAnim(1);
         avl.insertNoAnim(2);
