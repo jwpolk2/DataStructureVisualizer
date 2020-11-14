@@ -46,7 +46,28 @@ public class GraphTest extends TestCase {
 
     }
 
+    public void testRemoveAnim(){
+        graph.insertGraphNode(1,5,10);
+        graph.insertGraphNode(2,10,15);
+        graph.removeAnim(1);
+        graph.removeAnim(2);
 
+        ArrayList<Node> keyArrl = graph.getAllNodes();
+        assertEquals(0, keyArrl.size());
+
+
+
+    }
+
+    public void testGetNode(){
+        graph.insertGraphNode(1,5,10);
+        graph.insertGraphNode(2,10,15);
+
+        Node node = graph.getNode(2);
+        assertEquals(2, node.key);
+
+
+    }
 
 
     }
