@@ -13,10 +13,12 @@ class FileTest {
     String type = "Binary Search Tree";
     String date = "11-1-2020";
     ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+    ArrayList<Integer> numbers2 = new ArrayList<>(Arrays.asList(4, 5, 6));
 
+    //try out different constructors
     File file1 = new File(fileName, type, date);
-    File file2 = new File();
-    File file3 = new File(numbers);
+    File file2 = new File(numbers2);
+    File file3 = new File();
 
     @Test
     void setValues() {
@@ -28,6 +30,11 @@ class FileTest {
     void getValues() {
         ArrayList<Integer> valEmpty = new ArrayList<>();
         assertEquals(valEmpty, file1.getValues());
+    }
+
+    @Test
+    void getValues2() {
+        assertEquals(numbers2, file2.getValues());
     }
 
     @Test
