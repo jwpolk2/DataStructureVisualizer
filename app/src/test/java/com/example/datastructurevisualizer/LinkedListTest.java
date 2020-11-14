@@ -20,6 +20,10 @@ public class LinkedListTest extends TestCase {
         assertEquals(1, llist.getNumChildren());
     }
 
+    public void testIsEmpty_empty() {
+        assertTrue(llist.isEmpty());
+    }
+
     public void testStackInsert_filled() {
         llist.stackInsert(1);
         llist.stackInsert(2);
@@ -78,6 +82,15 @@ public class LinkedListTest extends TestCase {
 
         ArrayList<Integer> keyArrl = llist.getAllKeys();
         assertEquals(1, keyArrl.size());
+    }
+
+    public void testPeek_empty() {
+        assertEquals(-1, llist.peek());
+    }
+
+    public void testPeek_filled() {
+        llist.stackInsert(1);
+        assertEquals(1, llist.peek());
     }
 
 //    public void testRender() {}   ???
