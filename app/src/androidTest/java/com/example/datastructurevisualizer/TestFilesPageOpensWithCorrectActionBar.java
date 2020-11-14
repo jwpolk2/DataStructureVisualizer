@@ -21,36 +21,39 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class BSTButtonNameTest {
+public class TestFilesPageOpensWithCorrectActionBar {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void bSTButtonNameTest() {
-        ViewInteraction button = onView(
-                allOf(withId(R.id.bstButton), withText("Binary Search Tree"),
-                        withParent(withParent(withId(R.id.fragment_container))),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
-
+    public void testFilesPageOpensWithCorrectActionBar() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.bstButton), withText("Binary Search Tree"),
+                allOf(withId(R.id.filesButton), withText("Files / Load Structure"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.fragment_container),
-                                        0),
-                                1),
+                                        withClassName(is("android.widget.TableLayout")),
+                                        4),
+                                0),
                         isDisplayed()));
         appCompatButton.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withText("Files"),
+                        withParent(allOf(withId(R.id.action_bar),
+                                withParent(withId(R.id.action_bar_container)))),
+                        isDisplayed()));
+        textView.check(matches(withText("Files")));
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Navigate up"),
