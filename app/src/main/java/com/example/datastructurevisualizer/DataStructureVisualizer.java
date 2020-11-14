@@ -157,6 +157,17 @@ public class DataStructureVisualizer {
     }
 
     /**
+     * Checks if the inputed key is represented within this Data Structure.
+     *
+     * @param key the key to check for.
+     * @return true if the Data Structure contains the key, otherwise false.
+     */
+    protected boolean contains(int key) {
+        return false;
+
+    }
+
+    /**
      * Clears the data structure. Should be overridden.
      */
     protected void clear() {}

@@ -384,6 +384,9 @@ public class TreeVisualizer extends NodeVisualizer {
      * between currNode and its children, then drawing currNode, then
      * drawing currNode's children.
      *
+     * If the Node has key Integer.MIN_VALUE, it will not be rendered. This is
+     * because RedBlackTree uses a special unseen Node which carries that value.
+     *
      * @param currNode the current Node to be drawn.
      */
     protected void drawTreeRecursive(Node currNode, Canvas canvas) {
@@ -394,9 +397,11 @@ public class TreeVisualizer extends NodeVisualizer {
         // Draws vectors between this Node and all child Nodes.
         Paint colour = new Paint();
         colour.setStrokeWidth(6);
-        colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G, AnimationParameters.VEC_B);
+        colour.setARGB(255, AnimationParameters.VEC_R, AnimationParameters.VEC_G,
+                AnimationParameters.VEC_B);
         for (int i = 0; i < getNumChildren(); ++i) {
-            if (currNode.children[i] != null) {
+            if (currNode.children[i] != null && currNode.key != Integer.MIN_VALUE &&
+                    currNode.children[i].key != Integer.MIN_VALUE) {
                 canvas.drawLine(
                         currNode.position[0], currNode.position[1],
                         currNode.children[i].position[0], currNode.children[i].position[1],
