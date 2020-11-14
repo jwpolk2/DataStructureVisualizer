@@ -222,7 +222,6 @@ public class Visualizer extends Fragment {
                 }
             }
         }
-        graph.render();
     }
 
     private void initTreeVisualizer(View view) {

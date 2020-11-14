@@ -3,8 +3,6 @@ package com.example.datastructurevisualizer;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -327,8 +325,6 @@ public class Graph extends NodeVisualizer {
                     }
                 }
             }
-
-            Log.e("f", "" + currEdge.weight);
 
             // If no least edge is found, exits the loop.
             if (currEdge.weight == Integer.MAX_VALUE) break;

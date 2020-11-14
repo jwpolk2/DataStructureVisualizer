@@ -4,10 +4,6 @@ package com.example.datastructurevisualizer;
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 /**
  * Binary search tree implementation
  * <a href="https://en.wikipedia.org/wiki/Binary_search_tree">Binary search tree</a>
@@ -356,7 +352,7 @@ public class BinarySearchTree extends TreeVisualizer {
         }
 
         Node current = root;
-            queueNodeSelectAnimation(current, "Start at root " + current.key,
+        queueNodeSelectAnimation(current, "Start at root " + current.key,
                     AnimationParameters.ANIM_TIME);
 
         Node parent;

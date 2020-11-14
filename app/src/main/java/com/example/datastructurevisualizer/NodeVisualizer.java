@@ -1,9 +1,7 @@
 package com.example.datastructurevisualizer;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-
 import java.util.ArrayList;
 
 /**
@@ -44,11 +42,17 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * selectedNodes are blue, highlightedNodes are light green, exploredNodes
      * are light green. See AnimationParameters to make changes.
      *
+     * If the Node has key Integer.MIN_VALUE, it will not be rendered. This is
+     * because RedBlackTree uses a special unseen Node which carries that value.
+     *
      * @param node the Node to draw.
      * @param canvas to Canvas to render in.
      */
     protected void drawNode(Node node, Canvas canvas) {
         Paint colour = new Paint();
+
+        // Will not render nil.
+        if (node.key == Integer.MIN_VALUE) return;
 
         // Sets the Node's colour based on its highlight status.
         if (node == selectedNode) colour.setARGB(255, AnimationParameters.SEL_NODE_R,
@@ -403,6 +407,19 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * @return the Node containing the given key or null.
      */
     public Node getNode(int key) { return null; }
+
+    /**
+     * Checks if the inputed key is represented within this Data Structure.
+     *
+     * @param key the key to check for.
+     * @return true if the Data Structure contains the key, otherwise false.
+     */
+    @Override
+    protected boolean contains(int key) {
+        for (Node node : getAllNodes()) if (node.key == key) return true;
+        return false;
+
+    }
 
     /**
      * Helper function for getClickedNode, returns true if the inputed x and y

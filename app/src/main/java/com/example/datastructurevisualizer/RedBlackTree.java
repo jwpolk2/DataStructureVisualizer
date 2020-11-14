@@ -3,8 +3,7 @@ package com.example.datastructurevisualizer;
 // https://github.com/williamfiset/data-structures/blob/master/com/williamfiset/datastructures/balancedtree/RedBlackTree.java
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements
-
-// TODO !!I M P O R T A N T!! this tree contains no remove method.
+// http://www.codebytes.in/2014/10/red-black-tree-java-implementation.html
 
 /**
  * This file contains an implementation of a Red-Black tree. A RB tree is a special type of binary
@@ -24,6 +23,9 @@ public class RedBlackTree extends TreeVisualizer {
     // Definitions for RED and BLACK.
     public static final int RED = 1;
     public static final int BLACK = 0;
+
+    // Node used internally.
+    private final Node nil = new Node(Integer.MIN_VALUE, getNumChildren());
 
     // Number of children per node in this tree.
     static final int numChildren = 2;
@@ -379,6 +381,34 @@ public class RedBlackTree extends TreeVisualizer {
         insertionRelabel(grandParent);
     }
 
+    // Adds nils.
+    private void nils() {
+        nil.rbSetColour(BLACK);
+        nil.extraData = new Object[1];
+        for (Node node : getAllNodes()) {
+            if (node.key == Integer.MIN_VALUE) continue;
+            if (node.extraData[0] == null) node.extraData[0] = nil;
+            if (node.children[ChildNames.LEFT.i] == null)
+                node.children[ChildNames.LEFT.i] = nil;
+            if (node.children[ChildNames.RIGHT.i] == null)
+                node.children[ChildNames.RIGHT.i] = nil;
+
+        }
+    }
+
+    // Remove nils.
+    private void unNils() {
+        for (Node node : getAllNodes()) {
+            if (node.key == Integer.MIN_VALUE) continue;
+            if (node.extraData[0] == nil) node.extraData[0] = null;
+            if (node.children[ChildNames.LEFT.i] == nil)
+                node.children[ChildNames.LEFT.i] = null;
+            if (node.children[ChildNames.RIGHT.i] == nil)
+                node.children[ChildNames.RIGHT.i] = null;
+
+        }
+    }
+
     /**
      * TODO comment
      * TODO implement
@@ -387,9 +417,15 @@ public class RedBlackTree extends TreeVisualizer {
      */
     @Override
     protected void removeNoAnim(int key) {
+        if (!contains(key)) return;
 
         // Logs removal.
         logRemove(key);
+
+        nils();
+        Node del = getNode(key);
+        if (del != null) removeNoAnim(del);
+        unNils();
 
         // Renders after removal.
         finalRender();
@@ -404,78 +440,327 @@ public class RedBlackTree extends TreeVisualizer {
      */
     @Override
     protected void removeAnim(int key) {
-        if (root.children[ChildNames.LEFT.i].value == BLACK && root.children[ChildNames.RIGHT.i].value == BLACK) {
-            root.value = RED;
-        }
-        root = delete(root, key);
-        if (root != null) {
-            root.value = BLACK;
-        }
+        if (!contains(key)) return;
+
         // Logs removal.
         logRemove(key);
+
+        nils();
+        Node del = getNode(key);
+        if (del != null) removeAnim(del);
+        unNils();
 
         // Renders after removal.
         finalRender();
 
     }
-    private Node delete(Node h, int key) {
-        if (key < h.key) {
-            if (h.children[ChildNames.LEFT.i].value == BLACK && h.children[ChildNames.LEFT.i].children[ChildNames.LEFT.i].value == BLACK) {
-                //moveRedLeft(h)
-                h.value = BLACK;
-                if (h.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].value == RED) {
-                    h.children[ChildNames.RIGHT.i] = rightRotate(h.children[ChildNames.RIGHT.i]);
-                    h.value = RED;
+
+    //This operation doesn't care about the new Node's connections
+    //with previous node's left and right. The caller has to take care
+    //of that.
+    void transplant(Node target, Node with){
+        if(target.extraData[0] == nil){
+            root = with;
+        }else if(target == ((Node)target.extraData[0]).children[ChildNames.LEFT.i]){
+            ((Node)target.extraData[0]).children[ChildNames.LEFT.i] = with;
+        }else ((Node)target.extraData[0]).children[ChildNames.RIGHT.i] = with;
+        with.extraData[0] = target.extraData[0];
+    }
+
+    boolean removeNoAnim(Node z) {
+        Node x;
+        Node y = z; // temporary reference y
+        int y_original_color = y.value;
+
+        if(z.children[ChildNames.LEFT.i] == nil){
+            x = z.children[ChildNames.RIGHT.i];
+            transplant(z, z.children[ChildNames.RIGHT.i]);
+        }else if(z.children[ChildNames.RIGHT.i] == nil){
+            x = z.children[ChildNames.LEFT.i];
+            transplant(z, z.children[ChildNames.LEFT.i]);
+        }else{
+            y = treeMinimum(z.children[ChildNames.RIGHT.i]);
+            y_original_color = y.value;
+            x = y.children[ChildNames.RIGHT.i];
+            if(y.extraData[0] == z)
+                x.extraData[0] = y;
+            else{
+                transplant(y, y.children[ChildNames.RIGHT.i]);
+                y.children[ChildNames.RIGHT.i] = z.children[ChildNames.RIGHT.i];
+                y.children[ChildNames.RIGHT.i].extraData[0] = y;
+            }
+            transplant(z, y);
+            y.children[ChildNames.LEFT.i] = z.children[ChildNames.LEFT.i];
+            y.children[ChildNames.LEFT.i].extraData[0] = y;
+            y.rbSetColour(z.value);
+        }
+        if(y_original_color==BLACK)
+            deleteFixup(x);
+        return true;
+    }
+
+    boolean removeAnim(Node z) {
+        Node x;
+        Node y = z;
+        int y_original_color = y.value;
+
+        if (z.children[ChildNames.LEFT.i] == nil &&
+                z.children[ChildNames.RIGHT.i] == nil) {
+            x = z.children[ChildNames.RIGHT.i];
+            transplant(z, z.children[ChildNames.RIGHT.i]);
+            placeTreeNodes();
+            queueNodeMoveAnimation("Delete childless Node",
+                    AnimationParameters.ANIM_TIME);
+
+        }
+        else if(z.children[ChildNames.LEFT.i] == nil){
+            x = z.children[ChildNames.RIGHT.i];
+            transplant(z, z.children[ChildNames.RIGHT.i]);
+            placeTreeNodes();
+            queueNodeMoveAnimation("Delete Node with only right child",
+                    AnimationParameters.ANIM_TIME);
+        }else if(z.children[ChildNames.RIGHT.i] == nil){
+            x = z.children[ChildNames.LEFT.i];
+            transplant(z, z.children[ChildNames.LEFT.i]);
+            placeTreeNodes();
+            queueNodeMoveAnimation("Delete Node with only left child",
+                    AnimationParameters.ANIM_TIME);
+        }else{
+            queueNodeSelectAnimation(z.children[ChildNames.RIGHT.i],
+                    "Finding successor from " + z.children[ChildNames.RIGHT.i].key,
+                    AnimationParameters.ANIM_TIME);
+            y = treeMinimumAnim(z.children[ChildNames.RIGHT.i]);
+            y_original_color = y.value;
+            x = y.children[ChildNames.RIGHT.i];
+            if(y.extraData[0] == z)
+                x.extraData[0] = y;
+            else{
+                transplant(y, y.children[ChildNames.RIGHT.i]);
+                y.children[ChildNames.RIGHT.i] = z.children[ChildNames.RIGHT.i];
+                y.children[ChildNames.RIGHT.i].extraData[0] = y;
+
+            }
+            transplant(z, y);
+            y.children[ChildNames.LEFT.i] = z.children[ChildNames.LEFT.i];
+            y.children[ChildNames.LEFT.i].extraData[0] = y;
+            y.rbSetColour(z.value);
+            placeTreeNodes();
+            queueNodeMoveAnimation("Placing successor",
+                    AnimationParameters.ANIM_TIME);
+        }
+        if(y_original_color==BLACK)
+            deleteFixupAnim(x);
+        return true;
+    }
+
+    Node treeMinimum(Node subTreeRoot){
+        while(subTreeRoot.children[ChildNames.LEFT.i] != nil){
+            subTreeRoot = subTreeRoot.children[ChildNames.LEFT.i];
+        }
+        return subTreeRoot;
+    }
+
+    Node treeMinimumAnim(Node subTreeRoot){
+        while(subTreeRoot.children[ChildNames.LEFT.i] != nil){
+            subTreeRoot = subTreeRoot.children[ChildNames.LEFT.i];
+            if (subTreeRoot != null) queueNodeSelectAnimation(subTreeRoot,
+                    "Searching left child " + subTreeRoot.key,
+                    AnimationParameters.ANIM_TIME);
+        }
+        return subTreeRoot;
+    }
+
+    void deleteFixupAnim(Node x){
+        while(x!=root && x.value == BLACK){
+            if(x == ((Node)x.extraData[0]).children[ChildNames.LEFT.i]){
+                Node w = ((Node)x.extraData[0]).children[ChildNames.RIGHT.i];
+                if(w.value == RED){
+                    w.rbSetColour(BLACK);
+                    ((Node)x.extraData[0]).rbSetColour(RED);
+                    rotateLeft((Node)x.extraData[0]);
+                    w = ((Node)x.extraData[0]).children[ChildNames.RIGHT.i];
+                    placeTreeNodes();
+                    queueNodeMoveAnimation("Rotate left",
+                            AnimationParameters.ANIM_TIME);
+
+                }
+                if(w.children[ChildNames.LEFT.i].value == BLACK && w.children[ChildNames.RIGHT.i].value == BLACK){
+                    w.rbSetColour(RED);
+                    x = (Node)x.extraData[0];
+                    continue;
+                }
+                else if(w.children[ChildNames.RIGHT.i].value == BLACK){
+                    w.children[ChildNames.LEFT.i].rbSetColour(BLACK);
+                    w.rbSetColour(RED);
+                    rotateRight(w);
+                    w = ((Node)x.extraData[0]).children[ChildNames.RIGHT.i];
+                    placeTreeNodes();
+                    queueNodeMoveAnimation("Rotate right",
+                            AnimationParameters.ANIM_TIME);
+
+                }
+                if(w.children[ChildNames.RIGHT.i].value == RED){
+                    w.rbSetColour(((Node)x.extraData[0]).value);
+                    ((Node)x.extraData[0]).rbSetColour(BLACK);
+                    w.children[ChildNames.RIGHT.i].rbSetColour(BLACK);
+                    rotateLeft((Node)x.extraData[0]);
+                    x = root;
+                    placeTreeNodes();
+                    queueNodeMoveAnimation("Rotate left",
+                            AnimationParameters.ANIM_TIME);
+
+                }
+            }else{
+                Node w = ((Node)x.extraData[0]).children[ChildNames.LEFT.i];
+                if(w.value == RED){
+                    w.rbSetColour(BLACK);
+                    ((Node)x.extraData[0]).rbSetColour(RED);
+                    rotateRight((Node)x.extraData[0]);
+                    w = ((Node)x.extraData[0]).children[ChildNames.LEFT.i];
+                    placeTreeNodes();
+                    queueNodeMoveAnimation("Rotate right",
+                            AnimationParameters.ANIM_TIME);
+
+                }
+                if(w.children[ChildNames.RIGHT.i].value == BLACK && w.children[ChildNames.LEFT.i].value == BLACK){
+                    w.rbSetColour(RED);
+                    x = (Node)x.extraData[0];
+                    continue;
+                }
+                else if(w.children[ChildNames.LEFT.i].value == BLACK){
+                    w.children[ChildNames.RIGHT.i].rbSetColour(BLACK);
+                    w.rbSetColour(RED);
+                    rotateLeft(w);
+                    w = ((Node)x.extraData[0]).children[ChildNames.LEFT.i];
+                    placeTreeNodes();
+                    queueNodeMoveAnimation("Rotate left",
+                            AnimationParameters.ANIM_TIME);
+
+                }
+                if(w.children[ChildNames.LEFT.i].value == RED){
+                    w.rbSetColour(((Node)x.extraData[0]).value);
+                    ((Node)x.extraData[0]).rbSetColour(BLACK);
+                    w.children[ChildNames.LEFT.i].rbSetColour(BLACK);
+                    rotateRight((Node)x.extraData[0]);
+                    x = root;
+                    placeTreeNodes();
+                    queueNodeMoveAnimation("Rotate right",
+                            AnimationParameters.ANIM_TIME);
+
                 }
             }
-            h.children[ChildNames.LEFT.i] = delete(h.children[ChildNames.LEFT.i], key);
-        } else {
-            if (h.children[ChildNames.LEFT.i].value == RED) {
-                h = rightRotate(h);
-            }
-            if (key == h.key && h.children[ChildNames.RIGHT.i] == null) {
-                return null;
-            }
-            if (h.children[ChildNames.RIGHT.i].value == BLACK && h.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].value == BLACK) {
-                //moveRedRight(h)
-                h.value = BLACK;
-                if (h.children[ChildNames.LEFT.i].children[ChildNames.LEFT.i].value == RED) {
-                    h = rightRotate(h);
-                    h.value = RED;
+        }
+        x.rbSetColour(BLACK);
+    }
+
+    void deleteFixup(Node x){
+        while(x!=root && x.value == BLACK){
+            if(x == ((Node)x.extraData[0]).children[ChildNames.LEFT.i]){
+                Node w = ((Node)x.extraData[0]).children[ChildNames.RIGHT.i];
+                if(w.value == RED){
+                    w.rbSetColour(BLACK);
+                    ((Node)x.extraData[0]).rbSetColour(RED);
+                    rotateLeft((Node)x.extraData[0]);
+                    w = ((Node)x.extraData[0]).children[ChildNames.RIGHT.i];
+                }
+                if(w.children[ChildNames.LEFT.i].value == BLACK && w.children[ChildNames.RIGHT.i].value == BLACK){
+                    w.rbSetColour(RED);
+                    x = (Node)x.extraData[0];
+                    continue;
+                }
+                else if(w.children[ChildNames.RIGHT.i].value == BLACK){
+                    w.children[ChildNames.LEFT.i].rbSetColour(BLACK);
+                    w.rbSetColour(RED);
+                    rotateRight(w);
+                    w = ((Node)x.extraData[0]).children[ChildNames.RIGHT.i];
+                }
+                if(w.children[ChildNames.RIGHT.i].value == RED){
+                    w.rbSetColour(((Node)x.extraData[0]).value);
+                    ((Node)x.extraData[0]).rbSetColour(BLACK);
+                    w.children[ChildNames.RIGHT.i].rbSetColour(BLACK);
+                    rotateLeft((Node)x.extraData[0]);
+                    x = root;
+                }
+            }else{
+                Node w = ((Node)x.extraData[0]).children[ChildNames.LEFT.i];
+                if(w.value == RED){
+                    w.rbSetColour(BLACK);
+                    ((Node)x.extraData[0]).rbSetColour(RED);
+                    rotateRight((Node)x.extraData[0]);
+                    w = ((Node)x.extraData[0]).children[ChildNames.LEFT.i];
+                }
+                if(w.children[ChildNames.RIGHT.i].value == BLACK && w.children[ChildNames.LEFT.i].value == BLACK){
+                    w.rbSetColour(RED);
+                    x = (Node)x.extraData[0];
+                    continue;
+                }
+                else if(w.children[ChildNames.LEFT.i].value == BLACK){
+                    w.children[ChildNames.RIGHT.i].rbSetColour(BLACK);
+                    w.rbSetColour(RED);
+                    rotateLeft(w);
+                    w = ((Node)x.extraData[0]).children[ChildNames.LEFT.i];
+                }
+                if(w.children[ChildNames.LEFT.i].value == RED){
+                    w.rbSetColour(((Node)x.extraData[0]).value);
+                    ((Node)x.extraData[0]).rbSetColour(BLACK);
+                    w.children[ChildNames.LEFT.i].rbSetColour(BLACK);
+                    rotateRight((Node)x.extraData[0]);
+                    x = root;
                 }
             }
-            if (key == h.key) {
-                Node x = findMin(h.children[ChildNames.RIGHT.i]);
-                h.value = x.value;
-                h.key = x.key;
-                h.children[ChildNames.RIGHT.i] = deleteMin(h.children[ChildNames.RIGHT.i]);
+        }
+        x.rbSetColour(BLACK);
+    }
+
+    void rotateLeft(Node node) {
+        if (node.extraData[0] != nil) {
+            if (node == ((Node)node.extraData[0]).children[ChildNames.LEFT.i]) {
+                ((Node)node.extraData[0]).children[ChildNames.LEFT.i] = node.children[ChildNames.RIGHT.i];
             } else {
-                h.children[ChildNames.RIGHT.i] = delete(h.children[ChildNames.RIGHT.i], key);
+                ((Node)node.extraData[0]).children[ChildNames.RIGHT.i] = node.children[ChildNames.RIGHT.i];
             }
+            node.children[ChildNames.RIGHT.i].extraData[0] = node.extraData[0];
+            node.extraData[0] = node.children[ChildNames.RIGHT.i];
+            if (node.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i] != nil) {
+                node.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].extraData[0] = node;
+            }
+            node.children[ChildNames.RIGHT.i] = node.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i];
+            ((Node)node.extraData[0]).children[ChildNames.LEFT.i] = node;
+        } else {//Need to rotate root
+            Node right = root.children[ChildNames.RIGHT.i];
+            root.children[ChildNames.RIGHT.i] = right.children[ChildNames.LEFT.i];
+            right.children[ChildNames.LEFT.i].extraData[0] = root;
+            root.extraData[0] = right;
+            right.children[ChildNames.LEFT.i] = root;
+            right.extraData[0] = nil;
+            root = right;
         }
-        insertionRelabel(h);
-        return h;
     }
 
-    private Node findMin(Node node) {
-        while (node.children[ChildNames.LEFT.i] != null) node = node.children[ChildNames.LEFT.i];
-        return node;
-    }
-
-    private Node deleteMin(Node h) {
-        if (h.children[ChildNames.LEFT.i] == null) {
-            return null;
-        }
-        if (h.children[ChildNames.LEFT.i].value == BLACK && h.children[ChildNames.LEFT.i].children[ChildNames.LEFT.i].value == BLACK) {
-            h.value = BLACK;
-            if (h.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].value == RED) {
-                h.children[ChildNames.RIGHT.i] = rightRotate(h.children[ChildNames.RIGHT.i]);
-                h.value = RED;
+    void rotateRight(Node node) {
+        if (node.extraData[0] != nil) {
+            if (node == ((Node)node.extraData[0]).children[ChildNames.LEFT.i]) {
+                ((Node)node.extraData[0]).children[ChildNames.LEFT.i] = node.children[ChildNames.LEFT.i];
+            } else {
+                ((Node)node.extraData[0]).children[ChildNames.RIGHT.i] = node.children[ChildNames.LEFT.i];
             }
+
+            node.children[ChildNames.LEFT.i].extraData[0] = node.extraData[0];
+            node.extraData[0] = node.children[ChildNames.LEFT.i];
+            if (node.children[ChildNames.LEFT.i].children[ChildNames.RIGHT.i] != nil) {
+                node.children[ChildNames.LEFT.i].children[ChildNames.RIGHT.i].extraData[0] = node;
+            }
+            node.children[ChildNames.LEFT.i] = node.children[ChildNames.LEFT.i].children[ChildNames.RIGHT.i];
+            ((Node)node.extraData[0]).children[ChildNames.RIGHT.i] = node;
+        } else {//Need to rotate root
+            Node left = root.children[ChildNames.LEFT.i];
+            root.children[ChildNames.LEFT.i] = root.children[ChildNames.LEFT.i].children[ChildNames.RIGHT.i];
+            left.children[ChildNames.RIGHT.i].extraData[0] = root;
+            root.extraData[0] = left;
+            left.children[ChildNames.RIGHT.i] = root;
+            left.extraData[0] = nil;
+            root = left;
         }
-        h.children[ChildNames.LEFT.i] = deleteMin(h.children[ChildNames.LEFT.i]);
-        insertionRelabel(h);
-        return h;
     }
 
     private void swapColors(Node a, Node b) {
