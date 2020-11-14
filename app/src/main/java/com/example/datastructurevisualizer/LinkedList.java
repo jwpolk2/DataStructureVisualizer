@@ -31,10 +31,10 @@ public class LinkedList extends TreeVisualizer {
      *
      * @return true if the LinkedList is empty, otherwise false.
      */
-    protected boolean isEmpty() {
-        return root == null;
-
-    }
+//    protected boolean isEmpty() {
+//        return root == null;
+//
+//    }
 
     /**
      * Sets the desired position of the root Node of this LinkedList.
@@ -43,11 +43,11 @@ public class LinkedList extends TreeVisualizer {
      * @param xPos x position of root Node.
      * @param yPos y position of root Node
      */
-    public void setPosition(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-
-    }
+//    public void setPosition(int xPos, int yPos) {
+//        this.xPos = xPos;
+//        this.yPos = yPos;
+//
+//    }
 
     /**
      * Inserts the key into the LinkedList at the root.
@@ -154,15 +154,15 @@ public class LinkedList extends TreeVisualizer {
      *
      * @return the key of the root or -1.
      */
-    public int peek() {
-
-        // Returns -1 if the root is null.
-        if (root == null) return -1;
-
-        // If the root is not null, returns its key.
-        return root.key;
-
-    }
+//    public int peek() {
+//
+//        // Returns -1 if the root is null.
+//        if (root == null) return -1;
+//
+//        // If the root is not null, returns its key.
+//        return root.key;
+//
+//    }
 
     /**
      * Renders the LinkedList. Unlike other renderers, this will not clear the canvas.
