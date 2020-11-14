@@ -59,6 +59,15 @@ public class GraphTest extends TestCase {
 
     }
 
+    public void testGetNode(){
+        graph.insertGraphNode(1,5,10);
+        graph.insertGraphNode(2,10,15);
+
+        Node node = graph.getNode(2);
+        assertEquals(2, node.key);
+
+
+    }
 
 
     }
