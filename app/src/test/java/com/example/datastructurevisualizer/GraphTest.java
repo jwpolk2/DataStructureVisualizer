@@ -55,7 +55,6 @@ public class GraphTest extends TestCase {
         ArrayList<Node> keyArrl = graph.getAllNodes();
         assertEquals(0, keyArrl.size());
 
-        graph.
 
 
     }
