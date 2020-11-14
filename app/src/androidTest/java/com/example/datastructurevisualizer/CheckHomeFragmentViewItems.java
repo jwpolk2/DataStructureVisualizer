@@ -9,6 +9,7 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,11 @@ public class CheckHomeFragmentViewItems {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    @After
+    public void closeActivity() {
+        mActivityTestRule.finishActivity();
+    }
 
     @Test
     public void testBSTButtonOnHomeFragment() {

@@ -15,6 +15,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,6 +43,10 @@ public class GraphDropDown {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    @After
+    public void closeActivity() {
+        mActivityTestRule.finishActivity();
+    }
 
     @Test
     public void testDropDownTextOnOpeningGraphVisualizer() {
