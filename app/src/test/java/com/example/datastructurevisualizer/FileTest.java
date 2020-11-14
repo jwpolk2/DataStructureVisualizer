@@ -15,6 +15,8 @@ class FileTest {
     ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
 
     File file1 = new File(fileName, type, date);
+    File file2 = new File();
+    File file3 = new File(numbers);
 
     @Test
     void setValues() {
