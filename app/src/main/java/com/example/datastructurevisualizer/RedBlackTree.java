@@ -404,13 +404,78 @@ public class RedBlackTree extends TreeVisualizer {
      */
     @Override
     protected void removeAnim(int key) {
-
+        if (root.children[ChildNames.LEFT.i].value == BLACK && root.children[ChildNames.RIGHT.i].value == BLACK) {
+            root.value = RED;
+        }
+        root = delete(root, key);
+        if (root != null) {
+            root.value = BLACK;
+        }
         // Logs removal.
         logRemove(key);
 
         // Renders after removal.
         finalRender();
 
+    }
+    private Node delete(Node h, int key) {
+        if (key < h.key) {
+            if (h.children[ChildNames.LEFT.i].value == BLACK && h.children[ChildNames.LEFT.i].children[ChildNames.LEFT.i].value == BLACK) {
+                //moveRedLeft(h)
+                h.value = BLACK;
+                if (h.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].value == RED) {
+                    h.children[ChildNames.RIGHT.i] = rightRotate(h.children[ChildNames.RIGHT.i]);
+                    h.value = RED;
+                }
+            }
+            h.children[ChildNames.LEFT.i] = delete(h.children[ChildNames.LEFT.i], key);
+        } else {
+            if (h.children[ChildNames.LEFT.i].value == RED) {
+                h = rightRotate(h);
+            }
+            if (key == h.key && h.children[ChildNames.RIGHT.i] == null) {
+                return null;
+            }
+            if (h.children[ChildNames.RIGHT.i].value == BLACK && h.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].value == BLACK) {
+                //moveRedRight(h)
+                h.value = BLACK;
+                if (h.children[ChildNames.LEFT.i].children[ChildNames.LEFT.i].value == RED) {
+                    h = rightRotate(h);
+                    h.value = RED;
+                }
+            }
+            if (key == h.key) {
+                Node x = findMin(h.children[ChildNames.RIGHT.i]);
+                h.value = x.value;
+                h.key = x.key;
+                h.children[ChildNames.RIGHT.i] = deleteMin(h.children[ChildNames.RIGHT.i]);
+            } else {
+                h.children[ChildNames.RIGHT.i] = delete(h.children[ChildNames.RIGHT.i], key);
+            }
+        }
+        insertionRelabel(h);
+        return h;
+    }
+
+    private Node findMin(Node node) {
+        while (node.children[ChildNames.LEFT.i] != null) node = node.children[ChildNames.LEFT.i];
+        return node;
+    }
+
+    private Node deleteMin(Node h) {
+        if (h.children[ChildNames.LEFT.i] == null) {
+            return null;
+        }
+        if (h.children[ChildNames.LEFT.i].value == BLACK && h.children[ChildNames.LEFT.i].children[ChildNames.LEFT.i].value == BLACK) {
+            h.value = BLACK;
+            if (h.children[ChildNames.RIGHT.i].children[ChildNames.LEFT.i].value == RED) {
+                h.children[ChildNames.RIGHT.i] = rightRotate(h.children[ChildNames.RIGHT.i]);
+                h.value = RED;
+            }
+        }
+        h.children[ChildNames.LEFT.i] = deleteMin(h.children[ChildNames.LEFT.i]);
+        insertionRelabel(h);
+        return h;
     }
 
     private void swapColors(Node a, Node b) {
