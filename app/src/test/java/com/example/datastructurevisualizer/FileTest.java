@@ -1,46 +1,64 @@
 package com.example.datastructurevisualizer;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class FileTest extends TestCase {
+class FileTest {
+    String fileName = "name";
+    String type = "Binary Search Tree";
+    String date = "11-1-2020";
+    ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
 
-    private String name = "test";
-    private String dst = "testDst";
-    private String dateMod = "today";
-    private ArrayList<Integer> testVals = new ArrayList<>();
+    File file1 = new File(fileName, type, date);
 
-    private File file1 = new File();
-    private File file3 = new File(name, dst, dateMod);
-
-    public void testSet_and_GetValues() {
-        File file2 = new File(testVals);
-
-        testVals.add(1);
-        testVals.add(2);
-        file2.setValues(testVals);
-
-        ArrayList<Integer> testVals = file2.getValues();
-        assertEquals(2, testVals.size());
+    @Test
+    void setValues() {
+        file1.setValues(numbers);
+        assertEquals(numbers, file1.getValues());
     }
 
-    public void testGet_and_SetStructureType() {
-        file3.setStructureType(dst);
-
-        assertEquals("testDst", file3.getStructureType());
+    @Test
+    void getValues() {
+        ArrayList<Integer> valEmpty = new ArrayList<>();
+        assertEquals(valEmpty, file1.getValues());
     }
 
-    public void testSet_and_GetDateModified() {
-        file3.setDate(dateMod);
-
-        assertEquals("today", file3.getDateModified());
+    @Test
+    void getFileName() {
+        assertEquals(fileName, file1.getFileName());
     }
 
-    public void testSet_and_GetFileName() {
-        file3.setFileName(name);
+    @Test
+    void getStructureType() {
+        assertEquals(type, file1.getStructureType());
+    }
 
-        assertEquals("test", file3.getFileName());
+    @Test
+    void getDateModified() {
+        assertEquals(date, file1.getDateModified());
+    }
+
+
+    @Test
+    void setFileName() {
+        file1.setFileName("testName");
+        assertEquals("testName", file1.getFileName());
+    }
+
+    @Test
+    void setStructureType() {
+        file1.setStructureType("hashMap");
+        assertEquals("hashMap", file1.getStructureType());
+    }
+
+    @Test
+    void setDate() {
+        file1.setDate("7-7-2020");
+        assertEquals("7-7-2020", file1.getDateModified());
     }
 }
