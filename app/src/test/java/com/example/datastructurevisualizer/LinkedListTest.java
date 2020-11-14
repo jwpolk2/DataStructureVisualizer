@@ -67,6 +67,8 @@ public class LinkedListTest extends TestCase {
         llist.queueInsert(1);
         Node testNode = llist.getNode(1);
         llist.queueInsert(2);
+        Node testNode2 = llist.getNode(2);
+        testNode.compareTo(testNode2);
 
         assertEquals(2, testNode.children[0].key);
     }
