@@ -43,11 +43,11 @@ public class LinkedList extends TreeVisualizer {
      * @param xPos x position of root Node.
      * @param yPos y position of root Node
      */
-    public void setPosition(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-
-    }
+//    public void setPosition(int xPos, int yPos) {
+//        this.xPos = xPos;
+//        this.yPos = yPos;
+//
+//    }
 
     /**
      * Inserts the key into the LinkedList at the root.

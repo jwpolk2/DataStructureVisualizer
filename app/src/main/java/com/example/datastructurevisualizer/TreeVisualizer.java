@@ -553,17 +553,17 @@ public class TreeVisualizer extends NodeVisualizer {
     /**
      * Returns an ArrayList containing all keys in this data structure.
      *
-     * @param fileName what the user wants the file to be named
+     * @param dateModified when the file was created
      * @param type what type of data structure is being saved
      * @return a JSONObject to be stored as a JSON file
      */
-    public JSONObject createJSON(String fileName, String type){
+    public JSONObject createJSON(String dateModified, String type){
         ArrayList<Integer> keyArrl = getAllKeys();
         //try to create a JSONObject
         try {
             JSONObject jObj = new JSONObject();
             //insert the file name and type
-            jObj.put("FileName", fileName);
+            jObj.put("Date Modified", dateModified);
             jObj.put("Type", type);
 
             //check to make sure not saving empty file

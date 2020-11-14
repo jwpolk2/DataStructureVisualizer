@@ -484,8 +484,6 @@ public class AVLTree extends TreeVisualizer {
      * Performs a traversal animation while searching, then a movement animation
      * after balancing.
      *
-     * TODO test rotations in removeAnim recursion, animate removal
-     *
      * @param elem the key to be removed.
      */
     protected void removeAnim(int elem) {
@@ -494,6 +492,8 @@ public class AVLTree extends TreeVisualizer {
         logRemove(elem);
 
         if (contains(root, elem)) {
+            queueNodeSelectAnimation(root, "Start at root " + root.key,
+                    AnimationParameters.ANIM_TIME);
             root = removeAnim(root, null, ChildNames.LEFT.i, elem);
             nodeCount--;
         }
@@ -519,35 +519,60 @@ public class AVLTree extends TreeVisualizer {
         if (elem < node.key) {
 
             // Animates traversal.
-            queueNodeSelectAnimation(node, "Exploring " + node.key,
+            queueNodeSelectAnimation(node, elem + " < " + node.key +", exploring left subtree",
                     AnimationParameters.ANIM_TIME);
 
-            node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], parent, ChildNames.LEFT.i, elem);
+            node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], node, ChildNames.LEFT.i, elem);
 
             // Dig into right subtree, the key we're looking
             // for is greater than the current key.
         } else if (elem > node.key) {
 
             // Animates traversal.
-            queueNodeSelectAnimation(node, "Exploring " + node.key,
+            queueNodeSelectAnimation(node, elem + " > " + node.key + ", exploring right subtree",
                     AnimationParameters.ANIM_TIME);
 
-            node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], parent, ChildNames.RIGHT.i, elem);
+            node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], node, ChildNames.RIGHT.i, elem);
 
             // Found the node we wish to remove.
         } else {
 
+            // Animates traversal.
+            queueNodeSelectAnimation(node, elem + " == " + node.key + ", desired Node found",
+                    AnimationParameters.ANIM_TIME);
+
             // This is the case with only a right subtree or no subtree at all.
             // In this situation just swap the node we wish to remove
             // with its right child.
-            if (node.children[ChildNames.LEFT.i] == null) {
+            if (node.children[ChildNames.LEFT.i] == null && node.children[ChildNames.RIGHT.i] != null) {
+                parent.children[child] = node.children[ChildNames.RIGHT.i];
+                placeTreeNodes();
+                if (node == root) queueNodeMoveAnimation("Delete root with only right child",
+                        AnimationParameters.ANIM_TIME);
+                else queueNodeMoveAnimation("Delete Node with only right child",
+                        AnimationParameters.ANIM_TIME);
                 return node.children[ChildNames.RIGHT.i];
 
                 // This is the case with only a left subtree or
                 // no subtree at all. In this situation just
                 // swap the node we wish to remove with its left child.
-            } else if (node.children[ChildNames.RIGHT.i] == null) {
+            } else if (node.children[ChildNames.RIGHT.i] == null && node.children[ChildNames.LEFT.i] != null) {
+                parent.children[child] = node.children[ChildNames.LEFT.i];
+                placeTreeNodes();
+                if (node == root) queueNodeMoveAnimation("Delete root with only left child",
+                        AnimationParameters.ANIM_TIME);
+                else queueNodeMoveAnimation("Delete Node with only left child",
+                        AnimationParameters.ANIM_TIME);
                 return node.children[ChildNames.LEFT.i];
+
+            } else if (node.children[ChildNames.RIGHT.i] == null && node.children[ChildNames.LEFT.i] == null) {
+                parent.children[child] = null;
+                placeTreeNodes();
+                if (node == root) queueNodeMoveAnimation("Delete childless root",
+                        AnimationParameters.ANIM_TIME);
+                else queueNodeMoveAnimation("Delete childless Node",
+                        AnimationParameters.ANIM_TIME);
+                return null;
 
                 // When removing a node from a binary tree with two links the
                 // successor of the node being removed can either be the largest
@@ -560,22 +585,32 @@ public class AVLTree extends TreeVisualizer {
                 if ((Integer)node.children[ChildNames.LEFT.i].extraData[0] > (Integer)node.children[ChildNames.RIGHT.i].extraData[0]) {
 
                     // Swap the key of the successor into the node.
-                    int successorValue = findMax(node.children[ChildNames.LEFT.i]);
+                    queueNodeSelectAnimation(node,
+                            "Finding successor from " + node.key,
+                            AnimationParameters.ANIM_TIME);
+                    int successorValue = findMaxAnim(node.children[ChildNames.LEFT.i]);
                     node.key = successorValue;
+                    queueNodeSelectAnimation(node,"Swap node's value with successor's value",
+                            AnimationParameters.ANIM_TIME);
 
                     // Find the largest node in the left subtree.
-                    node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], parent, ChildNames.LEFT.i, successorValue);
-
+                     node.children[ChildNames.LEFT.i] = removeAnim(node.children[ChildNames.LEFT.i], node, ChildNames.LEFT.i, successorValue);
                 } else {
 
                     // Swap the key of the successor into the node.
-                    int successorValue = findMin(node.children[ChildNames.RIGHT.i]);
+                    queueNodeSelectAnimation(node,
+                            "Finding successor from " + node.key,
+                            AnimationParameters.ANIM_TIME);
+                    int successorValue = findMinAnim(node.children[ChildNames.RIGHT.i]);
                     node.key = successorValue;
+                    queueNodeSelectAnimation(node,"Swap node's value with successor's value",
+                            AnimationParameters.ANIM_TIME);
 
                     // Go into the right subtree and remove the leftmost node we
                     // found and swapped data with. This prevents us from having
                     // two nodes in our tree with the same key.
-                    node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], parent, ChildNames.RIGHT.i, successorValue);
+                     node.children[ChildNames.RIGHT.i] = removeAnim(node.children[ChildNames.RIGHT.i], node, ChildNames.RIGHT.i, successorValue);
+
                 }
             }
         }
@@ -594,9 +629,39 @@ public class AVLTree extends TreeVisualizer {
         return node.key;
     }
 
+    // Animated version of findMin.
+    private int findMinAnim(Node node) {
+        if (node != null) queueNodeSelectAnimation(node,
+                "Searching left child " + node.key,
+                AnimationParameters.ANIM_TIME);
+        while (node.children[ChildNames.LEFT.i] != null) {
+            node = node.children[ChildNames.LEFT.i];
+            if (node != null) queueNodeSelectAnimation(node,
+                    "Searching left child " + node.key,
+                    AnimationParameters.ANIM_TIME);
+
+        }
+        return node.key;
+    }
+
     // Helper method to find the rightmost node (which has the largest key)
     private int findMax(Node node) {
         while (node.children[ChildNames.RIGHT.i] != null) node = node.children[ChildNames.RIGHT.i];
+        return node.key;
+    }
+
+    // Animated version of findMax.
+    private int findMaxAnim(Node node) {
+        if (node != null) queueNodeSelectAnimation(node,
+                "Searching right child " + node.key,
+                AnimationParameters.ANIM_TIME);
+        while (node.children[ChildNames.RIGHT.i] != null) {
+            node = node.children[ChildNames.RIGHT.i];
+            if (node != null) queueNodeSelectAnimation(node,
+                    "Searching left child " + node.key,
+                    AnimationParameters.ANIM_TIME);
+
+        }
         return node.key;
     }
 }

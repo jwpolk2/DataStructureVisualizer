@@ -30,6 +30,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DialogSave extends DialogFragment {
     private EditText fileName;
@@ -106,20 +109,26 @@ public class DialogSave extends DialogFragment {
 
     public String save() {
         String saveMessage = "Saved Successfully";
+
+        //get the context for storing files in correct directory
         Context context = getContext();
         JSONObject treeObj = new JSONObject();
 
-        switch (dataStructureType) {
+        //get the date the save message was called
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String dateStr = dateFormat.format(date);
 
+        switch (dataStructureType) {
             case "Binary Search Tree":
-                treeObj = tree.createJSON("file 1", "Binary Search Tree");
+                treeObj = tree.createJSON(dateStr, "Binary Search Tree");
                 break;
             case "Red Black Tree":
-                treeObj = tree.createJSON("file 1", "Red Black Tree");
+                treeObj = tree.createJSON(dateStr, "Red Black Tree");
                 //TODO
                 break;
             case "Balanced Search Tree":
-                treeObj = tree.createJSON("file 1", "Balanced Search Tree");
+                treeObj = tree.createJSON(dateStr, "Balanced Search Tree");
                 //TODO
                 break;
         }
