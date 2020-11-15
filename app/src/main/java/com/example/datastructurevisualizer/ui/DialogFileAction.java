@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datastructurevisualizer.R;
 
@@ -94,6 +96,19 @@ public class DialogFileAction extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("final delete");
+                if (prev != null) {
+                    ft.remove(prev);
+                } ft.addToBackStack(null);
+
+                DialogFileDelete deleteFileDialog = new DialogFileDelete();
+                deleteFileDialog.show(ft, "final delete");
             }
         });
         return view;

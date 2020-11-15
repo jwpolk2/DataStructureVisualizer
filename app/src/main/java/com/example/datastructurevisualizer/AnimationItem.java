@@ -28,7 +28,9 @@ public class AnimationItem {
      * This method displays message and should be called in all child classes.
      */
     public void run() {
-        Visualizer.displayMessage(message);
+        if(MainActivity.getVisualizer() != null) {
+            Visualizer.displayMessage(message);
+        }
 
     }
 

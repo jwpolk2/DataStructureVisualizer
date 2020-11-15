@@ -116,7 +116,7 @@ public class Graph extends NodeVisualizer {
      * @param startKey the Node to begin the pathfind at.
      * @param endKey the Node to end the pathfind at.
      */
-    private void breadthFirstPathfindAnim(int startKey, int endKey) {
+    public void breadthFirstPathfindAnim(int startKey, int endKey) {
         java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
         java.util.LinkedList<Node> explored = new java.util.LinkedList<Node>();
         Node start = getNode(startKey);

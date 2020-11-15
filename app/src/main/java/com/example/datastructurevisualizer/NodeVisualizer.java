@@ -494,6 +494,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
         public void run() {
             super.run();
 
+            if(MainActivity.getVisualizer() == null){
+                return;
+            }
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
@@ -603,7 +606,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
         @Override
         public void run() {
             super.run();
-
+            if(MainActivity.getVisualizer() == null){
+                return;
+            }
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
@@ -769,6 +774,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
         public void run() {
             super.run();
 
+            if(MainActivity.getVisualizer() == null){
+                return;
+            }
             // Draws the frame.
             MainActivity.getVisualizer().getCanvas().drawBitmap(
                     bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
