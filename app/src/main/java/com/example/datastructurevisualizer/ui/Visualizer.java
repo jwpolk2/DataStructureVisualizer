@@ -44,22 +44,17 @@ public class Visualizer extends Fragment {
     //Tree Visualizer view object variables
     private EditText insertNumber;
     private ImageButton insertButton;
-    private Button saveButton;
-    private Button loadButton;
-    private Button clearButton;
     private ImageButton undoButton;
     private ImageButton redoButton;
     private Button autopopulateButton;
 
     //Graph Visualizer view object variables
-    private Button display;
-    private Button button2;
     private EditText startNode;
     private EditText endNode;
+    private Spinner graphOptions;
 
     //Error Page view object variables
     private Button home;
-
 
     //Shared Visualizer view object variables
     private VisualizerCanvas visualizerCanvas;
@@ -71,12 +66,17 @@ public class Visualizer extends Fragment {
     private ImageButton next;
     private Spinner traversalsSpinner;
     private static ScrollView displayExecScroll;
+    private Button saveButton;
+    private Button loadButton;
+    private Button clearButton;
 
     //Class variables
     private static String dataStructureType;
     private TreeVisualizer tree;
     private Graph graph;
     private ArrayList<String> traversals;
+
+    private File loadedFile;
 
     public Visualizer() {
         // Required empty public constructor
@@ -89,6 +89,7 @@ public class Visualizer extends Fragment {
     public Visualizer(String dataStructureType){
 
         this.dataStructureType = dataStructureType;
+        this.loadedFile = null;
     }
 
     @Override
@@ -110,7 +111,6 @@ public class Visualizer extends Fragment {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view;
         
         switch(dataStructureType) {
@@ -144,14 +144,11 @@ public class Visualizer extends Fragment {
 
         }
         // Inflate the layout for this fragment
-
-
         return view;
     }
 
     private void initGraphVisualizer(View view) {
-        display = view.findViewById(R.id.display_button);
-        button2 = view.findViewById(R.id.button2_button);
+        loadButton = view.findViewById(R.id.button_load);
         displayExec = view.findViewById(R.id.printout_textview);
         visualizerCanvas = view.findViewById(R.id.graph_visualizer);
         visualizerCanvas.setParent(this);
@@ -164,6 +161,8 @@ public class Visualizer extends Fragment {
         startNode = view.findViewById(R.id.start_value);
         endNode = view.findViewById(R.id.end_value);
         displayExecScroll = view.findViewById(R.id.printout_scroll);
+        graphOptions = view.findViewById(R.id.spinner_graphOptions);
+
         //TODO remove when graph object is no longer needed in this method
         graph = new Graph();
 
@@ -174,36 +173,29 @@ public class Visualizer extends Fragment {
             }
         });
 
-        display.setOnClickListener(new View.OnClickListener() {
+        loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkCanvas();
                 Toast.makeText(getContext(),"Display Button Pressed", Toast.LENGTH_LONG)
                         .show();
 
-                // TODO temp graph render
-                graph.render();
+                // TODO remove
+                java.util.Random rand = new java.util.Random();
+                int k = 0;
+                if (graph.getAllNodes().isEmpty()) {
+                    for (int i = 0; i < 5; ++i) {
+                        for (int j = 0; j < 5; ++j) {
+                            graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
+                            if (k >= 5) graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
+                            if (k % 5 != 0) graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
+                            ++k;
 
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkCanvas();
-                Toast.makeText(getContext(), "Button 2 Pressed", Toast.LENGTH_LONG)
-                        .show();
-
-                // TODO some functionality
-                graph.kruskalsAlgorithm();
-                new Thread(new Runnable () {
-                    @Override
-                    public void run() {
-                        AnimationParameters.beginAnimation();
-                        graph.animate();
-                        AnimationParameters.stopAnimation();
+                        }
                     }
-                }).start();
+                }
+                graph.render();
+                //TODO replace with
 
             }
         });
@@ -211,19 +203,19 @@ public class Visualizer extends Fragment {
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO pause function for graphs
+                graph.animationPause();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO next function for graphs
+                graph.animationNext();
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO previous function for graphs
+                graph.animationPrev();
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
@@ -232,26 +224,13 @@ public class Visualizer extends Fragment {
                 new Thread(new Runnable () {
                     @Override
                     public void run() {
-                        //TODO play for graphs
+                        AnimationParameters.beginAnimation();
+                        graph.animate();
+                        AnimationParameters.stopAnimation();
                     }
                 }).start();
             }
         });
-
-        // TODO remove
-        java.util.Random rand = new java.util.Random();
-        int k = 0;
-        if (graph.getAllNodes().isEmpty()) {
-            for (int i = 0; i < 5; ++i) {
-                for (int j = 0; j < 5; ++j) {
-                    graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
-                    if (k >= 5) graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
-                    if (k % 5 != 0) graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
-                    ++k;
-
-                }
-            }
-        }
     }
 
     private void initTreeVisualizer(View view) {
@@ -274,7 +253,6 @@ public class Visualizer extends Fragment {
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
         visualizerCanvas.setParent(this);
-
 
         //BUTTON ON CLICK
         infoButton.setOnClickListener(new View.OnClickListener() {
@@ -407,6 +385,7 @@ public class Visualizer extends Fragment {
                 return false;
             }
         });
+
     }
 
     /**

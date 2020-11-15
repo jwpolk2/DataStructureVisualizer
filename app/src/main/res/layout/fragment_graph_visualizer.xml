@@ -129,30 +129,26 @@
         android:layout_weight="6"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
+
+        <Spinner
+            android:id="@+id/spinner_graphOptions"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
         <Button
-            android:id="@+id/display_button"
+            android:id="@+id/button_load"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
-            android:text="Display"
-            android:layout_margin="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/visulizer_button"
+            android:textColor="@color/backgroundWhite"
+            android:text="Load"
             android:textAllCaps="false"
             android:textSize="20sp"
-            android:background="@drawable/visulizer_button"
-            android:textColor="@color/textHomepageButtons"/>
-        <Button
-            android:id="@+id/button2_button"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:text="Button 2"
-            android:textAllCaps="false"
-            android:layout_margin="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textSize="20sp"
-            android:background="@drawable/visulizer_button"
-            android:textColor="@color/textHomepageButtons"/>
+            android:textStyle="bold" />
         <ImageButton
             android:id="@+id/button_info"
             android:layout_width="37dp"
@@ -163,6 +159,7 @@
             android:background="@drawable/visulizer_button"
             android:scaleType="fitXY"
             android:src="@drawable/ic_information2" />
+
 </TableRow>
 
 
