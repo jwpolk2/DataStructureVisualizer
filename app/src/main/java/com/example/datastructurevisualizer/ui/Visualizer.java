@@ -208,6 +208,36 @@ public class Visualizer extends Fragment {
             }
         });
 
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO pause function for graphs
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO next function for graphs
+            }
+        });
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO previous function for graphs
+            }
+        });
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable () {
+                    @Override
+                    public void run() {
+                        //TODO play for graphs
+                    }
+                }).start();
+            }
+        });
+
         // TODO remove
         java.util.Random rand = new java.util.Random();
         int k = 0;
