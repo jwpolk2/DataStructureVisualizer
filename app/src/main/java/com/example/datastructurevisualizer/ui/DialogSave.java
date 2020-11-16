@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
@@ -39,6 +40,8 @@ public class DialogSave extends DialogFragment {
     private Button saveBtn;
     private Button cancelBtn;
     private Visualizer visualizer;
+    private TextView fileNameText;// = (TextView)findViewById(R.id.textView1);
+//tv1.setText("Hello");
 
     public static void setDataStructureType(String dataStructureType) {
         DialogSave.dataStructureType = dataStructureType;
@@ -70,6 +73,7 @@ public class DialogSave extends DialogFragment {
         fileName = view.findViewById(R.id.saveDialog_fileName);
         saveBtn = view.findViewById(R.id.saveDialog_saveBtn);
         cancelBtn = view.findViewById(R.id.saveDialog_cancelBtn);
+
 
        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

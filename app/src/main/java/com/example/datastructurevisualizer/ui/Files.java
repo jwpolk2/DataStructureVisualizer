@@ -97,6 +97,11 @@ public class Files extends Fragment {
                 ft.addToBackStack(null);
 
                 DialogFileAction fileActionDialog = new DialogFileAction();
+                File dsFile = fileAdapter.getItem(position);
+                fileActionDialog.setVals(dsFile.getValues());
+                fileActionDialog.setDsType(dsFile.getStructureType());
+                fileActionDialog.setFileNameText(dsFile.getFileName());
+                fileActionDialog.setFilePosition(position);
                 //fileActionDialog.setVals(fileAdapter);
 //                saveDialog.setTree(tree);
 //                saveDialog.setDataStructureType(dataStructureType);

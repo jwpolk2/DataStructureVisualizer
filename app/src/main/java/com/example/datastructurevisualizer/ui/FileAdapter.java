@@ -72,6 +72,11 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileNote> {
         holder.dateModified.setText(holderA.getDateModified());
     }
 
+    // convenience method for getting data at click position
+    public File getItem(int id) {
+        return mFile.get(id);
+    }
+
     public int getItemCount() {
         return mFile.size();
     }

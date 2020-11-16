@@ -142,6 +142,8 @@
         android:layout_weight="2.5"
         android:orientation="vertical">
     <com.example.datastructurevisualizer.VisualizerCanvas
+        android:minHeight="75dp"
+        android:minWidth="50dp"
         android:id="@+id/view_visualizer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

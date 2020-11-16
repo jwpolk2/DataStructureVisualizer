@@ -1,9 +1,13 @@
 package com.example.datastructurevisualizer.ui;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
@@ -11,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -76,7 +82,9 @@ public class Visualizer extends Fragment {
     private Graph graph;
     private ArrayList<String> traversals;
 
-    private File loadedFile;
+    private ArrayList<Integer> loadedFile;
+
+
 
     public Visualizer() {
         // Required empty public constructor
@@ -92,15 +100,73 @@ public class Visualizer extends Fragment {
         this.loadedFile = null;
     }
 
+    /**
+     * Constucuter, sets the data structure type for the class.
+     * @param dataStructureType
+     */
+    public Visualizer(String dataStructureType,  ArrayList<Integer> values){
+
+        this.dataStructureType = dataStructureType;
+        this.loadedFile = values;
+    }
+
     @Override
     /**
      * When onResume is called in the fragments lifecycle we want to make sure the canvas gets set
      * and the action bar is visible.
      */
-    public void onResume() {
-        super.onResume();
+//    public void onResume() {
+//        super.onResume();
+//        MainActivity.setVisualizerCanvas(visualizerCanvas);
+//        MainActivity.actionBar.show();
+//        Log.d("Progress Check", "On Resume called");
+////                        try {
+////                    Thread.sleep(5 * 1000);
+////                } catch (InterruptedException ie) {
+////                    Thread.currentThread().interrupt();
+////                }
+//        //if(loadedFile!= null && !loadedFile.isEmpty()){
+//           // autoPopulate();
+//       // }
+//    }
+
+    public void onPause(){
+        super.onPause();
+        Log.d("Progress Check", "On Pause called");
+    }
+
+
+
+    @Override
+    public void setEnterTransition(@Nullable Object transition) {
+        super.setEnterTransition(transition);
+        Log.d("Progress check","set enter transition");
+        if(loadedFile != null && !loadedFile.isEmpty()){
+
+            checkCanvas();
+            arrayListInsert(loadedFile);
+        }
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+        Log.d("Loaded values Frag","On attach called");
+        if(loadedFile != null && !loadedFile.isEmpty()){
+
+            checkCanvas();
+            arrayListInsert(loadedFile);
+        }
+    }
+    public void onStart(){
+        super.onStart();
+        Log.d("Progress Check", "On start called");
+
         MainActivity.setVisualizerCanvas(visualizerCanvas);
-        MainActivity.actionBar.show();
+       MainActivity.actionBar.show();
+//        if(loadedFile!= null && !loadedFile.isEmpty()){
+//            autoPopulate();
+//        }
     }
 
     @Override
@@ -123,6 +189,9 @@ public class Visualizer extends Fragment {
                 initDataStructure();
                 //Initialize drop-down menu for traversal selection
                 initTreeSpinner();
+                Log.d("Progression check", "pre insert vals");
+                //if called from load file dialog, insert values
+
                 break;
             case "Graph":
                 view = inflater.inflate(R.layout.fragment_graph_visualizer, container, false);
@@ -141,9 +210,20 @@ public class Visualizer extends Fragment {
                         MainActivity.openFragment(new Home(), false);
                     }
                 });
-
         }
         // Inflate the layout for this fragment
+        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("Progress check","set focus change");
+                if(loadedFile != null && !loadedFile.isEmpty()){
+
+                    checkCanvas();
+                    arrayListInsert(loadedFile);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -252,6 +332,31 @@ public class Visualizer extends Fragment {
         previous = view.findViewById(R.id.button_previous);
         infoButton = (ImageButton) view.findViewById(R.id.button_info);
         visualizerCanvas = view.findViewById(R.id.view_visualizer);
+        visualizerCanvas.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d("Progress check","system ui visibilty");
+                visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    if(loadedFile != null && !loadedFile.isEmpty()){
+
+                        checkCanvas();
+                        arrayListInsert(loadedFile);
+                    }
+            }
+        });
+//        visualizerCanvas.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+//            @Override
+//            public void onSystemUiVisibilityChange(int visibility) {
+//                if(View.VISIBLE == visibility){
+//                    Log.d("Progress check","system ui visibilty");
+//                    if(loadedFile != null && !loadedFile.isEmpty()){
+//
+//                        checkCanvas();
+//                        arrayListInsert(loadedFile);
+//                    }
+//                }
+//            }
+//        });
         visualizerCanvas.setParent(this);
 
         //BUTTON ON CLICK
@@ -387,7 +492,7 @@ public class Visualizer extends Fragment {
                 return false;
             }
         });
-
+//        autoPopulate();
     }
 
     /**
@@ -561,7 +666,10 @@ public class Visualizer extends Fragment {
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 //graph = new Graph(); TODO uncomment when graph no longer initizalized in graphVisualizer
                 break;
+
         }
+
+
     }
 
     /**
@@ -573,6 +681,16 @@ public class Visualizer extends Fragment {
         initTreeSpinner();
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
+    }
+
+    /**
+     * This method takes an arraylist and inserts all of the values into the tree
+     * @param arrl an arraylist of values that needs to be inserted
+     */
+    public void arrayListInsert(ArrayList<Integer> arrl){
+        for(int i = 0; i < arrl.size(); i++){
+            tree.insertNoAnim(arrl.get(i));
+        }
     }
 
     /**
@@ -600,6 +718,7 @@ public class Visualizer extends Fragment {
      */
     public void checkCanvas() {
         if (visualizerCanvas.canvas == null) {
+            //TODO FIXME
             int vHeight = visualizerCanvas.getHeight();
             int vWidth = visualizerCanvas.getWidth();
             visualizerCanvas.setDimensions(vHeight, vWidth);
