@@ -68,7 +68,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
         textPaint.setARGB(255, AnimationParameters.TEXT_R, AnimationParameters.TEXT_G,
                 AnimationParameters.TEXT_B);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(2 * (int)AnimationParameters.NODE_RADIUS);
+        textPaint.setTextSize((int)AnimationParameters.NODE_RADIUS);
 
         // Draws the Node and text.
         canvas.drawCircle(

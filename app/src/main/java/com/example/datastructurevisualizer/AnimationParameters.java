@@ -64,10 +64,10 @@ public class AnimationParameters {
     static final int EXP_NODE_B = 0;
 
     // Width of a Node.
-    static final float NODE_RADIUS = 20f;
+    static final float NODE_RADIUS = 40f;
 
     // All sizes and distances will be multiplied by the scaleFactor.
-    static float scaleFactor = (float) 1.75;
+    static float scaleFactor = (float) 1;
 
     // Default depth between layers of a tree.
     static float depthLen = 120;
