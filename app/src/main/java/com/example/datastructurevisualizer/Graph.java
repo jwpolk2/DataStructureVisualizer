@@ -628,34 +628,48 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
-     * Calculates the unit 'normal' of the vector between two Nodes.
-     * If said unit normal points downwards in the y direction, it will be inverted.
-     * Used to place text describing edge weights.
+     * Calculates the unit normal vector of the inputed vector.
+     *
+     * Used to place text describing edge weights and to place vector arrows.
      *
      * @param x the x magnitude of the vector.
      * @param y the y magnitude of the vector.
-     * @return an array of two ints representing the normal vector <x,y>.
+     * @return an array of two floats representing the unit normal vector.
      */
     private float[] calcUnitNormal(float x, float y) {
         float tot = Math.abs(x) + Math.abs(y);
         float[] vec = new float[2];
 
+        // Creates the unit normal vector.
+        vec[0] = y == 0.0 ? (float) 0.0 : -y / tot;
+        vec[1] = x == 0.0 ? (float) 0.0 : -x / tot;
+
+        // Returns the unit normal.
+        return vec;
+
+    }
+
+    /**
+     * Calculates the unit vector perpendicular to the inputed vector.
+     *
+     * Does so by taking the unit normal and inverting it if it points upwards.
+     * Used to place text describing edge weights.
+     *
+     * @param x the x magnitude of the vector.
+     * @param y the y magnitude of the vector.
+     * @return an array of two ints representing the unit perpendicular vector.
+     */
+    private float[] calcUnitPerpendicular(float x, float y) {
+
+        // Gets the unit normal.
+        float[] vec = calcUnitNormal(x, y);
+
         // Inverts the vector if it points downwards.
-        if (x < 0) {
-            vec[0] = y;
-            vec[1] = x;
+        if (vec[1] < 0) {
+            vec[0] = vec[0] == 0.0 ? (float) 0.0 : -vec[0];
+            vec[1] = vec[1] == 0.0 ? (float) 0.0 : -vec[1];
 
         }
-        // Keeps the normal vector if it does not point downwards.
-        else {
-            vec[0] = -y;
-            vec[1] = -x;
-
-        }
-
-        // Normalizes the vector.
-        vec[0] /= tot;
-        vec[1] /= tot;
 
         // Returns the upward-facing perpendicular vector.
         return vec;
@@ -672,9 +686,20 @@ public class Graph extends NodeVisualizer {
      * @param canvas the Canvas to draw in.
      */
     private void drawEdge(Edge edge, Canvas canvas) {
-        float[] vec;
+        double magnitude;
+        float[] norm;
+        float[] norm2 = new float[2];
+        float[] vec = new float[2];
         Paint colour = new Paint();
         colour.setStrokeWidth(6);
+
+        // Stores the Edge vector for convenience.
+        float[] eVec = {edge.dest.position[0] - edge.start.position[0],
+                edge.dest.position[1] - edge.start.position[1]};
+
+        // Stores the Edge magnitude for convenience.
+        magnitude = Math.sqrt(Math.pow(edge.dest.position[0] - edge.start.position[0], 2.0) +
+                Math.pow(edge.dest.position[1] - edge.start.position[1], 2.0));
 
         // Sets the Edge's colour based its highlight status.
         if (edge == selectedEdge) colour.setARGB(255, AnimationParameters.SEL_VEC_R,
@@ -690,24 +715,43 @@ public class Graph extends NodeVisualizer {
 
         // Finds an upwards facing unit vector perpendicular to the vector
         // between the edge's Nodes.
-        vec = calcUnitNormal(edge.dest.position[0] - edge.start.position[0],
-                edge.dest.position[1] - edge.start.position[1]);
+        norm = calcUnitNormal(eVec[0], eVec[1]);
 
         // Enlarges the perpendicular vector.
-        vec[0] *= AnimationParameters.NODE_RADIUS * 1.5;
-        vec[1] *= AnimationParameters.NODE_RADIUS * 1.5;
+        norm[0] *= AnimationParameters.NODE_RADIUS / 1.3;
+        norm[1] *= AnimationParameters.NODE_RADIUS / 1.3;
 
         // Calculates the position of the weight. It will be placed above the
         // center of the edge.
-        vec[0] += (float) (edge.start.position[0] +
-                (edge.dest.position[0] - edge.start.position[0]) / 2.0);
-        vec[1] += (float) (edge.start.position[1] +
-                (edge.dest.position[1] - edge.start.position[1]) / 2.0);
+        vec[0] = (float) (norm[0] + edge.start.position[0] + (eVec[0] / 2.0));
+        vec[1] = (float) (norm[1] + edge.start.position[1] + (eVec[1] / 2.0));
 
         // Draws the weight.
         colour.setTextAlign(Paint.Align.CENTER);
-        colour.setTextSize((int)(AnimationParameters.NODE_RADIUS * 2));
+        colour.setTextSize((int)(AnimationParameters.NODE_RADIUS));
         canvas.drawText(String.valueOf(edge.weight), vec[0], vec[1], colour);
+
+        // Finds the unit normal vector.
+        norm = calcUnitPerpendicular(eVec[0], eVec[1]);
+
+        // Enlarges the normal vector.
+        norm[0] *= AnimationParameters.NODE_RADIUS / 2;
+        norm[1] *= AnimationParameters.NODE_RADIUS / 2;
+
+        // Finds an starting position at which to place the pointer.
+        magnitude = 1.0 - AnimationParameters.NODE_RADIUS / magnitude;
+        vec[0] = (float) (edge.start.position[0] + (eVec[0] * magnitude));
+        vec[1] = (float) (edge.start.position[1] + (eVec[1] * magnitude));
+
+        // Draws the left part of the pointer.
+        norm2[0] = (float) (norm[0] * Math.cos(0.7853982) - norm[1] * Math.sin(0.7853982));
+        norm2[1] = (float) (norm[0] * Math.sin(0.7853982) + norm[1] * Math.cos(0.7853982));
+        canvas.drawLine(vec[0], vec[1], vec[0] + norm2[0], vec[1] + norm2[1], colour);
+
+        // Draws the right part of the pointer.
+        norm2[0] = (float) (norm[0] * Math.cos(3 * 0.7853982) - norm[1] * Math.sin(3 * 0.7853982));
+        norm2[1] = (float) (norm[0] * Math.sin(3 * 0.7853982) + norm[1] * Math.cos(3 * 0.7853982));
+        canvas.drawLine(vec[0], vec[1], vec[0] + norm2[0], vec[1] + norm2[1], colour);
 
     }
 
