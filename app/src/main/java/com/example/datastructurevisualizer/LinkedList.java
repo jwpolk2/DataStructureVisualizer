@@ -2,6 +2,8 @@ package com.example.datastructurevisualizer;
 
 import android.graphics.Canvas;
 
+import com.example.datastructurevisualizer.ui.Visualizer;
+
 /**
  * LinkedList implementation to be used by other Data Structures.
  *
@@ -18,6 +20,9 @@ public class LinkedList extends TreeVisualizer {
     // Position of this LinkedList on the Canvas.
     int xPos = (int)(AnimationParameters.NODE_RADIUS * 1.5);
     int yPos = (int)(AnimationParameters.NODE_RADIUS * 1.5);
+
+    // Used to track whether nodeList is being used as a queue or a stack.
+    boolean isStack = false;
 
     /**
      * Return numChildren per node, which is 1. Used in TreeVisualize.
@@ -49,6 +54,17 @@ public class LinkedList extends TreeVisualizer {
 //    }
 
     /**
+     * Gets the bottom left corner of the Canvas. Used to place stacks.
+     *
+     * @return the bottom left corner of the Canvas.
+     */
+    private int getBot() {
+        return (int) (MainActivity.getVisualizer().getHeight() -
+                AnimationParameters.NODE_RADIUS * 1.5);
+
+    }
+
+    /**
      * Inserts the key into the LinkedList at the root.
      *
      * @param key the key to be inserted.
@@ -59,8 +75,13 @@ public class LinkedList extends TreeVisualizer {
         root = node;
         highlightNode(node);
 
+        // Marks nodeList as a stack.
+        isStack = true;
+
         // Places the Nodes at their desired positions.
-        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
+        if (node.children[0] == null) placeTreeNodes(xPos, getBot(), 0, (int) AnimationParameters.depthLen);
+        else placeTreeNodes(node.children[0].position[0], (int) (node.children[0].position[1] -
+                        AnimationParameters.depthLen), 0, (int) AnimationParameters.depthLen);
         placeNodesAtDestination();
 
     }
@@ -76,6 +97,9 @@ public class LinkedList extends TreeVisualizer {
         Node node = new Node(key, getNumChildren());
         node.value = value;
         highlightNode(node);
+
+        // Marks nodeList as a non stack.
+        isStack = false;
 
         // Places the new Node at the root if the queue is empty or if it is
         // the least Node in the queue.
@@ -113,6 +137,9 @@ public class LinkedList extends TreeVisualizer {
         Node node = new Node(key, getNumChildren());
         highlightNode(node);
 
+        // Marks nodeList as a non stack.
+        isStack = false;
+
         // Places the Node at the root if the LinkedList is empty.
         if (root == null) {
             root = node;
@@ -145,8 +172,16 @@ public class LinkedList extends TreeVisualizer {
 
         // If the root is not null, replaces root and returns its key.
         root = root.children[0];
-        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
+
+        // Places tree Nodes based on whether nodeList is a stack or a queue.
+        if (isStack)
+            if (root != null) placeTreeNodes(xPos, root.position[1],
+                    0, (int) AnimationParameters.depthLen);
+            else placeTreeNodes(xPos, getBot(), 0, (int) AnimationParameters.depthLen);
+        else placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
         placeNodesAtDestination();
+
+        // Returns the key that has been removed.
         return node.key;
 
     }
