@@ -29,7 +29,7 @@ public class BinarySearchTree extends TreeVisualizer {
      * Return numChildren per node, which is 2. Used in TreeVisualize.
      */
     @Override
-    int getNumChildren() { return numChildren; }
+    public int getNumChildren() { return numChildren; }
 
     /**
      * Removes a Node from the tree without any animation.
@@ -37,7 +37,7 @@ public class BinarySearchTree extends TreeVisualizer {
      * @param id the key to be removed.
      */
     @Override
-    protected void removeNoAnim(int id) {
+    public void removeNoAnim(int id) {
 
         // Logs removal.
         logRemove(id);

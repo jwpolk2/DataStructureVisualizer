@@ -28,7 +28,7 @@ public class LinkedList extends TreeVisualizer {
      * Return numChildren per node, which is 1. Used in TreeVisualize.
      */
     @Override
-    int getNumChildren() { return numChildren; }
+    public int getNumChildren() { return numChildren; }
 
     /**
      * Checks whether this LinkedList is empty.
@@ -198,6 +198,50 @@ public class LinkedList extends TreeVisualizer {
 
         // If the root is not null, returns its key.
         return root.key;
+
+    }
+
+    /**
+     * Unused insertion method.
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    public void insertNoAnim(int key) {
+        queueInsert(key);
+
+    }
+
+    /**
+     * Unused animated insertion method.
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    protected void insertAnim(int key) {
+        insertNoAnim(key);
+
+    }
+
+    /**
+     * Unused removal method.
+     *
+     * @param key the key to be removed.
+     */
+    @Override
+    public void removeNoAnim(int key) {
+        // Does nothing.
+
+    }
+
+    /**
+     * Unused animated removal method.
+     *
+     * @param key the key to be removed.
+     */
+    @Override
+    protected void removeAnim(int key) {
+        removeNoAnim(key);
 
     }
 

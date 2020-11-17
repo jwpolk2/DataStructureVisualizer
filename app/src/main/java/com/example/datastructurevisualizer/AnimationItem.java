@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  *
  * Stores a message which will be rendered during run and reverse.
  */
-public class AnimationItem {
+public abstract class AnimationItem {
     private String message;
 
     /**

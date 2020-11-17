@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Includes animationPause, animationNext, and animationPrev to iterate through
  * animations. Pause must be called before any animation is run.
  */
-public class DataStructureVisualizer {
+public abstract class DataStructureVisualizer {
 
     // Log of additions and deletions into this tree.
     protected ArrayList<StructureAction> log = new ArrayList<StructureAction>();
@@ -52,28 +52,28 @@ public class DataStructureVisualizer {
      *
      * @param key the key to be inserted.
      */
-    public void insertNoAnim(int key) {}
+    public abstract void insertNoAnim(int key);
 
     /**
      * Inserts a Node into the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be inserted.
      */
-    protected void insertAnim(int key) {}
+    protected abstract void insertAnim(int key);
 
     /**
      * Removes a Node from the tree and plays no animation. Should be overridden.
      *
      * @param key the key to be removed.
      */
-    protected void removeNoAnim(int key) {}
+    public abstract void removeNoAnim(int key);
 
     /**
      * Removes a Node from the tree and plays an animation. Should be overridden.
      *
      * @param key the key to be removed.
      */
-    protected void removeAnim(int key) {}
+    protected abstract void removeAnim(int key);
 
     /**
      * Runs an insert animation.
@@ -163,19 +163,31 @@ public class DataStructureVisualizer {
      * @return true if the Data Structure contains the key, otherwise false.
      */
     protected boolean contains(int key) {
+        for (Integer i : getAllKeys()) if (i == key) return true;
         return false;
 
     }
 
     /**
-     * Clears the data structure. Should be overridden.
+     * Returns an ArrayList containing all keys in this data structure.
+     * Should be overridden.
+     *
+     * @return an ArrayList containing all keys in this data structure.
      */
-    protected void clear() {}
+    public abstract ArrayList<Integer> getAllKeys();
+
+    /**
+     * Clears the data structure.
+     */
+    public void clear() {
+        for (Integer i : getAllKeys()) removeNoAnim(i);
+
+    }
 
     /**
      * Class representing an addition or deletion performed in the Tree.
      */
-    private class StructureAction {
+    private abstract class StructureAction {
         int key;
 
         /**
@@ -186,7 +198,7 @@ public class DataStructureVisualizer {
         /**
          * Performs this TreeAction's action. Should be overridden.
          */
-        void action() {}
+        abstract void action();
 
     }
 
@@ -474,7 +486,7 @@ public class DataStructureVisualizer {
     /**
      * Renders the data structure and does a handful of other things. Should be overridden.
      */
-    protected void finalRender() {}
+    protected abstract void finalRender();
 
     /**
      * Renders the data structure to the given Canvas. Should be overridden.
