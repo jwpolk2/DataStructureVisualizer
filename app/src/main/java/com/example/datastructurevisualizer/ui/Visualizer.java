@@ -1,15 +1,8 @@
 package com.example.datastructurevisualizer.ui;
 
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
@@ -18,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,11 +29,6 @@ import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.RedBlackTree;
 import com.example.datastructurevisualizer.TreeVisualizer;
 import com.example.datastructurevisualizer.VisualizerCanvas;
-import org.json.JSONObject;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -124,11 +111,6 @@ public class Visualizer extends Fragment {
         MainActivity.actionBar.show();
     }
 
-    public void onPause(){
-        super.onPause();
-        Log.d("Progress Check", "On Pause called");
-    }
-
     @Override
     /**
      * When the view is created this method attaches the view object variable with those defined
@@ -149,9 +131,6 @@ public class Visualizer extends Fragment {
                 initDataStructure();
                 //Initialize drop-down menu for traversal selection
                 initTreeSpinner();
-                Log.d("Progression check", "pre insert vals");
-                //if called from load file dialog, insert values
-
                 break;
             case "Graph":
                 view = inflater.inflate(R.layout.fragment_graph_visualizer, container, false);
@@ -191,9 +170,14 @@ public class Visualizer extends Fragment {
         endNode = view.findViewById(R.id.end_value);
         displayExecScroll = view.findViewById(R.id.printout_scroll);
         graphOptions = view.findViewById(R.id.spinner_graphOptions);
-
-        //TODO remove when graph object is no longer needed in this method
-        graph = new Graph();
+        visualizerCanvas.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                checkCanvas();
+            }
+        });
+        visualizerCanvas.setParent(this);
 
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,26 +189,12 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Display Button Pressed", Toast.LENGTH_LONG)
-                        .show();
-
-                // TODO remove
-                java.util.Random rand = new java.util.Random();
-                int k = 0;
-                if (graph.getAllNodes().isEmpty()) {
-                    for (int i = 0; i < 5; ++i) {
-                        for (int j = 0; j < 5; ++j) {
-                            graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
-                            if (k >= 5) graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
-                            if (k % 5 != 0) graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
-                            ++k;
-
-                        }
-                    }
+                if (graph != null && graph.getAllNodes().size() > 0) {
+                    graph.render();
                 }
-                graph.render();
-                //TODO replace with
-
+                else {
+                    Toast.makeText(getContext(), "Please select a graph from the drop-down list", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -338,16 +308,7 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 MainActivity.openFragment(new Files(), true);
-//                Fragment filesFrag = new Files();
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                ft.replace(R.id.visualizer_fragment, filesFrag);
-//                ft.addToBackStack(null);
-//                ft.commit();
-
-
             }
         });
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -505,10 +466,29 @@ public class Visualizer extends Fragment {
                     case "Select Tree":
                         break;
                     case "Balanced Tree":
+                        displayMessage("Balanced Tree selected");
+                        displayMessage("Press play to begin animation");
                         break;
                     case "Unbalanced Tree":
+                        displayMessage("Unbalanced Tree selected");
+                        displayMessage("Press play to begin animation");
                         break;
                     case "Auto":
+                        java.util.Random rand = new java.util.Random();
+                        int k = 0;
+                        if (tree.getAllNodes().isEmpty()) {
+                            tree.insert(rand.nextInt(10) + 45);
+                            int inserted = 1;
+                            while (inserted < 15) {
+                                int insertValue = rand.nextInt(101);
+                                if (!tree.getAllKeys().contains(insertValue)){
+                                    tree.insert(insertValue);
+                                    inserted ++;
+                                }
+                            }
+                        }
+                        displayMessage("Auto Tree selected");
+                        displayMessage("Press play to begin animation");
                         break;
                     default:
                         break;
@@ -563,6 +543,41 @@ public class Visualizer extends Fragment {
                         displayMessage("Please enter a start node.");
                         startNode.setVisibility(View.VISIBLE);
                         endNode.setVisibility(View.INVISIBLE);
+
+                        play.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int start;
+                                if(graph != null && !graph.getAllNodes().isEmpty()) {
+                                    if(startNode != null && startNode.getText().toString().length() !=0) {
+                                        start = Integer.parseInt(startNode.getText().toString());
+                                        if (graph.getKeys().contains(start)) {
+                                            graph.primsAlgorithm(start);
+                                            new Thread(new Runnable () {
+                                                @Override
+                                                public void run() {
+                                                    AnimationParameters.beginAnimation();
+                                                    graph.animate();
+                                                    AnimationParameters.stopAnimation();
+                                                }
+                                            }).start();
+                                        }
+                                        else {
+                                            Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
+                                            displayMessage(String.format("The value %d does not exist in the graph", start));
+                                            displayMessage("Please enter a different value");
+                                        }
+                                    }
+                                    else {
+                                        Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                                else {
+                                    Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                         break;
                     case "Dijkstra's Shortest Path":
                         displayMessage("Dijkstra's Shortest Path selected.");
@@ -601,12 +616,30 @@ public class Visualizer extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "Directed Weighted":
+                        clear();
+                        graph = new Graph();
+                        java.util.Random rand = new java.util.Random();
+                        int k = 0;
+                        if (graph.getAllNodes().isEmpty()) {
+                            for (int i = 0; i < 5; ++i) {
+                                for (int j = 0; j < 5; ++j) {
+                                    graph.insertGraphNode(k,100 + j * 200, 100 + i * 200);
+                                    if (k >= 5) graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
+                                    if (k % 5 != 0) graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
+                                    ++k;
+
+                                }
+                            }
+                        }
                         break;
                     case "Directed Unweighted":
+                        graph = new Graph();
                         break;
                     case "Undirected Weighted":
+                        graph = new Graph();
                         break;
                     case "Undirected Unweighted":
+                        graph = new Graph();
                         break;
                     case "Select Graph":
                         graph = new Graph();
@@ -652,13 +685,11 @@ public class Visualizer extends Fragment {
                 tree = new RedBlackTree();
                 break;
             case "Balanced Search Tree":
-                Log.d("ACTION BAR", "In Balanced Search Tree");
                 MainActivity.actionBar.setTitle("AVL Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 tree = new AVLTree();
                 break;
             case "Graph":
-                Log.d("ACTION BAR", "In Graph");
                 MainActivity.actionBar.setTitle("Graph");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 graph = new Graph();
@@ -690,10 +721,7 @@ public class Visualizer extends Fragment {
      * This method is called when the auto button is pressed. It auto-populates the data structure.
      */
     private void autoPopulate(){
-        int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
-        ArrayList<Integer> arr = new ArrayList<Integer>();
-        for (int i = 0; i< array.length; i++) arr.add(array[i]);
-        tree.insert(arr);
+
     }
 
 

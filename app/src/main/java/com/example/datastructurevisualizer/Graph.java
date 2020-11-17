@@ -25,6 +25,8 @@ public class Graph extends NodeVisualizer {
     // ArrayList containing all nodes in the graph.
     private ArrayList<Node> nodes = new ArrayList<>();
 
+    private ArrayList<Integer> keys = new ArrayList<>();
+
     // Current selected Node. Head of a spanning tree algorithm.
     // Colour is blue.
     private Edge selectedEdge;
@@ -47,6 +49,7 @@ public class Graph extends NodeVisualizer {
         node.extraData = new Object[1];
         node.extraData[0] = new ArrayList<Edge>();
         nodes.add(node);
+        keys.add(key);
 
     }
 
@@ -90,6 +93,7 @@ public class Graph extends NodeVisualizer {
 
         // Removes this Node.
         nodes.remove(getNode(key));
+        keys.remove(key);
 
     }
 
@@ -442,6 +446,14 @@ public class Graph extends NodeVisualizer {
         for (Node node : nodes) if (node.key == key) return node;
         return null;
 
+    }
+
+    /**
+     * Returns the keys stored in the graph
+     * @return
+     */
+    public ArrayList<Integer> getKeys() {
+        return keys;
     }
 
     /**

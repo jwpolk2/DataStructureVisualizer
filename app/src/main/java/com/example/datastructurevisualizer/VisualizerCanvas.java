@@ -126,9 +126,11 @@ public class VisualizerCanvas extends SurfaceView {
     }
 
     public void clearCanvas() {
-        bitmap.eraseColor(Color.TRANSPARENT);
-        canvas.setBitmap(bitmap);
-        canvas.drawRGB(AnimationParameters.BACK_R,
-                AnimationParameters.BACK_G, AnimationParameters.BACK_B);
+        if (bitmap != null && canvas != null) {
+            bitmap.eraseColor(Color.TRANSPARENT);
+            canvas.setBitmap(bitmap);
+            canvas.drawRGB(AnimationParameters.BACK_R,
+                    AnimationParameters.BACK_G, AnimationParameters.BACK_B);
+        }
     }
 }

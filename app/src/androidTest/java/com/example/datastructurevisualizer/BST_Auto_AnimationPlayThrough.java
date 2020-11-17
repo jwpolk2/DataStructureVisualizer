@@ -57,16 +57,6 @@ public class BST_Auto_AnimationPlayThrough {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.button_autopopulate), withText("Auto"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.visualizer_fragment),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
-
         ViewInteraction appCompatSpinner = onView(
                 allOf(withId(R.id.spinner_traversal),
                         childAtPosition(

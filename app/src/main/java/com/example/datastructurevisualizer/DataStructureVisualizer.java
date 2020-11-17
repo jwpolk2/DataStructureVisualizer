@@ -1,6 +1,9 @@
 package com.example.datastructurevisualizer;
 
 import android.graphics.Canvas;
+
+import com.example.datastructurevisualizer.ui.Visualizer;
+
 import java.util.ArrayList;
 
 /**
