@@ -104,6 +104,19 @@ public class Visualizer extends Fragment {
 
     @Override
     /**
+     * onPause is called when the visualizer might be closed out.
+     * Begin a new animation to override to current one, then close it out
+     * Prevents crashing when exiting during animation
+     */
+    public void onPause(){
+        super.onPause();
+        Log.d("progres check", "anima paused");
+        AnimationParameters.beginAnimation();
+        AnimationParameters.stopAnimation();
+    }
+
+    @Override
+    /**
      * When the view is created this method attaches the view object variable with those defined
      * in the XML. Additionally the onClick events for buttons are defined and remaining class
      * variables initialized. Returns the view created.
