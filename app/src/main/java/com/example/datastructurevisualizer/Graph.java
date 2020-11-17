@@ -821,8 +821,8 @@ public class Graph extends NodeVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -849,8 +849,8 @@ public class Graph extends NodeVisualizer {
             super.run();
 
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -876,8 +876,8 @@ public class Graph extends NodeVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -904,8 +904,8 @@ public class Graph extends NodeVisualizer {
             super.run();
 
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -931,8 +931,8 @@ public class Graph extends NodeVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -959,8 +959,8 @@ public class Graph extends NodeVisualizer {
             super.run();
 
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.

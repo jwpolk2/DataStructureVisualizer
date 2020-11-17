@@ -479,14 +479,17 @@ public class DataStructureVisualizer {
     /**
      * Renders the data structure to the given Canvas. Should be overridden.
      */
-    public void render(Canvas canvas) { MainActivity.getVisualizer().render(); }
+    public void render(Canvas canvas) {
+        if (MainActivity.getVisualizer() != null)
+            MainActivity.getVisualizer().render();
+
+    }
 
     /**
      * Renders the data structure to the default Canvas.
      */
     public void render() {
-        if(MainActivity.getVisualizer() != null)
-            render(MainActivity.getVisualizer().getCanvas());
+        render(MainActivity.getCanvas());
 
     }
 }

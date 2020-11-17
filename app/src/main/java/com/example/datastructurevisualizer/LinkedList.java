@@ -59,7 +59,7 @@ public class LinkedList extends TreeVisualizer {
      * @return the bottom left corner of the Canvas.
      */
     private int getBot() {
-        return (int) (MainActivity.getVisualizer().getHeight() -
+        return (int) (MainActivity.getCanvas().getHeight() -
                 AnimationParameters.NODE_RADIUS * 1.5);
 
     }

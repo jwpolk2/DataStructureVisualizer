@@ -7,6 +7,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -53,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
     public static VisualizerCanvas getVisualizer() {
         return drawImage;
+    }
+
+    /**
+     * @return the Canvas associated with the visualizer, else a dummy Canvas.
+     */
+    public static Canvas getCanvas() {
+
+        // Returns the Canvas.
+        if (drawImage != null && drawImage.getCanvas() != null) return drawImage.getCanvas();
+        // Returns the dummy.
+        else return new Canvas(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888));
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

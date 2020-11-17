@@ -370,11 +370,8 @@ public class TreeVisualizer extends NodeVisualizer {
         int width;
         float rad;
 
-        // Does nothing if there is no Canvas.
-        if(MainActivity.getVisualizer() == null) return;
-
         // Stores width and rad for convenience.
-        width = MainActivity.getVisualizer().getCanvas().getWidth();
+        width = MainActivity.getCanvas().getWidth();
         rad = AnimationParameters.NODE_RADIUS;
 
         // Places the Nodes.
