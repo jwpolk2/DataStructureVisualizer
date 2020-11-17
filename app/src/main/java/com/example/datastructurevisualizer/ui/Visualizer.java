@@ -7,6 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,7 +54,7 @@ public class Visualizer extends Fragment {
     private ImageButton insertButton;
     private ImageButton undoButton;
     private ImageButton redoButton;
-    private Button autopopulateButton;
+    private Spinner treesSpinner;
 
     //Graph Visualizer view object variables
     private EditText startNode;
@@ -81,6 +83,8 @@ public class Visualizer extends Fragment {
     private TreeVisualizer tree;
     private Graph graph;
     private ArrayList<String> traversals;
+    private ArrayList<String> graphs;
+    private ArrayList<String> trees;
 
     private ArrayList<Integer> loadedFile;
 
@@ -95,7 +99,6 @@ public class Visualizer extends Fragment {
      * @param dataStructureType
      */
     public Visualizer(String dataStructureType){
-
         this.dataStructureType = dataStructureType;
         this.loadedFile = null;
     }
@@ -115,58 +118,15 @@ public class Visualizer extends Fragment {
      * When onResume is called in the fragments lifecycle we want to make sure the canvas gets set
      * and the action bar is visible.
      */
-//    public void onResume() {
-//        super.onResume();
-//        MainActivity.setVisualizerCanvas(visualizerCanvas);
-//        MainActivity.actionBar.show();
-//        Log.d("Progress Check", "On Resume called");
-////                        try {
-////                    Thread.sleep(5 * 1000);
-////                } catch (InterruptedException ie) {
-////                    Thread.currentThread().interrupt();
-////                }
-//        //if(loadedFile!= null && !loadedFile.isEmpty()){
-//           // autoPopulate();
-//       // }
-//    }
+    public void onResume() {
+        super.onResume();
+        MainActivity.setVisualizerCanvas(visualizerCanvas);
+        MainActivity.actionBar.show();
+    }
 
     public void onPause(){
         super.onPause();
         Log.d("Progress Check", "On Pause called");
-    }
-
-
-
-    @Override
-    public void setEnterTransition(@Nullable Object transition) {
-        super.setEnterTransition(transition);
-        Log.d("Progress check","set enter transition");
-        if(loadedFile != null && !loadedFile.isEmpty()){
-
-            checkCanvas();
-            arrayListInsert(loadedFile);
-        }
-    }
-
-    @Override
-    public void onAttachFragment(@NonNull Fragment fragment) {
-        super.onAttachFragment(fragment);
-        Log.d("Loaded values Frag","On attach called");
-        if(loadedFile != null && !loadedFile.isEmpty()){
-
-            checkCanvas();
-            arrayListInsert(loadedFile);
-        }
-    }
-    public void onStart(){
-        super.onStart();
-        Log.d("Progress Check", "On start called");
-
-        MainActivity.setVisualizerCanvas(visualizerCanvas);
-       MainActivity.actionBar.show();
-//        if(loadedFile!= null && !loadedFile.isEmpty()){
-//            autoPopulate();
-//        }
     }
 
     @Override
@@ -210,20 +170,9 @@ public class Visualizer extends Fragment {
                         MainActivity.openFragment(new Home(), false);
                     }
                 });
+
         }
         // Inflate the layout for this fragment
-        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d("Progress check","set focus change");
-                if(loadedFile != null && !loadedFile.isEmpty()){
-
-                    checkCanvas();
-                    arrayListInsert(loadedFile);
-                }
-            }
-        });
-
         return view;
     }
 
@@ -256,7 +205,6 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkCanvas();
                 Toast.makeText(getContext(),"Display Button Pressed", Toast.LENGTH_LONG)
                         .show();
 
@@ -322,10 +270,11 @@ public class Visualizer extends Fragment {
         insertButton = view.findViewById(R.id.button_insert);
         undoButton = view.findViewById(R.id.button_undo);
         redoButton = view.findViewById(R.id.button_redo);
-        autopopulateButton = view.findViewById((R.id.button_autopopulate));
+       // autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
         displayExecScroll = view.findViewById(R.id.printout_scroll);
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
+        treesSpinner = view.findViewById(R.id.spinner_tree_options);
         play = view.findViewById(R.id.button_play);
         pause = view.findViewById(R.id.button_pause);
         next = view.findViewById(R.id.button_next);
@@ -337,26 +286,12 @@ public class Visualizer extends Fragment {
             public void onGlobalLayout() {
                 Log.d("Progress check","system ui visibilty");
                 visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                checkCanvas();
                     if(loadedFile != null && !loadedFile.isEmpty()){
-
-                        checkCanvas();
                         arrayListInsert(loadedFile);
                     }
             }
         });
-//        visualizerCanvas.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-//            @Override
-//            public void onSystemUiVisibilityChange(int visibility) {
-//                if(View.VISIBLE == visibility){
-//                    Log.d("Progress check","system ui visibilty");
-//                    if(loadedFile != null && !loadedFile.isEmpty()){
-//
-//                        checkCanvas();
-//                        arrayListInsert(loadedFile);
-//                    }
-//                }
-//            }
-//        });
         visualizerCanvas.setParent(this);
 
         //BUTTON ON CLICK
@@ -419,12 +354,6 @@ public class Visualizer extends Fragment {
             @Override
             public void onClick(View v) {
                 clear();
-            }
-        });
-        autopopulateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                autoPopulate();
             }
         });
         undoButton.setOnClickListener(new View.OnClickListener() {
@@ -492,17 +421,21 @@ public class Visualizer extends Fragment {
                 return false;
             }
         });
-//        autoPopulate();
+
     }
 
     /**
      * Clears the canvas and resets the class tree object.
      */
     private void clear() {
-        tree.clear();
-        visualizerCanvas.clearCanvas();
-        checkCanvas();
-        displayExec.setText("");
+        if (tree != null) {
+            tree.clear();
+        }
+        if (visualizerCanvas != null) {
+            visualizerCanvas.clearCanvas();
+            checkCanvas();
+            displayExec.setText("");
+        }
     }
 
 
@@ -510,6 +443,13 @@ public class Visualizer extends Fragment {
      * Initializes the drop-down menu used for the tree-traversals
      */
     private void initTreeSpinner() {
+        //ArrayList of the tree drop-down items
+        trees = new ArrayList<>();
+        trees.add("Select Tree");
+        trees.add("Balanced Tree");
+        trees.add("Unbalanced Tree");
+        trees.add("Auto");
+
         //Array List of the drop-down items
         traversals = new ArrayList<>();
         traversals.add("Select Traversal");
@@ -524,6 +464,10 @@ public class Visualizer extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
         traversalsSpinner.setAdapter(adapter);
 
+        ArrayAdapter<String> adapterTrees = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, trees);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
+        treesSpinner.setAdapter(adapterTrees);
+
         //Sets up what happens when the different options are selected
         traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -531,26 +475,44 @@ public class Visualizer extends Fragment {
 
                 switch(parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
-                        checkCanvas();
                         tree.inOrderTraversal();
                         break;
                     case "Post-Order":
-                        checkCanvas();
                         tree.postOrderTraversal();
                         break;
                     case "Pre-Order":
-                        checkCanvas();
                         tree.preOrderTraversal();
                         break;
                     case "Value Search":
-                        checkCanvas();
                         tree.search(10); // TODO this should be modifiable
                         break;
                     case "Breadth-First":
-                        checkCanvas();
                         tree.breadthFirstTraversal();
                         break;
                     case "Select Traversal":
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        treesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (parent.getItemAtPosition(position).toString()) {
+                    case "Select Tree":
+                        break;
+                    case "Balanced Tree":
+                        break;
+                    case "Unbalanced Tree":
+                        break;
+                    case "Auto":
+                        break;
+                    default:
                         break;
                 }
             }
@@ -566,6 +528,14 @@ public class Visualizer extends Fragment {
      * Initializes the drop-down menu used for the graph-traversals
      */
     private void initGraphSpinner() {
+        //Array List of the drop-down graph options
+        graphs = new ArrayList<>();
+        graphs.add("Select Graph");
+        graphs.add("Directed Weighted");
+        graphs.add("Directed Unweighted");
+        graphs.add("Undirected Weighted");
+        graphs.add("Undirected Unweighted");
+
         //Array List of the drop-down items
         traversals = new ArrayList<>();
         traversals.add("Select Traversal");
@@ -578,6 +548,11 @@ public class Visualizer extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
         traversalsSpinner.setAdapter(adapter);
+
+        //Attaches an adapter to the array list for
+        ArrayAdapter<String> adapterGraphOptions = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, graphs);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);;
+        graphOptions.setAdapter(adapterGraphOptions);
 
         //Sets up what happens when the different options are selected
         traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -613,6 +588,30 @@ public class Visualizer extends Fragment {
                         startNode.setVisibility(View.INVISIBLE);
                         endNode.setVisibility(View.INVISIBLE);
                         break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Sets up what happens when the different options are selected
+        graphOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(parent.getItemAtPosition(position).toString()) {
+                    case "Directed Weighted":
+                        break;
+                    case "Directed Unweighted":
+                        break;
+                    case "Undirected Weighted":
+                        break;
+                    case "Undirected Unweighted":
+                        break;
+                    case "Select Graph":
+                        graph = new Graph();
                 }
             }
 
@@ -664,12 +663,9 @@ public class Visualizer extends Fragment {
                 Log.d("ACTION BAR", "In Graph");
                 MainActivity.actionBar.setTitle("Graph");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
-                //graph = new Graph(); TODO uncomment when graph no longer initizalized in graphVisualizer
+                graph = new Graph();
                 break;
-
         }
-
-
     }
 
     /**
@@ -677,7 +673,6 @@ public class Visualizer extends Fragment {
      * and resets the text on the insert line.
      */
     private void insert() {
-        checkCanvas();
         initTreeSpinner();
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
@@ -697,7 +692,6 @@ public class Visualizer extends Fragment {
      * This method is called when the auto button is pressed. It auto-populates the data structure.
      */
     private void autoPopulate(){
-        checkCanvas();
         int[] array = {50, 30, 70, 20, 80, 60, 20, 40, 90};
         ArrayList<Integer> arr = new ArrayList<Integer>();
         for (int i = 0; i< array.length; i++) arr.add(array[i]);
@@ -718,7 +712,6 @@ public class Visualizer extends Fragment {
      */
     public void checkCanvas() {
         if (visualizerCanvas.canvas == null) {
-            //TODO FIXME
             int vHeight = visualizerCanvas.getHeight();
             int vWidth = visualizerCanvas.getWidth();
             visualizerCanvas.setDimensions(vHeight, vWidth);

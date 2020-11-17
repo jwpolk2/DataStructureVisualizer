@@ -129,14 +129,14 @@
         android:layout_weight="6"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
-
         <Spinner
             android:id="@+id/spinner_graphOptions"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
             android:textAllCaps="false"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"/>
         <Button
             android:id="@+id/button_load"
             android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
             android:layout_marginRight="3dp"
             android:background="@drawable/visulizer_button"
             android:textColor="@color/backgroundWhite"
-            android:text="Load"
+            android:text="Select"
             android:textAllCaps="false"
             android:textSize="20sp"
             android:textStyle="bold" />
