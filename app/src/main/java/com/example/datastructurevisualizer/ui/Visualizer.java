@@ -435,19 +435,92 @@ public class Visualizer extends Fragment {
 
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "In-Order":
+                        displayMessage("In-Order Traversal selected. Press play to begin animation.");
                         tree.inOrderTraversal();
+                        play.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AnimationParameters.beginAnimation();
+                                        tree.animate();
+                                        AnimationParameters.stopAnimation();
+                                    }
+                                }).start();
+                            }
+                        });
                         break;
                     case "Post-Order":
+                        displayMessage("Post-Order Traversal selected. Press play to begin animation.");
                         tree.postOrderTraversal();
+                        play.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AnimationParameters.beginAnimation();
+                                        tree.animate();
+                                        AnimationParameters.stopAnimation();
+                                    }
+                                }).start();
+                            }
+                        });
                         break;
                     case "Pre-Order":
+                        displayMessage("Pre-Order Traversal selected. Press play to begin animation.");
                         tree.preOrderTraversal();
+                        play.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AnimationParameters.beginAnimation();
+                                        tree.animate();
+                                        AnimationParameters.stopAnimation();
+                                    }
+                                }).start();
+                            }
+                        });
                         break;
                     case "Value Search":
-                        tree.search(10); // TODO this should be modifiable
+                        displayMessage("Value Search Selected. Please enter a value and press play.");
+                        play.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(insertNumber != null && insertNumber.getText().toString().length() != 0) {
+                                    int searchNum = Integer.parseInt(insertNumber.getText().toString());
+                                    tree.search(searchNum);
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            AnimationParameters.beginAnimation();
+                                            tree.animate();
+                                            AnimationParameters.stopAnimation();
+                                        }
+                                    }).start();
+                                }
+                            }
+                        });
                         break;
                     case "Breadth-First":
+                        displayMessage("Breadth-First Traversal selected. Press play to begin animation.");
                         tree.breadthFirstTraversal();
+                        play.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AnimationParameters.beginAnimation();
+                                        tree.animate();
+                                        AnimationParameters.stopAnimation();
+                                    }
+                                }).start();
+                            }
+                        });
                         break;
                     case "Select Traversal":
                         break;
