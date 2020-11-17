@@ -190,9 +190,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * @param time the total unscaled time in milliseconds for the animation.
      */
     protected void queueNodeSelectAnimation(Node node, String message, int time) {
-        if(MainActivity.getVisualizer()!= null){
-            animationLog.add(new SelectNode(node, message, time));
-        }
+        animationLog.add(new SelectNode(node, message, time));
+
     }
 
     /**
@@ -468,8 +467,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -494,12 +493,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
         public void run() {
             super.run();
 
-            if(MainActivity.getVisualizer() == null){
-                return;
-            }
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -525,8 +521,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -553,8 +549,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
             super.run();
 
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -580,8 +576,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -606,12 +602,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
         @Override
         public void run() {
             super.run();
-            if(MainActivity.getVisualizer() == null){
-                return;
-            }
+
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -637,8 +631,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -666,8 +660,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
             super.run();
 
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -693,8 +687,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -721,8 +715,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
             super.run();
 
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -749,8 +743,8 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
         // Canvas and bitmap to store the frame.
         Canvas canvas;
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                MainActivity.getVisualizer().getCanvas().getHeight(),
+        Bitmap bmp = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                MainActivity.getCanvas().getHeight(),
                 Bitmap.Config.ARGB_8888);
 
         /**
@@ -774,12 +768,9 @@ public class NodeVisualizer extends DataStructureVisualizer {
         public void run() {
             super.run();
 
-            if(MainActivity.getVisualizer() == null){
-                return;
-            }
             // Draws the frame.
-            MainActivity.getVisualizer().getCanvas().drawBitmap(
-                    bmp, MainActivity.getVisualizer().getCanvas().getClipBounds(),
+            MainActivity.getCanvas().drawBitmap(
+                    bmp, MainActivity.getCanvas().getClipBounds(),
                     canvas.getClipBounds(), new Paint());
 
             // Sleeps for a little while.
@@ -820,12 +811,10 @@ public class NodeVisualizer extends DataStructureVisualizer {
 
             // Renders each frame for the animation.
             for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
-                if(MainActivity.getVisualizer() == null){
-                    return;
-                }
+
                 // Initializes bmp and Canvas.
-                bmp[i] = Bitmap.createBitmap(MainActivity.getVisualizer().getCanvas().getWidth(),
-                        MainActivity.getVisualizer().getCanvas().getHeight(),
+                bmp[i] = Bitmap.createBitmap(MainActivity.getCanvas().getWidth(),
+                        MainActivity.getCanvas().getHeight(),
                         Bitmap.Config.ARGB_8888);
                 canvas[i] = new Canvas(bmp[i]);
 
@@ -846,10 +835,11 @@ public class NodeVisualizer extends DataStructureVisualizer {
             for (int i = 0; i < AnimationParameters.MOVEMENT_FRAMES; ++i) {
 
                 // Draws the frame.
-                MainActivity.getVisualizer().getCanvas().drawBitmap(
-                        bmp[i], MainActivity.getVisualizer().getCanvas().getClipBounds(),
+                MainActivity.getCanvas().drawBitmap(
+                        bmp[i], MainActivity.getCanvas().getClipBounds(),
                         canvas[i].getClipBounds(), new Paint());
-                MainActivity.getVisualizer().render();
+                if (MainActivity.getVisualizer() != null)
+                    MainActivity.getVisualizer().render();
 
                 // Sleeps a while.
                 sleep(time / AnimationParameters.MOVEMENT_FRAMES);
@@ -862,20 +852,22 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void reverse() {
-            super.reverse();
+            run();
 
-            // Renders each frame backwards.
-            for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {
-
-                // Draws the frame.
-                MainActivity.getVisualizer().getCanvas().drawBitmap(
-                        bmp[i], MainActivity.getVisualizer().getCanvas().getClipBounds(),
-                        canvas[i].getClipBounds(), new Paint());
-
-                // Sleeps a while.
-                sleep(time / AnimationParameters.MOVEMENT_FRAMES);
-
-            }
+//            super.reverse();
+//
+//            // Renders each frame backwards.
+//            for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {
+//
+//                // Draws the frame.
+//                MainActivity.getCanvas().drawBitmap(
+//                        bmp[i], MainActivity.getCanvas().getClipBounds(),
+//                        canvas[i].getClipBounds(), new Paint());
+//
+//                // Sleeps a while.
+//                sleep(time / AnimationParameters.MOVEMENT_FRAMES);
+//
+//            }
         }
     }
 }

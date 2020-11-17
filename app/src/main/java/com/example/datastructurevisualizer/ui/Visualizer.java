@@ -393,9 +393,7 @@ public class Visualizer extends Fragment {
                     @Override
                     public void run() {
                         AnimationParameters.beginAnimation();
-                        if(MainActivity.getVisualizer() != null) {
-                            tree.animate();
-                        }
+                        tree.animate();
                         AnimationParameters.stopAnimation();
                     }
                 }).start();
