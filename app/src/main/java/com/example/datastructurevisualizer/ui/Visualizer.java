@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.example.datastructurevisualizer.AVLTree;
 import com.example.datastructurevisualizer.AnimationParameters;
 import com.example.datastructurevisualizer.BinarySearchTree;
@@ -89,17 +87,16 @@ public class Visualizer extends Fragment {
      *
      * @param dataStructureType
      */
-    public Visualizer(String dataStructureType) {
+    public Visualizer(String dataStructureType){
         this.dataStructureType = dataStructureType;
         this.loadedFile = null;
     }
 
     /**
      * Constucuter, sets the data structure type for the class.
-     *
      * @param dataStructureType
      */
-    public Visualizer(String dataStructureType, ArrayList<Integer> values) {
+    public Visualizer(String dataStructureType,  ArrayList<Integer> values){
 
         this.dataStructureType = dataStructureType;
         this.loadedFile = values;
@@ -154,7 +151,6 @@ public class Visualizer extends Fragment {
                         MainActivity.openFragment(new Home(), false);
                     }
                 });
-
         }
         // Inflate the layout for this fragment
         return view;
@@ -244,7 +240,6 @@ public class Visualizer extends Fragment {
         insertButton = view.findViewById(R.id.button_insert);
         undoButton = view.findViewById(R.id.button_undo);
         redoButton = view.findViewById(R.id.button_redo);
-        // autopopulateButton = view.findViewById((R.id.button_autopopulate));
         displayExec = view.findViewById(R.id.printout_textview);
         displayExecScroll = view.findViewById(R.id.printout_scroll);
         traversalsSpinner = view.findViewById(R.id.spinner_traversal);
@@ -258,7 +253,6 @@ public class Visualizer extends Fragment {
         visualizerCanvas.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Log.d("Progress check", "system ui visibilty");
                 visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 checkCanvas();
                 if (loadedFile != null && !loadedFile.isEmpty()) {
@@ -821,7 +815,6 @@ public class Visualizer extends Fragment {
 
     /**
      * This method takes an arraylist and inserts all of the values into the tree
-     *
      * @param arrl an arraylist of values that needs to be inserted
      */
     public void arrayListInsert(ArrayList<Integer> arrl) {

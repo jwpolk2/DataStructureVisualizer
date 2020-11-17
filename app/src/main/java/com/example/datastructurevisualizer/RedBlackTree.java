@@ -37,7 +37,7 @@ public class RedBlackTree extends TreeVisualizer {
      * Return numChildren, which is 2. Used in TreeVisualize.
      */
     @Override
-    int getNumChildren() { return numChildren; }
+    public int getNumChildren() { return numChildren; }
 
     /**
      * Inserts a key into this Red Black Tree. Performs no animation.
@@ -410,13 +410,13 @@ public class RedBlackTree extends TreeVisualizer {
     }
 
     /**
-     * TODO comment
-     * TODO implement
+     * Red Black removal algorithm. Taken from:
+     * http://www.codebytes.in/2014/10/red-black-tree-java-implementation.html
      *
      * @param key the key to be removed.
      */
     @Override
-    protected void removeNoAnim(int key) {
+    public void removeNoAnim(int key) {
         if (!contains(key)) return;
 
         // Logs removal.
@@ -433,8 +433,8 @@ public class RedBlackTree extends TreeVisualizer {
     }
 
     /**
-     * TODO comment
-     * TODO animate
+     * Animated Red Black removal algorithm. Taken from:
+     * http://www.codebytes.in/2014/10/red-black-tree-java-implementation.html
      *
      * @param key the key to be removed.
      */

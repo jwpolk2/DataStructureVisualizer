@@ -27,7 +27,7 @@ public class AVLTree extends TreeVisualizer {
      * Return numChildren, which is 2. Used in TreeVisualize.
      */
     @Override
-    int getNumChildren() { return numChildren; }
+    public int getNumChildren() { return numChildren; }
 
     // Return true/false depending on whether a key exists in the tree.
     public boolean contains(int key) {
@@ -393,7 +393,7 @@ public class AVLTree extends TreeVisualizer {
      * @param elem the key to be removed.
      */
     @Override
-    protected void removeNoAnim(int elem) {
+    public void removeNoAnim(int elem) {
 
         // Logs removal.
         logRemove(elem);

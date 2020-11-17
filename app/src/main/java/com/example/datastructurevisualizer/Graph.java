@@ -73,12 +73,34 @@ public class Graph extends NodeVisualizer {
     }
 
     /**
+     * Unused insertion method.
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    public void insertNoAnim(int key) {
+        insertGraphNode(key, 0, 0);
+
+    }
+
+    /**
+     * Unused animated insertion method.
+     *
+     * @param key the key to be inserted.
+     */
+    @Override
+    protected void insertAnim(int key) {
+        insertNoAnim(key);
+
+    }
+
+    /**
      * Removes a Node from the Graph.
      *
      * @param key the key to be removed.
      */
     @Override
-    protected void removeNoAnim(int key) {
+    public void removeNoAnim(int key) {
 
         // Removes all edges to this Node.
         for (Node currNode : nodes) {

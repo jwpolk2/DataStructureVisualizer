@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Redefines render to recursively render Tree Nodes and edges between them.
  * Contains a method createJSON which is used to save the Tree.
  */
-public class TreeVisualizer extends NodeVisualizer {
+public abstract class TreeVisualizer extends NodeVisualizer {
 
     // Root of this tree.
     Node root;
@@ -32,7 +32,7 @@ public class TreeVisualizer extends NodeVisualizer {
      * This method is used to get the number of children in a tree.
      * Each tree will override it to return its own numChildren.
      */
-    int getNumChildren() { return 0; }
+    public abstract int getNumChildren();
 
     /**
      * Performs a pre-order traversal over a tree. Will perform an animation
@@ -488,6 +488,7 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @return an ArrayList containing all Nodes in this data structure.
      */
+    @Override
     public ArrayList<Node> getAllNodes() {
         return getAllNodesRecursive(root);
 
@@ -526,33 +527,9 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @return the Node containing the given Key.
      */
+    @Override
     public Node getNode(int key) {
         return getNodeRecursive(key, root);
-
-    }
-
-    /**
-     * Returns an ArrayList containing all keys in this data structure.
-     *
-     * @return an ArrayList containing all keys in this data structure.
-     */
-    public ArrayList<Integer> getAllKeys() {
-        ArrayList<Node> currNodes = getAllNodes();
-        ArrayList<Integer> keyArrl = new ArrayList<Integer>();
-
-        for(int i = 0; i < currNodes.size(); i++){
-            keyArrl.add(currNodes.get(i).key);
-        }
-        return keyArrl;
-
-    }
-
-    /**
-     * Sets the root to null so that the tree is empty.
-     */
-    @Override
-    public void clear() {
-        root = null;
 
     }
 

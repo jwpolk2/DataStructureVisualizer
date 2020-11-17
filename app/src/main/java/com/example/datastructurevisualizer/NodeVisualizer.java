@@ -16,10 +16,11 @@ import java.util.ArrayList;
  * methods for these items.
  * Contains getAllNodes and getNode, to be overridden by individual
  * implementations of NodeVisualizers.
+ * Contains getAllKeys, which uses getAllNodes to return all keys.
  * Contains a getClickedNode method, which returns the key of a Node after it
  * is clicked.
  */
-public class NodeVisualizer extends DataStructureVisualizer {
+public abstract class NodeVisualizer extends DataStructureVisualizer {
 
     // Current selected Node. Head of a traversal.
     // Colour is blue.
@@ -174,7 +175,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * @param node the Node to select.
      * @param canvas the Canvas to render in.
      */
-    void nodeSelectAnimation(Node node, Canvas canvas) {
+    private void nodeSelectAnimation(Node node, Canvas canvas) {
 
         // Highlights the Node and re-renders the data-structure.
         setSelectedNode(node);
@@ -296,6 +297,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * Queues an animation to remove the first Node from nodeList.
      *
+     * @param message the message to animate with.
      * @param time the total unscaled time in milliseconds for the animation.
      */
     protected void queueListPopAnimation(String message, int time) {
@@ -369,7 +371,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      * UnSelects the current selected Node, UnHighlights all Nodes, and clears
      * the nodeList.
      */
-    public void finishTraversalAnimation() {
+    protected void finishTraversalAnimation() {
         if (selectedNode != null) unSelect();
         unHighlightAllNodes();
         unExploreAllNodes();
@@ -380,7 +382,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
     /**
      * Sets the all Nodes' positions to their destinations.
      */
-    public void placeNodesAtDestination() {
+    protected void placeNodesAtDestination() {
         ArrayList<Node> nodes = getAllNodes();
 
         // Places all Nodes at their destinations.
@@ -397,7 +399,7 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @return an ArrayList containing all Nodes in this data structure.
      */
-    public ArrayList<Node> getAllNodes() { return null; }
+    public abstract ArrayList<Node> getAllNodes();
 
     /**
      * Returns the Node containing the inputed key if it exists.
@@ -405,18 +407,19 @@ public class NodeVisualizer extends DataStructureVisualizer {
      *
      * @return the Node containing the given key or null.
      */
-    public Node getNode(int key) { return null; }
+    public abstract Node getNode(int key);
 
     /**
-     * Checks if the inputed key is represented within this Data Structure.
+     * Returns an ArrayList containing all keys in this data structure.
+     * Uses getAllNodes to find the keys of all Nodes.
      *
-     * @param key the key to check for.
-     * @return true if the Data Structure contains the key, otherwise false.
+     * @return an ArrayList containing all keys in this data structure.
      */
     @Override
-    protected boolean contains(int key) {
-        for (Node node : getAllNodes()) if (node.key == key) return true;
-        return false;
+    public ArrayList<Integer> getAllKeys() {
+        ArrayList<Integer> keys = new ArrayList<Integer>();
+        for (Node node : getAllNodes()) keys.add(node.key);
+        return keys;
 
     }
 
