@@ -130,34 +130,22 @@ public class Visualizer extends Fragment {
 //       // }
 //    }
 
+
+    /**
+     * onPause is called when the visualizer might be closed out.
+     * Begin a new animation to override to current one, then close it out
+     * Prevents crashing when exiting during animation
+     */
     public void onPause(){
         super.onPause();
-        Log.d("Progress Check", "On Pause called");
+        Log.d("progres check", "animation paused");
+        AnimationParameters.beginAnimation();
+        AnimationParameters.stopAnimation();
     }
 
 
 
-    @Override
-    public void setEnterTransition(@Nullable Object transition) {
-        super.setEnterTransition(transition);
-        Log.d("Progress check","set enter transition");
-        if(loadedFile != null && !loadedFile.isEmpty()){
 
-            checkCanvas();
-            arrayListInsert(loadedFile);
-        }
-    }
-
-    @Override
-    public void onAttachFragment(@NonNull Fragment fragment) {
-        super.onAttachFragment(fragment);
-        Log.d("Loaded values Frag","On attach called");
-        if(loadedFile != null && !loadedFile.isEmpty()){
-
-            checkCanvas();
-            arrayListInsert(loadedFile);
-        }
-    }
     public void onStart(){
         super.onStart();
         Log.d("Progress Check", "On start called");
