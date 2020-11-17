@@ -287,9 +287,10 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param width horizontal distance between Nodes.
      * @param depth current depth within the Tree.
+     * @param depthLen the vertical distance between layers of the tree.
      * @param currNode the Node whose children should be placed.
      */
-    private void placeTreeNodesRecursive(float width, int depth, Node currNode) {
+    private void placeTreeNodesRecursive(float width, int depth, int depthLen, Node currNode) {
         float currX, currY;
         int numChildren;
 
@@ -308,7 +309,7 @@ public class TreeVisualizer extends NodeVisualizer {
         currX -= (int)((width * (1.0 + numChildren)) / 2.0);
 
         // Offsets currY by depthLen.
-        currY += AnimationParameters.depthLen;
+        currY += depthLen;
 
         // Recursively places each child Node.
         for (int i = 0; i < numChildren; ++i) {
@@ -318,7 +319,7 @@ public class TreeVisualizer extends NodeVisualizer {
             if (currNode.children[i] != null) {
                 currNode.children[i].destination[0] = (int)currX;
                 currNode.children[i].destination[1] = (int)currY;
-                placeTreeNodesRecursive(width / numChildren, depth - 1, currNode.children[i]);
+                placeTreeNodesRecursive(width / numChildren, depth - 1, depthLen, currNode.children[i]);
 
             }
         }
@@ -335,19 +336,16 @@ public class TreeVisualizer extends NodeVisualizer {
      *
      * @param xStart the x position of the root.
      * @param yStart the y position of the root.
+     * @param treeWidth the total width of the tree (Node center to Node center).
+     * @param depthLen the vertical distance between layers of the tree.
      */
-    public void placeTreeNodes(int xStart, int yStart) {
-        int treeWidth = 0;
+    public void placeTreeNodes(int xStart, int yStart, int treeWidth, int depthLen) {
         int numChildren = getNumChildren();
         int depth = getDepth();
         float width;
 
         // Will not execute if the tree is empty.
         if (root == null) return;
-
-        // Tree will retain width 0 when empty so that null pointer is not called in test cases.
-        if (MainActivity.getVisualizer() != null)
-            treeWidth = MainActivity.getVisualizer().getCanvas().getWidth();
 
         // Initializes position of root.
         root.destination[0] = xStart;
@@ -360,7 +358,7 @@ public class TreeVisualizer extends NodeVisualizer {
         if (numChildren == 1) width = 0;
 
         // Begins recursively placing the Tree Nodes.
-        placeTreeNodesRecursive(width, depth, root);
+        placeTreeNodesRecursive(width, depth, depthLen, root);
 
     }
 
@@ -369,13 +367,19 @@ public class TreeVisualizer extends NodeVisualizer {
      * units from the top.
      */
     public void placeTreeNodes() {
+        int width;
+        float rad;
 
         // Does nothing if there is no Canvas.
         if(MainActivity.getVisualizer() == null) return;
 
+        // Stores width and rad for convenience.
+        width = MainActivity.getVisualizer().getCanvas().getWidth();
+        rad = AnimationParameters.NODE_RADIUS;
+
         // Places the Nodes.
-        placeTreeNodes(MainActivity.getVisualizer().getCanvas().getWidth() / 2,
-                    (int) AnimationParameters.NODE_RADIUS * 3);
+        placeTreeNodes((int) (width / 2 + rad * 1.5), (int) (rad * 3),
+                (int) (width - rad * 5), (int) AnimationParameters.depthLen);
 
     }
 

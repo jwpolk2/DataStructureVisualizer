@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 /**
  * LinkedList implementation to be used by other Data Structures.
  *
- * Not that insertAnim and insertNoAnim are not defined, TODO comment
  * Since LinkedList is only used as a smaller part of larger data structures,
  * it includes some special functionality. For example, it stores xPos and
  * yPos in order to guarantee correct placement. It also overrides render so as
@@ -58,9 +57,10 @@ public class LinkedList extends TreeVisualizer {
         Node node = new Node(key, getNumChildren());
         node.children[0] = root;
         root = node;
+        highlightNode(node);
 
         // Places the Nodes at their desired positions.
-        placeTreeNodes(xPos, yPos);
+        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
         placeNodesAtDestination();
 
     }
@@ -75,13 +75,14 @@ public class LinkedList extends TreeVisualizer {
     public void priorityQueueInsert(int key, int value) {
         Node node = new Node(key, getNumChildren());
         node.value = value;
+        highlightNode(node);
 
         // Places the new Node at the root if the queue is empty or if it is
         // the least Node in the queue.
         if (root == null || node.value <= root.value) {
             node.children[0] = root;
             root = node;
-            placeTreeNodes(xPos, yPos);
+            placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
             placeNodesAtDestination();
             return;
 
@@ -98,7 +99,7 @@ public class LinkedList extends TreeVisualizer {
         currNode.children[0] = node;
 
         // Places the Nodes at their desired positions.
-        placeTreeNodes(xPos, yPos);
+        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
         placeNodesAtDestination();
 
     }
@@ -110,6 +111,7 @@ public class LinkedList extends TreeVisualizer {
      */
     public void queueInsert(int key) {
         Node node = new Node(key, getNumChildren());
+        highlightNode(node);
 
         // Places the Node at the root if the LinkedList is empty.
         if (root == null) {
@@ -125,7 +127,7 @@ public class LinkedList extends TreeVisualizer {
         }
 
         // Places the Nodes at their desired positions.
-        placeTreeNodes(xPos, yPos);
+        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
         placeNodesAtDestination();
 
     }
@@ -143,7 +145,7 @@ public class LinkedList extends TreeVisualizer {
 
         // If the root is not null, replaces root and returns its key.
         root = root.children[0];
-        placeTreeNodes(xPos, yPos);
+        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
         placeNodesAtDestination();
         return node.key;
 

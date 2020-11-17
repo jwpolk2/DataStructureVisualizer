@@ -1,7 +1,10 @@
 package com.example.datastructurevisualizer;
 
+import android.util.Log;
+
 import com.example.datastructurevisualizer.ui.Visualizer;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,6 +40,8 @@ public class AnimationItem {
     /**
      * Runs the animation in reverse. Should be overridden.
      * This method displays message and should be called in all child classes.
+     *
+     * Note: This is defunct. Though reverse is still called, it always calls run.
      */
     public void reverse() {
         Visualizer.displayMessage(message);
@@ -47,10 +52,9 @@ public class AnimationItem {
      * Sleeps for a certain number of milliseconds.
      */
     protected void sleep(int time) {
-        try {
-            TimeUnit.MILLISECONDS.sleep((int)(time / AnimationParameters.animSpeed));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        for (long start = Calendar.getInstance().getTimeInMillis();
+             Calendar.getInstance().getTimeInMillis() - start < time &&
+                !AnimationParameters.isPaused(););
+
     }
 }

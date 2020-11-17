@@ -862,20 +862,22 @@ public class NodeVisualizer extends DataStructureVisualizer {
          */
         @Override
         public void reverse() {
-            super.reverse();
+            run();
 
-            // Renders each frame backwards.
-            for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {
-
-                // Draws the frame.
-                MainActivity.getVisualizer().getCanvas().drawBitmap(
-                        bmp[i], MainActivity.getVisualizer().getCanvas().getClipBounds(),
-                        canvas[i].getClipBounds(), new Paint());
-
-                // Sleeps a while.
-                sleep(time / AnimationParameters.MOVEMENT_FRAMES);
-
-            }
+//            super.reverse();
+//
+//            // Renders each frame backwards.
+//            for (int i = AnimationParameters.MOVEMENT_FRAMES - 1; i >= 0; --i) {
+//
+//                // Draws the frame.
+//                MainActivity.getVisualizer().getCanvas().drawBitmap(
+//                        bmp[i], MainActivity.getVisualizer().getCanvas().getClipBounds(),
+//                        canvas[i].getClipBounds(), new Paint());
+//
+//                // Sleeps a while.
+//                sleep(time / AnimationParameters.MOVEMENT_FRAMES);
+//
+//            }
         }
     }
 }
