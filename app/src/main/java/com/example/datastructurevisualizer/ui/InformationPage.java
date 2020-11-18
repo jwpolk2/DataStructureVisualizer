@@ -68,7 +68,7 @@ public class InformationPage extends Fragment {
                 MainActivity.actionBar.setTitle("Red Black Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 break;
-            case "Balanced Search Tree":
+            case "AVL Tree":
                 view = inflater.inflate(R.layout.fragment_information_page, container, false);
                 MainActivity.actionBar.setTitle("AVL Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);

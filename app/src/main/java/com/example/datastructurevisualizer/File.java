@@ -7,21 +7,34 @@ public class File {
     private String structureType; // can be an int if easier
     private String dateModified;
     private ArrayList<Integer> values;
+    private boolean isDefault;
 
     public File() {
         values = new ArrayList<>();
+        isDefault = false;
     }
 
     public File(ArrayList<Integer> values) {
         this.values = values;
+        isDefault = false;
     }
 
     public File(String name, String type, String date) {
+        isDefault = false;
         values = new ArrayList<Integer>();
         fileName = name;
         structureType = type;
         dateModified = date;
     }
+
+    public File(String name, String type, String date, ArrayList<Integer> values, boolean isDefault) {
+        this.fileName = name;
+        this.structureType = type;
+        this.dateModified = date;
+        this.values = values;
+        this.isDefault = isDefault;
+    }
+
 
     public ArrayList<Integer> getValues() {
         return values;

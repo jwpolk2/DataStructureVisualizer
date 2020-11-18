@@ -49,9 +49,15 @@ public class Files extends Fragment {
     private RecyclerView fileRecyclerView;
     private FileAdapter fileAdapter;
     private RecyclerView.LayoutManager fileLayoutManager;
+    private String dataStructureType;
 
     public Files() {
         // Required empty public constructor
+        dataStructureType = null;
+    }
+
+    public Files(String dataStructureType) {
+        this.dataStructureType = dataStructureType;
     }
 
     @Override
@@ -70,8 +76,34 @@ public class Files extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         java.io.File[] jsonFiles = extractFiles();
-        ArrayList<File> mFile = new ArrayList<File>();
+        ArrayList<File> mFile;
         mFile = tomFile(jsonFiles);
+
+        //Create Files for cases here TODO
+        mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", null, true));
+        mFile.add(new File("default_balancedBST", "Binary Search Tree", "n/a", null, true));
+        mFile.add(new File("default_completeTree", "Binary Search Tree", "n/a", null, true));
+        mFile.add(new File("default_fullTree", "AVL Tree", "n/a", null, true));
+        mFile.add(new File("default_perfectTree", "Binary Search Tree", "n/a", null, true));
+        mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", null, true));
+
+        if (dataStructureType != null) {
+            MainActivity.actionBar.setTitle(dataStructureType + " Files");
+        if (mFile != null &&
+                mFile.size() > 0) {
+            for (int i = 0; i < mFile.size(); i++) {
+                System.out.println(mFile.get(i).getFileName());
+                if (mFile.get(i).getStructureType() == null ||
+                        !mFile.get(i).getStructureType().equals(dataStructureType)) {
+                    mFile.remove(mFile.get(i));
+                    i--;
+                }
+            }
+        }} else {
+            MainActivity.actionBar.setTitle("Files");
+        }
+
+
         final View view = inflater.inflate(R.layout.fragment_files, container, false);
         Context context = getContext();
         com.example.datastructurevisualizer.File file = new com.example.datastructurevisualizer.File();
@@ -108,7 +140,7 @@ public class Files extends Fragment {
                 fileActionDialog.show(ft, "File Action");
             }
         });
-        MainActivity.actionBar.setTitle("Files");
+
         MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
         MainActivity.actionBar.show();
         return view;
@@ -160,16 +192,14 @@ public class Files extends Fragment {
                 JSONArray array = obj.optJSONArray("Values");
                 Log.d("Files", "FileName:" + javaFiles[i].getName());
 
-                if(obj.optString("Type") != null) {
+                if (obj.optString("Type") != null) {
                     dsType = obj.getString("Type");
-                }
-                else{
+                } else {
                     Log.d("Null Files type", "FileName:" + javaFiles[i].getName());
                 }
-                if(obj.optString("Date Modified") != null) {
+                if (obj.optString("Date Modified") != null) {
                     dsDateModified = obj.optString("Date Modified");
-                }
-                else{
+                } else {
                     Log.d("Null date", "FileName:" + javaFiles[i].getName());
                 }
 
@@ -186,12 +216,12 @@ public class Files extends Fragment {
                 file.setValues(arr);
 
                 //set data structure type to file
-                if(dsType != null){
+                if (dsType != null) {
                     file.setStructureType(dsType);
                 }
 
                 //set date modified to file
-                if(dsDateModified != null){
+                if (dsDateModified != null) {
                     file.setDate(dsDateModified);
                 }
 

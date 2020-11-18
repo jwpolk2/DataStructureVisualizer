@@ -126,7 +126,7 @@ public class Visualizer extends Fragment {
         switch (dataStructureType) {
             case "Binary Search Tree":
             case "Red Black Tree":
-            case "Balanced Search Tree":
+            case "AVL Tree":
                 view = inflater.inflate(R.layout.fragment_visualizer, container, false);
                 initTreeVisualizer(view);
                 //Initialize dataStructureType variable
@@ -306,7 +306,7 @@ public class Visualizer extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Files(), true);
+                MainActivity.openFragment(new Files(dataStructureType), true);
             }
         });
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -403,10 +403,10 @@ public class Visualizer extends Fragment {
     private void initTreeSpinner() {
         //ArrayList of the tree drop-down items
         trees = new ArrayList<>();
-        trees.add("Select Tree");
-        trees.add("Balanced Tree");
-        trees.add("Unbalanced Tree");
-        trees.add("Auto");
+        trees.add("Select Insertion");
+        trees.add("Balanced Insertion");
+        trees.add("Unbalanced Insertion");
+        trees.add("Auto Insertion");
 
         //Array List of the drop-down items
         traversals = new ArrayList<>();
@@ -537,17 +537,17 @@ public class Visualizer extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (parent.getItemAtPosition(position).toString()) {
-                    case "Select Tree":
+                    case "Select Insertion":
                         break;
-                    case "Balanced Tree":
+                    case "Balanced Insertion":
                         displayMessage("Balanced Tree selected");
                         displayMessage("Press play to begin animation");
                         break;
-                    case "Unbalanced Tree":
+                    case "Unbalanced Insertion":
                         displayMessage("Unbalanced Tree selected");
                         displayMessage("Press play to begin animation");
                         break;
-                    case "Auto":
+                    case "Auto Insertion":
                         java.util.Random rand = new java.util.Random();
                         int k = 0;
                         if (tree.getAllNodes().isEmpty()) {
@@ -863,7 +863,7 @@ public class Visualizer extends Fragment {
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 tree = new RedBlackTree();
                 break;
-            case "Balanced Search Tree":
+            case "AVL Tree":
                 MainActivity.actionBar.setTitle("AVL Tree");
                 MainActivity.actionBar.setDisplayHomeAsUpEnabled(true);
                 tree = new AVLTree();

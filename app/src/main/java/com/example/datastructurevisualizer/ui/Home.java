@@ -78,7 +78,7 @@ public class Home extends Fragment {
         balancedSearchTree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new Visualizer("Balanced Search Tree"), true);
+                MainActivity.openFragment(new Visualizer("AVL Tree"), true);
             }
         });
         graph.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +114,7 @@ public class Home extends Fragment {
         avlInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.openFragment(new InformationPage("Balanced Search Tree"), true);
+                MainActivity.openFragment(new InformationPage("AVL Tree"), true);
             }
         });
         graphInfo.setOnClickListener(new View.OnClickListener() {
