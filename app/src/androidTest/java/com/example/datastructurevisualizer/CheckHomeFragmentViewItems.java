@@ -31,6 +31,11 @@ public class CheckHomeFragmentViewItems {
 
     @After
     public void closeActivity() {
+        try {
+            wait(1000);
+        }catch (Exception e) {
+
+        }
         mActivityTestRule.finishActivity();
     }
 

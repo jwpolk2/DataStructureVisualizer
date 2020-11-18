@@ -40,6 +40,11 @@ public class Insert_5_66_5_25 {
 
     @After
     public void closeActivity() {
+        try {
+            wait(1000);
+        }catch (Exception e) {
+
+        }
         mActivityTestRule.finishActivity();
     }
 
