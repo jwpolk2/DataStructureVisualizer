@@ -409,7 +409,7 @@ public class Visualizer extends Fragment {
         trees.add("Select Insertion");
         trees.add("Balanced Insertion");
         trees.add("Unbalanced Insertion");
-        trees.add("Auto Insertion");
+        trees.add("Random Insertion");
 
         //Array List of the drop-down items
         traversals = new ArrayList<>();
@@ -543,7 +543,7 @@ public class Visualizer extends Fragment {
                     case "Select Insertion":
                         break;
                     case "Balanced Insertion":
-                        displayMessage("Balanced Tree insertion selected");
+                        displayMessage("Balanced insertion selected");
                         clear();
                         toInsert.add(rand.nextInt(50) + 475);
                             while (toInsert.size() < 13) {
@@ -557,7 +557,7 @@ public class Visualizer extends Fragment {
                         break;
                     case "Unbalanced Insertion":
                         clear();
-                        displayMessage("Unbalanced Tree insertion selected");
+                        displayMessage("Unbalanced insertion selected");
                             while (toInsert.size() < 7) {
                                 int insertValue = rand.nextInt(150) * (toInsert.size() + 1);
                                 if (!toInsert.contains(insertValue) && insertValue < 999) {
@@ -566,7 +566,7 @@ public class Visualizer extends Fragment {
                             }
                             tree.insert(toInsert);
                         break;
-                    case "Auto Insertion":
+                    case "Random Insertion":
                         clear();
                             toInsert.add(rand.nextInt(50) + 475);
                             while (toInsert.size() < 15) {
@@ -576,7 +576,7 @@ public class Visualizer extends Fragment {
                                 }
                             }
                             tree.insert(toInsert);
-                        displayMessage("Auto Tree selected");
+                        displayMessage("Random insertion selected");
                         break;
                     default:
                         break;
