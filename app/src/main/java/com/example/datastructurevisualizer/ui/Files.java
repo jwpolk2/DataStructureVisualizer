@@ -51,6 +51,7 @@ public class Files extends Fragment {
     private FileAdapter fileAdapter;
     private RecyclerView.LayoutManager fileLayoutManager;
     private String dataStructureType;
+    private ArrayList<File> mFile;
 
     public Files() {
         // Required empty public constructor
@@ -77,7 +78,6 @@ public class Files extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         java.io.File[] jsonFiles = extractFiles();
-        ArrayList<File> mFile;
         mFile = tomFile(jsonFiles);
 
         //Create Files for cases here TODO
@@ -142,6 +142,7 @@ public class Files extends Fragment {
                 fileActionDialog.setDsType(dsFile.getStructureType());
                 fileActionDialog.setFileNameText(dsFile.getFileName());
                 fileActionDialog.setFilePosition(position);
+                fileActionDialog.setIsDefault(mFile.get(position).getIsDefault());
                 //fileActionDialog.setVals(fileAdapter);
 //                saveDialog.setTree(tree);
 //                saveDialog.setDataStructureType(dataStructureType);

@@ -68,4 +68,8 @@ public class File {
     public void setDate(String date) {
         dateModified = date;
     }
+
+    public boolean getIsDefault() {
+        return isDefault;
+    }
 }

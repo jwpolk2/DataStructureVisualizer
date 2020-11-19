@@ -27,11 +27,12 @@
             android:textSize="20sp"
             android:layout_margin="10dp"
             android:textStyle="bold" />
+
         <Button
-            android:id="@+id/fileDialog_loadBtn"
+            android:id="@+id/fileDialog_deleteBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Load"
+            android:text="Delete"
             android:textAllCaps="false"
             android:background="@drawable/homepage_button"
             android:textColor="@color/textHomepageButtons"
@@ -39,10 +40,10 @@
             android:layout_margin="10dp"
             android:textStyle="bold" />
         <Button
-            android:id="@+id/fileDialog_deleteBtn"
+            android:id="@+id/fileDialog_loadBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="Load"
             android:textAllCaps="false"
             android:background="@drawable/homepage_button"
             android:textColor="@color/textHomepageButtons"
