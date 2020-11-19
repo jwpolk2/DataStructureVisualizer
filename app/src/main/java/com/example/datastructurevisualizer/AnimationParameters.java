@@ -109,7 +109,6 @@ public class AnimationParameters {
     public static void stopAnimation() {
         Visualizer.displayMessage("");
         mutex.release();
-
     }
 
     // Pause variable.

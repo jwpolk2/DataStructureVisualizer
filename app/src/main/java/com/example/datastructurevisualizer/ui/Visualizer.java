@@ -423,12 +423,10 @@ public class Visualizer extends Fragment {
         //Attaches an adapter to the array list and then to the spinner object
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ;
         traversalsSpinner.setAdapter(adapter);
 
         ArrayAdapter<String> adapterTrees = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, trees);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ;
         treesSpinner.setAdapter(adapterTrees);
 
         //Sets up what happens when the different options are selected
@@ -539,7 +537,6 @@ public class Visualizer extends Fragment {
         treesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int inserted = 0;
                 ArrayList<Integer> toInsert = new ArrayList();
                 java.util.Random rand = new java.util.Random();
                 switch (parent.getItemAtPosition(position).toString()) {
@@ -548,24 +545,23 @@ public class Visualizer extends Fragment {
                     case "Balanced Insertion":
                         displayMessage("Balanced Tree insertion selected");
                         clear();
-                            while (inserted < 15) {
-                                int insertValue = rand.nextInt(67) * (inserted + 1);
-                                if (!tree.getAllKeys().contains(insertValue) && insertValue < 999) {
-                                    toInsert.add(insertValue);
-                                    inserted++;
+                        toInsert.add(rand.nextInt(50) + 475);
+                            while (toInsert.size() < 13) {
+                                int valCompare = rand.nextInt(1000);
+                                if(!toInsert.contains(valCompare) && checkBalanced(valCompare, toInsert, toInsert.size())) {
+                                    toInsert.add(valCompare);
                                 }
+
                             }
                             tree.insert(toInsert);
-
                         break;
                     case "Unbalanced Insertion":
                         clear();
                         displayMessage("Unbalanced Tree insertion selected");
-                            while (inserted < 7) {
-                                int insertValue = rand.nextInt(150) * (inserted + 1);
-                                if (!tree.getAllKeys().contains(insertValue) && insertValue < 999) {
+                            while (toInsert.size() < 7) {
+                                int insertValue = rand.nextInt(150) * (toInsert.size() + 1);
+                                if (!toInsert.contains(insertValue) && insertValue < 999) {
                                     toInsert.add(insertValue);
-                                    inserted++;
                                 }
                             }
                             tree.insert(toInsert);
@@ -573,11 +569,10 @@ public class Visualizer extends Fragment {
                     case "Auto Insertion":
                         clear();
                             toInsert.add(rand.nextInt(50) + 475);
-                            while (inserted < 15) {
+                            while (toInsert.size() < 15) {
                                 int insertValue = rand.nextInt(1000);
-                                if (!tree.getAllKeys().contains(insertValue)) {
+                                if (!toInsert.contains(insertValue)) {
                                     toInsert.add(insertValue);
-                                    inserted++;
                                 }
                             }
                             tree.insert(toInsert);
@@ -594,6 +589,21 @@ public class Visualizer extends Fragment {
             }
         });
     }
+
+    private boolean checkBalanced(int valCompare, ArrayList<Integer> toInsert, int size) {
+        if(size == 0) {
+            if(valCompare > toInsert.get(0)) return true;
+        }
+        if(size == 1) {
+            if(valCompare < toInsert.get(0)) return true;
+        }
+        else {
+            if(size%2 == 0 && valCompare > toInsert.get((size/2) - 1)) return checkBalanced(valCompare, toInsert, (size/2) - 1);
+            if(size%2 != 0 && valCompare < toInsert.get((size/2))) return checkBalanced(valCompare, toInsert, (size/2));
+        }
+        return false;
+    }
+
 
     /**
      * Initializes the drop-down menu used for the graph-traversals
