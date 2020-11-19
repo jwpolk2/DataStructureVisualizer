@@ -64,6 +64,7 @@ public class DialogFileAction extends DialogFragment {
     private int filePosition;
     private ArrayList<Integer> vals;
     private String dsType;
+    private boolean isDefault;
 
     public void setFileNameText(String fileNameText) {
         this.fileNameText = fileNameText;
@@ -131,22 +132,40 @@ public class DialogFileAction extends DialogFragment {
 
             }
         });
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("final delete");
-                if (prev != null) {
-                    ft.remove(prev);
-                } ft.addToBackStack(null);
+        if(isDefault) {
+            deleteBtn.setVisibility(View.INVISIBLE);
+            renameBtn.setVisibility(View.INVISIBLE);
+        }
+        else {
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("final delete");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
 
-                DialogFileDelete deleteFileDialog = new DialogFileDelete();
-                deleteFileDialog.setFileNameText(fileNameText);
-                deleteFileDialog.show(ft, "final delete");
+                    DialogFileDelete deleteFileDialog = new DialogFileDelete();
+                    deleteFileDialog.setFileNameText(fileNameText);
+                    deleteFileDialog.show(ft, "final delete");
 
-            }
-        });
+                }
+            });
+
+            renameBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO rename button action
+                }
+            });
+        }
         return view;
+    }
+
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
     }
 //
 //    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

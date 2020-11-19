@@ -388,9 +388,11 @@ public class Visualizer extends Fragment {
     private void clear() {
         if (tree != null) {
             tree.clear();
+            initTreeSpinner();
         }
         if (graph != null) {
             graph.clear();
+            initGraphSpinner();
         }
         if (visualizerCanvas != null) {
             visualizerCanvas.clearCanvas();
@@ -541,6 +543,7 @@ public class Visualizer extends Fragment {
                 java.util.Random rand = new java.util.Random();
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "Select Insertion":
+                        displayMessage("No tree selected. To begin enter a value and press +, or choose a tree insertion method from the drop-down.");
                         break;
                     case "Balanced Insertion":
                         displayMessage("Balanced insertion selected");
