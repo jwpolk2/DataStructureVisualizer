@@ -661,6 +661,9 @@ public class Graph extends NodeVisualizer {
      *
      * Used to place text describing edge weights and to place vector arrows.
      *
+     * Note: y should be inverted if this is called from Canvas related code since
+     * the Canvas has inverted y coordinates.
+     *
      * @param x the x magnitude of the vector.
      * @param y the y magnitude of the vector.
      * @return an array of two floats representing the unit normal vector.
@@ -670,37 +673,10 @@ public class Graph extends NodeVisualizer {
         float[] vec = new float[2];
 
         // Creates the unit normal vector.
-        vec[0] = y == 0.0 ? (float) 0.0 : -y / tot;
-        vec[1] = x == 0.0 ? (float) 0.0 : -x / tot;
+        vec[0] = -y / tot;
+        vec[1] = -x / tot;
 
         // Returns the unit normal.
-        return vec;
-
-    }
-
-    /**
-     * Calculates the unit vector perpendicular to the inputed vector.
-     *
-     * Does so by taking the unit normal and inverting it if it points upwards.
-     * Used to place text describing edge weights.
-     *
-     * @param x the x magnitude of the vector.
-     * @param y the y magnitude of the vector.
-     * @return an array of two ints representing the unit perpendicular vector.
-     */
-    private float[] calcUnitPerpendicularNegative(float x, float y) {
-
-        // Gets the unit normal.
-        float[] vec = calcUnitNormal(x, y);
-
-        // Inverts the vector if it points upwards.
-        if (vec[1] < 0) {
-            vec[0] = vec[0] == 0.0 ? (float) 0.0 : -vec[0];
-            vec[1] = vec[1] == 0.0 ? (float) 0.0 : -vec[1];
-
-        }
-
-        // Returns the downward-facing perpendicular vector.
         return vec;
 
     }
@@ -718,12 +694,12 @@ public class Graph extends NodeVisualizer {
     private float[] calcUnitPerpendicularPositive(float x, float y) {
 
         // Gets the unit normal.
-        float[] vec = calcUnitNormal(x, y);
+        float[] vec = calcUnitNormal(x, -y);
 
         // Inverts the vector if it points downwards.
-        if (vec[1] > 0) {
-            vec[0] = vec[0] == 0.0 ? (float) 0.0 : -vec[0];
-            vec[1] = vec[1] == 0.0 ? (float) 0.0 : -vec[1];
+        if (vec[1] > 0.0) {
+            vec[0] = -vec[0];
+            vec[1] = -vec[1];
 
         }
 
@@ -743,6 +719,7 @@ public class Graph extends NodeVisualizer {
      */
     private void drawEdge(Edge edge, Canvas canvas) {
         double magnitude;
+        double rot;
         float[] norm;
         float[] norm2 = new float[2];
         float[] vec = new float[2];
@@ -799,7 +776,10 @@ public class Graph extends NodeVisualizer {
         if (directed) {
 
             // Finds the unit normal vector.
-            norm = calcUnitPerpendicularNegative(eVec[0], eVec[1]);
+            norm = calcUnitPerpendicularPositive(eVec[0], eVec[1]);
+
+            // Determines the amount to rotate by.
+            rot = eVec[0] >= 0.0 ? -0.7853982 : 0.7853982;
 
             // Enlarges the normal vector.
             norm[0] *= AnimationParameters.NODE_RADIUS / 2;
@@ -811,13 +791,13 @@ public class Graph extends NodeVisualizer {
             vec[1] = (float) (edge.start.position[1] + (eVec[1] * magnitude));
 
             // Draws the left part of the pointer.
-            norm2[0] = (float) (norm[0] * Math.cos(0.7853982) - norm[1] * Math.sin(0.7853982));
-            norm2[1] = (float) (norm[0] * Math.sin(0.7853982) + norm[1] * Math.cos(0.7853982));
+            norm2[0] = (float) (norm[0] * Math.cos(rot) - norm[1] * Math.sin(rot));
+            norm2[1] = (float) (norm[0] * Math.sin(rot) + norm[1] * Math.cos(rot));
             canvas.drawLine(vec[0], vec[1], vec[0] + norm2[0], vec[1] + norm2[1], colour);
 
             // Draws the right part of the pointer.
-            norm2[0] = (float) (norm[0] * Math.cos(3 * 0.7853982) - norm[1] * Math.sin(3 * 0.7853982));
-            norm2[1] = (float) (norm[0] * Math.sin(3 * 0.7853982) + norm[1] * Math.cos(3 * 0.7853982));
+            norm2[0] = (float) (norm[0] * Math.cos(3 * rot) - norm[1] * Math.sin(3 * rot));
+            norm2[1] = (float) (norm[0] * Math.sin(3 * rot) + norm[1] * Math.cos(3 * rot));
             canvas.drawLine(vec[0], vec[1], vec[0] + norm2[0], vec[1] + norm2[1], colour);
 
         }

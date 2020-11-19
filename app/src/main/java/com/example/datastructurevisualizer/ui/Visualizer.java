@@ -826,37 +826,345 @@ public class Visualizer extends Fragment {
         graphOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                // Takes the width and height of the canvas.
+                int width = MainActivity.getCanvas().getWidth();
+                int height = MainActivity.getCanvas().getHeight();
+
+                // Width must be offset in order to accommodate for nodeList.
+                int off = (int) (2 * AnimationParameters.NODE_RADIUS);
+
+                // Gets 'units' of width and height (1/10th width and height).
+                // Allows Nodes to be placed in 9 ranks (since 0 and 10 are on edges).
+                int uw = (width - off) / 10;
+                int uh = height / 10;
+
+                java.util.Random rand = new java.util.Random(); // TODO delete?
+
+                // Switch to determine the type of Graph.
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "Directed Arbitrary":
                         clear();
                         displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
-                        java.util.Random rand = new java.util.Random();
+
+                        // Row 1.
+                        graph.insertGraphNode(1, off + 2 * uw, uh);
+                        graph.insertGraphNode(2, off + 4 * uw, uh);
+                        graph.insertGraphNode(3, off + 6 * uw, uh);
+
+                        // Row 3.
+                        graph.insertGraphNode(4, off + uw, 3 * uh);
+                        graph.insertGraphNode(5, off + 3 * uw, 3 * uh);
+                        graph.insertGraphNode(6, off + 5 * uw, 3 * uh);
+
+                        // Row 5.
+                        graph.insertGraphNode(7, off + uw, 5 * uh);
+                        graph.insertGraphNode(8, off + 3 * uw, 5 * uh);
+                        graph.insertGraphNode(9, off + 5 * uw, 5 * uh);
+                        graph.insertGraphNode(10, off + 6 * uw, 5 * uh);
+
+                        // Row 7.
+                        graph.insertGraphNode(11, off + 3 * uw, 7 * uh);
+                        graph.insertGraphNode(12, off + 5 * uw, 7 * uh);
+                        graph.insertGraphNode(13, off + 8 * uw, 7 * uh);
+
+                        // Edges.
+                        graph.insertDirectedEdge(1, 2, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(1, 5, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(2, 3, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(3, 10, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(5, 6, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(5, 8, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(6, 9, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(7, 4, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(8, 6, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(8, 11, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(8, 12, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(10, 12, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(11, 7, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(12, 13, rand.nextInt(16) + 4);
                         break;
                     case "Directed Cyclical":
                         clear();
                         displayMessage("Directed Cyclical graph selected. Press select to load onto the screen.");
                         graph = new Graph();
+
+                        // Row 2.
+                        graph.insertGraphNode(1, off + 2 * uw, 2 * uh);
+                        graph.insertGraphNode(2, off + 4 * uw, 2 * uh);
+
+                        // Row 3.
+                        graph.insertGraphNode(3, off + 7 * uw, 3 * uh);
+                        graph.insertGraphNode(4, off + 9 * uw, 3 * uh);
+
+                        // Row 4.
+                        graph.insertGraphNode(5, off + 2 * uw, 4 * uh);
+                        graph.insertGraphNode(6, off + 4 * uw, 4 * uh);
+
+                        // Row 5.
+                        graph.insertGraphNode(7, off + 7 * uw, 5 * uh);
+                        graph.insertGraphNode(8, off + 9 * uw, 5 * uh);
+
+                        // Row 7.
+                        graph.insertGraphNode(9, off + 3 * uw, 7 * uh);
+                        graph.insertGraphNode(10, off + 5 * uw, 7 * uh);
+
+                        // Row 8.
+                        graph.insertGraphNode(11, off + 8 * uw, 8 * uh);
+
+                        // Row 9.
+                        graph.insertGraphNode(12, off + 3 * uw, 9 * uh);
+                        graph.insertGraphNode(13, off + 5 * uw, 9 * uh);
+
+                        // Edges.
+                        graph.insertDirectedEdge(1, 2, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(2, 3, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(2, 5, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(2, 6, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(3, 7, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(3, 6, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(4, 3, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(5, 1, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(5, 9, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(6, 5, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(7, 8, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(7, 10, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(8, 4, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(9, 10, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(10, 11, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(10, 13, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(11, 8, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(12, 9, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(13, 12, rand.nextInt(16) + 4);
                         break;
                     case "Directed Forest":
                         clear();
                         displayMessage("Directed Forest graph selected. Press select to load onto the screen.");
                         graph = new Graph();
+
+                        // Row 1.
+                        graph.insertGraphNode(1, off + 2 * uw, uh);
+                        graph.insertGraphNode(2, off + 4 * uw, uh);
+                        graph.insertGraphNode(3, off + 6 * uw, uh);
+
+                        // Row 2.
+                        graph.insertGraphNode(4, off + 8 * uw, 2 * uh);
+
+                        // Row 3.
+                        graph.insertGraphNode(5, off + 3 * uw, 3 * uh);
+                        graph.insertGraphNode(6, off + 5 * uw, 3 * uh);
+                        graph.insertGraphNode(7, off + 9 * uw, 3 * uh);
+
+                        // Row 4.
+                        graph.insertGraphNode(8, off + uw, 4 * uh);
+                        graph.insertGraphNode(9, off + 8 * uw, 4 * uh);
+
+                        // Row 5.
+                        graph.insertGraphNode(10, off + 3 * uw, 5 * uh);
+                        graph.insertGraphNode(11, off + 6 * uw, 5 * uh);
+                        graph.insertGraphNode(12, off + 9 * uw, 5 * uh);
+
+                        // Row 6.
+                        graph.insertGraphNode(13, off + uw, 6 * uh);
+                        graph.insertGraphNode(14, off + 8 * uw, 6 * uh);
+
+                        // Row 7.
+                        graph.insertGraphNode(15, off + 3 * uw, 7 * uh);
+                        graph.insertGraphNode(16, off + 5 * uw, 7 * uh);
+
+                        // Row 8.
+                        graph.insertGraphNode(17, off + uw, 8 * uh);
+
+                        // Row 9.
+                        graph.insertGraphNode(18, off + 3 * uw, 9 * uh);
+                        graph.insertGraphNode(19, off + 5 * uw, 9 * uh);
+
+                        // Edges.
+                        graph.insertDirectedEdge(1, 2, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(1, 5, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(2, 3, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(3, 11, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(4, 7, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(5, 6, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(5, 10, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(6, 2, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(6, 3, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(7, 9, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(9, 4, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(9, 12, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(9, 14, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(12, 14, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(13, 8, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(13, 15, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(15, 16, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(16, 19, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(17, 13, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(18, 15, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(18, 17, rand.nextInt(16) + 4);
+                        graph.insertDirectedEdge(19, 18, rand.nextInt(16) + 4);
                         break;
                     case "Undirected Arbitrary":
                         clear();
                         displayMessage("Undirected Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
+
+                        // Row 1.
+                        graph.insertGraphNode(1, off + 2 * uw, uh);
+                        graph.insertGraphNode(2, off + 4 * uw, uh);
+                        graph.insertGraphNode(3, off + 6 * uw, uh);
+
+                        // Row 3.
+                        graph.insertGraphNode(4, off + uw, 3 * uh);
+                        graph.insertGraphNode(5, off + 3 * uw, 3 * uh);
+                        graph.insertGraphNode(6, off + 5 * uw, 3 * uh);
+
+                        // Row 5.
+                        graph.insertGraphNode(7, off + uw, 5 * uh);
+                        graph.insertGraphNode(8, off + 3 * uw, 5 * uh);
+                        graph.insertGraphNode(9, off + 5 * uw, 5 * uh);
+                        graph.insertGraphNode(10, off + 6 * uw, 5 * uh);
+
+                        // Row 7.
+                        graph.insertGraphNode(11, off + 3 * uw, 7 * uh);
+                        graph.insertGraphNode(12, off + 5 * uw, 7 * uh);
+                        graph.insertGraphNode(13, off + 8 * uw, 7 * uh);
+
+                        // Edges.
+                        graph.insertUnDirectedEdge(1, 2, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(1, 5, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(2, 3, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(3, 10, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(5, 6, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(5, 8, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(6, 9, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(7, 4, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(8, 6, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(8, 11, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(8, 12, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(10, 12, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(11, 7, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(12, 13, rand.nextInt(16) + 4);
                         break;
                     case "Undirected Cyclical":
                         clear();
                         displayMessage("Undirected Cyclical graph selected. Press select to load onto the screen.");
                         graph = new Graph();
+
+
+                        // Row 2.
+                        graph.insertGraphNode(1, off + 2 * uw, 2 * uh);
+                        graph.insertGraphNode(2, off + 4 * uw, 2 * uh);
+
+                        // Row 3.
+                        graph.insertGraphNode(3, off + 7 * uw, 3 * uh);
+                        graph.insertGraphNode(4, off + 9 * uw, 3 * uh);
+
+                        // Row 4.
+                        graph.insertGraphNode(5, off + 2 * uw, 4 * uh);
+                        graph.insertGraphNode(6, off + 4 * uw, 4 * uh);
+
+                        // Row 5.
+                        graph.insertGraphNode(7, off + 7 * uw, 5 * uh);
+                        graph.insertGraphNode(8, off + 9 * uw, 5 * uh);
+
+                        // Row 7.
+                        graph.insertGraphNode(9, off + 3 * uw, 7 * uh);
+                        graph.insertGraphNode(10, off + 5 * uw, 7 * uh);
+
+                        // Row 8.
+                        graph.insertGraphNode(11, off + 8 * uw, 8 * uh);
+
+                        // Row 9.
+                        graph.insertGraphNode(12, off + 3 * uw, 9 * uh);
+                        graph.insertGraphNode(13, off + 5 * uw, 9 * uh);
+
+                        // Edges.
+                        graph.insertUnDirectedEdge(1, 2, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(2, 3, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(2, 5, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(2, 6, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(3, 7, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(3, 6, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(4, 3, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(5, 1, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(5, 9, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(6, 5, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(7, 8, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(7, 10, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(8, 4, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(9, 10, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(10, 11, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(10, 13, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(11, 8, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(12, 9, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(13, 12, rand.nextInt(16) + 4);
                         break;
                     case "Undirected Forest":
                         clear();
                         displayMessage("Undirected Forest graph selected. Press select to load onto the screen.");
                         graph = new Graph();
+
+                        // Row 1.
+                        graph.insertGraphNode(1, off + 2 * uw, uh);
+                        graph.insertGraphNode(2, off + 4 * uw, uh);
+                        graph.insertGraphNode(3, off + 6 * uw, uh);
+
+                        // Row 2.
+                        graph.insertGraphNode(4, off + 8 * uw, 2 * uh);
+
+                        // Row 3.
+                        graph.insertGraphNode(5, off + 3 * uw, 3 * uh);
+                        graph.insertGraphNode(6, off + 5 * uw, 3 * uh);
+                        graph.insertGraphNode(7, off + 9 * uw, 3 * uh);
+
+                        // Row 4.
+                        graph.insertGraphNode(8, off + uw, 4 * uh);
+                        graph.insertGraphNode(9, off + 8 * uw, 4 * uh);
+
+                        // Row 5.
+                        graph.insertGraphNode(10, off + 3 * uw, 5 * uh);
+                        graph.insertGraphNode(11, off + 6 * uw, 5 * uh);
+                        graph.insertGraphNode(12, off + 9 * uw, 5 * uh);
+
+                        // Row 6.
+                        graph.insertGraphNode(13, off + uw, 6 * uh);
+                        graph.insertGraphNode(14, off + 8 * uw, 6 * uh);
+
+                        // Row 7.
+                        graph.insertGraphNode(15, off + 3 * uw, 7 * uh);
+                        graph.insertGraphNode(16, off + 5 * uw, 7 * uh);
+
+                        // Row 8.
+                        graph.insertGraphNode(17, off + uw, 8 * uh);
+
+                        // Row 9.
+                        graph.insertGraphNode(18, off + 3 * uw, 9 * uh);
+                        graph.insertGraphNode(19, off + 5 * uw, 9 * uh);
+
+                        // Edges.
+                        graph.insertUnDirectedEdge(1, 2, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(1, 5, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(2, 3, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(3, 11, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(4, 7, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(5, 6, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(5, 10, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(6, 2, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(6, 3, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(7, 9, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(9, 4, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(9, 12, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(9, 14, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(12, 14, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(13, 8, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(13, 15, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(15, 16, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(16, 19, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(17, 13, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(18, 15, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(18, 17, rand.nextInt(16) + 4);
+                        graph.insertUnDirectedEdge(19, 18, rand.nextInt(16) + 4);
                         break;
                     case "Mixed Graph":
                         clear();

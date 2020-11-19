@@ -13,58 +13,58 @@ import java.util.concurrent.Semaphore;
 public class AnimationParameters {
 
     // Default time taken for any given animation.
-    static final int ANIM_TIME = 1000;
+    public static final int ANIM_TIME = 1000;
 
     // Default number of steps for any Node movement animation.
-    static final int MOVEMENT_FRAMES = 20;
+    public static final int MOVEMENT_FRAMES = 20;
 
     // Default colour of a vector.
-    static final int VEC_R = 0;
-    static final int VEC_G = 0;
-    static final int VEC_B = 0;
+    public static final int VEC_R = 0;
+    public static final int VEC_G = 0;
+    public static final int VEC_B = 0;
 
     // DEfault colour of a selected vector.
-    static final int SEL_VEC_R = 0;
-    static final int SEL_VEC_G = 0;
-    static final int SEL_VEC_B = 200;
+    public static final int SEL_VEC_R = 0;
+    public static final int SEL_VEC_G = 0;
+    public static final int SEL_VEC_B = 200;
 
     // Default colour of a highlighted vector.
-    static final int HIL_VEC_R = 0;
-    static final int HIL_VEC_G = 120;
-    static final int HIL_VEC_B = 0;
+    public static final int HIL_VEC_R = 0;
+    public static final int HIL_VEC_G = 120;
+    public static final int HIL_VEC_B = 0;
 
     // Default colour of text.
-    static final int TEXT_R = 255;
-    static final int TEXT_G = 255;
-    static final int TEXT_B = 255;
+    public static final int TEXT_R = 255;
+    public static final int TEXT_G = 255;
+    public static final int TEXT_B = 255;
 
     // Default colour of background.
-    static final int BACK_R = 255;
-    static final int BACK_G = 255;
-    static final int BACK_B = 255;
+    public static final int BACK_R = 255;
+    public static final int BACK_G = 255;
+    public static final int BACK_B = 255;
 
     // Default colour of Node.
-    static final int NODE_R = 200;
-    static final int NODE_G = 0;
-    static final int NODE_B = 0;
+    public static final int NODE_R = 200;
+    public static final int NODE_G = 0;
+    public static final int NODE_B = 0;
 
     // Default colour of a selected Node.
-    static final int SEL_NODE_R = 0;
-    static final int SEL_NODE_G = 0;
-    static final int SEL_NODE_B = 200;
+    public static final int SEL_NODE_R = 0;
+    public static final int SEL_NODE_G = 0;
+    public static final int SEL_NODE_B = 200;
 
     // Default colour of a highlighted Node.
-    static final int HIL_NODE_R = 0;
-    static final int HIL_NODE_G = 120;
-    static final int HIL_NODE_B = 0;
+    public static final int HIL_NODE_R = 0;
+    public static final int HIL_NODE_G = 120;
+    public static final int HIL_NODE_B = 0;
 
     // Default colour of an explored Node.
-    static final int EXP_NODE_R = 0;
-    static final int EXP_NODE_G = 40;
-    static final int EXP_NODE_B = 0;
+    public static final int EXP_NODE_R = 0;
+    public static final int EXP_NODE_G = 40;
+    public static final int EXP_NODE_B = 0;
 
     // Width of a Node.
-    static final float NODE_RADIUS = 40f;
+    public static final float NODE_RADIUS = 35f;
 
     // All sizes and distances will be multiplied by the scaleFactor.
     static float scaleFactor = (float) 1;

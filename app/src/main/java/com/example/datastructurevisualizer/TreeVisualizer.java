@@ -375,7 +375,7 @@ public abstract class TreeVisualizer extends NodeVisualizer {
         rad = AnimationParameters.NODE_RADIUS;
 
         // Places the Nodes.
-        placeTreeNodes((int) (width / 2 + rad * 1.5), (int) (rad * 3),
+        placeTreeNodes((int) (width / 2 + rad * 1.5), (int) (rad * 2),
                 (int) (width - rad * 5), (int) AnimationParameters.depthLen);
 
     }
