@@ -23,10 +23,6 @@ android {
         debug {
             testCoverageEnabled true
         }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
     testOptions {
         animationsDisabled true
@@ -35,6 +31,14 @@ android {
             includeAndroidResources = true
         }
     }
+
+//    jacocoTestReport {
+//        reports {
+//            xml.enabled true
+//            html.enabled true
+//            csv.enabled true
+//        }
+//    }
 //
 //    task jacocoTestReport(type: JacocoReport, dependsOn: ['testPlayDebugUnitTest', 'createPlayDebugCoverageReport']) {
 //
