@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -80,12 +81,19 @@ public class Files extends Fragment {
         mFile = tomFile(jsonFiles);
 
         //Create Files for cases here TODO
-        mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", null, true));
-        mFile.add(new File("default_balancedBST", "Binary Search Tree", "n/a", null, true));
-        mFile.add(new File("default_completeTree", "Binary Search Tree", "n/a", null, true));
-        mFile.add(new File("default_fullTree", "AVL Tree", "n/a", null, true));
-        mFile.add(new File("default_perfectTree", "Binary Search Tree", "n/a", null, true));
-        mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", null, true));
+        ArrayList<Integer> unbalanced_BST = new ArrayList(Arrays.asList(2, 3, 4, 5, 1));
+        ArrayList<Integer> balanced_BST = new ArrayList(Arrays.asList(4, 2, 1, 3, 5, 6));
+        ArrayList<Integer> complete_BST = new ArrayList(Arrays.asList(4, 2, 3, 1, 6, 5));
+        ArrayList<Integer> full_AVL = new ArrayList(Arrays.asList(2, 1, 4, 3, 6, 5, 7));
+        ArrayList<Integer> perfect_BST = new ArrayList(Arrays.asList(5, 3, 4, 2, 7, 6, 8));
+//        ArrayList<Integer> unbalanced_BST = new ArrayList(Arrays.asList(2, 3, 4, 5, 1));
+
+        mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", unbalanced_BST, true));
+        mFile.add(new File("default_balancedBST", "Binary Search Tree", "n/a", balanced_BST, true));
+        mFile.add(new File("default_completeTree", "Binary Search Tree", "n/a", complete_BST, true));
+        mFile.add(new File("default_fullTree", "AVL Tree", "n/a", full_AVL, true));
+        mFile.add(new File("default_perfectTree", "Binary Search Tree", "n/a", perfect_BST, true));
+//        mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", null, true));
 
         if (dataStructureType != null) {
             MainActivity.actionBar.setTitle(dataStructureType + " Files");
