@@ -69,7 +69,7 @@ public class Visualizer extends Fragment {
 
     //Class variables
     private static String dataStructureType;
-    private TreeVisualizer tree;
+    public static TreeVisualizer tree;
     private Graph graph;
     private ArrayList<String> traversals;
     private ArrayList<String> graphs;
@@ -272,8 +272,8 @@ public class Visualizer extends Fragment {
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (insertNumber.getText().length() == 0) {
-                    Toast.makeText(getActivity(), "Please insert a value", Toast.LENGTH_SHORT).show();
+                if (insertNumber.getText().length() == 0 || Integer.parseInt(insertNumber.getText().toString()) > 999) {
+                    Toast.makeText(getActivity(), "Please insert a value between 0-999", Toast.LENGTH_SHORT).show();
 
                 } else {
                     insert();
@@ -540,21 +540,21 @@ public class Visualizer extends Fragment {
                     case "Select Insertion":
                         break;
                     case "Balanced Insertion":
-                        displayMessage("Balanced Tree selected");
+                        displayMessage("Balanced Tree insertion selected");
                         displayMessage("Press play to begin animation");
                         break;
                     case "Unbalanced Insertion":
-                        displayMessage("Unbalanced Tree selected");
+                        displayMessage("Unbalanced Tree insertion selected");
                         displayMessage("Press play to begin animation");
                         break;
                     case "Auto Insertion":
                         java.util.Random rand = new java.util.Random();
                         int k = 0;
                         if (tree.getAllNodes().isEmpty()) {
-                            tree.insert(rand.nextInt(10) + 45);
+                            tree.insert(rand.nextInt(50) + 475);
                             int inserted = 1;
                             while (inserted < 15) {
-                                int insertValue = rand.nextInt(101);
+                                int insertValue = rand.nextInt(1000);
                                 if (!tree.getAllKeys().contains(insertValue)) {
                                     tree.insert(insertValue);
                                     inserted++;
@@ -583,10 +583,13 @@ public class Visualizer extends Fragment {
         //Array List of the drop-down graph options
         graphs = new ArrayList<>();
         graphs.add("Select Graph");
-        graphs.add("Directed Weighted");
-        graphs.add("Directed Unweighted");
-        graphs.add("Undirected Weighted");
-        graphs.add("Undirected Unweighted");
+        graphs.add("Directed Arbitrary");
+        graphs.add("Directed Cyclical");
+        graphs.add("Directed Forest");
+        graphs.add("Undirected Arbitrary");
+        graphs.add("Undirected Cyclical");
+        graphs.add("Undirected Forest");
+        graphs.add("Mixed Graph");
 
         //Array List of the drop-down items
         traversals = new ArrayList<>();
@@ -792,8 +795,9 @@ public class Visualizer extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (parent.getItemAtPosition(position).toString()) {
-                    case "Directed Weighted":
+                    case "Directed Arbitrary":
                         clear();
+                        displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         java.util.Random rand = new java.util.Random();
                         int k = 0;
@@ -811,16 +815,38 @@ public class Visualizer extends Fragment {
                             }
                         }
                         break;
-                    case "Directed Unweighted":
+                    case "Directed Cyclical":
+                        clear();
+                        displayMessage("Directed Cyclical graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         break;
-                    case "Undirected Weighted":
+                    case "Directed Forest":
+                        clear();
+                        displayMessage("Directed Forest graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         break;
-                    case "Undirected Unweighted":
+                    case "Undirected Arbitrary":
+                        clear();
+                        displayMessage("Undirected Arbitrary graph selected. Press select to load onto the screen.");
+                        graph = new Graph();
+                        break;
+                    case "Undirected Cyclical":
+                        clear();
+                        displayMessage("Undirected Cyclical graph selected. Press select to load onto the screen.");
+                        graph = new Graph();
+                        break;
+                    case "Undirected Forest":
+                        clear();
+                        displayMessage("Undirected Forest graph selected. Press select to load onto the screen.");
+                        graph = new Graph();
+                        break;
+                    case "Mixed Graph":
+                        clear();
+                        displayMessage("Mixed graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         break;
                     case "Select Graph":
+                        displayMessage("No graph selected. Use the drop-down to choose a graph and press select to load onto the screen");
                         graph = new Graph();
                 }
             }

@@ -28,7 +28,7 @@
             android:layout_marginRight="7dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="0 - 100"
+            android:hint="0 - 999"
             android:inputType="number"
             android:textSize="18sp" />
 

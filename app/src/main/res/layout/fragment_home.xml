@@ -128,7 +128,7 @@
                     android:background="@drawable/homepage_button"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="Graphs"
+                    android:text="Weighted Graphs"
                     android:textAllCaps="false"
                     android:textColor="@color/textHomepageButtons"
                     android:textSize="20sp"

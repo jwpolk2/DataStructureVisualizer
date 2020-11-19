@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -18,53 +19,76 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestFilesPageOpensWithCorrectActionBar {
+public class BST_AutoInsertion {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @After
-    public void closeActivity() {
-        try {
-            wait(1000);
+    public void waitFor() {
+        try{
+            wait(20000);
         }catch (Exception e) {
 
         }
-        mActivityTestRule.finishActivity();
     }
 
     @Test
-    public void testFilesPageOpensWithCorrectActionBar() {
+    public void bST_AutoInsertion() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.filesButton), withText("Files / Load Structure"),
+                allOf(withId(R.id.bstButton), withText("Binary Search Tree"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
-                                        4),
+                                        0),
                                 0),
                         isDisplayed()));
         appCompatButton.perform(click());
 
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.spinner_tree_options),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.visualizer_fragment),
+                                        0),
+                                4),
+                        isDisplayed()));
+        appCompatSpinner.perform(click());
+
+        DataInteraction appCompatTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(3);
+        appCompatTextView.perform(click());
+
+        try{
+            wait(20000);
+        }catch (Exception e) {
+
+        }
+
         ViewInteraction textView = onView(
-                allOf(withText("Files"),
+                allOf(withText("Binary Search Tree"),
                         withParent(allOf(withId(R.id.action_bar),
                                 withParent(withId(R.id.action_bar_container)))),
                         isDisplayed()));
-        textView.check(matches(withText("Files")));
+        textView.check(matches(withText("Binary Search Tree")));
     }
 
     private static Matcher<View> childAtPosition(
