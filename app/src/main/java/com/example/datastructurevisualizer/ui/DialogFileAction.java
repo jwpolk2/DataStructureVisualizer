@@ -141,7 +141,9 @@ public class DialogFileAction extends DialogFragment {
                 } ft.addToBackStack(null);
 
                 DialogFileDelete deleteFileDialog = new DialogFileDelete();
+                deleteFileDialog.setFileNameText(fileNameText);
                 deleteFileDialog.show(ft, "final delete");
+
             }
         });
         return view;

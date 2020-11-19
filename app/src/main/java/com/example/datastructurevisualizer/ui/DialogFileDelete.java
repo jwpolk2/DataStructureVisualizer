@@ -29,10 +29,14 @@ import java.util.Date;
 public class DialogFileDelete extends DialogFragment {
     private Button fileFinalDelete;
     private Button fileFinalCancel;
-
+    private String fileNameText;
 
     public DialogFileDelete() {
     Log.d("Point Reached", "DialogFile Action");
+    }
+
+    public void setFileNameText(String fileNameText) {
+        this.fileNameText = fileNameText;
     }
 
     public static DialogFileDelete newInstance(String title) {
@@ -52,6 +56,22 @@ public class DialogFileDelete extends DialogFragment {
         fileFinalDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Context context = getContext();
+
+                java.io.File dir = context.getFilesDir();
+                File file = new File(dir, fileNameText);
+                boolean deleted = file.delete();
+
+                if (deleted) {
+                    Toast toast = Toast.makeText(getActivity(), "File " + fileNameText + " successfully deleted", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                }
+                else{
+                    Toast toast = Toast.makeText(getActivity(), "File " + fileNameText + " failed to delete. Please restart app and try again.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                }
                 dismiss();
 
             }
