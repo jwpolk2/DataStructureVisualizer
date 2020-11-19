@@ -69,7 +69,7 @@ public class Visualizer extends Fragment {
 
     //Class variables
     private static String dataStructureType;
-    private TreeVisualizer tree;
+    public static TreeVisualizer tree;
     private Graph graph;
     private ArrayList<String> traversals;
     private ArrayList<String> graphs;
@@ -272,8 +272,8 @@ public class Visualizer extends Fragment {
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (insertNumber.getText().length() == 0) {
-                    Toast.makeText(getActivity(), "Please insert a value", Toast.LENGTH_SHORT).show();
+                if (insertNumber.getText().length() == 0 || Integer.parseInt(insertNumber.getText().toString()) > 999) {
+                    Toast.makeText(getActivity(), "Please insert a value between 0-999", Toast.LENGTH_SHORT).show();
 
                 } else {
                     insert();
@@ -540,21 +540,21 @@ public class Visualizer extends Fragment {
                     case "Select Insertion":
                         break;
                     case "Balanced Insertion":
-                        displayMessage("Balanced Tree selected");
+                        displayMessage("Balanced Tree insertion selected");
                         displayMessage("Press play to begin animation");
                         break;
                     case "Unbalanced Insertion":
-                        displayMessage("Unbalanced Tree selected");
+                        displayMessage("Unbalanced Tree insertion selected");
                         displayMessage("Press play to begin animation");
                         break;
                     case "Auto Insertion":
                         java.util.Random rand = new java.util.Random();
                         int k = 0;
                         if (tree.getAllNodes().isEmpty()) {
-                            tree.insert(rand.nextInt(10) + 45);
+                            tree.insert(rand.nextInt(50) + 475);
                             int inserted = 1;
                             while (inserted < 15) {
-                                int insertValue = rand.nextInt(101);
+                                int insertValue = rand.nextInt(1000);
                                 if (!tree.getAllKeys().contains(insertValue)) {
                                     tree.insert(insertValue);
                                     inserted++;
