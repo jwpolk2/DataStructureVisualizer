@@ -583,10 +583,13 @@ public class Visualizer extends Fragment {
         //Array List of the drop-down graph options
         graphs = new ArrayList<>();
         graphs.add("Select Graph");
-        graphs.add("Directed Weighted");
-        graphs.add("Directed Unweighted");
-        graphs.add("Undirected Weighted");
-        graphs.add("Undirected Unweighted");
+        graphs.add("Directed Arbitrary");
+        graphs.add("Directed Cyclical");
+        graphs.add("Directed Forest");
+        graphs.add("Undirected Arbitrary");
+        graphs.add("Undirected Cyclical");
+        graphs.add("Undirected Forest");
+        graphs.add("Mixed Graph");
 
         //Array List of the drop-down items
         traversals = new ArrayList<>();
@@ -792,8 +795,9 @@ public class Visualizer extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (parent.getItemAtPosition(position).toString()) {
-                    case "Directed Weighted":
+                    case "Directed Arbitrary":
                         clear();
+                        displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         java.util.Random rand = new java.util.Random();
                         int k = 0;
@@ -811,16 +815,38 @@ public class Visualizer extends Fragment {
                             }
                         }
                         break;
-                    case "Directed Unweighted":
+                    case "Directed Cyclical":
+                        clear();
+                        displayMessage("Directed Cyclical graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         break;
-                    case "Undirected Weighted":
+                    case "Directed Forest":
+                        clear();
+                        displayMessage("Directed Forest graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         break;
-                    case "Undirected Unweighted":
+                    case "Undirected Arbitrary":
+                        clear();
+                        displayMessage("Undirected Arbitrary graph selected. Press select to load onto the screen.");
+                        graph = new Graph();
+                        break;
+                    case "Undirected Cyclical":
+                        clear();
+                        displayMessage("Undirected Cyclical graph selected. Press select to load onto the screen.");
+                        graph = new Graph();
+                        break;
+                    case "Undirected Forest":
+                        clear();
+                        displayMessage("Undirected Forest graph selected. Press select to load onto the screen.");
+                        graph = new Graph();
+                        break;
+                    case "Mixed Graph":
+                        clear();
+                        displayMessage("Mixed graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         break;
                     case "Select Graph":
+                        displayMessage("No graph selected. Use the drop-down to choose a graph and press select to load onto the screen");
                         graph = new Graph();
                 }
             }
