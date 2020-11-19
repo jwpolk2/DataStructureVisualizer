@@ -140,6 +140,7 @@ public class Files extends Fragment {
                 fileActionDialog.setFileNameText(dsFile.getFileName());
                 fileActionDialog.setFilePosition(position);
                 fileActionDialog.setIsDefault(mFile.get(position).getIsDefault());
+                fileActionDialog.setParentFrag(Files.this);
                 //fileActionDialog.setVals(fileAdapter);
 //                saveDialog.setTree(tree);
 //                saveDialog.setDataStructureType(dataStructureType);

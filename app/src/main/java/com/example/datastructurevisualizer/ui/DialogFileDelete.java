@@ -1,6 +1,7 @@
 package com.example.datastructurevisualizer.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.TreeVisualizer;
@@ -30,6 +32,8 @@ public class DialogFileDelete extends DialogFragment {
     private Button fileFinalDelete;
     private Button fileFinalCancel;
     private String fileNameText;
+    private boolean deleted;
+    private DialogFileAction parentFrag;
 
     public DialogFileDelete() {
     Log.d("Point Reached", "DialogFile Action");
@@ -38,6 +42,14 @@ public class DialogFileDelete extends DialogFragment {
     public void setFileNameText(String fileNameText) {
         this.fileNameText = fileNameText;
     }
+
+    public void setParentFrag(DialogFileAction parentFrag) {
+        this.parentFrag = parentFrag;
+    }
+    public boolean isDeleted() {
+        return deleted;
+    }
+
 
     public static DialogFileDelete newInstance(String title) {
         DialogFileDelete fileDeleteDialog = new DialogFileDelete();
@@ -60,12 +72,14 @@ public class DialogFileDelete extends DialogFragment {
 
                 java.io.File dir = context.getFilesDir();
                 File file = new File(dir, fileNameText);
-                boolean deleted = file.delete();
+                deleted = file.delete();
 
                 if (deleted) {
                     Toast toast = Toast.makeText(getActivity(), "File " + fileNameText + " successfully deleted", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
+                    parentFrag.dismiss();
+
                 }
                 else{
                     Toast toast = Toast.makeText(getActivity(), "File " + fileNameText + " failed to delete. Please restart app and try again.", Toast.LENGTH_LONG);

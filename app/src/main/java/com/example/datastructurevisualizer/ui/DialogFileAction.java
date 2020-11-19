@@ -65,9 +65,15 @@ public class DialogFileAction extends DialogFragment {
     private ArrayList<Integer> vals;
     private String dsType;
     private boolean isDefault;
+    private Files parentFrag;
 
     public void setFileNameText(String fileNameText) {
         this.fileNameText = fileNameText;
+    }
+
+
+    public void setParentFrag(Files parentFrag) {
+        this.parentFrag = parentFrag;
     }
 
 
@@ -96,6 +102,18 @@ public class DialogFileAction extends DialogFragment {
         args.putString("save",title);
         fileActionDialog.setArguments(args);
         return fileActionDialog;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        // Reload current fragment
+        Fragment frg = parentFrag;
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(frg);
+        ft.attach(frg);
+        ft.commit();
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,6 +168,7 @@ public class DialogFileAction extends DialogFragment {
                     DialogFileDelete deleteFileDialog = new DialogFileDelete();
                     deleteFileDialog.setFileNameText(fileNameText);
                     deleteFileDialog.show(ft, "final delete");
+                    deleteFileDialog.setParentFrag(DialogFileAction.this);
 
                 }
             });
