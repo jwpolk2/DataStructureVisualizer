@@ -540,49 +540,47 @@ public class Visualizer extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int inserted = 0;
+                ArrayList<Integer> toInsert = new ArrayList();
                 java.util.Random rand = new java.util.Random();
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "Select Insertion":
-
                         break;
                     case "Balanced Insertion":
                         displayMessage("Balanced Tree insertion selected");
                         clear();
-                        if (tree.getAllNodes().isEmpty()) {
                             while (inserted < 15) {
                                 int insertValue = rand.nextInt(67) * (inserted + 1);
                                 if (!tree.getAllKeys().contains(insertValue) && insertValue < 999) {
-                                    tree.insert(insertValue);
+                                    toInsert.add(insertValue);
                                     inserted++;
                                 }
                             }
-                        }
+                            tree.insert(toInsert);
+
                         break;
                     case "Unbalanced Insertion":
                         clear();
                         displayMessage("Unbalanced Tree insertion selected");
-                        if (tree.getAllNodes().isEmpty()) {
                             while (inserted < 7) {
                                 int insertValue = rand.nextInt(150) * (inserted + 1);
                                 if (!tree.getAllKeys().contains(insertValue) && insertValue < 999) {
-                                    tree.insert(insertValue);
+                                    toInsert.add(insertValue);
                                     inserted++;
                                 }
                             }
-                        }
+                            tree.insert(toInsert);
                         break;
                     case "Auto Insertion":
                         clear();
-                        if (tree.getAllNodes().isEmpty()) {
-                            tree.insert(rand.nextInt(50) + 475);
+                            toInsert.add(rand.nextInt(50) + 475);
                             while (inserted < 15) {
                                 int insertValue = rand.nextInt(1000);
                                 if (!tree.getAllKeys().contains(insertValue)) {
-                                    tree.insert(insertValue);
+                                    toInsert.add(insertValue);
                                     inserted++;
                                 }
                             }
-                        }
+                            tree.insert(toInsert);
                         displayMessage("Auto Tree selected");
                         break;
                     default:
