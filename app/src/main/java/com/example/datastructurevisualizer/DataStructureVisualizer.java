@@ -180,11 +180,14 @@ public abstract class DataStructureVisualizer {
     public abstract ArrayList<Integer> getAllKeys();
 
     /**
-     * Clears the data structure.
+     * Clears the data structure. This action will be logged.
      */
     public void clear() {
         beginAnimation();
+        logClear();
+        logAvailable = false;
         for (Integer i : getAllKeys()) removeNoAnim(i);
+        logAvailable = true;
         stopAnimation();
 
     }
@@ -216,33 +219,46 @@ public abstract class DataStructureVisualizer {
     }
 
     /**
-     * Class representing an insertion into the Tree.
+     * Class representing an insertion into the Data Structure.
      */
     private class KeyAdd extends StructureAction {
         KeyAdd(int key) { super(key); }
 
         /**
-         * Inserts the stored key into the Tree.
+         * Inserts the stored key into the Data Structure.
          */
         void action() { insertNoAnim(key); }
 
     }
 
     /**
-     * Class representing a deletion from the Tree.
+     * Class representing a deletion from the Data Structure.
      */
     private class KeyRemove extends StructureAction {
         KeyRemove(int key) { super(key); }
 
         /**
-         * Removes the stored key from the Tree.
+         * Removes the stored key from the Data Structure.
          */
         void action() { removeNoAnim(key); }
 
     }
 
     /**
-     * Logs an addition to the Tree.
+     * Class representing a deletion from the Data Structure.
+     */
+    private class StructureClear extends StructureAction {
+        StructureClear(int key) { super(key); }
+
+        /**
+         * Removes the stored key from the Data Structure.
+         */
+        void action() { clearNoAnim(); }
+
+    }
+
+    /**
+     * Logs an addition to the Data Structure.
      *
      * @param key the key that has been added.
      */
@@ -261,7 +277,7 @@ public abstract class DataStructureVisualizer {
     }
 
     /**
-     * Logs a deletion from the Tree.
+     * Logs a deletion from the Data Structure.
      *
      * @param key the key that has been removed.
      */
@@ -273,6 +289,20 @@ public abstract class DataStructureVisualizer {
         // Adds the item to the log.
         ++logIndex;
         log.add(new KeyRemove(key));
+
+    }
+
+    /**
+     * Logs a clearing of the Data Structure.
+     */
+    protected void logClear() {
+
+        // Will not add to the log if it is unavailable.
+        if (!logAvailable) return;
+
+        // Adds the item to the log.
+        ++logIndex;
+        log.add(new StructureClear(0));
 
     }
 
