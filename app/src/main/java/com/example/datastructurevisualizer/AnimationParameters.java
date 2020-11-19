@@ -73,6 +73,7 @@ public class AnimationParameters {
     static float depthLen = 120;
 
     // All animation times will be divided by animSpeed.
+    // TODO unused, remove?
     static float animSpeed = 1;
 
     // Mutex that prevents animations from occurring concurrently.

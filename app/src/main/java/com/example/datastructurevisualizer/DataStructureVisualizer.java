@@ -183,6 +183,16 @@ public abstract class DataStructureVisualizer {
      * Clears the data structure.
      */
     public void clear() {
+        beginAnimation();
+        for (Integer i : getAllKeys()) removeNoAnim(i);
+        stopAnimation();
+
+    }
+
+    /**
+     * Clears the data structure without interrupting animations.
+     */
+    protected void clearNoAnim() {
         for (Integer i : getAllKeys()) removeNoAnim(i);
 
     }
@@ -283,7 +293,7 @@ public abstract class DataStructureVisualizer {
             logAvailable = false;
 
             // Clears the DataStructure.
-            clear();
+            clearNoAnim();
 
             // Rebuilds the tree.
             ++logIndex;
@@ -316,7 +326,7 @@ public abstract class DataStructureVisualizer {
         logAvailable = false;
 
         // Clears the tree.
-        clear();
+        clearNoAnim();
 
         // Rebuilds the tree.
         logIndex = Math.max(logIndex - 1, 0);

@@ -495,45 +495,6 @@ public abstract class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
-     * Recursively parses through the tree until the Node with the inputed key
-     * is found.
-     *
-     * @param currNode the current Node being viewed.
-     * @return the Node matching the desired key.
-     */
-    private Node getNodeRecursive(int key, Node currNode) {
-        Node node;
-
-        // Returns null if this Node is null.
-        if (currNode == null) return null;
-
-        // Returns this Node if it is the desired one.
-        if (currNode.key == key) return currNode;
-
-        // Parses through the subtrees of this Node.
-        for (int i = 0; i < getNumChildren(); ++i) {
-            node = getNodeRecursive(key, currNode.children[i]);
-            if (node != null) return node;
-
-        }
-
-        // Returns null if the Node is not found in this Node's subtrees.
-        return null;
-
-    }
-
-    /**
-     * Parses through the tree in order to find the Node with the inputed key.
-     *
-     * @return the Node containing the given Key.
-     */
-    @Override
-    public Node getNode(int key) {
-        return getNodeRecursive(key, root);
-
-    }
-
-    /**
      * Returns an ArrayList containing all keys in this data structure.
      *
      * @param dateModified when the file was created

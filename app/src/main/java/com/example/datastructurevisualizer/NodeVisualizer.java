@@ -1,4 +1,5 @@
 package com.example.datastructurevisualizer;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -375,7 +376,7 @@ public abstract class NodeVisualizer extends DataStructureVisualizer {
         if (selectedNode != null) unSelect();
         unHighlightAllNodes();
         unExploreAllNodes();
-        nodeList.clear();
+        nodeList.clearNoAnim();
 
     }
 
@@ -403,11 +404,14 @@ public abstract class NodeVisualizer extends DataStructureVisualizer {
 
     /**
      * Returns the Node containing the inputed key if it exists.
-     * Should be overridden.
      *
      * @return the Node containing the given key or null.
      */
-    public abstract Node getNode(int key);
+    public Node getNode(int key) {
+        for (Node node : getAllNodes()) if (node.key == key) return node;
+        return null;
+
+    }
 
     /**
      * Returns an ArrayList containing all keys in this data structure.

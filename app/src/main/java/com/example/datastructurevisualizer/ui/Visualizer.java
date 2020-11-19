@@ -649,7 +649,7 @@ public class Visualizer extends Fragment {
                                 if (graph != null && !graph.getAllNodes().isEmpty()) {
                                     if (startNode != null && startNode.getText().toString().length() != 0) {
                                         start = Integer.parseInt(startNode.getText().toString());
-                                        if (graph.getKeys().contains(start)) {
+                                        if (graph.getAllKeys().contains(start)) {
                                             graph.primsAlgorithm(start);
                                             new Thread(new Runnable() {
                                                 @Override
@@ -689,8 +689,8 @@ public class Visualizer extends Fragment {
                                         start = Integer.parseInt(startNode.getText().toString());
                                         if (endNode != null && endNode.getText().toString().length() != 0) {
                                             end = Integer.parseInt(endNode.getText().toString());
-                                            if (graph.getKeys().contains(start)) {
-                                                if (graph.getKeys().contains(end)) {
+                                            if (graph.getAllKeys().contains(start)) {
+                                                if (graph.getAllKeys().contains(end)) {
                                                     graph.dijkstraPathfind(start, end);
                                                     new Thread(new Runnable() {
                                                         @Override
@@ -761,8 +761,8 @@ public class Visualizer extends Fragment {
                                         start = Integer.parseInt(startNode.getText().toString());
                                         if (endNode != null && endNode.getText().toString().length() != 0) {
                                             end = Integer.parseInt(endNode.getText().toString());
-                                            if (graph.getKeys().contains(start)) {
-                                                if (graph.getKeys().contains(end)) {
+                                            if (graph.getAllKeys().contains(start)) {
+                                                if (graph.getAllKeys().contains(end)) {
                                                     graph.breadthFirstPathfind(start,end);
                                                     new Thread(new Runnable() {
                                                         @Override
@@ -819,20 +819,6 @@ public class Visualizer extends Fragment {
                         displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
                         java.util.Random rand = new java.util.Random();
-                        int k = 0;
-                        if (graph.getAllNodes().isEmpty()) {
-                            for (int i = 0; i < 5; ++i) {
-                                for (int j = 0; j < 5; ++j) {
-                                    graph.insertGraphNode(k, 100 + j * 200, 100 + i * 200);
-                                    if (k >= 5)
-                                        graph.insertDirectedEdge(k - 5, k, Math.abs(rand.nextInt() % 20) + 1);
-                                    if (k % 5 != 0)
-                                        graph.insertDirectedEdge(k - 1, k, Math.abs(rand.nextInt() % 20) + 1);
-                                    ++k;
-
-                                }
-                            }
-                        }
                         break;
                     case "Directed Cyclical":
                         clear();
