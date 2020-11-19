@@ -20,8 +20,9 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground" />
+            android:layout_height="200dp"
+            android:src="@drawable/dsv_logo"
+            android:padding="20dp"/>
 
         <TableLayout
             android:layout_width="wrap_content"
