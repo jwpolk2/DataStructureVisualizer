@@ -536,23 +536,42 @@ public class Visualizer extends Fragment {
         treesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int inserted = 0;
+                java.util.Random rand = new java.util.Random();
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "Select Insertion":
+
                         break;
                     case "Balanced Insertion":
                         displayMessage("Balanced Tree insertion selected");
-                        displayMessage("Press play to begin animation");
+                        clear();
+                        if (tree.getAllNodes().isEmpty()) {
+                            while (inserted < 15) {
+                                int insertValue = rand.nextInt(67) * (inserted + 1);
+                                if (!tree.getAllKeys().contains(insertValue) && insertValue < 999) {
+                                    tree.insert(insertValue);
+                                    inserted++;
+                                }
+                            }
+                        }
                         break;
                     case "Unbalanced Insertion":
+                        clear();
                         displayMessage("Unbalanced Tree insertion selected");
-                        displayMessage("Press play to begin animation");
+                        if (tree.getAllNodes().isEmpty()) {
+                            while (inserted < 7) {
+                                int insertValue = rand.nextInt(150) * (inserted + 1);
+                                if (!tree.getAllKeys().contains(insertValue) && insertValue < 999) {
+                                    tree.insert(insertValue);
+                                    inserted++;
+                                }
+                            }
+                        }
                         break;
                     case "Auto Insertion":
-                        java.util.Random rand = new java.util.Random();
-                        int k = 0;
+                        clear();
                         if (tree.getAllNodes().isEmpty()) {
                             tree.insert(rand.nextInt(50) + 475);
-                            int inserted = 1;
                             while (inserted < 15) {
                                 int insertValue = rand.nextInt(1000);
                                 if (!tree.getAllKeys().contains(insertValue)) {
@@ -562,7 +581,6 @@ public class Visualizer extends Fragment {
                             }
                         }
                         displayMessage("Auto Tree selected");
-                        displayMessage("Press play to begin animation");
                         break;
                     default:
                         break;
