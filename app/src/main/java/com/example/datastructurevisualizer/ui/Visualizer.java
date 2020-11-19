@@ -389,6 +389,9 @@ public class Visualizer extends Fragment {
         if (tree != null) {
             tree.clear();
         }
+        if (graph != null) {
+            graph.clear();
+        }
         if (visualizerCanvas != null) {
             visualizerCanvas.clearCanvas();
             checkCanvas();
