@@ -65,6 +65,9 @@ public class AVLTree extends TreeVisualizer {
         root = insertNoAnim(root, key);
         nodeCount++;
 
+        // Renders the tree.
+        finalRender();
+
     }
 
     /**
@@ -402,6 +405,10 @@ public class AVLTree extends TreeVisualizer {
             root = removeNoAnim(root, elem);
             nodeCount--;
         }
+
+        // Renders the tree.
+        finalRender();
+
     }
 
     /**

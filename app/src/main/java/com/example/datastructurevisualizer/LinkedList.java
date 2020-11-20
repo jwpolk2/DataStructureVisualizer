@@ -230,8 +230,25 @@ public class LinkedList extends TreeVisualizer {
      */
     @Override
     public void removeNoAnim(int key) {
-        // Does nothing.
 
+        // If the LinkedList is empty, returns.
+        if (root == null) return;
+
+        // Deletes the root.
+        if (root.key == key) {
+            root = root.children[0];
+            return;
+
+        }
+
+        // Finds and removes the inputed key.
+        for (Node currNode = root; currNode.children[0] != null; currNode = currNode.children[0]) {
+            if (currNode.children[0].key == key) {
+                currNode.children[0] = currNode.children[0].children[0];
+                return;
+
+            }
+        }
     }
 
     /**

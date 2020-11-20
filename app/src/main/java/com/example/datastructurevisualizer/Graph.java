@@ -258,7 +258,6 @@ public class Graph extends NodeVisualizer {
         if (start == null || dest == null || start == dest) return;
 
         // Adds the start to the queue of Nodes to explore.
-        explored.add(start);
         start.value = 0;
         start.children[0] = null;
         queuePriorityQueueAddAnimation(start, "Begin exploring at start",
@@ -271,7 +270,24 @@ public class Graph extends NodeVisualizer {
 
             // Explores the first Node in the queue.
             currNode = getNode(nodeList.peek());
+
+            // Clears all instances of the popped Node.
             queueListPopAnimation(null, 0);
+            for (int i = 0; i < 6; ++i) nodeList.removeNoAnim(currNode.key);
+
+            // Continues if the current Node has already been explored.
+            if (explored.contains(currNode)) continue;
+            explored.add(currNode);
+
+            // Finishes the traversal if the final Node is found.
+            if (currNode == dest) {
+                queueNodeSelectAnimation(currNode,currNode.key + " is the destination Node",
+                        AnimationParameters.ANIM_TIME);
+                queueHighlightPathAnimation(currNode, "Final path cost : " + currNode.value,
+                        AnimationParameters.ANIM_TIME);
+                return;
+
+            }
 
             // Continues traversal if the destination Node is not found.
             queueNodeSelectAnimation(currNode, "Explore " + currNode.key,
@@ -281,29 +297,14 @@ public class Graph extends NodeVisualizer {
             for (Edge edge : (ArrayList<Edge>)currNode.extraData[0]) {
                 if (!explored.contains(edge.dest)) {
                     edge.dest.value = currNode.value + edge.weight;
-                    explored.add(edge.dest);
                     edge.dest.children[0] = currNode;
 
-                    // Finishes the traversal if the final Node is found.
-                    if (edge.dest == dest) {
-                        queueNodeExploreAnimation(currNode, null, 0);
-                        queueQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
-                                AnimationParameters.ANIM_TIME);
-                        queueNodeSelectAnimation(edge.dest,edge.dest.key + " is the destination Node",
-                                AnimationParameters.ANIM_TIME);
-                        queueHighlightPathAnimation(edge.dest, "Final path cost : " + edge.dest.value,
-                                AnimationParameters.ANIM_TIME);
-                        return;
-
-                    }
                     // Continues the traversal.
-                    else {
-                        queueQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
-                                AnimationParameters.ANIM_TIME);
-                        queueHighlightPathAnimation(edge.dest, "Path cost : " + edge.dest.value,
-                                AnimationParameters.ANIM_TIME);
+                    queuePriorityQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
+                            AnimationParameters.ANIM_TIME);
+                    queueHighlightPathAnimation(edge.dest, "Path cost : " + edge.dest.value,
+                            AnimationParameters.ANIM_TIME);
 
-                    }
                 }
             }
 
