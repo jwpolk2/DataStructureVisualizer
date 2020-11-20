@@ -212,8 +212,6 @@ public class RedBlackTree extends TreeVisualizer {
     /**
      * Moves up the tree and animates the recolouring/rotation of Tree Nodes.
      *
-     * TODO animate swapcolours?
-     *
      * @param node the node to relabel.
      */
     private void insertionRelabelAnim(Node node) {
@@ -408,6 +406,7 @@ public class RedBlackTree extends TreeVisualizer {
                 node.children[ChildNames.RIGHT.i] = null;
 
         }
+        if (root == nil) root = null;
     }
 
     /**
@@ -441,14 +440,47 @@ public class RedBlackTree extends TreeVisualizer {
      */
     @Override
     protected void removeAnim(int key) {
+        Node current, parent;
+
+        // Will not attempt to remove nonexistent key. Should not happen, since
+        // this should only be accessed through the interface.
         if (!contains(key)) return;
 
         // Logs removal.
         logRemove(key);
 
+        // Begins the traversal at the root.
+        queueNodeSelectAnimation(root, "Start at root " + root.key,
+                AnimationParameters.ANIM_TIME);
+
+        // Finds the starting Node.
+        current = root;
+        while (current.key != key) {
+            parent = current;
+
+            // Explores the left subtree.
+            if (current.key > key) {
+                current = current.children[ChildNames.LEFT.i];
+                queueNodeSelectAnimation(current, key + " < " + parent.key +
+                        ", exploring left subtree", AnimationParameters.ANIM_TIME);
+
+            }
+            // Explores the right subtree.
+            else {
+                current = current.children[ChildNames.RIGHT.i];
+                queueNodeSelectAnimation(current, key + " > " + parent.key +
+                        ", exploring right subtree", AnimationParameters.ANIM_TIME);
+
+            }
+        }
+
+        // Desired Node has been found.
+        queueNodeSelectAnimation(current, key + " == " + current.key +
+                ", desired Node found", AnimationParameters.ANIM_TIME);
+
+        // Removes the Node.
         nils();
-        Node del = getNode(key);
-        if (del != null) removeAnim(del);
+        removeAnim(current);
         unNils();
 
         // Renders after removal.

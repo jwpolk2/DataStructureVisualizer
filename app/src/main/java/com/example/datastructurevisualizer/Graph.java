@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class Graph extends NodeVisualizer {
 
     // ArrayList containing all nodes in the graph.
-    private ArrayList<Node> nodes = new ArrayList<>();
+    private final ArrayList<Node> nodes = new ArrayList<>();
 
     // Current selected Node. Head of a spanning tree algorithm.
     // Colour is blue.
@@ -31,7 +31,7 @@ public class Graph extends NodeVisualizer {
 
     // ArrayList of highlighted Edges in the graph. Used for spanning tree algorithms.
     // Colour is green.
-    private ArrayList<Edge> highlightedEdges = new ArrayList<Edge>();
+    private final ArrayList<Edge> highlightedEdges = new ArrayList<Edge>();
 
     /**
      * Inserts a Node into the graph at the specified position.
@@ -401,7 +401,6 @@ public class Graph extends NodeVisualizer {
      * Edge to the tree.
      */
     private void kruskalsAlgorithmAnim() {
-        ArrayList<Edge> chosen = new ArrayList<Edge>();
         Edge edge;
         int currTree = 0;
         int tree, replace;
@@ -424,8 +423,7 @@ public class Graph extends NodeVisualizer {
             if (!edge.render) continue;
 
             // Will not add the edge if it connects two Nodes of the same tree.
-            if (edge.start.value >= 0 && edge.dest.value >= 0 &&
-                    edge.start.value == edge.dest.value) {
+            if (edge.start.value >= 0 && edge.start.value == edge.dest.value) {
                 queueEdgeSelectAnimation(edge, "Edge connects two Nodes in the same tree",
                         AnimationParameters.ANIM_TIME);
                 continue;
@@ -442,19 +440,21 @@ public class Graph extends NodeVisualizer {
 
             // Reassigns the tree of each Node.
             if (replace >= 0) {
-                for (Node node : nodes)
-                    if (node.value == replace)
+                for (Node node : nodes) {
+                    if (node.value == replace) {
                         node.value = tree;
 
+                    }
+                }
             }
 
             // Animates the connection.
-            highlightEdge(edge);
             queueNodeExploreAnimation(edge.start, null, 0);
             queueNodeExploreAnimation(edge.dest, null, 0);
             queueEdgeSelectAnimation(edge, "Connecting Nodes " +
                     edge.start.key + " and " + edge.dest.key,
                     2 * AnimationParameters.ANIM_TIME);
+            highlightEdge(edge);
 
         }
     }
@@ -757,9 +757,13 @@ public class Graph extends NodeVisualizer {
 
         // Finds out if the Edge is undirected.
         boolean directed = true;
-        for (Edge e : (ArrayList<Edge>)edge.dest.extraData[0])
-            if (e.dest == edge.start && e.weight == edge.weight) directed = false;
+        for (Edge e : (ArrayList<Edge>)edge.dest.extraData[0]) {
+            if (e.dest == edge.start && e.weight == edge.weight) {
+                directed = false;
+                break;
 
+            }
+        }
         // Stores the Edge vector for convenience.
         float[] eVec = {edge.dest.position[0] - edge.start.position[0],
                 edge.dest.position[1] - edge.start.position[1]};

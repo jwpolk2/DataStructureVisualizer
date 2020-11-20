@@ -1,7 +1,7 @@
 //package com.example.datastructurevisualizer;
 //
 ///**
-// * TODO comment
+// * This Hash Table will not be implemented for this project.
 // *
 // * TODO implement HashTable collisions
 // * TODO implement more Hash functions.
@@ -9,7 +9,6 @@
 //public class HashTable extends DataStructureVisualizer {
 //
 //    // Hash codes.
-//    // TODO implement more
 //    static final int LINEAR_MOD = 0;
 //
 //    // Code determining the hashing function.

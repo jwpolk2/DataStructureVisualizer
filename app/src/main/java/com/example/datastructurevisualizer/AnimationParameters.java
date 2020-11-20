@@ -86,7 +86,6 @@ public class AnimationParameters {
         try {
             pause();
             mutex.acquire();
-            Visualizer.displayMessage("");
         } catch (InterruptedException e) {
             e.printStackTrace();
             mutex.release();

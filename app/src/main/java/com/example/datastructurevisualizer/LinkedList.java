@@ -2,8 +2,6 @@ package com.example.datastructurevisualizer;
 
 import android.graphics.Canvas;
 
-import com.example.datastructurevisualizer.ui.Visualizer;
-
 /**
  * LinkedList implementation to be used by other Data Structures.
  *

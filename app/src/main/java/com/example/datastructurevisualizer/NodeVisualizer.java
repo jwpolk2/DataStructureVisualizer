@@ -29,11 +29,11 @@ public abstract class NodeVisualizer extends DataStructureVisualizer {
 
     // Current highlighted Nodes. Used in traversal/pathfinding.
     // Colour is light green.
-    private ArrayList<Node> highlightedNodes = new ArrayList<Node>();
+    private final ArrayList<Node> highlightedNodes = new ArrayList<Node>();
 
     // Current explored Nodes. Used in pathfinding.
     // Colour is dark green.
-    private ArrayList<Node> exploredNodes = new ArrayList<Node>();
+    private final ArrayList<Node> exploredNodes = new ArrayList<Node>();
 
     /**
      * Draws a Node. Nodes are circles of width nodeWidth with their numerical

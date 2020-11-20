@@ -471,10 +471,8 @@ public abstract class TreeVisualizer extends NodeVisualizer {
         if (currNode == null) return new ArrayList<Node>();
 
         // Adds all subtrees to nodes.
-        for (int i = 0; i < getNumChildren(); ++i) {
+        for (int i = 0; i < getNumChildren(); ++i)
             nodes.addAll(getAllNodesRecursive(currNode.children[i]));
-
-        }
 
         // Adds this node to nodes.
         nodes.add(currNode);
@@ -605,8 +603,8 @@ public abstract class TreeVisualizer extends NodeVisualizer {
         int max = 0;
         int val;
 
-        // Return 0 if this Node is null.
-        if (currNode == null) return 0;
+        // Return 0 if this Node is null or if it is invalid.
+        if (currNode == null || currNode.key < 0) return 0;
 
         // Finds the maximum depth of this Node's subtrees.
         for (int i = 0; i < getNumChildren(); ++i) {

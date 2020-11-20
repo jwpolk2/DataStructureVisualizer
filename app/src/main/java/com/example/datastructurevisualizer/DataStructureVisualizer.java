@@ -203,7 +203,7 @@ public abstract class DataStructureVisualizer {
     /**
      * Class representing an addition or deletion performed in the Tree.
      */
-    private abstract class StructureAction {
+    private static abstract class StructureAction {
         int key;
 
         /**
@@ -382,6 +382,9 @@ public abstract class DataStructureVisualizer {
         // Unpauses the animation.
         animationUnpause();
 
+        // Adds a break between the previous animation and this.
+        Visualizer.displayMessage("");
+
         // Animates every item in the animationLog.
         // animationIndex is initialized in beginAnimation.
         for (; animationIndex < animationLog.size(); ++animationIndex) {
@@ -392,6 +395,9 @@ public abstract class DataStructureVisualizer {
 
         // Performs a finalRender of the DataStructure.
         finalRender();
+
+        // Pauses the animation.
+        animationPause();
 
     }
 
@@ -511,9 +517,8 @@ public abstract class DataStructureVisualizer {
 
         }
 
-        // Will perform a finalRender if at the beginning of the animation.
+        // Will do nothing if at the beginning of the animation.
         if (animationIndex < 0) {
-            finalRender();
             animationIndex = 0;
             animationForward = true;
 

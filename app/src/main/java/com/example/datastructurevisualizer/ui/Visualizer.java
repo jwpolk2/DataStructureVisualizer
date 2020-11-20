@@ -855,9 +855,13 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                 int uw = (width - off) / 10;
                 int uh = height / 10;
 
-                java.util.Random rand = new java.util.Random(); // TODO delete?
+                // Random used to randomly generate Graph weights.
+                java.util.Random rand = new java.util.Random();
 
+                // Determines which graph to create.
                 switch (parent.getItemAtPosition(position).toString()) {
+
+                    // Directed connected graph with no cycles.
                     case "Directed Arbitrary":
                         initGraphTraversalsSpinnerDirected(true);
                         clear();
@@ -901,6 +905,8 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         graph.insertDirectedEdge(11, 7, rand.nextInt(16) + 4);
                         graph.insertDirectedEdge(12, 13, rand.nextInt(16) + 4);
                         break;
+
+                    // Directed connected graph with cycles.
                     case "Directed Cyclical":
                         initGraphTraversalsSpinnerDirected(true);
                         clear();
@@ -956,6 +962,8 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         graph.insertDirectedEdge(12, 9, rand.nextInt(16) + 4);
                         graph.insertDirectedEdge(13, 12, rand.nextInt(16) + 4);
                         break;
+
+                    // Directed unconnected graph with some cyclical parts.
                     case "Directed Forest":
                         initGraphTraversalsSpinnerDirected(true);
                         clear();
@@ -1024,6 +1032,8 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         graph.insertDirectedEdge(18, 17, rand.nextInt(16) + 4);
                         graph.insertDirectedEdge(19, 18, rand.nextInt(16) + 4);
                         break;
+
+                    // Undirected connected graph with no cycles.
                     case "Undirected Arbitrary":
                         initGraphTraversalsSpinnerDirected(false);
                         clear();
@@ -1067,6 +1077,8 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         graph.insertUnDirectedEdge(11, 7, rand.nextInt(16) + 4);
                         graph.insertUnDirectedEdge(12, 13, rand.nextInt(16) + 4);
                         break;
+
+                    // Undirected connected graph with cycles.
                     case "Undirected Cyclical":
                         initGraphTraversalsSpinnerDirected(false);
                         clear();
@@ -1122,6 +1134,8 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         graph.insertUnDirectedEdge(12, 9, rand.nextInt(16) + 4);
                         graph.insertUnDirectedEdge(13, 12, rand.nextInt(16) + 4);
                         break;
+
+                    // Undirected unconnected graph with some cyclical parts.
                     case "Undirected Forest":
                         initGraphTraversalsSpinnerDirected(false);
                         clear();
