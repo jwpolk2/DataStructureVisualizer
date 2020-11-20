@@ -89,7 +89,7 @@ public class Files extends Fragment {
         mFile.add(new File("default_unbalancedBST", "Binary Search Tree", "n/a", unbalanced_BST, true));
         mFile.add(new File("default_balancedBST", "Binary Search Tree", "n/a", balanced_BST, true));
         mFile.add(new File("default_completeTree", "Binary Search Tree", "n/a", complete_BST, true));
-        mFile.add(new File("default_fullTree", "Red Black Tree", "n/a", full_RBT, true));
+        mFile.add(new File("default_fullTree", "AVL Tree", "n/a", full_RBT, true));
         mFile.add(new File("default_perfectTree", "Binary Search Tree", "n/a", perfect_BST, true));
 
         if (dataStructureType != null) {

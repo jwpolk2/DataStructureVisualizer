@@ -263,6 +263,7 @@ public class Visualizer extends Fragment {
             public void onGlobalLayout() {
                 visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 checkCanvas();
+                Log.d("TESTING", "I am where I should be");
                 if (loadedFile != null && !loadedFile.isEmpty()) {
                     arrayListInsert(loadedFile);
                 }
@@ -283,7 +284,12 @@ public class Visualizer extends Fragment {
                 if (insertNumber.getText().length() == 0 || Integer.parseInt(insertNumber.getText().toString()) > 999) {
                     Toast.makeText(getActivity(), "Please insert a value between 0-999", Toast.LENGTH_SHORT).show();
 
-                } else {
+                }
+                else if(tree.getAllKeys().contains(Integer.parseInt(insertNumber.getText().toString()))) {
+                    Toast.makeText(getActivity(),"Please enter a value not already in the tree ", Toast.LENGTH_SHORT).show();
+                    displayMessage(String.format("%d already exists in the tree and cannot be inserted again.", Integer.parseInt(insertNumber.getText().toString())));
+                }
+                else {
                     insert();
                 }
 
@@ -1233,7 +1239,6 @@ public class Visualizer extends Fragment {
      * and resets the text on the insert line.
      */
     private void insert() {
-        initTreeSpinner();
         tree.insert(Integer.parseInt(String.valueOf(insertNumber.getText().toString())));
         insertNumber.setText("");
     }
