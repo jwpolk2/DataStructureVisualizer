@@ -237,6 +237,8 @@ public class LinkedList extends TreeVisualizer {
         // Deletes the root.
         if (root.key == key) {
             root = root.children[0];
+            placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
+            placeNodesAtDestination();
             return;
 
         }
@@ -249,6 +251,11 @@ public class LinkedList extends TreeVisualizer {
 
             }
         }
+
+        // Places the Nodes at their desired positions.
+        placeTreeNodes(xPos, yPos, 0, (int) AnimationParameters.depthLen);
+        placeNodesAtDestination();
+
     }
 
     /**

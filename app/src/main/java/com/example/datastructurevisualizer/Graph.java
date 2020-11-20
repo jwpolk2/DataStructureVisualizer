@@ -272,8 +272,8 @@ public class Graph extends NodeVisualizer {
             currNode = getNode(nodeList.peek());
 
             // Clears all instances of the popped Node.
-            queueListPopAnimation(null, 0);
-            for (int i = 0; i < 6; ++i) nodeList.removeNoAnim(currNode.key);
+            for (int i = 0; i < 8; ++i) nodeList.removeNoAnim(currNode.key);
+            unHighlightNode(currNode);
 
             // Continues if the current Node has already been explored.
             if (explored.contains(currNode)) continue;
@@ -377,6 +377,8 @@ public class Graph extends NodeVisualizer {
             queueEdgeHighlightAnimation(currEdge, "Adding the edge between " +
                     currEdge.start.key + " and " + currEdge.dest.key,
                     AnimationParameters.ANIM_TIME);
+
+            // Explores the edge and its complement (if one exists).
             explored.add(currEdge.dest);
 
         }
@@ -418,6 +420,9 @@ public class Graph extends NodeVisualizer {
             // Attempts to add the smallest Edge to the tree.
             edge = edges.pop();
 
+            // Will not attempt to add the Edge if it is not rendered.
+            if (!edge.render) continue;
+
             // Will not add the edge if it connects two Nodes of the same tree.
             if (edge.start.value >= 0 && edge.dest.value >= 0 &&
                     edge.start.value == edge.dest.value) {
@@ -431,17 +436,15 @@ public class Graph extends NodeVisualizer {
             tree = edge.start.value < 0 ? ++currTree : edge.start.value;
             replace = edge.dest.value;
 
+            // Reassigns the tree of the two Nodes.
+            edge.start.value = tree;
+            edge.dest.value = tree;
+
             // Reassigns the tree of each Node.
             if (replace >= 0) {
                 for (Node node : nodes)
                     if (node.value == replace)
                         node.value = tree;
-
-            }
-            // Reassigns the tree of the two Nodes.
-            else {
-                edge.start.value = tree;
-                edge.dest.value = tree;
 
             }
 
@@ -480,6 +483,12 @@ public class Graph extends NodeVisualizer {
      * @param edge the Edge to highlight.
      */
     private void highlightEdge(Edge edge) {
+
+        // If the Edge has a compliment, make sure that this edge is highlighted.
+        for (Edge currEdge : (ArrayList<Edge>)edge.dest.extraData[0])
+            if (currEdge.dest == edge.start) highlightedEdges.add(currEdge);
+
+        // Highlights the Edge.
         highlightedEdges.add(edge);
 
     }
@@ -490,6 +499,12 @@ public class Graph extends NodeVisualizer {
      * @param edge the Edge to unhighlight.
      */
     private void unHighlightEdge(Edge edge) {
+
+        // If the Edge has a compliment, make sure that this edge is unhighlighted.
+        for (Edge currEdge : (ArrayList<Edge>)edge.dest.extraData[0])
+            if (currEdge.dest == edge.start) highlightedEdges.remove(currEdge);
+
+        // Unhighlights the Edge.
         highlightedEdges.remove(edge);
 
     }
@@ -508,8 +523,18 @@ public class Graph extends NodeVisualizer {
      * @param edge the Edge to select.
      */
     private void select(Edge edge) {
-        selectedEdge = edge;
 
+        // Selects the Edge if it is rendered.
+        if (edge.render) {
+            selectedEdge = edge;
+
+        }
+        // Selects the complement of the Edge if it is not rendered.
+        else{
+            for (Edge currEdge : (ArrayList<Edge>) edge.dest.extraData[0])
+                if (currEdge.dest == edge.start) selectedEdge = currEdge;
+
+        }
     }
 
     /**

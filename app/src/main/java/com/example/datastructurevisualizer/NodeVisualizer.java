@@ -130,7 +130,7 @@ public abstract class NodeVisualizer extends DataStructureVisualizer {
      * @param node the Node to unhighlight.
      */
     protected void unHighlightNode(Node node) {
-        highlightedNodes.remove(node);
+        while (highlightedNodes.contains(node)) highlightedNodes.remove(node);
 
     }
 
