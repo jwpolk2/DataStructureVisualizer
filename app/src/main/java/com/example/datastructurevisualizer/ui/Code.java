@@ -50,7 +50,7 @@ public class Code extends Fragment {
                 });
 
                 break;
-            case "Balanced Search Tree":
+            case "AVL Tree":
                 view = inflater.inflate(R.layout.code_avl, container, false);
                 visualize = view.findViewById(R.id.button_visualize);
                 visualize.setOnClickListener(new View.OnClickListener() {

@@ -96,6 +96,18 @@
             android:hint="End Node"
             android:inputType="number"
             android:textSize="18sp" />
+        <Button
+            android:id="@+id/button_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/visulizer_button"
+            android:text="Clear"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/backgroundWhite"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <com.example.datastructurevisualizer.VisualizerCanvas
@@ -128,10 +140,12 @@
         android:gravity="center"
         android:layout_weight="6"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
         <Spinner
             android:id="@+id/spinner_graphOptions"
-            android:layout_width="175dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
             android:textAllCaps="false"
@@ -149,6 +163,7 @@
             android:textAllCaps="false"
             android:textSize="20sp"
             android:textStyle="bold" />
+
         <ImageButton
             android:id="@+id/button_info"
             android:layout_width="37dp"

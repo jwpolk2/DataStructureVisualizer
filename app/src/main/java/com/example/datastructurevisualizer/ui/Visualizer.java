@@ -161,6 +161,7 @@ public class Visualizer extends Fragment {
         displayExec = view.findViewById(R.id.printout_textview);
         visualizerCanvas = view.findViewById(R.id.graph_visualizer);
         visualizerCanvas.setParent(this);
+        clearButton = view.findViewById(R.id.button_clear);
         infoButton = view.findViewById(R.id.button_info);
         play = view.findViewById(R.id.button_play);
         pause = view.findViewById(R.id.button_pause);
@@ -195,6 +196,13 @@ public class Visualizer extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Please select a graph from the drop-down list", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initGraphSpinner();
+                clear();
             }
         });
 
@@ -312,6 +320,7 @@ public class Visualizer extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initTreeSpinner();
                 clear();
             }
         });
@@ -388,11 +397,9 @@ public class Visualizer extends Fragment {
     private void clear() {
         if (tree != null) {
             tree.clear();
-            initTreeSpinner();
         }
         if (graph != null) {
             graph.clear();
-            initGraphSpinner();
         }
         if (visualizerCanvas != null) {
             visualizerCanvas.clearCanvas();
@@ -621,7 +628,6 @@ public class Visualizer extends Fragment {
         graphs.add("Undirected Arbitrary");
         graphs.add("Undirected Cyclical");
         graphs.add("Undirected Forest");
-        graphs.add("Mixed Graph");
 
         //Array List of the drop-down items
         traversals = new ArrayList<>();
@@ -826,7 +832,6 @@ public class Visualizer extends Fragment {
         graphOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 // Takes the width and height of the canvas.
                 int width = MainActivity.getCanvas().getWidth();
                 int height = MainActivity.getCanvas().getHeight();
@@ -841,13 +846,13 @@ public class Visualizer extends Fragment {
 
                 java.util.Random rand = new java.util.Random(); // TODO delete?
 
-                // Switch to determine the type of Graph.
+
+
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "Directed Arbitrary":
                         clear();
                         displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
-
                         // Row 1.
                         graph.insertGraphNode(1, off + 2 * uw, uh);
                         graph.insertGraphNode(2, off + 4 * uw, uh);
@@ -1165,11 +1170,6 @@ public class Visualizer extends Fragment {
                         graph.insertUnDirectedEdge(18, 15, rand.nextInt(16) + 4);
                         graph.insertUnDirectedEdge(18, 17, rand.nextInt(16) + 4);
                         graph.insertUnDirectedEdge(19, 18, rand.nextInt(16) + 4);
-                        break;
-                    case "Mixed Graph":
-                        clear();
-                        displayMessage("Mixed graph selected. Press select to load onto the screen.");
-                        graph = new Graph();
                         break;
                     case "Select Graph":
                         displayMessage("No graph selected. Use the drop-down to choose a graph and press select to load onto the screen");
