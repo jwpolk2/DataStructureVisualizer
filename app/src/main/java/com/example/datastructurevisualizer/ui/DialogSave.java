@@ -129,11 +129,9 @@ public class DialogSave extends DialogFragment {
                 break;
             case "Red Black Tree":
                 treeObj = tree.createJSON(dateStr, "Red Black Tree");
-                //TODO
                 break;
-            case "Balanced Search Tree":
-                treeObj = tree.createJSON(dateStr, "Balanced Search Tree");
-                //TODO
+            case "AVL Tree":
+                treeObj = tree.createJSON(dateStr, "AVL Tree");
                 break;
         }
         if(treeObj == null || treeObj.equals(null)){
@@ -146,6 +144,12 @@ public class DialogSave extends DialogFragment {
         try {
             //Write JSON format string into a file
             File file = new File(context.getFilesDir(), fileName.getText().toString());
+            //Make sure not overwriting a saved file
+            if(file.exists()){
+                //if it already does, throw an error
+                saveMessage = "File " + fileName.getText().toString() + " already exists. Please choose a different name.";
+                return saveMessage;
+            }
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(userString);

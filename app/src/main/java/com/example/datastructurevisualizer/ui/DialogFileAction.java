@@ -176,7 +176,17 @@ public class DialogFileAction extends DialogFragment {
             renameBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO rename button action
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("rename");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+
+                    DialogRename renameDialog = new DialogRename();
+                    renameDialog.setParentFrag(DialogFileAction.this);
+                    renameDialog.setOrigFileName(fileNameText);
+                    renameDialog.show(ft, "rename");
                 }
             });
         }
