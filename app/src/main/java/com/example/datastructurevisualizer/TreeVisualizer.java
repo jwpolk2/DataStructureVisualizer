@@ -1,13 +1,12 @@
 package com.example.datastructurevisualizer;
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Superclass for all trees. Enables code reuse during tree visualization.
@@ -581,16 +580,12 @@ public abstract class TreeVisualizer extends NodeVisualizer {
      * @return true if key is not a duplicate, false if it is a duplicate
      */
     public boolean checkInsert(int key){
-        ArrayList<Node> currNodes = getAllNodes();
 
-        //loop through all nodes in data structure to see if duplicate exists. return false if so
-        for (int i = 0; i < currNodes.size(); i++) {
-            if(currNodes.get(i).key == key){
-                return false;
-            }
-        }
-        //made it this far, there must be no duplicates, return true
+        // Returns false if the key is present.
+        for (int curr : getAllKeys()) if(curr == key) return false;
+        // Returns true if the key is not found.
         return true;
+
     }
 
     /**

@@ -30,9 +30,6 @@ public class RedBlackTree extends TreeVisualizer {
     // Number of children per node in this tree.
     static final int numChildren = 2;
 
-    // Tracks the number of nodes inside the tree.
-    private int nodeCount = 0;
-
     /**
      * Return numChildren, which is 2. Used in TreeVisualize.
      */
@@ -57,7 +54,6 @@ public class RedBlackTree extends TreeVisualizer {
             root = new Node(key, numChildren);
             root.extraData = new Object[1];
             insertionRelabel(root);
-            nodeCount++;
             finalRender();
             return;
 
@@ -73,7 +69,6 @@ public class RedBlackTree extends TreeVisualizer {
                     node.children[ChildNames.LEFT.i].extraData[0] = node;
                     node.children[ChildNames.LEFT.i].value = RED;
                     insertionRelabel(node.children[ChildNames.LEFT.i]);
-                    nodeCount++;
                     finalRender();
                     return;
 
@@ -90,7 +85,6 @@ public class RedBlackTree extends TreeVisualizer {
                     node.children[ChildNames.RIGHT.i].extraData[0] = node;
                     node.children[ChildNames.RIGHT.i].value = RED;
                     insertionRelabel(node.children[ChildNames.RIGHT.i]);
-                    nodeCount++;
                     finalRender();
                     return;
                 }
@@ -124,7 +118,6 @@ public class RedBlackTree extends TreeVisualizer {
             root = new Node(key, numChildren);
             root.extraData = new Object[1];
             insertionRelabelAnim(root);
-            nodeCount++;
 
             // Animates root insertion.
             placeTreeNodes();
@@ -160,7 +153,6 @@ public class RedBlackTree extends TreeVisualizer {
 
                     // Performs rotations.
                     insertionRelabelAnim(node.children[ChildNames.LEFT.i]);
-                    nodeCount++;
                     return;
 
                 }
@@ -192,7 +184,6 @@ public class RedBlackTree extends TreeVisualizer {
 
                     // Performs rotations.
                     insertionRelabelAnim(node.children[ChildNames.RIGHT.i]);
-                    nodeCount++;
                     return;
 
                 }
@@ -500,7 +491,7 @@ public class RedBlackTree extends TreeVisualizer {
         with.extraData[0] = target.extraData[0];
     }
 
-    boolean removeNoAnim(Node z) {
+    void removeNoAnim(Node z) {
         Node x;
         Node y = z; // temporary reference y
         int y_original_color = y.value;
@@ -529,10 +520,10 @@ public class RedBlackTree extends TreeVisualizer {
         }
         if(y_original_color==BLACK)
             deleteFixup(x);
-        return true;
+
     }
 
-    boolean removeAnim(Node z) {
+    void removeAnim(Node z) {
         Node x;
         Node y = z;
         int y_original_color = y.value;
@@ -583,7 +574,7 @@ public class RedBlackTree extends TreeVisualizer {
         }
         if(y_original_color==BLACK)
             deleteFixupAnim(x);
-        return true;
+
     }
 
     Node treeMinimum(Node subTreeRoot){

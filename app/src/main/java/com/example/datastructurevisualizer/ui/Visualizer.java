@@ -582,7 +582,7 @@ public class Visualizer extends Fragment {
                     case "Unbalanced Insertion":
                         clear();
                         displayMessage("Unbalanced insertion selected");
-                            while (toInsert.size() < 7) {
+                            while (toInsert.size() < 8) {
                                 int insertValue = rand.nextInt(150) * (toInsert.size() + 1);
                                 if (!toInsert.contains(insertValue) && insertValue < 999) {
                                     toInsert.add(insertValue);
@@ -593,7 +593,7 @@ public class Visualizer extends Fragment {
                     case "Random Insertion":
                         clear();
                             toInsert.add(rand.nextInt(50) + 475);
-                            while (toInsert.size() < 15) {
+                            while (toInsert.size() < 8) {
                                 int insertValue = rand.nextInt(1000);
                                 if (!toInsert.contains(insertValue)) {
                                     toInsert.add(insertValue);
