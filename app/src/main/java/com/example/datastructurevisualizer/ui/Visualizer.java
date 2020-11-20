@@ -862,6 +862,7 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         initGraphTraversalsSpinnerDirected(true);
                         clear();
                         displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
+                        displayMessage("Note: because a directed graph has been selected Kruskal's MST will not be a traversal option.");
                         graph = new Graph();
                         // Row 1.
                         graph.insertGraphNode(1, off + 2 * uw, uh);
@@ -904,6 +905,7 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         initGraphTraversalsSpinnerDirected(true);
                         clear();
                         displayMessage("Directed Cyclical graph selected. Press select to load onto the screen.");
+                        displayMessage("Note: because a directed graph has been selected Kruskal's MST will not be a traversal option.");
                         graph = new Graph();
 
                         // Row 2.
@@ -958,6 +960,7 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                         initGraphTraversalsSpinnerDirected(true);
                         clear();
                         displayMessage("Directed Forest graph selected. Press select to load onto the screen.");
+                        displayMessage("Note: because a directed graph has been selected Kruskal's MST will not be a traversal option.");
                         graph = new Graph();
 
                         // Row 1.
