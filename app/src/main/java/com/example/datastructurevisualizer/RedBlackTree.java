@@ -58,6 +58,7 @@ public class RedBlackTree extends TreeVisualizer {
             root.extraData = new Object[1];
             insertionRelabel(root);
             nodeCount++;
+            finalRender();
             return;
 
         }
