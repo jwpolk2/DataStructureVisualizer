@@ -114,6 +114,13 @@ public class Visualizer extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        AnimationParameters.beginAnimation();
+        AnimationParameters.stopAnimation();
+    }
+
+    @Override
     /**
      * When the view is created this method attaches the view object variable with those defined
      * in the XML. Additionally the onClick events for buttons are defined and remaining class
@@ -152,6 +159,7 @@ public class Visualizer extends Fragment {
                     }
                 });
         }
+
         // Inflate the layout for this fragment
         return view;
     }
