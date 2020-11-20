@@ -620,11 +620,209 @@ public class Visualizer extends Fragment {
         return false;
     }
 
+private void initGraphTraversalsSpinnerDirected(boolean directed) {
+    traversals = new ArrayList<>();
+    traversals.add("Select Traversal");
+    traversals.add("Prim's MST");
+    traversals.add("Dijkstra's Shortest Path");
+    traversals.add("Breadth-First Path");
+    if(!directed){
+        traversals.add("Kruskal's MST");
+    }
+
+    //Attaches an adapter to the array list and then to the spinner object
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    ;
+    traversalsSpinner.setAdapter(adapter);
+
+    //Sets up what happens when the different options are selected
+    traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            switch (parent.getItemAtPosition(position).toString()) {
+                case "Prim's MST":
+                    displayMessage("Prim's Minimum Spanning Tree selected.");
+                    displayMessage("Please enter a start node.");
+                    startNode.setVisibility(View.VISIBLE);
+                    endNode.setVisibility(View.INVISIBLE);
+
+                    play.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int start;
+                            if (graph != null && !graph.getAllNodes().isEmpty()) {
+                                if (startNode != null && startNode.getText().toString().length() != 0) {
+                                    start = Integer.parseInt(startNode.getText().toString());
+                                    if (graph.getAllKeys().contains(start)) {
+                                        graph.primsAlgorithm(start);
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AnimationParameters.beginAnimation();
+                                                graph.animate();
+                                                AnimationParameters.stopAnimation();
+                                            }
+                                        }).start();
+                                    } else {
+                                        Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
+                                        displayMessage(String.format("The value %d does not exist in the graph", start));
+                                        displayMessage("Please enter a different value");
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    break;
+                case "Dijkstra's Shortest Path":
+                    displayMessage("Dijkstra's Shortest Path selected.");
+                    displayMessage("Please enter a start node and end node");
+                    startNode.setVisibility(View.VISIBLE);
+                    endNode.setVisibility(View.VISIBLE);
+                    play.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int start;
+                            int end;
+                            if (graph != null && !graph.getAllNodes().isEmpty()) {
+                                if (startNode != null && startNode.getText().toString().length() != 0) {
+                                    start = Integer.parseInt(startNode.getText().toString());
+                                    if (endNode != null && endNode.getText().toString().length() != 0) {
+                                        end = Integer.parseInt(endNode.getText().toString());
+                                        if (graph.getAllKeys().contains(start)) {
+                                            if (graph.getAllKeys().contains(end)) {
+                                                graph.dijkstraPathfind(start, end);
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        AnimationParameters.beginAnimation();
+                                                        graph.animate();
+                                                        AnimationParameters.stopAnimation();
+                                                    }
+                                                }).start();
+                                            } else {
+                                                Toast.makeText(getContext(), "Please enter a different end key", Toast.LENGTH_SHORT).show();
+                                                displayMessage(String.format("The value %d does not exist in the graph", end));
+                                                displayMessage("Please enter a different value");
+                                            }
+                                        } else {
+                                            Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
+                                            displayMessage(String.format("The value %d does not exist in the graph", start));
+                                            displayMessage("Please enter a different value");
+                                        }
+                                    } else {
+                                        Toast.makeText(getContext(), "Please enter end value", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    break;
+                case "Kruskal's MST":
+                    displayMessage("Kruskal's Minimum Spanning Tree selected.");
+                    startNode.setVisibility(View.INVISIBLE);
+                    endNode.setVisibility(View.INVISIBLE);
+                    play.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (graph != null && !graph.getAllNodes().isEmpty()) {
+                                graph.kruskalsAlgorithm();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AnimationParameters.beginAnimation();
+                                        graph.animate();
+                                        AnimationParameters.stopAnimation();
+                                    }
+                                }).start();
+                            } else {
+                                Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    break;
+                case "Breadth-First Path":
+                    displayMessage("Breadth-First Path selected.");
+                    displayMessage("Please enter a start node.");
+                    startNode.setVisibility(View.VISIBLE);
+                    endNode.setVisibility(View.VISIBLE);
+                    play.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int start;
+                            int end;
+                            if (graph != null && !graph.getAllNodes().isEmpty()) {
+                                if (startNode != null && startNode.getText().toString().length() != 0) {
+                                    start = Integer.parseInt(startNode.getText().toString());
+                                    if (endNode != null && endNode.getText().toString().length() != 0) {
+                                        end = Integer.parseInt(endNode.getText().toString());
+                                        if (graph.getAllKeys().contains(start)) {
+                                            if (graph.getAllKeys().contains(end)) {
+                                                graph.breadthFirstPathfind(start,end);
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        AnimationParameters.beginAnimation();
+                                                        graph.animate();
+                                                        AnimationParameters.stopAnimation();
+                                                    }
+                                                }).start();
+                                            } else {
+                                                Toast.makeText(getContext(), "Please enter a different end key", Toast.LENGTH_SHORT).show();
+                                                displayMessage(String.format("The value %d does not exist in the graph", end));
+                                                displayMessage("Please enter a different value");
+                                            }
+                                        } else {
+                                            Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
+                                            displayMessage(String.format("The value %d does not exist in the graph", start));
+                                            displayMessage("Please enter a different value");
+                                        }
+                                    } else {
+                                        Toast.makeText(getContext(), "Please enter end value", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    break;
+
+                case "Select Traversal":
+                    startNode.setVisibility(View.INVISIBLE);
+                    endNode.setVisibility(View.INVISIBLE);
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    });
+
+}
+
 
     /**
      * Initializes the drop-down menu used for the graph-traversals
      */
     private void initGraphSpinner() {
+
         //Array List of the drop-down graph options
         graphs = new ArrayList<>();
         graphs.add("Select Graph");
@@ -635,204 +833,11 @@ public class Visualizer extends Fragment {
         graphs.add("Undirected Cyclical");
         graphs.add("Undirected Forest");
 
-        //Array List of the drop-down items
-        traversals = new ArrayList<>();
-        traversals.add("Select Traversal");
-        traversals.add("Prim's MST");
-        traversals.add("Dijkstra's Shortest Path");
-        traversals.add("Kruskal's MST");
-        traversals.add("Breadth-First Path");
-
-        //Attaches an adapter to the array list and then to the spinner object
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, traversals);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ;
-        traversalsSpinner.setAdapter(adapter);
-
         //Attaches an adapter to the array list for
         ArrayAdapter<String> adapterGraphOptions = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, graphs);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterGraphOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ;
         graphOptions.setAdapter(adapterGraphOptions);
-
-        //Sets up what happens when the different options are selected
-        traversalsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (parent.getItemAtPosition(position).toString()) {
-                    case "Prim's MST":
-                        displayMessage("Prim's Minimum Spanning Tree selected.");
-                        displayMessage("Please enter a start node.");
-                        startNode.setVisibility(View.VISIBLE);
-                        endNode.setVisibility(View.INVISIBLE);
-
-                        play.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int start;
-                                if (graph != null && !graph.getAllNodes().isEmpty()) {
-                                    if (startNode != null && startNode.getText().toString().length() != 0) {
-                                        start = Integer.parseInt(startNode.getText().toString());
-                                        if (graph.getAllKeys().contains(start)) {
-                                            graph.primsAlgorithm(start);
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    AnimationParameters.beginAnimation();
-                                                    graph.animate();
-                                                    AnimationParameters.stopAnimation();
-                                                }
-                                            }).start();
-                                        } else {
-                                            Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
-                                            displayMessage(String.format("The value %d does not exist in the graph", start));
-                                            displayMessage("Please enter a different value");
-                                        }
-                                    } else {
-                                        Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } else {
-                                    Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        break;
-                    case "Dijkstra's Shortest Path":
-                        displayMessage("Dijkstra's Shortest Path selected.");
-                        displayMessage("Please enter a start node and end node");
-                        startNode.setVisibility(View.VISIBLE);
-                        endNode.setVisibility(View.VISIBLE);
-                        play.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int start;
-                                int end;
-                                if (graph != null && !graph.getAllNodes().isEmpty()) {
-                                    if (startNode != null && startNode.getText().toString().length() != 0) {
-                                        start = Integer.parseInt(startNode.getText().toString());
-                                        if (endNode != null && endNode.getText().toString().length() != 0) {
-                                            end = Integer.parseInt(endNode.getText().toString());
-                                            if (graph.getAllKeys().contains(start)) {
-                                                if (graph.getAllKeys().contains(end)) {
-                                                    graph.dijkstraPathfind(start, end);
-                                                    new Thread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            AnimationParameters.beginAnimation();
-                                                            graph.animate();
-                                                            AnimationParameters.stopAnimation();
-                                                        }
-                                                    }).start();
-                                                } else {
-                                                    Toast.makeText(getContext(), "Please enter a different end key", Toast.LENGTH_SHORT).show();
-                                                    displayMessage(String.format("The value %d does not exist in the graph", end));
-                                                    displayMessage("Please enter a different value");
-                                                }
-                                            } else {
-                                                Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
-                                                displayMessage(String.format("The value %d does not exist in the graph", start));
-                                                displayMessage("Please enter a different value");
-                                            }
-                                        } else {
-                                            Toast.makeText(getContext(), "Please enter end value", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } else {
-                                    Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        break;
-                    case "Kruskal's MST":
-                        displayMessage("Kruskal's Minimum Spanning Tree selected.");
-                        startNode.setVisibility(View.INVISIBLE);
-                        endNode.setVisibility(View.INVISIBLE);
-                        play.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (graph != null && !graph.getAllNodes().isEmpty()) {
-                                    graph.kruskalsAlgorithm();
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            AnimationParameters.beginAnimation();
-                                            graph.animate();
-                                            AnimationParameters.stopAnimation();
-                                        }
-                                    }).start();
-                                } else {
-                                    Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        break;
-                    case "Breadth-First Path":
-                        displayMessage("Breadth-First Path selected.");
-                        displayMessage("Please enter a start node.");
-                        startNode.setVisibility(View.VISIBLE);
-                        endNode.setVisibility(View.VISIBLE);
-                        play.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int start;
-                                int end;
-                                if (graph != null && !graph.getAllNodes().isEmpty()) {
-                                    if (startNode != null && startNode.getText().toString().length() != 0) {
-                                        start = Integer.parseInt(startNode.getText().toString());
-                                        if (endNode != null && endNode.getText().toString().length() != 0) {
-                                            end = Integer.parseInt(endNode.getText().toString());
-                                            if (graph.getAllKeys().contains(start)) {
-                                                if (graph.getAllKeys().contains(end)) {
-                                                    graph.breadthFirstPathfind(start,end);
-                                                    new Thread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            AnimationParameters.beginAnimation();
-                                                            graph.animate();
-                                                            AnimationParameters.stopAnimation();
-                                                        }
-                                                    }).start();
-                                                } else {
-                                                    Toast.makeText(getContext(), "Please enter a different end key", Toast.LENGTH_SHORT).show();
-                                                    displayMessage(String.format("The value %d does not exist in the graph", end));
-                                                    displayMessage("Please enter a different value");
-                                                }
-                                            } else {
-                                                Toast.makeText(getContext(), "Please enter a different start key", Toast.LENGTH_SHORT).show();
-                                                displayMessage(String.format("The value %d does not exist in the graph", start));
-                                                displayMessage("Please enter a different value");
-                                            }
-                                        } else {
-                                            Toast.makeText(getContext(), "Please enter end value", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        Toast.makeText(getContext(), "Please enter start value", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } else {
-                                    Toast.makeText(getContext(), "Please select a graph from the dropdown", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        break;
-
-                    case "Select Traversal":
-                        startNode.setVisibility(View.INVISIBLE);
-                        endNode.setVisibility(View.INVISIBLE);
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         //Sets up what happens when the different options are selected
         graphOptions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -852,10 +857,9 @@ public class Visualizer extends Fragment {
 
                 java.util.Random rand = new java.util.Random(); // TODO delete?
 
-
-
                 switch (parent.getItemAtPosition(position).toString()) {
                     case "Directed Arbitrary":
+                        initGraphTraversalsSpinnerDirected(true);
                         clear();
                         displayMessage("Directed Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
@@ -897,6 +901,7 @@ public class Visualizer extends Fragment {
                         graph.insertDirectedEdge(12, 13, rand.nextInt(16) + 4);
                         break;
                     case "Directed Cyclical":
+                        initGraphTraversalsSpinnerDirected(true);
                         clear();
                         displayMessage("Directed Cyclical graph selected. Press select to load onto the screen.");
                         graph = new Graph();
@@ -950,6 +955,7 @@ public class Visualizer extends Fragment {
                         graph.insertDirectedEdge(13, 12, rand.nextInt(16) + 4);
                         break;
                     case "Directed Forest":
+                        initGraphTraversalsSpinnerDirected(true);
                         clear();
                         displayMessage("Directed Forest graph selected. Press select to load onto the screen.");
                         graph = new Graph();
@@ -1016,6 +1022,7 @@ public class Visualizer extends Fragment {
                         graph.insertDirectedEdge(19, 18, rand.nextInt(16) + 4);
                         break;
                     case "Undirected Arbitrary":
+                        initGraphTraversalsSpinnerDirected(false);
                         clear();
                         displayMessage("Undirected Arbitrary graph selected. Press select to load onto the screen.");
                         graph = new Graph();
@@ -1058,6 +1065,7 @@ public class Visualizer extends Fragment {
                         graph.insertUnDirectedEdge(12, 13, rand.nextInt(16) + 4);
                         break;
                     case "Undirected Cyclical":
+                        initGraphTraversalsSpinnerDirected(false);
                         clear();
                         displayMessage("Undirected Cyclical graph selected. Press select to load onto the screen.");
                         graph = new Graph();
@@ -1112,6 +1120,7 @@ public class Visualizer extends Fragment {
                         graph.insertUnDirectedEdge(13, 12, rand.nextInt(16) + 4);
                         break;
                     case "Undirected Forest":
+                        initGraphTraversalsSpinnerDirected(false);
                         clear();
                         displayMessage("Undirected Forest graph selected. Press select to load onto the screen.");
                         graph = new Graph();
@@ -1178,6 +1187,7 @@ public class Visualizer extends Fragment {
                         graph.insertUnDirectedEdge(19, 18, rand.nextInt(16) + 4);
                         break;
                     case "Select Graph":
+                        initGraphTraversalsSpinnerDirected(false);
                         displayMessage("No graph selected. Use the drop-down to choose a graph and press select to load onto the screen");
                         graph = new Graph();
                 }
