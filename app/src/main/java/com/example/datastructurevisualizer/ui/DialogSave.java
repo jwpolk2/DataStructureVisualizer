@@ -119,7 +119,7 @@ public class DialogSave extends DialogFragment {
         JSONObject treeObj = new JSONObject();
 
         //get the date the save message was called
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:m a");
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
         Date date = new Date();
         String dateStr = dateFormat.format(date);
 

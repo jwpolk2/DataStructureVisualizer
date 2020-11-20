@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Superclass for all trees. Enables code reuse during tree visualization.
@@ -495,6 +496,47 @@ public abstract class TreeVisualizer extends NodeVisualizer {
     }
 
     /**
+     * Performs a depth first traversal to get all of the keys in the order they were upon saving
+     *
+     * @return an ArrayList containing all keys in this data structure.
+     */
+    public ArrayList<Integer> getAllKeysOrdered() {
+        ArrayList<Integer> keyArrl = new ArrayList<>();
+        if(root == null){
+            return null;
+        }
+        Node currNode = root;
+        keyArrl.add(currNode.key);
+        java.util.LinkedList<Node> queue = new java.util.LinkedList<Node>();
+
+
+        // Explores Nodes until the queue is empty.
+        while (true) {
+
+            // Marks that this Node's children should be explored.
+            for (int i = 0; i < getNumChildren(); ++i) {
+                if (currNode.children[i] != null) {
+                    queue.addLast(currNode.children[i]);
+                }
+            }
+
+            // Pops the next Node from the queue.
+            if (!queue.isEmpty()) {
+                currNode = queue.pop();
+                keyArrl.add(currNode.key);
+            }
+            // If the queue is empty, breaks.
+            else break;
+
+        }
+
+        return keyArrl;
+
+    }
+
+
+
+    /**
      * Returns an ArrayList containing all keys in this data structure.
      *
      * @param dateModified when the file was created
@@ -502,7 +544,11 @@ public abstract class TreeVisualizer extends NodeVisualizer {
      * @return a JSONObject to be stored as a JSON file
      */
     public JSONObject createJSON(String dateModified, String type){
-        ArrayList<Integer> keyArrl = getAllKeys();
+        ArrayList<Integer> keyArrl = getAllKeysOrdered();
+        if(keyArrl == null || keyArrl.isEmpty()){
+            return null;
+        }
+
         //try to create a JSONObject
         try {
             JSONObject jObj = new JSONObject();
