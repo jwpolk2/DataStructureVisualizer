@@ -49,9 +49,9 @@ public abstract class AnimationItem {
     /**
      * Sleeps for a certain number of milliseconds.
      */
-    protected void sleep(int time) {
-        for (long start = Calendar.getInstance().getTimeInMillis();
-             Calendar.getInstance().getTimeInMillis() - start < time &&
+    protected void sleep(long time) {
+        for (long start = System.currentTimeMillis();
+             System.currentTimeMillis() - start < time &&
                 !AnimationParameters.isPaused(););
 
     }

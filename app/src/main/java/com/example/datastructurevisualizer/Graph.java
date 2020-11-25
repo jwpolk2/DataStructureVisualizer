@@ -209,9 +209,9 @@ public class Graph extends NodeVisualizer {
                     }
                     // Continues the traversal.
                     else {
-                        queueQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
-                                AnimationParameters.ANIM_TIME);
                         queueHighlightPathAnimation(edge.dest, "Path cost : " + edge.dest.value,
+                                AnimationParameters.ANIM_TIME);
+                        queueQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
                                 AnimationParameters.ANIM_TIME);
 
                     }
@@ -257,6 +257,9 @@ public class Graph extends NodeVisualizer {
         // Returns if the either the start or end are invalid.
         if (start == null || dest == null || start == dest) return;
 
+        // Makes the value of all Nodes high.
+        for (Node node : getAllNodes()) node.value = Integer.MAX_VALUE;
+
         // Adds the start to the queue of Nodes to explore.
         start.value = 0;
         start.children[0] = null;
@@ -296,13 +299,18 @@ public class Graph extends NodeVisualizer {
             // Adds each unexplored Node to the queue.
             for (Edge edge : (ArrayList<Edge>)currNode.extraData[0]) {
                 if (!explored.contains(edge.dest)) {
-                    edge.dest.value = currNode.value + edge.weight;
-                    edge.dest.children[0] = currNode;
 
-                    // Continues the traversal.
+                    // Changes the parent if this path has a lower value.
+                    if (currNode.value + edge.weight < edge.dest.value) {
+                        edge.dest.value = currNode.value + edge.weight;
+                        edge.dest.children[0] = currNode;
+                        queueHighlightPathAnimation(edge.dest, "Path cost : " + edge.dest.value,
+                                AnimationParameters.ANIM_TIME);
+
+                    }
+
+                    // Adds the Node to the queue.
                     queuePriorityQueueAddAnimation(edge.dest, "Add " + edge.dest.key + " to queue",
-                            AnimationParameters.ANIM_TIME);
-                    queueHighlightPathAnimation(edge.dest, "Path cost : " + edge.dest.value,
                             AnimationParameters.ANIM_TIME);
 
                 }
