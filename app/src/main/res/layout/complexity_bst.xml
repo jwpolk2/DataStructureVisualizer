@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The time complexity of a binary search tree depends on its balance. "
+            android:text="@string/complexity_bst_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -52,7 +52,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Let n be the number of nodes in the binary search tree sturcture. "
+            android:text="@string/complexity_bst_balanced_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Insert: O(log(n))\nSearch: O(log(n))\nDelete: O(log(n))"
+            android:text="@string/complexity_bst_balanced_complexities"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -90,7 +90,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Let n be the number of nodes in the binary search tree sturcture. "
+            android:text="@string/complexity_bst_unbalanced_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -103,7 +103,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Insert: O(n)\nSearch: O(n)\nDelete: O(n)"
+            android:text="@string/complexity_bst_unbalanced_complexities"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -113,6 +113,42 @@
             android:textStyle="normal"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Traversals"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_header"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text"
+            android:textStyle="italic"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/complexity_bst_traversals_overview"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/complexity_bst_traversals_complexities"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
 
 
 
