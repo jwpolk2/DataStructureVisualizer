@@ -173,6 +173,90 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Search Algorithm"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_header"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text"
+            android:textStyle="italic"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_search_overview"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_search_complexity"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/algorithm"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_search_algorithm2"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_search_algorithm3"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_search_algorithm4"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Traversals Overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_header"
@@ -184,7 +268,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_overview"
+            android:text="@string/code_traversals_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -208,7 +292,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_preOrder_overview"
+            android:text="@string/code_traversals_preOrder_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -220,19 +304,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_preOrder_complexity"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_preOrder_algorithm1"
+            android:text="@string/code_traversals_preOrder_complexity"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -244,7 +316,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_preOrder_algorithm2"
+            android:text="@string/code_traversals_preOrder_algorithm1"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_preOrder_algorithm2"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -256,7 +340,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_preOrder_algorithm3"
+            android:text="@string/code_traversals_preOrder_algorithm3"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -268,7 +352,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_preOrder_algorithm4"
+            android:text="@string/code_traversals_preOrder_algorithm4"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="60dp"
@@ -291,7 +375,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_postOrder_overview"
+            android:text="@string/code_traversals_postOrder_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -303,19 +387,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_postOrder_complexity"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_postOrder_algorithm1"
+            android:text="@string/code_traversals_postOrder_complexity"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -327,7 +399,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_postOrder_algorithm2"
+            android:text="@string/code_traversals_postOrder_algorithm1"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_postOrder_algorithm2"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -339,7 +423,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_postOrder_algorithm3"
+            android:text="@string/code_traversals_postOrder_algorithm3"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -351,7 +435,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_postOrder_algorithm4"
+            android:text="@string/code_traversals_postOrder_algorithm4"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="60dp"
@@ -376,7 +460,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_inOrder_overview"
+            android:text="@string/code_traversals_inOrder_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -388,19 +472,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_inOrder_complexity"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_inOrder_algorithm1"
+            android:text="@string/code_traversals_inOrder_complexity"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -412,7 +484,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_inOrder_algorithm2"
+            android:text="@string/code_traversals_inOrder_algorithm1"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_inOrder_algorithm2"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -424,7 +508,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_inOrder_algorithm3"
+            android:text="@string/code_traversals_inOrder_algorithm3"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -436,7 +520,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_inOrder_algorithm4"
+            android:text="@string/code_traversals_inOrder_algorithm4"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="60dp"
@@ -459,7 +543,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_breadthFirst_overview"
+            android:text="@string/code_traversals_breadthFirst_overview"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -471,19 +555,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_breadthFirst_complexity"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_breadthFirst_algorithm1"
+            android:text="@string/code_traversals_breadthFirst_complexity"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -495,7 +567,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_breadthFirst_algorithm2"
+            android:text="@string/code_traversals_breadthFirst_algorithm1"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_traversals_breadthFirst_algorithm2"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -507,7 +591,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_breadthFirst_algorithm3"
+            android:text="@string/code_traversals_breadthFirst_algorithm3"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="40dp"
@@ -519,7 +603,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_breadthFirst_algorithm4"
+            android:text="@string/code_traversals_breadthFirst_algorithm4"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="60dp"
@@ -528,89 +612,7 @@
             android:textColor="@color/text"
             android:textStyle="normal"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search Algorithm"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_header"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/text"
-            android:textStyle="italic"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_search_overview"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="normal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_search_complexity"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_search_algorithm1"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_search_algorithm2"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="normal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_search_algorithm3"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="normal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bst_code_traversals_search_algorithm4"
-            android:layout_gravity="left"
-            android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text"
-            android:textStyle="normal"
-            />
+
 
         <Button
             android:id="@+id/button_visualize"

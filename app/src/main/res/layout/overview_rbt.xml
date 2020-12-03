@@ -96,7 +96,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/text"
-            android:textStyle="normal"
+            android:textStyle="bold"
             />
 
         <TextView
@@ -105,14 +105,12 @@
             android:text="@string/rbt_overview_rbt_property2"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/text"
             android:textStyle="normal"
             />
-
-
 
         <Button
             android:id="@+id/button_visualize"
