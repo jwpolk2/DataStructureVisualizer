@@ -103,6 +103,81 @@ public class AVLTreeTest extends TestCase {
         assertEquals(2, keyArrl.size());
     }
 
+    public void testInsertManyRemoveNoAnim(){
+        avl.insertAnim(5);
+        avl.insertAnim(3);
+        avl.insertAnim(1);
+        avl.insertAnim(2);
+        avl.insertAnim(6);
+        avl.insertAnim(8);
+
+        avl.insertAnim(14);
+        avl.insertAnim(16);
+        avl.insertAnim(10);
+        avl.insertAnim(4);
+        avl.insertAnim(9);
+        avl.insertAnim(12);
+
+        avl.removeNoAnim(1);
+        avl.removeNoAnim(8);
+        avl.removeNoAnim(5);
+        avl.removeNoAnim(4);
+        avl.removeNoAnim(10);
+
+        ArrayList<Integer> keyArrl = avl.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
+    public void testInsertNoAnimManyRemoveNoAnim(){
+        avl.insertNoAnim(5);
+        avl.insertNoAnim(3);
+        avl.insertNoAnim(1);
+        avl.insertNoAnim(2);
+        avl.insertNoAnim(6);
+        avl.insertNoAnim(8);
+
+        avl.insertNoAnim(14);
+        avl.insertNoAnim(16);
+        avl.insertNoAnim(10);
+        avl.insertNoAnim(4);
+        avl.insertNoAnim(9);
+        avl.insertNoAnim(12);
+
+        avl.removeNoAnim(1);
+        avl.removeNoAnim(8);
+        avl.removeNoAnim(5);
+        avl.removeNoAnim(4);
+        avl.removeNoAnim(10);
+
+        ArrayList<Integer> keyArrl = avl.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
+    public void testInsertManyRemoveAnim(){
+        avl.insertAnim(5);
+        avl.insertAnim(3);
+        avl.insertAnim(1);
+        avl.insertAnim(2);
+        avl.insertAnim(6);
+        avl.insertAnim(8);
+
+        avl.insertAnim(14);
+        avl.insertAnim(16);
+        avl.insertAnim(10);
+        avl.insertAnim(4);
+        avl.insertAnim(9);
+        avl.insertAnim(12);
+
+        avl.removeAnim(1);
+        avl.removeAnim(8);
+        avl.removeAnim(5);
+        avl.removeAnim(4);
+        avl.removeAnim(10);
+
+        ArrayList<Integer> keyArrl = avl.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
 //    public void testRemoveAnim_exists() {
 //        avl.insertNoAnim(1);
 //        avl.insertNoAnim(2);

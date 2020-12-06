@@ -59,7 +59,7 @@ public class RedBlackTreeTest extends TestCase {
         assertEquals(2, keyArrl.size());
     }
 
-    public void testInsertMany(){
+    public void testInsertManyRemoveNoAnim(){
         rbt.insertAnim(5);
         rbt.insertAnim(3);
         rbt.insertAnim(1);
@@ -79,6 +79,56 @@ public class RedBlackTreeTest extends TestCase {
         rbt.removeNoAnim(5);
         rbt.removeNoAnim(4);
         rbt.removeNoAnim(10);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
+    public void testInsertManyRemoveAnim(){
+        rbt.insertAnim(5);
+        rbt.insertAnim(3);
+        rbt.insertAnim(1);
+        rbt.insertAnim(2);
+        rbt.insertAnim(6);
+        rbt.insertAnim(8);
+
+        rbt.insertAnim(14);
+        rbt.insertAnim(16);
+        rbt.insertAnim(10);
+        rbt.insertAnim(4);
+        rbt.insertAnim(9);
+        rbt.insertAnim(12);
+
+        rbt.removeAnim(1);
+        rbt.removeAnim(8);
+        rbt.removeAnim(5);
+        rbt.removeAnim(4);
+        rbt.removeAnim(10);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
+    public void testInsertNoAnimManyRemoveAnim(){
+        rbt.insertNoAnim(5);
+        rbt.insertNoAnim(3);
+        rbt.insertNoAnim(1);
+        rbt.insertNoAnim(2);
+        rbt.insertNoAnim(6);
+        rbt.insertNoAnim(8);
+
+        rbt.insertNoAnim(14);
+        rbt.insertNoAnim(16);
+        rbt.insertNoAnim(10);
+        rbt.insertNoAnim(4);
+        rbt.insertNoAnim(9);
+        rbt.insertNoAnim(12);
+
+        rbt.removeAnim(1);
+        rbt.removeAnim(8);
+        rbt.removeAnim(5);
+        rbt.removeAnim(4);
+        rbt.removeAnim(10);
 
         ArrayList<Integer> keyArrl = rbt.getAllKeys();
         assertEquals(7, keyArrl.size());

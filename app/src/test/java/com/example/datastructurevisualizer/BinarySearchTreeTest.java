@@ -112,4 +112,79 @@ public class BinarySearchTreeTest extends TestCase {
         ArrayList<Integer> keyArrl = bst.getAllKeys();
         assertEquals(2, keyArrl.size());
     }
+
+    public void testInsertManyRemoveNoAnim(){
+        bst.insertAnim(5);
+        bst.insertAnim(3);
+        bst.insertAnim(1);
+        bst.insertAnim(2);
+        bst.insertAnim(6);
+        bst.insertAnim(8);
+
+        bst.insertAnim(14);
+        bst.insertAnim(16);
+        bst.insertAnim(10);
+        bst.insertAnim(4);
+        bst.insertAnim(9);
+        bst.insertAnim(12);
+
+        bst.removeNoAnim(1);
+        bst.removeNoAnim(8);
+        bst.removeNoAnim(5);
+        bst.removeNoAnim(4);
+        bst.removeNoAnim(10);
+
+        ArrayList<Integer> keyArrl = bst.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
+    public void testInsertNoAnimManyRemoveNoAnim(){
+        bst.insertNoAnim(5);
+        bst.insertNoAnim(3);
+        bst.insertNoAnim(1);
+        bst.insertNoAnim(2);
+        bst.insertNoAnim(6);
+        bst.insertNoAnim(8);
+
+        bst.insertNoAnim(14);
+        bst.insertNoAnim(16);
+        bst.insertNoAnim(10);
+        bst.insertNoAnim(4);
+        bst.insertNoAnim(9);
+        bst.insertNoAnim(12);
+
+        bst.removeNoAnim(1);
+        bst.removeNoAnim(8);
+        bst.removeNoAnim(5);
+        bst.removeNoAnim(4);
+        bst.removeNoAnim(10);
+
+        ArrayList<Integer> keyArrl = bst.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
+    public void testInsertManyRemoveAnim(){
+        bst.insertAnim(5);
+        bst.insertAnim(3);
+        bst.insertAnim(1);
+        bst.insertAnim(2);
+        bst.insertAnim(6);
+        bst.insertAnim(8);
+
+        bst.insertAnim(14);
+        bst.insertAnim(16);
+        bst.insertAnim(10);
+        bst.insertAnim(4);
+        bst.insertAnim(9);
+        bst.insertAnim(12);
+
+        bst.removeAnim(1);
+        bst.removeAnim(8);
+        bst.removeAnim(5);
+        bst.removeAnim(4);
+        bst.removeAnim(10);
+
+        ArrayList<Integer> keyArrl = bst.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
 }
