@@ -342,6 +342,10 @@ public class BinarySearchTree extends TreeVisualizer {
         // If there is no duplicate, logs the insertion.
         else logAdd(id);
 
+        // Tracks the Node being inserted.
+        queueListPopAnimation(null, 0);
+        queueQueueAddAnimation(new Node(id, 0), "Inserting " + id, 0);
+
         Node newNode = new Node(id, numChildren);
         if (root == null) {
             root = newNode;

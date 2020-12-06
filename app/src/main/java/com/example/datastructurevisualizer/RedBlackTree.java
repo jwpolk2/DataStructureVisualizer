@@ -111,6 +111,10 @@ public class RedBlackTree extends TreeVisualizer {
         // If there is no duplicate, logs the insertion.
         else logAdd(key);
 
+        // Tracks the Node being inserted.
+        queueListPopAnimation(null, 0);
+        queueQueueAddAnimation(new Node(key, 0), "Inserting " + key, 0);
+
         // No root node.
         if (root == null) {
 
