@@ -1,6 +1,10 @@
 package com.example.datastructurevisualizer;
 
 import junit.framework.TestCase;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+
 import java.util.ArrayList;
 
 public class AVLTreeTest extends TestCase {
