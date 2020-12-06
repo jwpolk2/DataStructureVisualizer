@@ -104,9 +104,44 @@ public class RedBlackTreeTest extends TestCase {
         rbt.removeAnim(5);
         rbt.removeAnim(4);
         rbt.removeAnim(10);
+        rbt.removeAnim(3);
+
+        rbt.removeAnim(14);
+        rbt.removeAnim(2);
+        rbt.removeAnim(9);
+        rbt.removeAnim(12);
+        rbt.removeAnim(16);
+        rbt.removeAnim(6);
 
         ArrayList<Integer> keyArrl = rbt.getAllKeys();
-        assertEquals(7, keyArrl.size());
+        assertEquals(0, keyArrl.size());
+    }
+
+    public void testDeleteFixup(){
+        rbt.insertAnim(5);
+        rbt.insertAnim(3);
+        rbt.insertAnim(1);
+        rbt.insertAnim(2);
+        rbt.insertAnim(6);
+        rbt.insertAnim(8);
+
+        rbt.insertAnim(14);
+        rbt.insertAnim(16);
+        rbt.insertAnim(10);
+        rbt.insertAnim(4);
+        rbt.insertAnim(9);
+        rbt.insertAnim(12);
+
+        Node node1 = rbt.getNode(6);
+        Node node2 = rbt.getNode(4);
+        Node node3 = rbt.getNode(14);
+        Node node4= rbt.getNode(3);
+        rbt.deleteFixup(node1);
+        rbt.deleteFixup(node2);
+        rbt.deleteFixup(node3);
+        rbt.deleteFixup(node4);
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(12, keyArrl.size());
     }
 
     public void testInsertNoAnimManyRemoveAnim(){

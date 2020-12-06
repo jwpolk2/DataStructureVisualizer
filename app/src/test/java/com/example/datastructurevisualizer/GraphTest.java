@@ -37,10 +37,14 @@ public class GraphTest extends TestCase {
             graph.insertDirectedEdge(1, 4, 3);
             graph.insertDirectedEdge(2, 5, 4);
             graph.insertDirectedEdge(4, 3, 1);
+            graph.insertUnDirectedEdge(1, 5, 10);
             graph.breadthFirstPathfindAnim(1, 2);
+            graph.breadthFirstPathfindAnim(1, 4);
             graph.primsAlgorithm(1);
             graph.breadthFirstPathfind(1, 2);
+            graph.breadthFirstPathfind(1, 4);
             graph.dijkstraPathfind(1, 5);
+            graph.kruskalsAlgorithm();
             //assertEquals(2, keyArrl.size());
        // }
        // catch(NullPointerException e) {
