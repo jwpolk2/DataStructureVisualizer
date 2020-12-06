@@ -706,15 +706,21 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                                         end = Integer.parseInt(endNode.getText().toString());
                                         if (graph.getAllKeys().contains(start)) {
                                             if (graph.getAllKeys().contains(end)) {
-                                                graph.dijkstraPathfind(start, end);
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        AnimationParameters.beginAnimation();
-                                                        graph.animate();
-                                                        AnimationParameters.stopAnimation();
-                                                    }
-                                                }).start();
+                                                if(start != end) {
+                                                    graph.dijkstraPathfind(start, end);
+                                                    new Thread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            AnimationParameters.beginAnimation();
+                                                            graph.animate();
+                                                            AnimationParameters.stopAnimation();
+                                                        }
+                                                    }).start();
+                                                }
+                                                else {
+                                                    Toast.makeText(getContext(), "Please enter a different start or end key", Toast.LENGTH_SHORT).show();
+                                                    displayMessage("The start and end values are equal, please enter either a new start or end value existing in the graph.");
+                                                }
                                             } else {
                                                 Toast.makeText(getContext(), "Please enter a different end key", Toast.LENGTH_SHORT).show();
                                                 displayMessage(String.format("The value %d does not exist in the graph", end));
@@ -778,15 +784,20 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                                         end = Integer.parseInt(endNode.getText().toString());
                                         if (graph.getAllKeys().contains(start)) {
                                             if (graph.getAllKeys().contains(end)) {
-                                                graph.breadthFirstPathfind(start,end);
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        AnimationParameters.beginAnimation();
-                                                        graph.animate();
-                                                        AnimationParameters.stopAnimation();
-                                                    }
-                                                }).start();
+                                                if(start != end) {
+                                                    graph.breadthFirstPathfind(start, end);
+                                                    new Thread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            AnimationParameters.beginAnimation();
+                                                            graph.animate();
+                                                            AnimationParameters.stopAnimation();
+                                                        }
+                                                    }).start();
+                                                }else {
+                                                    Toast.makeText(getContext(), "Please enter a different start or end key", Toast.LENGTH_SHORT).show();
+                                                    displayMessage("The start and end values are equal, please enter either a new start or end value existing in the graph.");
+                                                }
                                             } else {
                                                 Toast.makeText(getContext(), "Please enter a different end key", Toast.LENGTH_SHORT).show();
                                                 displayMessage(String.format("The value %d does not exist in the graph", end));
