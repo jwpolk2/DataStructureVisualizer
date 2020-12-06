@@ -1338,6 +1338,7 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
     public static void displayMessage(String message) {
         if (message == null) return;
         final String message2 = message;
+        if (displayExec == null) return;
         displayExec.post(new Runnable() {
             @Override
             public void run() {
