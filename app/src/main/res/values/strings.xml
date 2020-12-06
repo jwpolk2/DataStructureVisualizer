@@ -6,7 +6,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="save">Save</string>
     <string name="file_action">file_action</string>
-    <string name="bst_overview_tree_body"><![CDATA[Trees are non-linear data structures which store data in nodes, allowing for efficient insert, update, and search inquiries. These structures follow a particular ordering property wherein given a node n all the left descendants will be < n < all right descendants.]]></string>
+    <string name="bst_rbt_avl_overview_tree_body"><![CDATA[Trees are non-linear data structures which store data in nodes, allowing for efficient insert, update, and search inquiries. Some of these structures follow a particular ordering property wherein given a node n all the left descendants will be < n < all right descendants. Though not all trees will follow this property, the ones covered in this application will.]]></string>
     <string name="bst_overview_bst_body">In binary search trees, each node can have a maximum of two children, giving binary search trees their name. Note that all trees are not binary trees, some can have more than two children such as a B+ tree. \n\nThe root node (node 1) is the first node of a tree, the parent of this node is null. \nThe root node of a tree is the parent of its left and right children (nodes 2 and 3). \nThe links that connect a parent to its children are called edges. \nThe nodes that have no children are leaf nodes (nodes 4, 5, and 6)</string>
     <string name="bst_overview_definitions_body_full">Full: every node has either zero or two children.\n</string>
     <string name="bst_overview_definitions_body_complete">Complete: every level in the tree is fully filled except for the last level, which should be filled from left to right.</string>
@@ -78,24 +78,24 @@
     <string name="rbt_code_insertion_algorithm13">Case N and P are both right children:</string>
     <string name="rbt_code_insertion_algorithm14">This is solved with a left rotation about node G. And changing the coloring of P to black and G to red.  \n\nThis maintains the node ordering and maintains an equal number of black nodes in the path down to each subtree. Because the resulting root of this subtree is black no further red violations need to be checked for.</string>
     <string name="rbt_code_insertion_algorithm15">Case N is a left child, and P is a right child:</string>
-    <string name="rbt_code_insertion_algorithm16">This case is resolved with a right rotation about node P and then a left rotation about node G. The coloring of N if changed to black and the coloring of G is changed to red.  \n\nThis maintains the node ordering and maintains an equal number of black nodes in the path down to each subtree. Because the resulting root of this subtree is black no further red violations need to be checked for.</string>
+    <string name="rbt_code_insertion_algorithm16">This case is resolved with a right rotation about node P and then a left rotation about node G. The coloring of N if changed to black and the coloring of G is changed to red. \n\nThis maintains the node ordering and maintains an equal number of black nodes in the path down to each subtree. Because the resulting root of this subtree is black no further red violations need to be checked for.</string>
     <string name="rbt_code_deletion_overview">When deleting a node from a red-black tree the red or black properties of the tree could be disturbed. If the node being deleted is black, then the black property will be violated. "</string>
-    <string name="rbt_code_deletion_algorithm1">Consider a node which is to be deleted, call this nodeToBeDeleted. •\tFirst save the color of the node into a variable originalColor. "</string>
+    <string name="rbt_code_deletion_algorithm1">Consider a node which is to be deleted, call this nodeToBeDeleted. \n\nFirst save the color of the node into a variable originalColor. "</string>
     <string name="rbt_code_deletion_algorithm2">Case nodeToBeDeleted’s left child is null</string>
-    <string name="rbt_code_deletion_algorithm3">Assign the value of the right child to a node X (even if it is null) •\tReplace the node to be deleted with node X "</string>
+    <string name="rbt_code_deletion_algorithm3">Assign the value of the right child to a node X (even if it is null) \n\nReplace the node to be deleted with node X "</string>
     <string name="rbt_code_deletion_algorithm4">Case nodeToBeDeleted’s left child is not null and nodeToBeDeleted’s right child is null</string>
-    <string name="rbt_code_deletion_algorithm5">Assign the value of the left child to the node X •\tReplace the node to be deleted with node X</string>
+    <string name="rbt_code_deletion_algorithm5">Assign the value of the left child to the node X \n\nReplace the node to be deleted with node X</string>
     <string name="rbt_code_deletion_algorithm6">Case X’s left and right children are both not null</string>
-    <string name="rbt_code_deletion_algorithm7">Find the minimum value in the right subtree of X (in-order successor), call this node Y •\tSave the color of this node into the variable created earlier •\tAssign the right child of Y to X •\tIf Y is a direct child of nodeToBeDeleted, set the parent of X as Y, otherwise transplant Y with the right child of Y •\tReplace nodeToBeDeleted with Y •\tSet the color of Y with the color stored in the variable, if this color is Black the black property has been violated and will need to be fixed. "</string>
+    <string name="rbt_code_deletion_algorithm7">Find the minimum value in the right subtree of X (in-order successor), call this node Y \n\nSave the color of this node into the variable created earlier \n\nAssign the right child of Y to X \n\nIf Y is a direct child of nodeToBeDeleted, set the parent of X as Y, otherwise transplant Y with the right child of Y \n\nReplace nodeToBeDeleted with Y \n\nSet the color of Y with the color stored in the variable, if this color is Black the black property has been violated and will need to be fixed.</string>
     <string name="rbt_code_propertyfixes">Property Fixes after Deletion:</string>
     <string name="rbt_code_propertyfixes_black_title">Fix Black Property Violations:</string>
     <string name="rbt_code_propertyfixes_black1">These violations will occur when a black node is deleted. To fix this we assume that node X has an extra black descendant upon paths to its leaves.  \n\nThe extra black node can be removed when the following cases occur: reaching the root node, X points to a red-black node, or with rotations and recoloring.  \n\nRepeat the following steps until X is not the root of the tree an d the color of X is black.</string>
     <string name="rbt_code_propertyfixes_black2">If X is the left child of its parent, then assign the sibling of X to node W.</string>
     <string name="rbt_code_propertyfixes_black3">If W is red:</string>
-    <string name="rbt_code_propertyfixes_black4">Set the color of W to be BLACK \n\nSet the color of X and W’s parent to be RED "</string>
+    <string name="rbt_code_propertyfixes_black4">Set the color of W to be BLACK \n\nSet the color of X and W’s parent to be RED</string>
     <string name="rbt_code_propertyfixes_black5">Complete a left rotation about X and W’s parent. \n\nAfter this rotation X will have a new sibling. Assign W with the new right child of X’s parent.</string>
     <string name="rbt_code_propertyfixes_black6">If the color of both the right and left children of W is BLACK:</string>
-    <string name="rbt_code_propertyfixes_black7">Set the color of W to RED •\tAssign the parent of X to X.</string>
+    <string name="rbt_code_propertyfixes_black7">Set the color of W to RED \n\nAssign the parent of X to X.</string>
     <string name="rbt_code_propertyfixes_black8">Else if the color of the rightChild of W is BLACK:</string>
     <string name="rbt_code_propertyfixes_black9">Set the color of the leftChild of W as BLACK \n\nSet the color of W as RED</string>
     <string name="rbt_code_propertyfixes_black10">Complete a right-rotation about node W</string>
@@ -109,7 +109,7 @@
     <string name="rbt_code_propertyfixes_black18">Set the color of W to be BLACK \n\nSet the color of X and W’s parent to be RED</string>
     <string name="rbt_code_propertyfixes_black19">Complete a right rotation about X and W’s parent.  \n\nAfter this rotation X will have a new sibling. \n\nAssign W with the new left child of X’s parent.</string>
     <string name="rbt_code_propertyfixes_black20">If the color of both the right and left children of W is BLACK:</string>
-    <string name="rbt_code_propertyfixes_black21">Set the color of W to RED •\tAssign the parent of X to X</string>
+    <string name="rbt_code_propertyfixes_black21">Set the color of W to RED \n\nAssign the parent of X to X</string>
     <string name="rbt_code_propertyfixes_black22">Else if the color of the leftChild of W is BLACK:</string>
     <string name="rbt_code_propertyfixes_black23">Set the color of the rightChild of W as BLACK \n\nSet the color of W as RED</string>
     <string name="rbt_code_propertyfixes_black24">Complete a left-rotation about node W</string>
@@ -118,5 +118,25 @@
     <string name="rbt_code_propertyfixes_black27">Set the color of W as the color of the parent of X. \n\nSet the color of the parent of parent of X as BLACK •\tSet the color of the right child of W as BLACK</string>
     <string name="rbt_code_propertyfixes_black28">Complete a left-rotation about the parent of X</string>
     <string name="rbt_code_propertyfixes_black29">Set X as the root of the tree.</string>
+    <string name="rbt_overview_avl_body">An AVL tree is a common way to implement tree balancing. Each node of the tree stores the height of the subtree created by that node. Using this information every node can be checked if it is height balanced. The nodes would not be height balanced if the difference between the height of its left and right subtrees is greater than one.</string>
+    <string name="avl_code_insertion_overview">To start a node is inserted the same as in a binary search tree. This can result in the balance of some nodes changing to -2 or 2. Therefore each node must be checked and rotated recursively as needed. \n\nLet balance(n) = n.left.height - n.right.height </string>
+    <string name="avl_code_insertion_algorithm1">Case balance is 2</string>
+    <string name="avl_code_insertion_algorithm2">o\tIn this case the height of the left subtree is two larger than the height of the right subtree.  o\tIf the nodes are all hanging to the left this is called left left shape.  o\tIf the nodes are hanging to the right this is called left right shape.  o\tIf the tree is left right shape transform this to left left shape using a left rotation about the left child of the unbalanced node.  o\tOnce in left left shape use a right rotation about the unbalanced node.</string>
+    <string name="avl_code_insertion_algorithm3">Case balance is -2</string>
+    <string name="avl_code_insertion_algorithm4">o\tIn this case the height of the right subtree is two larger than the height of the left subtree.  o\tIf the nodes are all hanging to the left this is called right left shape.  o\tIf the nodes are hanging to the right this is called right right shape.  o\tIf the tree is right left shape transform this to right right shape using a right rotation about the right child of the unbalanced node.  o\tOnce in right right shape use a left rotation about the unbalanced node.</string>
+    <string name="avl_code_insertion_algorithm5">•\tRecursively check the height of all nodes to ensure there are no more unbalanced nodes.</string>
+    <string name="avl_code_deletion_overview">"Deleting a node in an AVL tree is similar to deletion in a binary search tree. However, this deletion may disturb the balance and rebalancing will need to be done. Consider deleting node X from the critical node A. A node is considered critical if their balance factor is "</string>
+    <string name="avl_code_deletion_algorithm1">Case Node X is from the left subtree of A and the left child of A (B) has a balance factor of 0</string>
+    <string name="avl_code_deletion_algorithm2">•\tThe node X is deleted from the left subtree of A and A has a balance of 2.  •\tThis is fixed by a right rotation about A, making A’s right child the new root of the subtree. •\tNode A will have a balance of 1 and node B will have a balance of -1</string>
+    <string name="avl_code_deletion_algorithm3">Case Node X is from the left subtree of A and the left child of A (B) has a balance factor of 1</string>
+    <string name="avl_code_deletion_algorithm4">•\tThe node X is deleted from the left subtree of A and A has a balance of 2.  •\tThis is fixed by a right rotation about A, making A’s right child the new root of the subtree. •\tNode A and B will have a balance of 0.</string>
+    <string name="avl_code_deletion_algorithm5">Case Node X if from the right subtree of A and the left child of A has a balance factor of 0</string>
+    <string name="avl_code_deletion_algorithm6">"•\tThe node X is deleted from the right subtree of A and node A has a balance of 2.  •\tThis is fixed by a left rotation about A, making A’s left child the new root of the subtree.  •\tNode A will have a balance of 1 and node B will have a balance of -1 "</string>
+    <string name="avl_code_deletion_algorithm7">Case Node X if from the right subtree of A and the left child of A has a balance factor of 1</string>
+    <string name="avl_code_deletion_algorithm8">"•\tThe node X is deleted from the right subtree of A and A has a balance of 2.  •\tThis is fixed by a left rotation about A, making A’s left child the new root of the subtree. •\tNode A and B will have a balance of 0. "</string>
+    <string name="avl_code_deletion_algorithm9">Case Node X if from the right subtree of A and the left child of A has a balance factor of -1</string>
+    <string name="avl_code_deletion_algorithm10">"•\tLet A be the critical node, B be A’s left child, C be B’s right child. •\tBalancing in this case involves a Left-Right rotation.  •\tThe first rotation is a left rotation about node B, making C the new left child of A. •\tThe second rotation is a right rotation about node A, making C the new root of the subtree with left child B and right child A.  "</string>
+    <string name="avl_code_deletion_algorithm11">Case Node X if from the left subtree of A and the right child of A has a balance factor of -1</string>
+    <string name="avl_code_deletion_algorithm12">"•\tLet A be the critical node, B be A’s right child, C be B’s left child. •\tBalancing in this case involves a Right-Left rotation.  •\tThe first rotation is a right rotation about node B, making C the new right child of A. •\tThe second rotation is a left rotation about node A, making C the new root of the subtree with left child A and right child B.  "</string>
 
 </resources>

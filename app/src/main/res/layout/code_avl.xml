@@ -37,11 +37,106 @@
             />
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_insertion_overview"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/algorithm"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_insertion_algorithm1"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_insertion_algorithm2"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/logo_foreground"
             android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_insertion_algorithm3"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_insertion_algorithm4"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_insertion_algorithm5"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,7 +150,213 @@
             android:textStyle="italic"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_overview"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/algorithm"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm1"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm2"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm3"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm4"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm5"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm6"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm7"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm8"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm9"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm10"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm11"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avl_code_deletion_algorithm12"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
 
         <ImageView
             android:layout_width="wrap_content"

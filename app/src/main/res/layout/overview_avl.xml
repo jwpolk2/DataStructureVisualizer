@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bst_overview_tree_body"
+            android:text="@string/bst_rbt_avl_overview_tree_body"
             android:layout_gravity="left"
             android:textSize="@dimen/text_info_body"
             android:layout_marginLeft="20dp"
@@ -52,9 +52,39 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/tree_overview"
+            android:src="@drawable/logo_foreground"
             android:layout_margin="10dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adelson-Velsky Tree"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_header"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text"
+            android:textStyle="italic"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rbt_overview_avl_body"
+            android:layout_gravity="left"
+            android:textSize="@dimen/text_info_body"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text"
+            android:textStyle="normal"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_foreground"
+            android:layout_margin="10dp"/>
 
         <Button
             android:id="@+id/button_visualize"

@@ -116,6 +116,7 @@ public class Visualizer extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("OnPause", "In On Pause");
         AnimationParameters.beginAnimation();
         AnimationParameters.stopAnimation();
     }
