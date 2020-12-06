@@ -151,7 +151,7 @@ public class VisualizerNavigationActionBar {
     public void testClickGraphOpensVisualizerWithCorrectActionBar(){
 
         ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),

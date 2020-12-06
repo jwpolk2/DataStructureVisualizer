@@ -57,7 +57,7 @@ public class GraphDropDown {
     public void testDropDownTextOnOpeningGraphVisualizer() {
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
@@ -78,7 +78,7 @@ public class GraphDropDown {
     @Test
     public void testSelectingPrimsFromDropDown() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
@@ -118,7 +118,7 @@ public class GraphDropDown {
     public void testSelectingDijkstrasFromDropDown() {
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
@@ -156,7 +156,7 @@ public class GraphDropDown {
     @Test
     public void testSelectingKruskalsMSTFromDropDown() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
@@ -179,7 +179,7 @@ public class GraphDropDown {
                 .inAdapterView(childAtPosition(
                         withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
                         0))
-                .atPosition(3);
+                .atPosition(4);
         appCompatCheckedTextView3.perform(click());
 
         ViewInteraction textView2 = onView(
@@ -204,7 +204,7 @@ public class GraphDropDown {
     @Test
     public void testSelectingBreadthFirstPathFromDropDown() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
@@ -227,7 +227,7 @@ public class GraphDropDown {
                 .inAdapterView(childAtPosition(
                         withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
                         0))
-                .atPosition(4);
+                .atPosition(3);
         appCompatCheckedTextView3.perform(click());
 
         ViewInteraction textView3 = onView(

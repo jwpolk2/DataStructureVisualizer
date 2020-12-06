@@ -70,7 +70,7 @@ public class CheckHomeFragmentViewItems {
     @Test
     public void testGraphButtonOnHomeFragment() {
         ViewInteraction button5 = onView(
-                allOf(withId(R.id.graphButton), withText("Graphs"),
+                allOf(withId(R.id.graphButton), withText("Weighted Graphs"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         button5.check(matches(isDisplayed()));
