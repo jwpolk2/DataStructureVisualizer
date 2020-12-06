@@ -1,10 +1,8 @@
 package com.example.datastructurevisualizer;
 
-import android.graphics.Canvas;
-
-import com.example.datastructurevisualizer.ui.Visualizer;
-
 import java.util.ArrayList;
+import android.graphics.Canvas;
+import com.example.datastructurevisualizer.ui.Visualizer;
 
 /**
  * Parent class for all data structures.
@@ -25,6 +23,7 @@ import java.util.ArrayList;
  * called in each child render method.
  * Includes animationPause, animationNext, and animationPrev to iterate through
  * animations. Pause must be called before any animation is run.
+ * Includes the AnimationItem and queueing method for only displaying a message.
  */
 public abstract class DataStructureVisualizer {
 
@@ -115,6 +114,8 @@ public abstract class DataStructureVisualizer {
         public void run() {
             beginAnimation();
             for (Integer curr : keys) insertAnim(curr);
+            queueMessage("Finished multiple insertion.",
+                    AnimationParameters.ANIM_TIME);
             animate();
             stopAnimation();
 
@@ -550,6 +551,55 @@ public abstract class DataStructureVisualizer {
      */
     public void render() {
         render(MainActivity.getCanvas());
+
+    }
+
+    /**
+     * Queues an animation to output a message and wait for a small time.
+     *
+     * @param message the message to animate with.
+     * @param time the total unscaled time in milliseconds for the animation.
+     */
+    protected void queueMessage(String message, int time) {
+        animationLog.add(new DataStructureVisualizer.AnimMessage(message, time));
+
+    }
+
+    /**
+     * Animation item for displaying text. Does not change the Canvas.
+     */
+    private static class AnimMessage extends AnimationItem {
+
+        // Animation time.
+        int time;
+
+        /**
+         * Constructor for this item. Stores the text and the waiting duration.
+         *
+         * @param message the message to animate with.
+         * @param time the total unscaled time in milliseconds for the animation.
+         */
+        AnimMessage(String message, int time) {
+            super(message);
+            this.time = time;
+
+        }
+
+        /**
+         * Outputs the text.
+         */
+        @Override
+        public void run() {
+            super.run();
+            sleep(time);
+
+        }
+
+        /**
+         * Same as run.
+         */
+        @Override
+        public void reverse() { run(); }
 
     }
 }

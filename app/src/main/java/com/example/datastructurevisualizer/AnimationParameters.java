@@ -13,68 +13,78 @@ import java.util.concurrent.Semaphore;
 public class AnimationParameters {
 
     // Default time taken for any given animation.
-    public static final int ANIM_TIME = 1000;
+    protected static final int ANIM_TIME = 1000;
 
     // Default number of steps for any Node movement animation.
-    public static final int MOVEMENT_FRAMES = 20;
+    protected static final int MOVEMENT_FRAMES = 20;
 
     // Default colour of a vector.
-    public static final int VEC_R = 0;
-    public static final int VEC_G = 0;
-    public static final int VEC_B = 0;
+    protected static final int VEC_R = 0;
+    protected static final int VEC_G = 0;
+    protected static final int VEC_B = 0;
 
-    // DEfault colour of a selected vector.
-    public static final int SEL_VEC_R = 0;
-    public static final int SEL_VEC_G = 0;
-    public static final int SEL_VEC_B = 200;
+    // Default colour of a selected vector.
+    protected static final int SEL_VEC_R = 0;
+    protected static final int SEL_VEC_G = 0;
+    protected static final int SEL_VEC_B = 200;
 
     // Default colour of a highlighted vector.
-    public static final int HIL_VEC_R = 0;
-    public static final int HIL_VEC_G = 120;
-    public static final int HIL_VEC_B = 0;
+    protected static final int HIL_VEC_R = 0;
+    protected static final int HIL_VEC_G = 120;
+    protected static final int HIL_VEC_B = 0;
 
     // Default colour of text.
-    public static final int TEXT_R = 255;
-    public static final int TEXT_G = 255;
-    public static final int TEXT_B = 255;
+    protected static final int TEXT_R = 255;
+    protected static final int TEXT_G = 255;
+    protected static final int TEXT_B = 255;
 
     // Default colour of background.
-    public static final int BACK_R = 255;
-    public static final int BACK_G = 255;
-    public static final int BACK_B = 255;
+    protected static final int BACK_R = 255;
+    protected static final int BACK_G = 255;
+    protected static final int BACK_B = 255;
 
     // Default colour of Node.
-    public static final int NODE_R = 200;
-    public static final int NODE_G = 0;
-    public static final int NODE_B = 0;
+    protected static final int NODE_R = 200;
+    protected static final int NODE_G = 0;
+    protected static final int NODE_B = 0;
 
     // Default colour of a selected Node.
-    public static final int SEL_NODE_R = 0;
-    public static final int SEL_NODE_G = 0;
-    public static final int SEL_NODE_B = 200;
+    protected static final int SEL_NODE_R = 0;
+    protected static final int SEL_NODE_G = 0;
+    protected static final int SEL_NODE_B = 200;
 
     // Default colour of a highlighted Node.
-    public static final int HIL_NODE_R = 0;
-    public static final int HIL_NODE_G = 120;
-    public static final int HIL_NODE_B = 0;
+    protected static final int HIL_NODE_R = 0;
+    protected static final int HIL_NODE_G = 120;
+    protected static final int HIL_NODE_B = 0;
 
     // Default colour of an explored Node.
-    public static final int EXP_NODE_R = 0;
-    public static final int EXP_NODE_G = 40;
-    public static final int EXP_NODE_B = 0;
+    protected static final int EXP_NODE_R = 0;
+    protected static final int EXP_NODE_G = 40;
+    protected static final int EXP_NODE_B = 0;
 
     // Width of a Node.
     public static final float NODE_RADIUS = 35f;
 
     // All sizes and distances will be multiplied by the scaleFactor.
-    static float scaleFactor = (float) 1;
+    // UNUSED. Would have been used for zooming in and out.
+    protected static float scaleFactor = (float) 1;
 
     // Default depth between layers of a tree.
-    static float depthLen = 120;
+    protected static float depthLen = 120;
 
     // All animation times will be divided by animSpeed.
-    // TODO unused, remove?
-    static float animSpeed = 1;
+    protected static float animSpeed = 1;
+
+    /**
+     * Sets the animSpeed to the inputed animSpeed.
+     *
+     * @param newSpeed the new animSpeed.
+     */
+    public static void setAnimSpeed(float newSpeed) {
+        animSpeed = newSpeed;
+
+    }
 
     // Mutex that prevents animations from occurring concurrently.
     private static final Semaphore mutex = new Semaphore(1);
@@ -108,10 +118,11 @@ public class AnimationParameters {
     public static void stopAnimation() {
         Visualizer.displayMessage("");
         mutex.release();
+
     }
 
     // Pause variable.
-    static boolean paused = false;
+    private static boolean paused = false;
 
     /**
      * Pauses the animation.
