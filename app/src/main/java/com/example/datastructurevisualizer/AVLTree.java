@@ -120,6 +120,10 @@ public class AVLTree extends TreeVisualizer {
         // If there is no duplicate, logs the insertion.
         else logAdd(key);
 
+        // Tracks the Node being inserted.
+        queueListPopAnimation(null, 0);
+        queueQueueAddAnimation(new Node(key, 0), "Inserting " + key, 0);
+
         // Creates a root if there is no root.
         if (root == null) {
             root = new Node(key, getNumChildren());
