@@ -746,6 +746,7 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
                     break;
                 case "Kruskal's MST":
                     displayMessage("Kruskal's Minimum Spanning Tree selected.");
+                    displayMessage("This algorithm will not work for Directed Graphs.");
                     startNode.setVisibility(View.INVISIBLE);
                     endNode.setVisibility(View.INVISIBLE);
                     play.setOnClickListener(new View.OnClickListener() {
