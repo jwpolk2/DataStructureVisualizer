@@ -59,6 +59,31 @@ public class RedBlackTreeTest extends TestCase {
         assertEquals(2, keyArrl.size());
     }
 
+    public void testInsertMany(){
+        rbt.insertAnim(5);
+        rbt.insertAnim(3);
+        rbt.insertAnim(1);
+        rbt.insertAnim(2);
+        rbt.insertAnim(6);
+        rbt.insertAnim(8);
+
+        rbt.insertAnim(14);
+        rbt.insertAnim(16);
+        rbt.insertAnim(10);
+        rbt.insertAnim(4);
+        rbt.insertAnim(9);
+        rbt.insertAnim(12);
+
+        rbt.removeNoAnim(1);
+        rbt.removeNoAnim(8);
+        rbt.removeNoAnim(5);
+        rbt.removeNoAnim(4);
+        rbt.removeNoAnim(10);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(7, keyArrl.size());
+    }
+
     public void testInsertAnim_duplicate() {
         rbt.insertAnim(1);
         rbt.insertAnim(1);
@@ -86,41 +111,41 @@ public class RedBlackTreeTest extends TestCase {
     }
 
 
-//    public void testRemoveNoAnim_exists() {
-//        rbt.insertNoAnim(1);
-//        rbt.insertNoAnim(2);
-//        rbt.removeNoAnim(1);
-//
-//        ArrayList<Integer> keyArrl = rbt.getAllKeys();
-//        assertEquals(1, keyArrl.size());
-//    }
-//
-//    public void testRemoveNoAnim_nonExistant() {
-//        rbt.insertNoAnim(1);
-//        rbt.insertNoAnim(2);
-//        rbt.removeNoAnim(3);
-//
-//        ArrayList<Integer> keyArrl = rbt.getAllKeys();
-//        assertEquals(2, keyArrl.size());
-//    }
-//
-//    public void testRemoveAnim_exists() {
-//        rbt.insertNoAnim(1);
-//        rbt.insertNoAnim(2);
-//        rbt.removeAnim(1);
-//
-//        ArrayList<Integer> keyArrl = rbt.getAllKeys();
-//        assertEquals(1, keyArrl.size());
-//    }
-//
-//    public void testRemoveAnim_nonExistant() {
-//        rbt.insertAnim(1);
-//        rbt.insertAnim(2);
-//        rbt.removeAnim(3);
-//
-//        ArrayList<Integer> keyArrl = rbt.getAllKeys();
-//        assertEquals(2, keyArrl.size());
-//    }
+    public void testRemoveNoAnim_exists() {
+        rbt.insertNoAnim(1);
+        rbt.insertNoAnim(2);
+        rbt.removeNoAnim(1);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(1, keyArrl.size());
+    }
+
+    public void testRemoveNoAnim_nonExistant() {
+        rbt.insertNoAnim(1);
+        rbt.insertNoAnim(2);
+        rbt.removeNoAnim(3);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(2, keyArrl.size());
+    }
+
+    public void testRemoveAnim_exists() {
+        rbt.insertNoAnim(1);
+        rbt.insertNoAnim(2);
+        rbt.removeAnim(1);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(1, keyArrl.size());
+    }
+
+    public void testRemoveAnim_nonExistant() {
+        rbt.insertAnim(1);
+        rbt.insertAnim(2);
+        rbt.removeAnim(3);
+
+        ArrayList<Integer> keyArrl = rbt.getAllKeys();
+        assertEquals(2, keyArrl.size());
+    }
 
 //    public void testSwapColors() {
 //        rbt.insertNoAnim(1);
