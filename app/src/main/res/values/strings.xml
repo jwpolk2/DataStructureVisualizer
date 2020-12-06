@@ -160,5 +160,9 @@
     <string name="graph_kruskal_algorithm2">Add all Nodes to their own trees. \n\nWhile the priority-queue is non-empty: </string>
     <string name="graph_kruskal_algorithm3">Pop the edge at the head of the priority-queue. \n\nIf the node at the destination of the edge is within the same tree as the node at the start of the edge, continue looping. \n\nAdd all nodes of the tree containing of the destination node to the tree containing the starting node. \n\nDelete the tree that contained the starting node. </string>
     <string name="graph_kruskal_overview">Kruskal’s algorithm finds the minimum spanning forest of a graph by combining the nodes connected by the cheapest edges into trees. \n\nTime Complexity: O(|E| * log |V|) \n\nWhere E is the set of edges and V is the set of vertices.</string>
+    <string name="graph_traversals_overview">Where E is the set of edges and V is the set of vertices:</string>
+    <string name="graph_traversals_complexities">"Breadth-First: O(|E| + |V|) \n\nDijkstra's Pathfind: O(|E| * log(|V|)) \n\nPrim's Algorithm: O(|V|²) \n\nKruskal's Algorithm: O(|E| * log |V|) "</string>
+    <string name="complexity_avl_overview" > Since an AVL tree maintains balance the complexities for insert, delete, and search are the same as those for a balanced binary search tree.</string>
+    <string name="complexity_avl_methods_overview" > Let n be the number of nodes in the AVL tree.</string>
 
 </resources>
