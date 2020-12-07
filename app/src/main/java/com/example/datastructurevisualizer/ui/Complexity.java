@@ -13,10 +13,17 @@ import androidx.fragment.app.Fragment;
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
 
+/**
+ * This class displays the information for the complexity tab on the information page
+ */
 public class Complexity extends Fragment {
     private String dataStructureType;
     private Button visualize;
 
+    /**
+     * Constructor which sets the data structure type of the information page.
+     * @param dataStructureType
+     */
     public Complexity(String dataStructureType) {
         this.dataStructureType = dataStructureType;
     }
@@ -24,6 +31,9 @@ public class Complexity extends Fragment {
 
     @Nullable
     @Override
+    /**
+     * This inflates the view of the tab respective to the data structure type of the information page.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view;
 
@@ -73,6 +83,7 @@ public class Complexity extends Fragment {
 
                 break;
             default:
+                //Used as an error page early on when some data structure types did not yet have layout files
                 view = inflater.inflate(R.layout.error_page, container, false);
                 Button home = view.findViewById(R.id.home_button);
                 home.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +94,7 @@ public class Complexity extends Fragment {
                 });
         }
 
+        //returns the view created
         return view;
     }
 }
