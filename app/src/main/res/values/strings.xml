@@ -82,7 +82,8 @@
     <string name="rbt_code_deletion_overview">When deleting a node from a red-black tree the red or black properties of the tree could be disturbed. If the node being deleted is black, then the black property will be violated. "</string>
     <string name="rbt_code_deletion_algorithm1">Consider a node which is to be deleted, call this nodeToBeDeleted. \n\nFirst save the color of the node into a variable originalColor. </string>
     <string name="rbt_code_deletion_algorithm2">Case nodeToBeDeleted’s left child is null</string>
-    <string name="rbt_code_deletion_algorithm3">Assign the value of the right child to a node X (even if it is null) \n\nReplace the node to be deleted with node X </string>
+    <string name="rbt_code_deletion_algorithm3a" >Assign the value of the right child to a node X (even if it is null)</string>
+    <string name="rbt_code_deletion_algorithm3b" >Replace the node to be deleted with node X</string>
     <string name="rbt_code_deletion_algorithm4">Case nodeToBeDeleted’s left child is not null and nodeToBeDeleted’s right child is null</string>
     <string name="rbt_code_deletion_algorithm5">Assign the value of the left child to the node X \n\nReplace the node to be deleted with node X</string>
     <string name="rbt_code_deletion_algorithm6">Case X’s left and right children are both not null</string>
@@ -164,5 +165,6 @@
     <string name="graph_traversals_complexities">"Breadth-First: O(|E| + |V|) \n\nDijkstra's Pathfind: O(|E| * log(|V|)) \n\nPrim's Algorithm: O(|V|²) \n\nKruskal's Algorithm: O(|E| * log |V|) "</string>
     <string name="complexity_avl_overview" > Since an AVL tree maintains balance the complexities for insert, delete, and search are the same as those for a balanced binary search tree.</string>
     <string name="complexity_avl_methods_overview" > Let n be the number of nodes in the AVL tree.</string>
+
 
 </resources>
