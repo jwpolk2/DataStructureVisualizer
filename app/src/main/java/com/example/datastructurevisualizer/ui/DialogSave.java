@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 import com.example.datastructurevisualizer.R;
@@ -23,49 +22,61 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class which inflates the view when the user presses the save button. Here the user can enter
+ * a filename and save, or cancel the action.
+ */
 public class DialogSave extends DialogFragment {
     private EditText fileName;
     private Button saveBtn;
     private Button cancelBtn;
-    private Visualizer visualizer;
-    private TextView fileNameText;// = (TextView)findViewById(R.id.textView1);
-//tv1.setText("Hello");
+    private static String dataStructureType;
+    private TreeVisualizer tree;
 
+    /**
+     * Sets the class data structure type stored with the saved file
+     * @param dataStructureType
+     */
     public static void setDataStructureType(String dataStructureType) {
         DialogSave.dataStructureType = dataStructureType;
     }
 
-    private static String dataStructureType;
-
+    /**
+     * Sets the tree variable with the tree to be saved from the Visualizer page.
+     * @param tree
+     */
     public void setTree(TreeVisualizer tree) {
         this.tree = tree;
     }
 
-    private TreeVisualizer tree;
+    /**
+     * Default constructor for this class.
+     */
+    public DialogSave() {   }
 
-    public DialogSave() {
-
-    }
-
-    public static DialogSave newInstance(String title) {
-        DialogSave saveDialog = new DialogSave();
-        Bundle args = new Bundle();
-        args.putString("save",title);
-        saveDialog.setArguments(args);
-        return saveDialog;
-    }
+//    public static DialogSave newInstance(String title) {
+//        DialogSave saveDialog = new DialogSave();
+//        Bundle args = new Bundle();
+//        args.putString("save",title);
+//        saveDialog.setArguments(args);
+//        return saveDialog;
+//    }
 
     @Override
+    /**
+     * Creates the view for the save dialog and sets the actions for the buttons save and cancel.
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_save, container);
         fileName = view.findViewById(R.id.saveDialog_fileName);
         saveBtn = view.findViewById(R.id.saveDialog_saveBtn);
         cancelBtn = view.findViewById(R.id.saveDialog_cancelBtn);
 
-
+        //Sets the action for the save button
        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //User must enter a filename into the field
                 if (fileName.getText().length() == 0) {
                     Toast toast = Toast.makeText(getActivity(), "Please enter a valid file name", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
@@ -90,6 +101,7 @@ public class DialogSave extends DialogFragment {
            }
       });
 
+       //Pressing the cancel button dismisses the dialog
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +111,10 @@ public class DialogSave extends DialogFragment {
         return view;
     }
 
+    /**
+     * Method called when the user presses save and has entered a filename into the text field
+     * @return
+     */
     public String save() {
         String saveMessage = "Saved Successfully";
 

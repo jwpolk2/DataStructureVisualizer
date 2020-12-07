@@ -14,6 +14,9 @@ import androidx.fragment.app.DialogFragment;
 import com.example.datastructurevisualizer.R;
 import java.io.File;
 
+/**
+ * The Dialog for renaming a file
+ */
 public class DialogRename extends DialogFragment {
     private EditText fileName;
     private Button renameConfirm;
@@ -21,55 +24,66 @@ public class DialogRename extends DialogFragment {
     private String origFileName;
     private DialogFileAction parentFrag;
 
-
+    /**
+     * Sets the String variable of the original filename with the files original name.
+     * @param origFileName
+     */
     public void setOrigFileName(String origFileName) {
         this.origFileName = origFileName;
     }
 
+    /**
+     * Sets the parentFrag of this Dialog to be returned to after action is complete.
+     * @param parentFrag
+     */
     public void setParentFrag(DialogFileAction parentFrag) {
         this.parentFrag = parentFrag;
     }
 
+    /**
+     * Default constructor for this class.
+     */
+    public DialogRename() {    }
 
-
-
-
-    public DialogRename() {
-
-    }
-
-    public static DialogRename newInstance(String title) {
-        DialogRename renameDialog = new DialogRename();
-        Bundle args = new Bundle();
-        args.putString("save",title);
-        renameDialog.setArguments(args);
-        return renameDialog;
-    }
+//    public static DialogRename newInstance(String title) {
+//        DialogRename renameDialog = new DialogRename();
+//        Bundle args = new Bundle();
+//        args.putString("save",title);
+//        renameDialog.setArguments(args);
+//        return renameDialog;
+//    }
 
     @Override
+    /**
+     * Creates the view of the rename dialog
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_rename_file, container);
         fileName = view.findViewById(R.id.renameEditText);
         renameConfirm = view.findViewById(R.id.renameConfirmBtn);
         cancelBtn = view.findViewById(R.id.renameCancelBtn);
 
-
+        //Sets the action for when the rename button is pressed
         renameConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //The user did not enter a new name for the file
                 if (fileName.getText().length() == 0) {
                     Toast toast = Toast.makeText(getActivity(), "Please enter a valid file name", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
                 } else {
                     String renameResult = rename();
+                    //If the file is renamed successfully
                     if (renameResult != null && renameResult.equals("Renamed Successfully")) {
                         Toast toast = Toast.makeText(getActivity(), "File Renamed Successfully", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP, 0, 0);
                         toast.show();
                         parentFrag.dismiss();
                         dismiss();
-                    } else {
+                    }
+                    //If the file is not renamed successfully
+                    else {
                         Toast toast = Toast.makeText(getActivity(), "Error: " + renameResult, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP, 0, 0);
                         toast.show();
@@ -80,6 +94,7 @@ public class DialogRename extends DialogFragment {
             }
         });
 
+        //Action when the cancel button is pressed
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +104,10 @@ public class DialogRename extends DialogFragment {
         return view;
     }
 
+    /**
+     * Method which renames the file when the rename button is pressed and the user has entered a string.
+     * @return A message about the success or error encountered when renaming the file
+     */
     private String rename(){
         String renameResult = "Renamed Successfully";
         Context context = getContext();
@@ -119,6 +138,4 @@ public class DialogRename extends DialogFragment {
             return "Unexpected Exception. Please restart app and try again";
         }
     }
-
-
 }
