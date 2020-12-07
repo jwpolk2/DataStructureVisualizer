@@ -21,33 +21,28 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestFilesPageOpensWithCorrectActionBar {
+public class load_defaultUnbalancedBST {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
-
     @After
-    public void closeActivity() {
-        try {
+    public void waitForAfter() {
+        try{
             wait(20000);
         }catch (Exception e) {
 
         }
-        mActivityTestRule.finishActivity();
     }
-
 
     @Before
     public void waitForBefore() {
@@ -57,8 +52,9 @@ public class TestFilesPageOpensWithCorrectActionBar {
 
         }
     }
+
     @Test
-    public void testFilesPageOpensWithCorrectActionBar() {
+    public void load_defaultUnbalancedBST() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.filesButton), withText("Files / Load Structure"),
                         childAtPosition(
@@ -69,12 +65,22 @@ public class TestFilesPageOpensWithCorrectActionBar {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withText("Files"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.filesRecycle),
+                        childAtPosition(
+                                withClassName(is("android.widget.ScrollView")),
+                                0)));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
+
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.fileDialog_loadBtn), withText("Load"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.RelativeLayout")),
+                                        0),
+                                3),
                         isDisplayed()));
-        textView.check(matches(withText("Files")));
+        appCompatButton2.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

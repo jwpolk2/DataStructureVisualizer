@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -19,35 +20,31 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestFilesPageOpensWithCorrectActionBar {
+public class AVL_UnbalancedInsertion {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
-
     @After
-    public void closeActivity() {
-        try {
+    public void waitForAfter() {
+        try{
             wait(20000);
         }catch (Exception e) {
 
         }
-        mActivityTestRule.finishActivity();
     }
-
 
     @Before
     public void waitForBefore() {
@@ -58,23 +55,33 @@ public class TestFilesPageOpensWithCorrectActionBar {
         }
     }
     @Test
-    public void testFilesPageOpensWithCorrectActionBar() {
+    public void aVL_UnbalancedInsertion() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.filesButton), withText("Files / Load Structure"),
+                allOf(withId(R.id.avlButton), withText("AVL Tree"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.TableLayout")),
-                                        4),
+                                        2),
                                 0),
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withText("Files"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.spinner_tree_options),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.visualizer_fragment),
+                                        0),
+                                4),
                         isDisplayed()));
-        textView.check(matches(withText("Files")));
+        appCompatSpinner.perform(click());
+
+        DataInteraction appCompatTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(2);
+        appCompatTextView.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
