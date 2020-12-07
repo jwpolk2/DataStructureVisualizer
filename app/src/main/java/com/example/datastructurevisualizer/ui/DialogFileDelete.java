@@ -1,7 +1,6 @@
 package com.example.datastructurevisualizer.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -9,24 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import com.example.datastructurevisualizer.R;
-import com.example.datastructurevisualizer.TreeVisualizer;
-
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Creates the Dialog displayed when a user is attempting to delete a file. Defines the delete

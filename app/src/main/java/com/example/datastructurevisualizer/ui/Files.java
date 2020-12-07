@@ -1,44 +1,27 @@
 package com.example.datastructurevisualizer.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.app.Dialog;
-
-import androidx.appcompat.app.AppCompatDialogFragment;
-
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.Button;
-
-import androidx.fragment.app.Fragment;
+import android.view.ViewGroup;;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.datastructurevisualizer.File;
 import com.example.datastructurevisualizer.MainActivity;
 import com.example.datastructurevisualizer.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 
 /**

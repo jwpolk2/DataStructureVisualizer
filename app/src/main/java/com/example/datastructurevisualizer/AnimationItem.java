@@ -1,11 +1,6 @@
 package com.example.datastructurevisualizer;
 
-import android.util.Log;
-
 import com.example.datastructurevisualizer.ui.Visualizer;
-
-import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class representing an individual animation. Should be inherited and used

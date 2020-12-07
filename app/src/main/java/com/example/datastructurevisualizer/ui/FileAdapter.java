@@ -3,15 +3,11 @@ package com.example.datastructurevisualizer.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.File;
-
 import java.util.ArrayList;
 
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileNote> {

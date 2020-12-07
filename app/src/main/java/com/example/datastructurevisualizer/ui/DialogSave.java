@@ -1,11 +1,7 @@
 package com.example.datastructurevisualizer.ui;
-import com.example.datastructurevisualizer.TreeVisualizer;
-import com.example.datastructurevisualizer.ui.Visualizer;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import com.example.datastructurevisualizer.TreeVisualizer;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,17 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.fragment.app.DialogFragment;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
-
 import com.example.datastructurevisualizer.R;
-
 import org.json.JSONObject;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

@@ -2,7 +2,6 @@ package com.example.datastructurevisualizer.ui;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class InformationPagerAdapter extends FragmentStateAdapter {

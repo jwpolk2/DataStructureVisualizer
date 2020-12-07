@@ -4,7 +4,6 @@ package com.example.datastructurevisualizer;
 // TODO this tree is distributed under the MIT license
 // TODO implement MIT license requirements.
 
-import android.util.Log;
 
 /**
  * This file contains an implementation of an AVL tree. An AVL tree is a special type of binary tree

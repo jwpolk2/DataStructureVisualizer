@@ -1,21 +1,15 @@
 package com.example.datastructurevisualizer;
 
-import android.app.Dialog;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-
-
-import com.example.datastructurevisualizer.ui.DialogNodeAction;
 import com.example.datastructurevisualizer.ui.Home;
 
 public class MainActivity extends AppCompatActivity {

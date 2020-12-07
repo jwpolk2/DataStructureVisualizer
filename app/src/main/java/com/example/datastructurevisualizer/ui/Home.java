@@ -2,7 +2,6 @@ package com.example.datastructurevisualizer.ui;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
