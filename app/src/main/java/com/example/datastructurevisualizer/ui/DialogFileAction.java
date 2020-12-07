@@ -24,36 +24,10 @@ import com.example.datastructurevisualizer.R;
 
 import java.util.ArrayList;
 
-//public class DialogFileAction extends AppCompatDialogFragment {
-//    @NonNull
-//    public static DialogFileAction newInstance(int title) {
-//        DialogFileAction dialogFileAction= new DialogFileAction();
-//        Bundle args = new Bundle();
-//        args.putInt("title", title);
-//        dialogFileAction.setArguments(args);
-//        return dialogFileAction;
-//    }
-//
-//    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//        LayoutInflater inflater = getActivity().getLayoutInflater();
-//        View view = inflater.inflate(R.layout.dialog_file_action, null);
-//
-//        builder.setView(view).setTitle("File Action").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//
-//            }
-//        });
-//        return builder.create();
-//    }
-//
-//    public interface DialogFileActionListener {
-//
-//    }
-//}
-
+/**
+ * Creates the dialog which is used when a file is clicked on the files page. This dialog will
+ * allow a user to rename a file, load a file, delete a file, or cancel the dialog.
+ */
 public class DialogFileAction extends DialogFragment {
     private Button renameBtn;
     private Button loadBtn;
@@ -67,44 +41,73 @@ public class DialogFileAction extends DialogFragment {
     private boolean isDefault;
     private Files parentFrag;
 
+    /**
+     * Sets the filename for the Dialog
+     * @param fileNameText
+     */
     public void setFileNameText(String fileNameText) {
         this.fileNameText = fileNameText;
     }
 
-
+    /**
+     * Sets the parent fragment for the Dialog
+     * @param parentFrag
+     */
     public void setParentFrag(Files parentFrag) {
         this.parentFrag = parentFrag;
     }
 
-
-
+    /**
+     * Sets the file position in the recycler view on the files page for the Dialog
+     * @param filePosition
+     */
     public void setFilePosition(int filePosition) {
         this.filePosition = filePosition;
     }
 
+    /**
+     * Sets the node values in the file for the Dialog
+     * @param vals
+     */
     public void setVals(ArrayList<Integer> vals) {
         this.vals = vals;
     }
 
+    /**
+     * Sets the data structure type of the file for the Dialog
+     * @param dsType
+     */
     public void setDsType(String dsType) {
         this.dsType = dsType;
     }
 
-
-
-    public DialogFileAction() {
-
+    /**
+     * Sets the boolean for whether the Dialog is opening a default file or not.
+     * If true the rename and delete buttons will be hidden from the dialog.
+     * @param isDefault
+     */
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
     }
 
-    public static DialogFileAction newInstance(String title) {
-        DialogFileAction fileActionDialog = new DialogFileAction();
-        Bundle args = new Bundle();
-        args.putString("save",title);
-        fileActionDialog.setArguments(args);
-        return fileActionDialog;
-    }
+    /**
+     * Default constructor
+     */
+    public DialogFileAction() {}
+
+//    public static DialogFileAction newInstance(String title) {
+//        DialogFileAction fileActionDialog = new DialogFileAction();
+//        Bundle args = new Bundle();
+//        args.putString("save",title);
+//        fileActionDialog.setArguments(args);
+//        return fileActionDialog;
+//    }
 
     @Override
+    /**
+     * This method determines what happens when the dialog is dismissed by the user. Return to the
+     * parent file fragment.
+     */
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         // Reload current fragment
@@ -113,9 +116,15 @@ public class DialogFileAction extends DialogFragment {
         ft.detach(frg);
         ft.attach(frg);
         ft.commit();
-
     }
 
+    /**
+     * Creates and returns the dialog view.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.dialog_file_action, container);
         renameBtn = view.findViewById(R.id.fileDialog_renameBtn);
@@ -150,6 +159,7 @@ public class DialogFileAction extends DialogFragment {
 
             }
         });
+        //If the file is a default file hide the rename and delete buttons
         if(isDefault) {
             deleteBtn.setVisibility(View.INVISIBLE);
             renameBtn.setVisibility(View.INVISIBLE);
@@ -192,12 +202,4 @@ public class DialogFileAction extends DialogFragment {
         }
         return view;
     }
-
-    public void setIsDefault(boolean isDefault) {
-        this.isDefault = isDefault;
-    }
-//
-//    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//    }
 }
