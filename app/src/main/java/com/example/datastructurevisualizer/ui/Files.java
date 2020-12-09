@@ -200,7 +200,9 @@ public class Files extends Fragment {
                 //add all values to arraylist arr
                 ArrayList<Integer> arr = new ArrayList<Integer>();
                 for (int j = 0; j < array.length(); ++j) {
-                    arr.add(array.optInt(j));
+                    if(arr != null) {
+                        arr.add(array.optInt(j));
+                    }
                 }
                 //set array to file
                 file.setValues(arr);
@@ -223,7 +225,9 @@ public class Files extends Fragment {
             }
 
             //now all fields of file are filled, add that to file arraylist
-            mFile.add(file);
+            if(file.getStructureType() != null) {
+                mFile.add(file);
+            }
 
         }
         return mFile;
