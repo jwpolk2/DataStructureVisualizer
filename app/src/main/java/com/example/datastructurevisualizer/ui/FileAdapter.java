@@ -10,18 +10,33 @@ import com.example.datastructurevisualizer.R;
 import com.example.datastructurevisualizer.File;
 import java.util.ArrayList;
 
+/**
+ * Adapter class used for the RecylerView on the files page. This connects file information with
+ * each of the cards displayed.
+ */
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.FileNote> {
     ArrayList<File> mFile;
     private onItemClickListener mListener;
 
+    /**
+     * Constructor which takes in an array of Files to be displayed on the FilesPage
+     * @param mFile
+     */
     FileAdapter(ArrayList<File> mFile) {
         this.mFile = mFile;
     }
 
+    /**
+     * Method which controls the actions that occur when a card is clicked by a user.
+     */
     public interface onItemClickListener {
         void onItemClick(int position);
     }
 
+    /**
+     * Creates a listener for when an item is cli
+     * @param listener
+     */
     public void setOnItemClickListener(onItemClickListener listener) {
         mListener = listener;
     }

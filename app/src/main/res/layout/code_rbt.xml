@@ -500,8 +500,8 @@
             />
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion3"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -531,8 +531,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion4"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -601,8 +601,8 @@
             />
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion5"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -620,8 +620,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion6"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -638,8 +638,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion7"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -667,8 +667,8 @@
             />
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion8"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -685,8 +685,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/rbt_deletion9"
             android:layout_margin="10dp"/>
 
         <TextView
