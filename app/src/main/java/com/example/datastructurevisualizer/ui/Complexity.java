@@ -75,7 +75,7 @@ public class Complexity extends Fragment {
                 visualize.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MainActivity.openFragment(new Visualizer("Visualizer"), true);
+                        MainActivity.openFragment(new Visualizer("Graph"), true);
                     }
                 });
 
