@@ -117,7 +117,7 @@
     <string name="rbt_code_propertyfixes_black25">After this rotation X will have a new sibling. \n\nAssign the leftChild of the parent of X to W.</string>
     <string name="rbt_code_propertyfixes_black26">Else:</string>
     <string name="rbt_code_propertyfixes_black27">Set the color of W as the color of the parent of X. \n\nSet the color of the parent of parent of X as BLACK \n\nSet the color of the right child of W as BLACK</string>
-    <string name="rbt_code_propertyfixes_black28">Complete a left-rotation about the parent of X</string>
+    <string name="rbt_code_propertyfixes_black28">Complete a right-rotation about the parent of X</string>
     <string name="rbt_code_propertyfixes_black29">Set X as the root of the tree.</string>
     <string name="rbt_overview_avl_body">An AVL tree is a common way to implement tree balancing. Each node of the tree stores the height of the subtree created by that node. Using this information every node can be checked if it is height balanced. The nodes would not be height balanced if the difference between the height of its left and right subtrees is greater than one.</string>
     <string name="avl_code_insertion_overview">To start a node is inserted the same as in a binary search tree. This can result in the balance of some nodes changing to -2 or 2. Therefore each node must be checked and rotated recursively as needed. \n\nLet balance(n) = n.left.height - n.right.height </string>
