@@ -10,17 +10,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.Toast;
+
 import com.example.datastructurevisualizer.ui.Visualizer;
 
 public class VisualizerCanvas extends SurfaceView {
 
     public Bitmap bitmap;
     public Canvas canvas;
-    private int vWidth;
-    private int vHeight;
     AttributeSet attrs;
     private Visualizer parentTrees;
-
 
 
     public VisualizerCanvas(Context context) {
@@ -57,9 +55,8 @@ public class VisualizerCanvas extends SurfaceView {
                 }
             });
             Log.d("Rendering", "Render Method Called");
-        }
-        else {
-            Toast.makeText(getContext(),"Nothing to render on -- VisualizerCanvas", Toast.LENGTH_SHORT)
+        } else {
+            Toast.makeText(getContext(), "Nothing to render on -- VisualizerCanvas", Toast.LENGTH_SHORT)
                     .show();
         }
     }
@@ -93,17 +90,25 @@ public class VisualizerCanvas extends SurfaceView {
 //        bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
 //    }
 
-    public Canvas getCanvas(){return canvas;}
+    public Canvas getCanvas() {
+        return canvas;
+    }
 
     public void setDimensions(int vHeight, int vWidth) {
-        this.vHeight = vHeight;
-        this.vWidth = vWidth;
         if (bitmap == null) {
-            bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
-            canvas = new Canvas();
-            canvas.setBitmap(bitmap);
-            canvas.drawRGB(AnimationParameters.BACK_R,
-                    AnimationParameters.BACK_G, AnimationParameters.BACK_B);
+//            if (vHeight <= 0 || vWidth <= 0) {
+//                bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+//                canvas = new Canvas();
+//                canvas.setBitmap(bitmap);
+//                canvas.drawRGB(AnimationParameters.BACK_R,
+//                        AnimationParameters.BACK_G, AnimationParameters.BACK_B);
+//            } else {
+                bitmap = Bitmap.createBitmap(vWidth, vHeight, Bitmap.Config.ARGB_8888);
+                canvas = new Canvas();
+                canvas.setBitmap(bitmap);
+                canvas.drawRGB(AnimationParameters.BACK_R,
+                        AnimationParameters.BACK_G, AnimationParameters.BACK_B);
+//            }
         }
     }
 

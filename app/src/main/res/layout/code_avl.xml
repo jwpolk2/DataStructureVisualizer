@@ -90,8 +90,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl1"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -120,8 +120,8 @@
             />
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl2"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -203,8 +203,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl3"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -235,8 +235,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl4"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -266,8 +266,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl5"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -297,8 +297,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl6"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -328,8 +328,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl7"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -360,8 +360,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
+            android:layout_height="175dp"
+            android:src="@drawable/avl8"
             android:layout_margin="10dp"/>
 
         <TextView

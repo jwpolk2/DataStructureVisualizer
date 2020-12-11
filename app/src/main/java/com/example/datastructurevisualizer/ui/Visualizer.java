@@ -107,8 +107,31 @@ public class Visualizer extends Fragment {
      */
     public void onResume() {
         super.onResume();
+        visualizerCanvas.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                checkCanvas();
+            }
+        });
+        visualizerCanvas.setParent(this);
         MainActivity.setVisualizerCanvas(visualizerCanvas);
         MainActivity.actionBar.show();
+
+        switch (dataStructureType) {
+            case "Binary Search Tree":
+            case "Red Black Tree":
+            case "AVL Tree":
+                initDataStructure();
+                //Initialize drop-down menu for traversal selection
+                initTreeSpinner();
+                break;
+            case "Graph":
+                initDataStructure();
+                //Initialize drop-down menu for traversal selection
+                initGraphSpinner();
+                break;
+        }
     }
 
     @Override
@@ -162,6 +185,8 @@ public class Visualizer extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+
 
     private void initGraphVisualizer(View view) {
         loadButton = view.findViewById(R.id.button_load);
@@ -408,6 +433,17 @@ public class Visualizer extends Fragment {
      * Clears the canvas and resets the class tree object.
      */
     private void clear() {
+        AnimationParameters.beginAnimation();
+        AnimationParameters.stopAnimation();
+        visualizerCanvas.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                visualizerCanvas.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                checkCanvas();
+            }
+        });
+        visualizerCanvas.setParent(this);
+        MainActivity.setVisualizerCanvas(visualizerCanvas);
         if (tree != null) {
             tree.clear();
         }
@@ -1323,7 +1359,9 @@ private void initGraphTraversalsSpinnerDirected(boolean directed) {
         if (visualizerCanvas.canvas == null) {
             int vHeight = visualizerCanvas.getHeight();
             int vWidth = visualizerCanvas.getWidth();
-            visualizerCanvas.setDimensions(vHeight, vWidth);
+            if(vHeight > 0 && vWidth > 0) {
+                visualizerCanvas.setDimensions(vHeight, vWidth);
+            }
         }
     }
 
