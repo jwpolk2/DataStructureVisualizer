@@ -473,8 +473,8 @@ public class Visualizer extends Fragment {
         traversals = new ArrayList<>();
         traversals.add("Select Traversal");
         traversals.add("In-Order");
-        traversals.add("Post-Order");
         traversals.add("Pre-Order");
+        traversals.add("Post-Order");
         traversals.add("Breadth-First");
         traversals.add("Value Search");
 
