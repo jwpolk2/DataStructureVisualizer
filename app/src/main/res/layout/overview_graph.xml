@@ -62,14 +62,6 @@
             android:textStyle="normal"
             />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_foreground"
-            android:layout_margin="10dp"/>
-
-
-
         <Button
             android:id="@+id/button_visualize"
             android:layout_margin="30dp"
